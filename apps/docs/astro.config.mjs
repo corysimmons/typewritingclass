@@ -4,8 +4,14 @@ import starlight from '@astrojs/starlight'
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'typewritingclass',
+      title: 'Typewriting Class',
       description: 'CSS-in-TS. Composable. Compiled. Correct.',
+      logo: {
+        light: './src/assets/logo-light.svg',
+        dark: './src/assets/logo-dark.svg',
+        replacesTitle: true,
+      },
+      favicon: '/favicon.svg',
       social: {
         github: 'https://github.com/corysimmons/typewritingclass',
       },
