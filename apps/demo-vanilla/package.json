@@ -1,0 +1,17 @@
+{
+  "name": "demo-vanilla",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "typewritingclass": "workspace:*",
+    "typewritingclass-compiler": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "typewritingclass-compiler",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build:native": "napi build --release",
+    "build:native:debug": "napi build"
+  },
+  "napi": {
+    "name": "typewritingclass-compiler-native",
+    "triples": {}
+  },
+  "peerDependencies": {
+    "vite": "^6.0.0"
+  },
+  "dependencies": {
+    "typewritingclass": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.2",
+    "vite": "^6.0.0",
+    "typescript": "^5.7.3"
+  }
+}

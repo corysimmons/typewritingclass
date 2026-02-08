@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1280, initial-scale=1.0" />
+  <title>Borders Reference</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .container { display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 2rem; }
+    .box { width: 4rem; height: 4rem; }
+    .blue { background-color: #3b82f6; }
+    .white { background-color: #ffffff; }
+    .r-none { border-radius: 0px; }
+    .r-sm { border-radius: 0.125rem; }
+    .r-def { border-radius: 0.25rem; }
+    .r-md { border-radius: 0.375rem; }
+    .r-lg { border-radius: 0.5rem; }
+    .r-xl { border-radius: 0.75rem; }
+    .r-2xl { border-radius: 1rem; }
+    .r-3xl { border-radius: 1.5rem; }
+    .r-full { border-radius: 9999px; }
+    .s-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+    .s-def { box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); }
+    .s-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+    .s-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+    .s-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+    .s-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
+    .bordered { background-color: #fef3c7; border-width: 2px; border-style: solid; border-color: #f59e0b; }
+    .faded { background-color: #3b82f6; opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="box blue r-none"></div>
+      <div class="box blue r-sm"></div>
+      <div class="box blue r-def"></div>
+      <div class="box blue r-md"></div>
+      <div class="box blue r-lg"></div>
+      <div class="box blue r-xl"></div>
+      <div class="box blue r-2xl"></div>
+      <div class="box blue r-3xl"></div>
+      <div class="box blue r-full"></div>
+
+      <div class="box white r-lg s-sm"></div>
+      <div class="box white r-lg s-def"></div>
+      <div class="box white r-lg s-md"></div>
+      <div class="box white r-lg s-lg"></div>
+      <div class="box white r-lg s-xl"></div>
+      <div class="box white r-lg s-2xl"></div>
+
+      <div class="box bordered r-lg"></div>
+      <div class="box faded r-lg"></div>
+    </div>
+  </div>
+</body>
+</html>

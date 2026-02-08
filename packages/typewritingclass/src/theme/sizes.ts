@@ -1,0 +1,7 @@
+export const full = '100%'
+export const screen = '100vw'
+export const screenH = '100vh'
+export const min = 'min-content'
+export const max = 'max-content'
+export const fit = 'fit-content'
+export const auto = 'auto'

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1280, initial-scale=1.0" />
+  <title>Layout Reference</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .container { display: flex; flex-direction: column; gap: 2rem; padding: 2rem; }
+    .flex-row { display: flex; gap: 1rem; align-items: center; }
+    .blue-box { width: 4rem; height: 4rem; background-color: #3b82f6; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1rem; line-height: 1.5rem; font-weight: 700; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .purple-box { height: 4rem; background-color: #8b5cf6; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1rem; line-height: 1.5rem; font-weight: 700; }
+    .col { display: flex; flex-direction: column; gap: 0.5rem; width: 16rem; }
+    .green-box { height: 2.5rem; background-color: #10b981; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1rem; line-height: 1.5rem; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="flex-row">
+        <div class="blue-box">1</div>
+        <div class="blue-box">2</div>
+        <div class="blue-box">3</div>
+        <div class="blue-box">4</div>
+      </div>
+      <div class="grid-3">
+        <div class="purple-box">1</div>
+        <div class="purple-box">2</div>
+        <div class="purple-box">3</div>
+        <div class="purple-box">4</div>
+        <div class="purple-box">5</div>
+        <div class="purple-box">6</div>
+      </div>
+      <div class="col">
+        <div class="green-box">Row 1</div>
+        <div class="green-box">Row 2</div>
+        <div class="green-box">Row 3</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
