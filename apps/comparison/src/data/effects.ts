@@ -4,7 +4,7 @@ import {
   bg, p, w, h, flex, rounded, textColor, text, gap, ml,
 } from 'typewritingclass'
 import { xs } from 'typewritingclass/theme/typography'
-import { sm as smShadow, md as mdShadow, lg as lgShadow, xl as xlShadow } from 'typewritingclass/theme/shadows'
+
 import type { ComparisonCategory } from './types.ts'
 
 export const effectsData: ComparisonCategory = {
@@ -17,7 +17,7 @@ export const effectsData: ComparisonCategory = {
         {
           label: 'shadow-sm',
           twcCode: 'shadow("sm")',
-          twcElement: React.createElement('div', { className: cx(shadow(smShadow), bg('#ffffff'), p(4), rounded("lg"), text(xs)) }, 'shadow-sm'),
+          twcElement: React.createElement('div', { className: cx(shadow("sm"), bg('#ffffff'), p(4), rounded("lg"), text(xs)) }, 'shadow-sm'),
           tailwindCode: 'shadow-sm',
           tailwindElement: React.createElement('div', { className: 'tw-shadow-sm tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow-sm'),
         },
@@ -31,21 +31,21 @@ export const effectsData: ComparisonCategory = {
         {
           label: 'shadow-md',
           twcCode: 'shadow("md")',
-          twcElement: React.createElement('div', { className: cx(shadow(mdShadow), bg('#ffffff'), p(4), rounded("lg"), text(xs)) }, 'shadow-md'),
+          twcElement: React.createElement('div', { className: cx(shadow("md"), bg('#ffffff'), p(4), rounded("lg"), text(xs)) }, 'shadow-md'),
           tailwindCode: 'shadow-md',
           tailwindElement: React.createElement('div', { className: 'tw-shadow-md tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow-md'),
         },
         {
           label: 'shadow-lg',
           twcCode: 'shadow("lg")',
-          twcElement: React.createElement('div', { className: cx(shadow(lgShadow), bg('#ffffff'), p(4), rounded("lg"), text(xs)) }, 'shadow-lg'),
+          twcElement: React.createElement('div', { className: cx(shadow("lg"), bg('#ffffff'), p(4), rounded("lg"), text(xs)) }, 'shadow-lg'),
           tailwindCode: 'shadow-lg',
           tailwindElement: React.createElement('div', { className: 'tw-shadow-lg tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow-lg'),
         },
         {
           label: 'shadow-xl',
           twcCode: 'shadow("xl")',
-          twcElement: React.createElement('div', { className: cx(shadow(xlShadow), bg('#ffffff'), p(4), rounded("lg"), text(xs)) }, 'shadow-xl'),
+          twcElement: React.createElement('div', { className: cx(shadow("xl"), bg('#ffffff'), p(4), rounded("lg"), text(xs)) }, 'shadow-xl'),
           tailwindCode: 'shadow-xl',
           tailwindElement: React.createElement('div', { className: 'tw-shadow-xl tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow-xl'),
         },

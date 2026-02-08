@@ -105,8 +105,8 @@ export const tablesData: ComparisonCategory = {
       examples: [
         {
           label: 'border-spacing-2',
-          twcCode: 'borderSeparate(), borderSpacing("0.5rem")',
-          twcElement: React.createElement('table', { className: cx(borderSeparate(), borderSpacing('0.5rem'), w('100%'), text(xs)) },
+          twcCode: 'borderSeparate(), borderSpacing(2)',
+          twcElement: React.createElement('table', { className: cx(borderSeparate(), borderSpacing(2), w('100%'), text(xs)) },
             React.createElement('tbody', null,
               React.createElement('tr', null,
                 React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '1'),

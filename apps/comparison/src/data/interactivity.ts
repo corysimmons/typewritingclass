@@ -128,7 +128,7 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'snap-x snap-mandatory + snap-start',
           twcCode: 'snapType("x mandatory") + snapAlign("start")',
-          twcElement: React.createElement('div', { className: cx(snapType('x mandatory'), flex(), overflow('auto'), gap(2), scrollPaddingL('0.5rem'), w(56)) },
+          twcElement: React.createElement('div', { className: cx(snapType('x mandatory'), flex(), overflow('auto'), gap(2), scrollPaddingL(2), w(56)) },
             ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(snapAlign('start'), bg('#818cf8'), p(4), rounded(), textColor('#ffffff'), shrink(0), w(24), text(xs), textAlign('center')) }, `Snap ${n}`)),
           ),
           tailwindCode: 'snap-x snap-mandatory + snap-start',
