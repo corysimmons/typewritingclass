@@ -76,6 +76,37 @@ importers:
         specifier: ^6.0.0
         version: 6.4.1(@types/node@25.2.2)
 
+  apps/demo-next:
+    dependencies:
+      next:
+        specifier: ^15.0.0
+        version: 15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react:
+        specifier: ^19.0.0
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.4(react@19.2.4)
+      typewritingclass:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass
+      typewritingclass-next:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass-next
+      typewritingclass-react:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass-react
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.13
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.2.3(@types/react@19.2.13)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
   apps/demo-react:
     dependencies:
       react:
