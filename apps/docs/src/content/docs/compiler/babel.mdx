@@ -1,0 +1,91 @@
+---
+title: Babel Plugin
+description: Use Typewriting Class with Babel.
+sidebar:
+  order: 3
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The Babel plugin writes extracted CSS to a file on disk instead of a virtual module. Use it with webpack, Parcel, or any Babel pipeline.
+
+## Install
+
+<Tabs syncKey="pkg">
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
+    bun add -d typewritingclass-babel typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add typewritingclass
+    pnpm add -D typewritingclass-babel typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install typewritingclass
+    npm install -D typewritingclass-babel typewritingclass-compiler
+    ```
+  </TabItem>
+</Tabs>
+
+## Configure
+
+```json
+// babel.config.json
+{
+  "plugins": [
+    ["typewritingclass-babel", {
+      "outputFile": "dist/twc.css",
+      "strict": true
+    }]
+  ]
+}
+```
+
+## Options
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `outputFile` | `string` | `"twc.css"` | Path for the extracted CSS file. |
+| `strict` | `boolean` | `true` | Error on non-static `cx()` args. See [Strict Mode](/compiler/strict-mode/). |
+
+## Including the CSS
+
+Since CSS is written to disk, include it via HTML or a bundler import:
+
+```html
+<link rel="stylesheet" href="/dist/twc.css" />
+```
+
+```ts
+import './dist/twc.css'
+```
+
+## webpack example
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      { test: /\.tsx?$/, use: 'babel-loader' },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+    ],
+  },
+}
+```
+
+## Comparison with Vite and esbuild
+
+| Feature | Vite | esbuild | Babel |
+|---|---|---|---|
+| CSS output | Virtual module | Virtual module | File on disk |
+| HMR | Yes | Via watch | No |
+| Import | `virtual:twc.css` | `virtual:twc.css` | `<link>` or bundler |
+| Best for | Vite projects | esbuild projects | webpack/Parcel/CRA |
+
+For new projects, the [Vite plugin](/compiler/vite/) is recommended.

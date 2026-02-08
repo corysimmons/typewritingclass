@@ -1,0 +1,85 @@
+---
+title: React
+description: Use Typewriting Class with React and Next.js.
+sidebar:
+  order: 1
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Setup
+
+<Tabs syncKey="pkg">
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass typewritingclass-react
+    bun add -d typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add typewritingclass typewritingclass-react
+    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install typewritingclass typewritingclass-react
+    npm install -D typewritingclass-compiler
+    ```
+  </TabItem>
+</Tabs>
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { twcPlugin } from 'typewritingclass-compiler'
+
+export default defineConfig({ plugins: [react(), twcPlugin()] })
+```
+
+```ts
+// src/main.tsx
+import 'virtual:twc.css'
+```
+
+## Static styles
+
+```tsx
+import { tw } from 'typewritingclass'
+
+function Card({ children }: { children: React.ReactNode }) {
+  return <div className={tw.p(6).bg('blue-500').textColor('white').rounded('lg').hover.bg('blue-600')}>{children}</div>
+}
+```
+
+## Dynamic values with useStyle()
+
+```tsx
+import { useStyle } from 'typewritingclass-react'
+import { p, bg, rounded, dynamic } from 'typewritingclass'
+
+function Banner({ color }: { color: string }) {
+  const props = useStyle(p(6), bg(dynamic(color)), rounded('lg'))
+  return <div {...props}>Welcome!</div>
+}
+```
+
+## Next.js App Router
+
+```tsx
+// app/layout.tsx
+import { getStyleTag } from 'typewritingclass-react/server'
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head dangerouslySetInnerHTML={{ __html: getStyleTag() }} />
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+Server Components use `tw` or `cx()` directly. Client Components with dynamic values use `useStyle()` with `'use client'`.

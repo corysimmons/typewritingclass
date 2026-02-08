@@ -8,28 +8,22 @@
 
 <p align="center"><strong>CSS-in-TS. Composable. Compiled. Correct.</strong></p>
 
-Typewriting Class is a CSS-in-TypeScript framework where utilities are functions, not string conventions. Only two functions to learn: `cx()` to compose and `when()` to modify. Static by default — the compiler extracts CSS at build time. Dynamic when needed — CSS custom properties as an escape hatch.
+Typewriting Class is a CSS-in-TypeScript framework where utilities are functions, not string conventions. Chain them with `tw`, the primary API. Static by default — the compiler extracts CSS at build time. Dynamic when needed — CSS custom properties as an escape hatch.
 
 ```ts
-import { cx, p, bg, textColor, rounded, when } from 'typewritingclass'
-import { hover } from 'typewritingclass'
-import { blue, white } from 'typewritingclass/theme/colors'
+import { tw } from 'typewritingclass'
 
-const button = cx(
-  p(4),
-  bg(blue[500]),
-  textColor(white),
-  rounded('lg'),
-  when(hover)(bg(blue[600]))
-)
+const card = tw.bg('white').rounded('lg').p(6).shadow('md')
+const layout = tw.flex.flexCol.gap(4)
 ```
 
 ## Features
 
 - **TypeScript-native** — CSS utilities are functions with full type safety and autocompletion
-- **Two functions** — `cx()` composes styles, `when()` applies modifiers (hover, responsive, dark mode)
+- **Chainable `tw` API** — fluent builder syntax with zero-argument utilities as properties
 - **Zero runtime by default** — Rust-powered compiler extracts static CSS at build time
-- **Dynamic escape hatch** — `dynamic()` wraps values as CSS custom properties when needed
+- **Modifiers built in** — hover, responsive, dark mode via `tw.hover`, `tw.md`, `tw.dark`
+- **Composable and immutable** — every chain returns a new value; the original is unchanged
 - **Branded types** — prevent impossible CSS combinations at the type level
 - **Layered CSS** — `@layer` ordering means class order determines specificity, not selector weight
 - **Themeable** — built-in design tokens with `createTheme()` for custom themes
@@ -63,13 +57,62 @@ import 'virtual:twc.css'
 Start styling:
 
 ```ts
-import { cx, p, bg, textColor, rounded, flex, gap } from 'typewritingclass'
-import { blue, white, slate } from 'typewritingclass/theme/colors'
+import { tw } from 'typewritingclass'
 
-document.getElementById('app')!.className = cx(
-  flex(), gap(4), p(8),
-  bg(white), rounded('lg'),
-)
+document.getElementById('app')!.className =
+  `${tw.flex.gap(4).p(8).bg('white').rounded('lg')}`
+```
+
+## The `tw` API
+
+### Chain utilities
+
+```ts
+tw.bg('white').rounded('lg').p(6).shadow('md')
+```
+
+### Value-less utilities as properties
+
+```ts
+tw.flex.flexCol.itemsCenter
+```
+
+### Modifiers
+
+```ts
+// Single utility
+tw.hover.bg('blue-500')
+tw.dark.bg('slate-900')
+tw.md.p(8)
+
+// Multiple utilities under one modifier
+tw.hover(tw.bg('blue-500').textColor('white'))
+```
+
+### Use in JSX
+
+```tsx
+<div className={`${tw.p(4).bg('blue-500')}`} />
+```
+
+### Composable and immutable
+
+Every chain returns a new instance — the original is never mutated:
+
+```ts
+const base = tw.flex.flexCol
+const withGap = base.gap(4)  // base unchanged
+```
+
+## Advanced: `cx()` and `when()`
+
+For dynamic values, runtime conditionals, or when you prefer a functional style:
+
+```ts
+import { cx, bg, p, textColor, rounded, when } from 'typewritingclass'
+import { hover } from 'typewritingclass'
+
+cx(p(4), bg('blue-500'), textColor('white'), rounded('lg'), when(hover)(bg('blue-600')))
 ```
 
 ## Packages
@@ -102,50 +145,6 @@ Minimal project templates to get started quickly:
 | [`starters/react`](starters/react) | React + Vite + Typewriting Class |
 | [`starters/solid`](starters/solid) | Solid.js + Vite + Typewriting Class |
 | [`starters/vanilla`](starters/vanilla) | Vanilla TypeScript + Vite + Typewriting Class |
-
-## Core Concepts
-
-### Utilities are functions
-
-Every CSS property is a TypeScript function that returns a style rule:
-
-```ts
-p(4)          // padding: 1rem
-bg(blue[500]) // background-color: #3b82f6
-text('lg')    // font-size: 1.125rem; line-height: 1.75rem
-```
-
-### `cx()` composes
-
-Combine any number of utilities into a single class name:
-
-```ts
-cx(p(4), bg(white), rounded('lg'), shadow('md'))
-```
-
-### `when()` modifies
-
-Apply styles conditionally with pseudo-classes, breakpoints, or color schemes:
-
-```ts
-when(hover)(bg(blue[600]))           // :hover
-when(md)(flexRow(), gap(8))          // @media (min-width: 768px)
-when(dark)(bg(slate[900]))           // @media (prefers-color-scheme: dark)
-when(hover, focus)(ring(2))          // :hover:focus
-```
-
-### Themes
-
-Use built-in tokens or create custom themes:
-
-```ts
-import { createTheme } from 'typewritingclass/theme/createTheme'
-
-const myTheme = createTheme({
-  colors: { brand: { 500: '#6366f1' } },
-  spacing: { compact: '0.5rem' },
-})
-```
 
 ## Development
 

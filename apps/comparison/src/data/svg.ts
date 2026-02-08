@@ -1,5 +1,5 @@
 import React from 'react'
-import { cx, fill, stroke, strokeWidth } from 'typewritingclass'
+import { tw } from 'typewritingclass'
 import type { ComparisonCategory } from './types.ts'
 
 export const svgData: ComparisonCategory = {
@@ -12,7 +12,7 @@ export const svgData: ComparisonCategory = {
         {
           label: 'fill-blue-500',
           twcCode: 'fill("blue-500")',
-          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(fill('blue-500')) },
+          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: `${tw.fill('blue-500')}` },
             React.createElement('circle', { cx: 12, cy: 12, r: 10 }),
           ),
           tailwindCode: 'fill-blue-500',
@@ -23,7 +23,7 @@ export const svgData: ComparisonCategory = {
         {
           label: 'fill-emerald-500',
           twcCode: 'fill("emerald-500")',
-          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(fill('emerald-500')) },
+          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: `${tw.fill('emerald-500')}` },
             React.createElement('rect', { x: 2, y: 2, width: 20, height: 20, rx: 3 }),
           ),
           tailwindCode: 'fill-emerald-500',
@@ -39,7 +39,7 @@ export const svgData: ComparisonCategory = {
         {
           label: 'stroke-indigo-500 stroke-2',
           twcCode: 'stroke("indigo-500"), strokeWidth("2")',
-          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(stroke('indigo-500'), strokeWidth('2'), fill('none')) },
+          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: `${tw.stroke('indigo-500').strokeWidth('2').fill('none')}` },
             React.createElement('circle', { cx: 12, cy: 12, r: 10 }),
           ),
           tailwindCode: 'stroke-indigo-500 stroke-2',
@@ -50,7 +50,7 @@ export const svgData: ComparisonCategory = {
         {
           label: 'stroke-rose-500 stroke-[3]',
           twcCode: 'stroke("rose-500"), strokeWidth("3")',
-          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(stroke('rose-500'), strokeWidth('3'), fill('none')) },
+          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: `${tw.stroke('rose-500').strokeWidth('3').fill('none')}` },
             React.createElement('path', { d: 'M3 12h4l3-9 4 18 3-9h4', strokeLinecap: 'round', strokeLinejoin: 'round' }),
           ),
           tailwindCode: 'stroke-rose-500 stroke-[3]',

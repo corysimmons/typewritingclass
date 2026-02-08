@@ -1,0 +1,69 @@
+---
+title: Installation
+description: Install Typewriting Class and set up your build tool.
+sidebar:
+  order: 1
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## 1. Install the packages
+
+<Tabs syncKey="pkg">
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
+    bun add -d typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add typewritingclass
+    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install typewritingclass
+    npm install -D typewritingclass-compiler
+    ```
+  </TabItem>
+</Tabs>
+
+## 2. Add the Vite plugin
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import { twcPlugin } from 'typewritingclass-compiler'
+
+export default defineConfig({
+  plugins: [twcPlugin()],
+})
+```
+
+For esbuild or Babel, see [esbuild](/compiler/esbuild/) or [Babel](/compiler/babel/).
+
+## 3. Import the generated CSS
+
+```ts
+// src/main.tsx
+import 'virtual:twc.css'
+```
+
+## 4. Verify
+
+```tsx
+import { tw } from 'typewritingclass'
+
+function App() {
+  return <div className={tw.p(6).bg('blue-500').textColor('white').rounded('lg')}>It works!</div>
+}
+```
+
+Start your dev server. You should see a blue rounded box with white text.
+
+## Next steps
+
+- [Quick Start](/getting-started/quick-start) -- build your first component
+- [Editor Setup](/getting-started/editor-setup) -- VS Code hover previews

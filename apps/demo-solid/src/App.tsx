@@ -1,14 +1,13 @@
 import { createSignal } from 'solid-js'
 import {
+  tw,
   cx, dcx, dynamic, css,
-  p, px, py, m, bg, textColor, text, font, rounded, shadow,
-  w, h, flex, flexCol, flexRow, gap, items, justify,
-  border, borderColor,
+  w, h, bg, textColor, text, font, rounded, shadow,
+  flex, flexCol, items, justify, gap,
+  p, px, py, border, borderColor,
   createTheme, injectTheme, setTheme,
   blur, brightness, grayscale, saturate,
-  transitionColors, duration,
   bgGradient, gradientFrom, gradientVia, gradientTo,
-  opacity, flexWrap, when, hover,
 } from 'typewritingclass'
 import { blue, indigo, emerald, rose, amber, cyan, violet, purple } from 'typewritingclass/theme/colors'
 import { base, lg, xl, _2xl, bold, semibold, medium } from 'typewritingclass/theme/typography'
@@ -53,16 +52,16 @@ function ColorPickerDemo() {
   )
 
   return (
-    <div class={cx(flex(), flexCol(), gap(4))}>
-      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+    <div class={`${tw.flex.flexCol.gap(4)}`}>
+      <h3 class={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
         Color Picker with dynamic()
       </h3>
-      <div class={cx(flex(), flexRow(), gap(4), items('center'))}>
+      <div class={`${tw.flex.flexRow.gap(4).items('center')}`}>
         <input
           type="color"
           value={color()}
           onInput={(e) => setColor(e.currentTarget.value)}
-          class={cx(w('3rem'), h('3rem'), rounded(lgRadius), css({ cursor: 'pointer' }))}
+          class={`${tw.w('3rem').h('3rem').rounded('lg')(css({ cursor: 'pointer' }))}`}
         />
         <div class={boxProps().className} style={boxProps().style}>
           {color()}
@@ -85,8 +84,8 @@ function ProgressBarDemo() {
   )
 
   return (
-    <div class={cx(flex(), flexCol(), gap(4))}>
-      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+    <div class={`${tw.flex.flexCol.gap(4)}`}>
+      <h3 class={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
         Dynamic Progress Bar
       </h3>
       <input
@@ -95,12 +94,12 @@ function ProgressBarDemo() {
         max="100"
         value={progress()}
         onInput={(e) => setProgress(Number(e.currentTarget.value))}
-        class={cx(w('100%'))}
+        class={`${tw.w('100%')}`}
       />
-      <div class={cx(w('100%'), h('1.5rem'), bg('#e2e8f0'), rounded('9999px'))}>
+      <div class={`${tw.w('100%').h('1.5rem').bg('#e2e8f0').rounded('9999px')}`}>
         <div class={barProps().className} style={barProps().style} />
       </div>
-      <span class={cx(text(base), textColor('#64748b'))}>{progress()}%</span>
+      <span class={`${tw.text(base).textColor('#64748b')}`}>{progress()}%</span>
     </div>
   )
 }
@@ -115,11 +114,11 @@ function ThemeSwitcherDemo() {
   }
 
   return (
-    <div class={cx(flex(), flexCol(), gap(4))}>
-      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+    <div class={`${tw.flex.flexCol.gap(4)}`}>
+      <h3 class={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
         Theme Switcher
       </h3>
-      <div class={cx(flex(), flexRow(), gap(3))}>
+      <div class={`${tw.flex.flexRow.gap(3)}`}>
         <button
           onClick={() => switchTheme('light')}
           class={cx(
@@ -182,28 +181,28 @@ function MultiPropertyDemo() {
   )
 
   return (
-    <div class={cx(flex(), flexCol(), gap(4))}>
-      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+    <div class={`${tw.flex.flexCol.gap(4)}`}>
+      <h3 class={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
         Multi-Property Dynamic
       </h3>
-      <div class={cx(flex(), flexCol(), gap(2))}>
-        <label class={cx(text(base), textColor('#475569'))}>
+      <div class={`${tw.flex.flexCol.gap(2)}`}>
+        <label class={`${tw.text(base).textColor('#475569')}`}>
           Size: {size()}px
           <input type="range" min="40" max="200" value={size()}
             onInput={(e) => setSize(Number(e.currentTarget.value))}
-            class={cx(w('100%'))} />
+            class={`${tw.w('100%')}`} />
         </label>
-        <label class={cx(text(base), textColor('#475569'))}>
+        <label class={`${tw.text(base).textColor('#475569')}`}>
           Border Radius: {borderRadius()}px
           <input type="range" min="0" max="100" value={borderRadius()}
             onInput={(e) => setBorderRadius(Number(e.currentTarget.value))}
-            class={cx(w('100%'))} />
+            class={`${tw.w('100%')}`} />
         </label>
-        <label class={cx(text(base), textColor('#475569'))}>
+        <label class={`${tw.text(base).textColor('#475569')}`}>
           Color:
           <input type="color" value={bgColor()}
             onInput={(e) => setBgColor(e.currentTarget.value)}
-            class={cx(w('3rem'), h('2rem'), rounded(lgRadius), m(2))} />
+            class={`${tw.w('3rem').h('2rem').rounded('lg').m(2)}`} />
         </label>
       </div>
       <div class={shapeProps().className} style={shapeProps().style} />
@@ -221,11 +220,11 @@ function FiltersDemo() {
   ]
 
   return (
-    <div class={cx(flex(), flexCol(), gap(4))}>
-      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+    <div class={`${tw.flex.flexCol.gap(4)}`}>
+      <h3 class={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
         Filters
       </h3>
-      <div class={cx(flex(), flexRow(), gap(4), flexWrap())}>
+      <div class={`${tw.flex.flexRow.gap(4).flexWrap}`}>
         {filterExamples.map(({ label, filter, bgColor }) => (
           <div class={cx(
             filter, bg(bgColor),
@@ -245,19 +244,19 @@ function FiltersDemo() {
 // --- Transitions Demo ---
 function TransitionsDemo() {
   return (
-    <div class={cx(flex(), flexCol(), gap(4))}>
-      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+    <div class={`${tw.flex.flexCol.gap(4)}`}>
+      <h3 class={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
         Transitions
       </h3>
-      <div class={cx(flex(), flexRow(), gap(3))}>
-        <button class={cx(
-          px(5), py(2.5), rounded(lgRadius),
-          bg('#e2e8f0'), textColor('#475569'),
-          font(medium),
-          transitionColors(), duration(300),
-          css({ border: 'none', cursor: 'pointer', 'font-size': '0.875rem' }),
-          when(hover)(bg(indigo[500]), textColor('#ffffff')),
-        )}>
+      <div class={`${tw.flex.flexRow.gap(3)}`}>
+        <button class={`${tw
+          .px(5).py(2.5).rounded('lg')
+          .bg('#e2e8f0').textColor('#475569')
+          .font('500')
+          .transitionColors.duration(300)
+          (css({ border: 'none', cursor: 'pointer', 'font-size': '0.875rem' }))
+          .hover(tw.bg('indigo-500').textColor('#ffffff'))
+        }`}>
           Hover me (300ms)
         </button>
       </div>
@@ -274,11 +273,11 @@ function GradientsDemo() {
   ]
 
   return (
-    <div class={cx(flex(), flexCol(), gap(4))}>
-      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+    <div class={`${tw.flex.flexCol.gap(4)}`}>
+      <h3 class={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
         Gradients
       </h3>
-      <div class={cx(flex(), flexRow(), gap(4), flexWrap())}>
+      <div class={`${tw.flex.flexRow.gap(4).flexWrap}`}>
         {gradients.map(({ label, from, via, to }) => (
           <div class={cx(
             px(6), py(4),
@@ -302,15 +301,12 @@ function GradientsDemo() {
 // --- App ---
 export function App() {
   return (
-    <div class={cx(
-      css({ 'max-width': '800px', margin: '0 auto' }),
-      p(8), flex(), flexCol(), gap(10),
-    )}>
+    <div class={`${tw(css({ 'max-width': '800px', margin: '0 auto' })).p(8).flex.flexCol.gap(10)}`}>
       <img src="/logo.svg" alt="Typewriting Class" style={{ width: '240px' }} />
-      <h1 class={cx(text(_2xl), font(bold), textColor('#0f172a'))}>
+      <h1 class={`${tw.text(_2xl).font('700').textColor('#0f172a')}`}>
         Typewriting Class — Solid Demo
       </h1>
-      <p class={cx(text(base), textColor('#64748b'))}>
+      <p class={`${tw.text(base).textColor('#64748b')}`}>
         Solid.js: Filters, transitions, gradients + dynamic(), dcx(), createTheme()
       </p>
 

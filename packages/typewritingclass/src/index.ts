@@ -6,9 +6,11 @@ export { css } from './css.ts'
 export { dynamic, isDynamic } from './dynamic.ts'
 export { layer } from './layer.ts'
 export { generateCSS } from './registry.ts'
+export { tw } from './tw.ts'
 
 // Types
 export type { StyleRule, Utility, Modifier, DynamicResult } from './types.ts'
+export type { TwChain } from './tw.ts'
 export type {
   Brand, CSSColor, CSSLength, CSSShadow, CSSFontWeight,
   ColorInput, SpacingInput, SizeInput, RadiusInput, ShadowInput,

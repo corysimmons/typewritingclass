@@ -3,7 +3,7 @@ title: Typewriting Class
 description: CSS-in-TS. Composable. Compiled. Correct.
 template: splash
 hero:
-  tagline: CSS utilities are TypeScript functions. Two functions to learn. Zero runtime by default.
+  tagline: CSS utilities as TypeScript functions. One import. Zero runtime.
   actions:
     - text: Get Started
       link: /getting-started/installation/
@@ -21,19 +21,18 @@ import { Card, CardGrid } from '@astrojs/starlight/components'
 
 <CardGrid>
   <Card
+    title="One import"
+    icon="puzzle"
+  >
+    `import { tw } from 'typewritingclass'` -- chain utilities, modifiers, and
+    shorthands off a single object. Full autocomplete, zero config.
+  </Card>
+  <Card
     title="TypeScript-native"
     icon="seti:typescript"
   >
     Utilities are functions, not string conventions. Full autocomplete, type
     checking, and refactoring support out of the box.
-  </Card>
-  <Card
-    title="Two functions"
-    icon="puzzle"
-  >
-    `cx()` to compose, `when()` to modify. That's the entire API surface.
-    Everything else is just utilities and modifiers slotting into these two
-    shapes.
   </Card>
   <Card
     title="Zero runtime"
@@ -46,7 +45,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components'
     title="Dynamic when needed"
     icon="random"
   >
-    Wrap runtime values with `dynamic()` and use `dcx()` — the compiler emits
+    Wrap runtime values with `dynamic()` and use `dcx()` -- the compiler emits
     CSS custom properties and a tiny runtime handles the rest.
   </Card>
 </CardGrid>
@@ -54,54 +53,24 @@ import { Card, CardGrid } from '@astrojs/starlight/components'
 ## Quick taste
 
 ```ts
-import { cx, p, bg, rounded, when, hover, md } from 'typewritingclass'
-import { blue } from 'typewritingclass/theme/colors'
-import { lg } from 'typewritingclass/theme/shadows'
+import { tw } from 'typewritingclass'
 
-const className = cx(
-  p(4),
-  bg(blue[500]),
-  rounded('lg'),
-  when(hover)(bg(blue[600])),
-  when(md)(p(8)),
-)
+const card = tw.p(4).bg('blue-500').rounded('lg').hover.bg('blue-600').md.p(8)
 ```
 
 The compiler extracts this into static CSS at build time:
 
 ```css
-@layer l0 {
-  ._a1b2c {
-    padding: 1rem;
-  }
-}
-@layer l1 {
-  ._d3e4f {
-    background-color: #3b82f6;
-  }
-}
-@layer l2 {
-  ._g5h6i {
-    border-radius: 0.5rem;
-  }
-}
-@layer l3 {
-  ._j7k8l:hover {
-    background-color: #2563eb;
-  }
-}
-@layer l4 {
-  @media (min-width: 768px) {
-    ._m9n0o {
-      padding: 2rem;
-    }
-  }
-}
+@layer l0 { ._a1b2c { padding: 1rem; } }
+@layer l1 { ._d3e4f { background-color: #3b82f6; } }
+@layer l2 { ._g5h6i { border-radius: 0.5rem; } }
+@layer l3 { ._j7k8l:hover { background-color: #2563eb; } }
+@layer l4 { @media (min-width: 768px) { ._m9n0o { padding: 2rem; } } }
 ```
 
 ## The plugin model
 
-Every utility and modifier follows the same two type signatures. Custom plugins slot in identically to built-ins — no registration, no configuration, just import and use.
+Every utility and modifier follows the same two type signatures. Custom plugins slot in identically to built-ins -- no registration, no configuration, just import and use.
 
 ```ts
 // A utility: takes a value, returns a StyleRule
@@ -110,5 +79,3 @@ type Utility = (value: any) => StyleRule
 // A modifier: takes a StyleRule, returns a StyleRule
 type Modifier = (rule: StyleRule) => StyleRule
 ```
-
-This means your custom `glow()` utility composes with the built-in `when(hover)` exactly the same way `bg()` does.

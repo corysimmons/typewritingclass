@@ -10,6 +10,20 @@ bun add typewritingclass
 
 ## Usage
 
+### Chainable API (recommended)
+
+```ts
+import { tw } from 'typewritingclass'
+
+const card = tw
+  .bg('white').rounded('lg').p(6).flex.gap(4)
+  .hover(tw.bg('blue-50'))
+  .md.p(8)
+  .dark(tw.bg('slate-800'))
+```
+
+### Individual imports
+
 ```ts
 import { cx, p, bg, textColor, rounded, flex, gap, when } from 'typewritingclass'
 import { hover, md, dark } from 'typewritingclass'
@@ -25,6 +39,14 @@ const card = cx(
 ```
 
 ## API
+
+### Chainable builder
+
+- **`tw`** — proxy-based chainable API with access to all utilities and modifiers via a single import
+  - Property syntax for modifiers: `tw.hover.bg('blue-500')`
+  - Function syntax for multi-utility modifiers: `tw.hover(tw.bg('blue-500').textColor('white'))`
+  - Value-less utilities as properties: `tw.flex.flexCol.relative`
+  - Resolves to class string via `.toString()`, `.value`, `.className`, or template literals
 
 ### Composition
 

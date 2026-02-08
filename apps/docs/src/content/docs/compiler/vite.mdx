@@ -1,0 +1,104 @@
+---
+title: Vite Plugin
+description: Configure the Typewriting Class Vite plugin for static CSS extraction.
+sidebar:
+  order: 1
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The Vite plugin statically extracts styles at build time into optimized CSS with full HMR support.
+
+## Install
+
+<Tabs syncKey="pkg">
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
+    bun add -d typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add typewritingclass
+    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install typewritingclass
+    npm install -D typewritingclass-compiler
+    ```
+  </TabItem>
+</Tabs>
+
+## Configure
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import { twcPlugin } from 'typewritingclass-compiler'
+
+export default defineConfig({
+  plugins: [twcPlugin()],
+})
+```
+
+Add your framework plugin alongside it (React, Solid, Svelte, Vue, etc.):
+
+```ts
+plugins: [react(), twcPlugin()]
+```
+
+## Virtual CSS module
+
+Import once in your entry file:
+
+```ts
+// src/main.ts or src/main.tsx
+import 'virtual:twc.css'
+```
+
+If TypeScript complains, add a declaration:
+
+```ts
+// src/vite-env.d.ts
+/// <reference types="vite/client" />
+declare module 'virtual:twc.css' {}
+```
+
+## Options
+
+```ts
+twcPlugin({
+  strict: true, // default: true -- errors on non-static cx() args
+})
+```
+
+See [Strict Mode](/compiler/strict-mode/) for details.
+
+## How it works
+
+1. **Theme loading** -- imports theme modules and passes them to the Rust compiler.
+2. **Transform** -- for each `.ts`/`.tsx`/`.js`/`.jsx` file with `typewritingclass` imports, the Rust compiler extracts styles and replaces calls with class name strings.
+3. **CSS generation** -- `virtual:twc.css` collects all extracted rules, deduplicates, orders by layer, and returns the final CSS.
+4. **HMR** -- file changes invalidate the virtual module. The browser receives updated CSS without a full reload.
+
+## Source maps
+
+Generated automatically via MagicString. DevTools trace CSS rules back to the original TypeScript source file and line.
+
+## Diagnostics
+
+- **Errors** appear in Vite's browser overlay and fail production builds.
+- **Warnings** appear in the terminal.
+
+| Diagnostic | Cause |
+|---|---|
+| `Cannot statically evaluate argument` | A `cx()` arg is a variable. Wrap in `dynamic()` or disable strict mode. |
+| `Unknown utility function` | Unrecognized function inside `cx()`. |
+| `Property conflict detected` | Same CSS property set multiple times in one `cx()` call. |
+
+## Fallback
+
+If the compiler fails on a file, the original source is preserved and `typewritingclass/inject` is prepended for runtime fallback.

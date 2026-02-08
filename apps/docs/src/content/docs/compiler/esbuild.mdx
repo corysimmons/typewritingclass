@@ -1,0 +1,89 @@
+---
+title: esbuild Plugin
+description: Use Typewriting Class with esbuild.
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The esbuild plugin provides the same static CSS extraction as the Vite plugin, using esbuild's `onResolve` and `onLoad` hooks.
+
+## Install
+
+<Tabs syncKey="pkg">
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
+    bun add -d typewritingclass-esbuild typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add typewritingclass
+    pnpm add -D typewritingclass-esbuild typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install typewritingclass
+    npm install -D typewritingclass-esbuild typewritingclass-compiler
+    ```
+  </TabItem>
+</Tabs>
+
+## Configure
+
+```ts
+// build.ts
+import * as esbuild from 'esbuild'
+import twcEsbuildPlugin from 'typewritingclass-esbuild'
+
+await esbuild.build({
+  entryPoints: ['src/main.tsx'],
+  bundle: true,
+  outdir: 'dist',
+  plugins: [twcEsbuildPlugin()],
+})
+```
+
+### Options
+
+```ts
+twcEsbuildPlugin({
+  strict: true, // default: true
+})
+```
+
+See [Strict Mode](/compiler/strict-mode/) for details.
+
+## Virtual CSS module
+
+Same as Vite -- import in your entry file:
+
+```ts
+import 'virtual:twc.css'
+```
+
+## Watch mode
+
+```ts
+const ctx = await esbuild.context({
+  entryPoints: ['src/main.tsx'],
+  bundle: true,
+  outdir: 'dist',
+  plugins: [twcEsbuildPlugin()],
+})
+await ctx.watch()
+```
+
+## Comparison with Vite
+
+| Feature | Vite | esbuild |
+|---|---|---|
+| Package | `typewritingclass-compiler` | `typewritingclass-esbuild` |
+| HMR | Full | Via watch/serve |
+| Source maps | MagicString | esbuild built-in |
+| Diagnostics | Browser overlay | Terminal output |
+
+Both use the same Rust compiler and produce identical CSS.

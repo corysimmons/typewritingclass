@@ -1,0 +1,78 @@
+---
+title: Solid
+description: Use Typewriting Class with SolidJS.
+sidebar:
+  order: 2
+---
+
+No framework-specific package needed. The core API works directly with Solid.
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Setup
+
+<Tabs syncKey="pkg">
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
+    bun add -d typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add typewritingclass
+    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install typewritingclass
+    npm install -D typewritingclass-compiler
+    ```
+  </TabItem>
+</Tabs>
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import solidPlugin from 'vite-plugin-solid'
+import { twcPlugin } from 'typewritingclass-compiler'
+
+export default defineConfig({ plugins: [solidPlugin(), twcPlugin()] })
+```
+
+```ts
+// src/index.tsx
+import 'virtual:twc.css'
+```
+
+## Static styles
+
+```tsx
+import { tw } from 'typewritingclass'
+
+function Card(props: { children: any }) {
+  return <div class={tw.p(6).bg('blue-500').textColor('white').rounded('lg').hover.bg('blue-600')}>{props.children}</div>
+}
+```
+
+## Dynamic values
+
+Use `dcx()` with a derived signal:
+
+```tsx
+import { createSignal } from 'solid-js'
+import { dcx, p, bg, rounded, dynamic } from 'typewritingclass'
+
+function ColorPicker() {
+  const [color, setColor] = createSignal('#3b82f6')
+  const result = () => dcx(p(6), bg(dynamic(color())), rounded('lg'))
+
+  return (
+    <div>
+      <input type="color" value={color()} onInput={(e) => setColor(e.currentTarget.value)} />
+      <div class={result().className} style={result().style}>Preview</div>
+    </div>
+  )
+}
+```
