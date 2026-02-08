@@ -1,13 +1,13 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { cx, flex, css } from 'typewritingclass'
+import { cx, flex, flex1, minH, overflowY, px, py } from 'typewritingclass'
 import { Sidebar } from './Sidebar.tsx'
 
 export function Layout() {
   return (
-    <div className={cx(flex(), css({ minHeight: '100vh' }))}>
+    <div className={cx(flex(), minH('100vh'))}>
       <Sidebar />
-      <main className={cx(css({ flex: '1', overflowY: 'auto', padding: '2rem 2.5rem' }))}>
+      <main className={cx(flex1(), overflowY('auto'), py(8), px(10))}>
         <Outlet />
       </main>
     </div>

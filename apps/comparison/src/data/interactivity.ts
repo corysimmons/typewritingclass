@@ -4,8 +4,10 @@ import {
   accentColor, appearance, caretColor, resize,
   scrollBehavior, scrollMargin, scrollPadding,
   snapAlign, snapType, touchAction, willChange,
-  bg, p, w, h, flex, flexCol, rounded, textColor, border, borderColor, css, overflow,
+  bg, p, w, h, flex, flexCol, rounded, textColor, border, borderColor, overflow,
+  opacity, gap, items, text, textAlign, shrink, scrollPaddingL,
 } from 'typewritingclass'
+import { xs } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
 
 export const interactivityData: ComparisonCategory = {
@@ -18,28 +20,28 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'cursor-pointer',
           twcCode: 'cx(cursor("pointer"))',
-          twcElement: React.createElement('div', { className: cx(cursor('pointer'), bg('#c7d2fe'), p(4), rounded('0.25rem')), style: { fontSize: '12px' } }, 'Hover for pointer cursor'),
+          twcElement: React.createElement('div', { className: cx(cursor('pointer'), bg('#c7d2fe'), p(4), rounded('0.25rem'), text(xs)) }, 'Hover for pointer cursor'),
           tailwindCode: 'cursor-pointer',
           tailwindElement: React.createElement('div', { className: 'tw-cursor-pointer tw-bg-indigo-200 tw-p-4 tw-rounded tw-text-xs' }, 'Hover for pointer cursor'),
         },
         {
           label: 'cursor-wait',
           twcCode: 'cx(cursor("wait"))',
-          twcElement: React.createElement('div', { className: cx(cursor('wait'), bg('#c7d2fe'), p(4), rounded('0.25rem')), style: { fontSize: '12px' } }, 'Hover for wait cursor'),
+          twcElement: React.createElement('div', { className: cx(cursor('wait'), bg('#c7d2fe'), p(4), rounded('0.25rem'), text(xs)) }, 'Hover for wait cursor'),
           tailwindCode: 'cursor-wait',
           tailwindElement: React.createElement('div', { className: 'tw-cursor-wait tw-bg-indigo-200 tw-p-4 tw-rounded tw-text-xs' }, 'Hover for wait cursor'),
         },
         {
           label: 'cursor-not-allowed',
           twcCode: 'cx(cursor("not-allowed"))',
-          twcElement: React.createElement('div', { className: cx(cursor('not-allowed'), bg('#c7d2fe'), p(4), rounded('0.25rem')), style: { fontSize: '12px' } }, 'Hover for not-allowed cursor'),
+          twcElement: React.createElement('div', { className: cx(cursor('not-allowed'), bg('#c7d2fe'), p(4), rounded('0.25rem'), text(xs)) }, 'Hover for not-allowed cursor'),
           tailwindCode: 'cursor-not-allowed',
           tailwindElement: React.createElement('div', { className: 'tw-cursor-not-allowed tw-bg-indigo-200 tw-p-4 tw-rounded tw-text-xs' }, 'Hover for not-allowed cursor'),
         },
         {
           label: 'cursor-grab',
           twcCode: 'cx(cursor("grab"))',
-          twcElement: React.createElement('div', { className: cx(cursor('grab'), bg('#c7d2fe'), p(4), rounded('0.25rem')), style: { fontSize: '12px' } }, 'Hover for grab cursor'),
+          twcElement: React.createElement('div', { className: cx(cursor('grab'), bg('#c7d2fe'), p(4), rounded('0.25rem'), text(xs)) }, 'Hover for grab cursor'),
           tailwindCode: 'cursor-grab',
           tailwindElement: React.createElement('div', { className: 'tw-cursor-grab tw-bg-indigo-200 tw-p-4 tw-rounded tw-text-xs' }, 'Hover for grab cursor'),
         },
@@ -51,14 +53,14 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'select-none',
           twcCode: 'cx(select("none"))',
-          twcElement: React.createElement('div', { className: cx(select('none'), bg('#c7d2fe'), p(4), rounded('0.25rem')), style: { fontSize: '12px' } }, 'Try to select this text (select-none)'),
+          twcElement: React.createElement('div', { className: cx(select('none'), bg('#c7d2fe'), p(4), rounded('0.25rem'), text(xs)) }, 'Try to select this text (select-none)'),
           tailwindCode: 'select-none',
           tailwindElement: React.createElement('div', { className: 'tw-select-none tw-bg-indigo-200 tw-p-4 tw-rounded tw-text-xs' }, 'Try to select this text (select-none)'),
         },
         {
           label: 'select-all',
           twcCode: 'cx(select("all"))',
-          twcElement: React.createElement('div', { className: cx(select('all'), bg('#c7d2fe'), p(4), rounded('0.25rem')), style: { fontSize: '12px' } }, 'Click to select all text'),
+          twcElement: React.createElement('div', { className: cx(select('all'), bg('#c7d2fe'), p(4), rounded('0.25rem'), text(xs)) }, 'Click to select all text'),
           tailwindCode: 'select-all',
           tailwindElement: React.createElement('div', { className: 'tw-select-all tw-bg-indigo-200 tw-p-4 tw-rounded tw-text-xs' }, 'Click to select all text'),
         },
@@ -70,7 +72,7 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'pointer-events-none',
           twcCode: 'cx(pointerEvents("none"))',
-          twcElement: React.createElement('div', { className: cx(pointerEvents('none'), bg('#c7d2fe'), p(4), rounded('0.25rem'), css({ opacity: '0.5' })), style: { fontSize: '12px' } }, 'Cannot interact (pointer-events-none)'),
+          twcElement: React.createElement('div', { className: cx(pointerEvents('none'), bg('#c7d2fe'), p(4), rounded('0.25rem'), opacity(0.5), text(xs)) }, 'Cannot interact (pointer-events-none)'),
           tailwindCode: 'pointer-events-none',
           tailwindElement: React.createElement('div', { className: 'tw-pointer-events-none tw-bg-indigo-200 tw-p-4 tw-rounded tw-text-xs tw-opacity-50' }, 'Cannot interact (pointer-events-none)'),
         },
@@ -82,14 +84,14 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'resize',
           twcCode: 'cx(resize("both"), overflow("auto"))',
-          twcElement: React.createElement('div', { className: cx(resize('both'), overflow('auto'), bg('#c7d2fe'), p(4), rounded('0.25rem'), border('1px'), borderColor('#818cf8'), w('12rem'), h('4rem')), style: { fontSize: '12px' } }, 'Resize me (both)'),
+          twcElement: React.createElement('div', { className: cx(resize('both'), overflow('auto'), bg('#c7d2fe'), p(4), rounded('0.25rem'), border('1px'), borderColor('#818cf8'), w('12rem'), h('4rem'), text(xs)) }, 'Resize me (both)'),
           tailwindCode: 'resize overflow-auto',
           tailwindElement: React.createElement('div', { className: 'tw-resize tw-overflow-auto tw-bg-indigo-200 tw-p-4 tw-rounded tw-border tw-border-indigo-400 tw-w-48 tw-h-16 tw-text-xs' }, 'Resize me (both)'),
         },
         {
           label: 'resize-y',
           twcCode: 'cx(resize("vertical"), overflow("auto"))',
-          twcElement: React.createElement('div', { className: cx(resize('vertical'), overflow('auto'), bg('#c7d2fe'), p(4), rounded('0.25rem'), border('1px'), borderColor('#818cf8'), w('12rem'), h('4rem')), style: { fontSize: '12px' } }, 'Resize vertical'),
+          twcElement: React.createElement('div', { className: cx(resize('vertical'), overflow('auto'), bg('#c7d2fe'), p(4), rounded('0.25rem'), border('1px'), borderColor('#818cf8'), w('12rem'), h('4rem'), text(xs)) }, 'Resize vertical'),
           tailwindCode: 'resize-y overflow-auto',
           tailwindElement: React.createElement('div', { className: 'tw-resize-y tw-overflow-auto tw-bg-indigo-200 tw-p-4 tw-rounded tw-border tw-border-indigo-400 tw-w-48 tw-h-16 tw-text-xs' }, 'Resize vertical'),
         },
@@ -101,7 +103,7 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'accent-indigo-500',
           twcCode: 'cx(accentColor("#6366f1"))',
-          twcElement: React.createElement('label', { className: cx(flex(), css({ gap: '0.5rem', 'align-items': 'center' })), style: { fontSize: '12px' } },
+          twcElement: React.createElement('label', { className: cx(flex(), gap(2), items('center'), text(xs)) },
             React.createElement('input', { type: 'checkbox', className: cx(accentColor('#6366f1')), defaultChecked: true }),
             'Accent color checkbox',
           ),
@@ -114,7 +116,7 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'caret-red-500',
           twcCode: 'cx(caretColor("#ef4444"))',
-          twcElement: React.createElement('input', { type: 'text', placeholder: 'Type here (red caret)', className: cx(caretColor('#ef4444'), p(2), border('1px'), borderColor('#e2e8f0'), rounded('0.25rem'), w('12rem')), style: { fontSize: '12px' } }),
+          twcElement: React.createElement('input', { type: 'text', placeholder: 'Type here (red caret)', className: cx(caretColor('#ef4444'), p(2), border('1px'), borderColor('#e2e8f0'), rounded('0.25rem'), w('12rem'), text(xs)) }),
           tailwindCode: 'caret-red-500',
           tailwindElement: React.createElement('input', { type: 'text', placeholder: 'Type here (red caret)', className: 'tw-caret-red-500 tw-p-2 tw-border tw-border-slate-200 tw-rounded tw-w-48 tw-text-xs' }),
         },
@@ -126,8 +128,8 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'snap-x snap-mandatory + snap-start',
           twcCode: 'cx(snapType("x mandatory")) + cx(snapAlign("start"))',
-          twcElement: React.createElement('div', { className: cx(snapType('x mandatory'), flex(), overflow('auto'), css({ gap: '0.5rem', 'scroll-padding-left': '0.5rem' })), style: { width: '14rem' } },
-            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(snapAlign('start'), bg('#818cf8'), p(4), rounded('0.25rem'), textColor('#ffffff'), css({ 'flex-shrink': '0', width: '6rem' })), style: { fontSize: '12px', textAlign: 'center' } }, `Snap ${n}`)),
+          twcElement: React.createElement('div', { className: cx(snapType('x mandatory'), flex(), overflow('auto'), gap(2), scrollPaddingL('0.5rem'), w('14rem')) },
+            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(snapAlign('start'), bg('#818cf8'), p(4), rounded('0.25rem'), textColor('#ffffff'), shrink(0), w('6rem'), text(xs), textAlign('center')) }, `Snap ${n}`)),
           ),
           tailwindCode: 'snap-x snap-mandatory + snap-start',
           tailwindElement: React.createElement('div', { className: 'tw-snap-x tw-snap-mandatory tw-flex tw-overflow-auto tw-gap-2', style: { width: '14rem', scrollPaddingLeft: '0.5rem' } },
@@ -142,7 +144,7 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'appearance-none',
           twcCode: 'cx(appearance("none"))',
-          twcElement: React.createElement('select', { className: cx(appearance('none'), p(2), border('1px'), borderColor('#818cf8'), rounded('0.25rem'), bg('#ffffff'), w('10rem')), style: { fontSize: '12px' } },
+          twcElement: React.createElement('select', { className: cx(appearance('none'), p(2), border('1px'), borderColor('#818cf8'), rounded('0.25rem'), bg('#ffffff'), w('10rem'), text(xs)) },
             React.createElement('option', null, 'appearance-none'),
             React.createElement('option', null, 'Option 2'),
           ),

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {
-  cx, flexCol, flex, flexWrap, gap, p, px, py, mb, bg, textColor, text, font, rounded, w, css, grid, gridCols,
-  border, borderColor, shadow,
+  cx, flexCol, flex, flexWrap, gap, p, px, py, mb, bg, textColor, text, font, rounded, w, grid, gridCols,
+  border, borderColor, shadow, maxW, ml, textDecoration, display, transition, h,
 } from 'typewritingclass'
 import { _2xl, _3xl, lg as lgText, base, sm as smText, xs as xsText } from 'typewritingclass/theme/typography'
 import { bold, semibold, medium } from 'typewritingclass/theme/typography'
@@ -39,7 +39,7 @@ const totalExamples = categories.reduce(
 
 export function HomePage() {
   return (
-    <div className={cx(flexCol(), gap(8), css({ maxWidth: '960px' }))}>
+    <div className={cx(flexCol(), gap(8), maxW('960px'))}>
       <div>
         <h1 className={cx(text(_3xl), font(bold), textColor('#0f172a'), mb(2))}>
           typewritingclass vs Tailwind CSS
@@ -50,15 +50,15 @@ export function HomePage() {
         <div className={cx(flex(), gap(4), flexWrap())}>
           <div className={cx(bg('#eff6ff'), px(4), py(2), rounded(lgRadius))}>
             <span className={cx(text(_2xl), font(bold), textColor('#3b82f6'))}>{categories.length}</span>
-            <span className={cx(text(smText), textColor('#64748b'), css({ marginLeft: '0.5rem' }))}> categories</span>
+            <span className={cx(text(smText), textColor('#64748b'), ml(2))}> categories</span>
           </div>
           <div className={cx(bg('#f0fdf4'), px(4), py(2), rounded(lgRadius))}>
             <span className={cx(text(_2xl), font(bold), textColor('#10b981'))}>{totalExamples}</span>
-            <span className={cx(text(smText), textColor('#64748b'), css({ marginLeft: '0.5rem' }))}> comparisons</span>
+            <span className={cx(text(smText), textColor('#64748b'), ml(2))}> comparisons</span>
           </div>
           <div className={cx(bg('#faf5ff'), px(4), py(2), rounded(lgRadius))}>
             <span className={cx(text(_2xl), font(bold), textColor('#8b5cf6'))}>98%</span>
-            <span className={cx(text(smText), textColor('#64748b'), css({ marginLeft: '0.5rem' }))}> Tailwind coverage</span>
+            <span className={cx(text(smText), textColor('#64748b'), ml(2))}> Tailwind coverage</span>
           </div>
         </div>
       </div>
@@ -75,11 +75,11 @@ export function HomePage() {
                 bg('#ffffff'),
                 border('1px'), borderColor('#e2e8f0'),
                 shadow('0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)'),
-                flexCol(), gap(2),
-                css({ textDecoration: 'none', display: 'flex', transition: 'box-shadow 0.15s, border-color 0.15s' }),
+                flex(), flexCol(), gap(2),
+                textDecoration('none'), transition(),
               )}
             >
-              <div className={cx(w('2rem'), css({ height: '4px', borderRadius: '2px', backgroundColor: color }))} />
+              <div className={cx(w('2rem'), h('4px'), rounded('2px'), bg(color))} />
               <span className={cx(text(lgText), font(semibold), textColor('#1e293b'))}>{data.title}</span>
               <span className={cx(text(xsText), textColor('#64748b'))}>{data.description}</span>
               <span className={cx(text(xsText), font(medium), textColor(color))}>{count} examples</span>

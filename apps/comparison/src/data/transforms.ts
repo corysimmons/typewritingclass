@@ -1,8 +1,9 @@
 import React from 'react'
 import {
   cx, scale, scaleX, scaleY, rotate, translateX, translateY, skewX, skewY, transformOrigin,
-  bg, p, w, h, flex, rounded, textColor, css,
+  bg, p, w, h, flex, rounded, textColor, items, justify, text, textAlign, py, px, pb,
 } from 'typewritingclass'
+import { xs } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
 
 export const transformsData: ComparisonCategory = {
@@ -15,8 +16,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'scale-75',
           twcCode: 'cx(scale("0.75"))',
-          twcElement: React.createElement('div', { style: { padding: '1rem' } },
-            React.createElement('div', { className: cx(scale('0.75'), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff')), style: { fontSize: '12px', textAlign: 'center' } }, 'scale-75'),
+          twcElement: React.createElement('div', { className: cx(p(4)) },
+            React.createElement('div', { className: cx(scale('0.75'), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'scale-75'),
           ),
           tailwindCode: 'scale-75',
           tailwindElement: React.createElement('div', { className: 'tw-p-4' },
@@ -26,8 +27,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'scale-110',
           twcCode: 'cx(scale("1.1"))',
-          twcElement: React.createElement('div', { style: { padding: '1rem' } },
-            React.createElement('div', { className: cx(scale('1.1'), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff')), style: { fontSize: '12px', textAlign: 'center' } }, 'scale-110'),
+          twcElement: React.createElement('div', { className: cx(p(4)) },
+            React.createElement('div', { className: cx(scale('1.1'), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'scale-110'),
           ),
           tailwindCode: 'scale-110',
           tailwindElement: React.createElement('div', { className: 'tw-p-4' },
@@ -37,8 +38,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'scale-x-150',
           twcCode: 'cx(scaleX("1.5"))',
-          twcElement: React.createElement('div', { style: { padding: '1rem 2rem' } },
-            React.createElement('div', { className: cx(scaleX('1.5'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff')), style: { fontSize: '12px', textAlign: 'center', width: '5rem' } }, 'scaleX'),
+          twcElement: React.createElement('div', { className: cx(py(4), px(8)) },
+            React.createElement('div', { className: cx(scaleX('1.5'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs), textAlign('center'), w('5rem')) }, 'scaleX'),
           ),
           tailwindCode: 'scale-x-150',
           tailwindElement: React.createElement('div', { className: 'tw-p-4 tw-px-8' },
@@ -53,8 +54,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'rotate-45',
           twcCode: 'cx(rotate("45deg"))',
-          twcElement: React.createElement('div', { style: { padding: '2rem', display: 'flex', justifyContent: 'center' } },
-            React.createElement('div', { className: cx(rotate('45deg'), bg('#818cf8'), w('3rem'), h('3rem'), rounded('0.25rem'), flex(), css({ 'align-items': 'center', 'justify-content': 'center' }), textColor('#ffffff')), style: { fontSize: '12px' } }, '45'),
+          twcElement: React.createElement('div', { className: cx(p(8), flex(), justify('center')) },
+            React.createElement('div', { className: cx(rotate('45deg'), bg('#818cf8'), w('3rem'), h('3rem'), rounded('0.25rem'), flex(), items('center'), justify('center'), textColor('#ffffff'), text(xs)) }, '45'),
           ),
           tailwindCode: 'rotate-45',
           tailwindElement: React.createElement('div', { className: 'tw-p-8 tw-flex tw-justify-center' },
@@ -64,8 +65,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'rotate-90',
           twcCode: 'cx(rotate("90deg"))',
-          twcElement: React.createElement('div', { style: { padding: '2rem', display: 'flex', justifyContent: 'center' } },
-            React.createElement('div', { className: cx(rotate('90deg'), bg('#818cf8'), w('3rem'), h('3rem'), rounded('0.25rem'), flex(), css({ 'align-items': 'center', 'justify-content': 'center' }), textColor('#ffffff')), style: { fontSize: '12px' } }, '90'),
+          twcElement: React.createElement('div', { className: cx(p(8), flex(), justify('center')) },
+            React.createElement('div', { className: cx(rotate('90deg'), bg('#818cf8'), w('3rem'), h('3rem'), rounded('0.25rem'), flex(), items('center'), justify('center'), textColor('#ffffff'), text(xs)) }, '90'),
           ),
           tailwindCode: 'rotate-90',
           tailwindElement: React.createElement('div', { className: 'tw-p-8 tw-flex tw-justify-center' },
@@ -75,8 +76,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: '-rotate-12',
           twcCode: 'cx(rotate("-12deg"))',
-          twcElement: React.createElement('div', { style: { padding: '1rem', display: 'flex', justifyContent: 'center' } },
-            React.createElement('div', { className: cx(rotate('-12deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff')), style: { fontSize: '12px' } }, '-rotate-12'),
+          twcElement: React.createElement('div', { className: cx(p(4), flex(), justify('center')) },
+            React.createElement('div', { className: cx(rotate('-12deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs)) }, '-rotate-12'),
           ),
           tailwindCode: '-rotate-12',
           tailwindElement: React.createElement('div', { className: 'tw-p-4 tw-flex tw-justify-center' },
@@ -91,8 +92,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'translate-x-4 (1rem)',
           twcCode: 'cx(translateX("1rem"))',
-          twcElement: React.createElement('div', { style: { background: '#e0e7ff', padding: '0.5rem', borderRadius: '0.25rem' } },
-            React.createElement('div', { className: cx(translateX('1rem'), bg('#818cf8'), p(2), rounded('0.25rem'), textColor('#ffffff'), w('6rem')), style: { fontSize: '12px' } }, 'translate-x'),
+          twcElement: React.createElement('div', { className: cx(bg('#e0e7ff'), p(2), rounded('0.25rem')) },
+            React.createElement('div', { className: cx(translateX('1rem'), bg('#818cf8'), p(2), rounded('0.25rem'), textColor('#ffffff'), w('6rem'), text(xs)) }, 'translate-x'),
           ),
           tailwindCode: 'translate-x-4',
           tailwindElement: React.createElement('div', { className: 'tw-bg-indigo-100 tw-p-2 tw-rounded' },
@@ -102,8 +103,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'translate-y-2 (0.5rem)',
           twcCode: 'cx(translateY("0.5rem"))',
-          twcElement: React.createElement('div', { style: { background: '#e0e7ff', padding: '0.5rem 0.5rem 1.5rem', borderRadius: '0.25rem' } },
-            React.createElement('div', { className: cx(translateY('0.5rem'), bg('#818cf8'), p(2), rounded('0.25rem'), textColor('#ffffff')), style: { fontSize: '12px', width: '6rem' } }, 'translate-y'),
+          twcElement: React.createElement('div', { className: cx(bg('#e0e7ff'), p(2), pb(6), rounded('0.25rem')) },
+            React.createElement('div', { className: cx(translateY('0.5rem'), bg('#818cf8'), p(2), rounded('0.25rem'), textColor('#ffffff'), text(xs), w('6rem')) }, 'translate-y'),
           ),
           tailwindCode: 'translate-y-2',
           tailwindElement: React.createElement('div', { className: 'tw-bg-indigo-100 tw-p-2 tw-pb-6 tw-rounded' },
@@ -118,8 +119,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'skew-x-6',
           twcCode: 'cx(skewX("6deg"))',
-          twcElement: React.createElement('div', { style: { padding: '1rem' } },
-            React.createElement('div', { className: cx(skewX('6deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff')), style: { fontSize: '12px', textAlign: 'center', width: '8rem' } }, 'skew-x-6'),
+          twcElement: React.createElement('div', { className: cx(p(4)) },
+            React.createElement('div', { className: cx(skewX('6deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs), textAlign('center'), w('8rem')) }, 'skew-x-6'),
           ),
           tailwindCode: 'skew-x-6',
           tailwindElement: React.createElement('div', { className: 'tw-p-4' },
@@ -129,8 +130,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'skew-y-3',
           twcCode: 'cx(skewY("3deg"))',
-          twcElement: React.createElement('div', { style: { padding: '1rem' } },
-            React.createElement('div', { className: cx(skewY('3deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff')), style: { fontSize: '12px', textAlign: 'center', width: '8rem' } }, 'skew-y-3'),
+          twcElement: React.createElement('div', { className: cx(p(4)) },
+            React.createElement('div', { className: cx(skewY('3deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs), textAlign('center'), w('8rem')) }, 'skew-y-3'),
           ),
           tailwindCode: 'skew-y-3',
           tailwindElement: React.createElement('div', { className: 'tw-p-4' },
@@ -145,8 +146,8 @@ export const transformsData: ComparisonCategory = {
         {
           label: 'origin-top-left + rotate',
           twcCode: 'cx(transformOrigin("top left"), rotate("12deg"))',
-          twcElement: React.createElement('div', { style: { padding: '1rem 1rem 2rem' } },
-            React.createElement('div', { className: cx(transformOrigin('top left'), rotate('12deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff')), style: { fontSize: '12px', width: '8rem' } }, 'origin-top-left'),
+          twcElement: React.createElement('div', { className: cx(p(4), pb(8)) },
+            React.createElement('div', { className: cx(transformOrigin('top left'), rotate('12deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs), w('8rem')) }, 'origin-top-left'),
           ),
           tailwindCode: 'origin-top-left rotate-12',
           tailwindElement: React.createElement('div', { className: 'tw-p-4 tw-pb-8' },

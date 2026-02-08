@@ -1,7 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import {
-  cx, py, px, flexCol, gap, text, font, textColor, rounded, bg, css, w,
+  cx, py, px, flexCol, gap, text, font, textColor, rounded, bg, w,
+  shrink, borderR, borderColor, h, overflowY, sticky, top, mb,
+  textDecoration, display,
 } from 'typewritingclass'
 import { sm as smText, xs as xsText, lg as lgText } from 'typewritingclass/theme/typography'
 import { semibold, medium, bold } from 'typewritingclass/theme/typography'
@@ -32,12 +34,12 @@ export function Sidebar() {
       w('16rem'),
       flexCol(), gap(1),
       py(6), px(4),
-      css({ flexShrink: '0', borderRight: '1px solid #e2e8f0', height: '100vh', overflowY: 'auto', position: 'sticky', top: '0' }),
+      shrink(0), borderR('1px'), borderColor('#e2e8f0'), h('100vh'), overflowY('auto'), sticky(), top(0),
     )}>
       <div className={cx(px(3), py(2), text(lgText), font(bold), textColor('#0f172a'))}>
         TWC vs Tailwind
       </div>
-      <div className={cx(px(3), py(1), text(xsText), textColor('#94a3b8'), css({ marginBottom: '0.5rem' }))}>
+      <div className={cx(px(3), py(1), text(xsText), textColor('#94a3b8'), mb(2))}>
         Visual Comparison
       </div>
       {categories.map(({ to, label }) => (
@@ -51,7 +53,7 @@ export function Sidebar() {
             text(smText), font(medium),
             textColor(isActive ? '#1d4ed8' : '#475569'),
             bg(isActive ? '#eff6ff' : 'transparent'),
-            css({ textDecoration: 'none', display: 'block' }),
+            textDecoration('none'), display('block'),
           )}
         >
           {label}

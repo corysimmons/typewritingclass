@@ -1,5 +1,5 @@
 import React from 'react'
-import { cx, fill, stroke, strokeWidth, css } from 'typewritingclass'
+import { cx, fill, stroke, strokeWidth } from 'typewritingclass'
 import type { ComparisonCategory } from './types.ts'
 
 export const svgData: ComparisonCategory = {

@@ -2,8 +2,9 @@ import React from 'react'
 import {
   cx, transition, transitionAll, transitionColors, transitionOpacity, transitionShadow, transitionTransform, transitionNone,
   duration, ease, delay, animate,
-  bg, p, rounded, textColor, css, w, h, flex,
+  bg, p, rounded, textColor, cursor, text, w, h, flex,
 } from 'typewritingclass'
+import { xs } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
 
 export const transitionsData: ComparisonCategory = {
@@ -16,35 +17,35 @@ export const transitionsData: ComparisonCategory = {
         {
           label: 'transition (default properties)',
           twcCode: 'cx(transition(), duration(300))',
-          twcElement: React.createElement('div', { className: cx(transition(), duration(300), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), css({ ':hover': { 'background-color': '#6366f1' }, cursor: 'pointer' })), style: { fontSize: '12px' } }, 'Hover me (transition)'),
+          twcElement: React.createElement('div', { className: cx(transition(), duration(300), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), cursor('pointer'), text(xs)) }, 'Hover me (transition)'),
           tailwindCode: 'transition duration-300',
           tailwindElement: React.createElement('div', { className: 'tw-transition tw-duration-300 tw-bg-indigo-400 tw-p-4 tw-rounded-lg tw-text-white tw-text-xs hover:tw-bg-indigo-500 tw-cursor-pointer' }, 'Hover me (transition)'),
         },
         {
           label: 'transition-all',
           twcCode: 'cx(transitionAll(), duration(500))',
-          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(500), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff')), style: { fontSize: '12px' } }, 'transition-all'),
+          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(500), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs)) }, 'transition-all'),
           tailwindCode: 'transition-all duration-500',
           tailwindElement: React.createElement('div', { className: 'tw-transition-all tw-duration-500 tw-bg-indigo-400 tw-p-4 tw-rounded-lg tw-text-white tw-text-xs' }, 'transition-all'),
         },
         {
           label: 'transition-colors',
           twcCode: 'cx(transitionColors(), duration(200))',
-          twcElement: React.createElement('div', { className: cx(transitionColors(), duration(200), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff')), style: { fontSize: '12px' } }, 'transition-colors'),
+          twcElement: React.createElement('div', { className: cx(transitionColors(), duration(200), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs)) }, 'transition-colors'),
           tailwindCode: 'transition-colors duration-200',
           tailwindElement: React.createElement('div', { className: 'tw-transition-colors tw-duration-200 tw-bg-indigo-400 tw-p-4 tw-rounded-lg tw-text-white tw-text-xs' }, 'transition-colors'),
         },
         {
           label: 'transition-opacity',
           twcCode: 'cx(transitionOpacity(), duration(300))',
-          twcElement: React.createElement('div', { className: cx(transitionOpacity(), duration(300), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff')), style: { fontSize: '12px' } }, 'transition-opacity'),
+          twcElement: React.createElement('div', { className: cx(transitionOpacity(), duration(300), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs)) }, 'transition-opacity'),
           tailwindCode: 'transition-opacity duration-300',
           tailwindElement: React.createElement('div', { className: 'tw-transition-opacity tw-duration-300 tw-bg-indigo-400 tw-p-4 tw-rounded-lg tw-text-white tw-text-xs' }, 'transition-opacity'),
         },
         {
           label: 'transition-transform',
           twcCode: 'cx(transitionTransform(), duration(300))',
-          twcElement: React.createElement('div', { className: cx(transitionTransform(), duration(300), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff')), style: { fontSize: '12px' } }, 'transition-transform'),
+          twcElement: React.createElement('div', { className: cx(transitionTransform(), duration(300), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs)) }, 'transition-transform'),
           tailwindCode: 'transition-transform duration-300',
           tailwindElement: React.createElement('div', { className: 'tw-transition-transform tw-duration-300 tw-bg-indigo-400 tw-p-4 tw-rounded-lg tw-text-white tw-text-xs' }, 'transition-transform'),
         },
@@ -56,21 +57,21 @@ export const transitionsData: ComparisonCategory = {
         {
           label: 'duration-75',
           twcCode: 'cx(duration(75))',
-          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(75), bg('#c7d2fe'), p(3), rounded('0.25rem')), style: { fontSize: '12px' } }, '75ms'),
+          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(75), bg('#c7d2fe'), p(3), rounded('0.25rem'), text(xs)) }, '75ms'),
           tailwindCode: 'duration-75',
           tailwindElement: React.createElement('div', { className: 'tw-transition-all tw-duration-75 tw-bg-indigo-200 tw-p-3 tw-rounded tw-text-xs' }, '75ms'),
         },
         {
           label: 'duration-300',
           twcCode: 'cx(duration(300))',
-          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(300), bg('#c7d2fe'), p(3), rounded('0.25rem')), style: { fontSize: '12px' } }, '300ms'),
+          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(300), bg('#c7d2fe'), p(3), rounded('0.25rem'), text(xs)) }, '300ms'),
           tailwindCode: 'duration-300',
           tailwindElement: React.createElement('div', { className: 'tw-transition-all tw-duration-300 tw-bg-indigo-200 tw-p-3 tw-rounded tw-text-xs' }, '300ms'),
         },
         {
           label: 'duration-1000',
           twcCode: 'cx(duration(1000))',
-          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(1000), bg('#c7d2fe'), p(3), rounded('0.25rem')), style: { fontSize: '12px' } }, '1000ms'),
+          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(1000), bg('#c7d2fe'), p(3), rounded('0.25rem'), text(xs)) }, '1000ms'),
           tailwindCode: 'duration-1000',
           tailwindElement: React.createElement('div', { className: 'tw-transition-all tw-duration-1000 tw-bg-indigo-200 tw-p-3 tw-rounded tw-text-xs' }, '1000ms'),
         },
@@ -82,21 +83,21 @@ export const transitionsData: ComparisonCategory = {
         {
           label: 'ease-in',
           twcCode: 'cx(ease("ease-in"))',
-          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(300), ease('ease-in'), bg('#c7d2fe'), p(3), rounded('0.25rem')), style: { fontSize: '12px' } }, 'ease-in'),
+          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(300), ease('ease-in'), bg('#c7d2fe'), p(3), rounded('0.25rem'), text(xs)) }, 'ease-in'),
           tailwindCode: 'ease-in',
           tailwindElement: React.createElement('div', { className: 'tw-transition-all tw-duration-300 tw-ease-in tw-bg-indigo-200 tw-p-3 tw-rounded tw-text-xs' }, 'ease-in'),
         },
         {
           label: 'ease-out',
           twcCode: 'cx(ease("ease-out"))',
-          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(300), ease('ease-out'), bg('#c7d2fe'), p(3), rounded('0.25rem')), style: { fontSize: '12px' } }, 'ease-out'),
+          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(300), ease('ease-out'), bg('#c7d2fe'), p(3), rounded('0.25rem'), text(xs)) }, 'ease-out'),
           tailwindCode: 'ease-out',
           tailwindElement: React.createElement('div', { className: 'tw-transition-all tw-duration-300 tw-ease-out tw-bg-indigo-200 tw-p-3 tw-rounded tw-text-xs' }, 'ease-out'),
         },
         {
           label: 'ease-in-out',
           twcCode: 'cx(ease("ease-in-out"))',
-          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(300), ease('ease-in-out'), bg('#c7d2fe'), p(3), rounded('0.25rem')), style: { fontSize: '12px' } }, 'ease-in-out'),
+          twcElement: React.createElement('div', { className: cx(transitionAll(), duration(300), ease('ease-in-out'), bg('#c7d2fe'), p(3), rounded('0.25rem'), text(xs)) }, 'ease-in-out'),
           tailwindCode: 'ease-in-out',
           tailwindElement: React.createElement('div', { className: 'tw-transition-all tw-duration-300 tw-ease-in-out tw-bg-indigo-200 tw-p-3 tw-rounded tw-text-xs' }, 'ease-in-out'),
         },
@@ -115,7 +116,7 @@ export const transitionsData: ComparisonCategory = {
         {
           label: 'animate-pulse',
           twcCode: 'cx(animate("pulse 2s cubic-bezier(0.4,0,0.6,1) infinite"))',
-          twcElement: React.createElement('div', { className: cx(animate('pulse 2s cubic-bezier(0.4,0,0.6,1) infinite'), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff')), style: { fontSize: '12px' } }, 'pulse'),
+          twcElement: React.createElement('div', { className: cx(animate('pulse 2s cubic-bezier(0.4,0,0.6,1) infinite'), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs)) }, 'pulse'),
           tailwindCode: 'animate-pulse',
           tailwindElement: React.createElement('div', { className: 'tw-animate-pulse tw-bg-indigo-400 tw-p-4 tw-rounded-lg tw-text-white tw-text-xs' }, 'pulse'),
         },

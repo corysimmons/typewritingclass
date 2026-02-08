@@ -1,5 +1,6 @@
 import React from 'react'
-import { cx, p, px, py, pt, pr, pb, pl, ps, pe, m, mx, my, mt, mr, mb, ml, ms, me, spaceX, spaceY, bg, w, h, flex, gap, flexCol } from 'typewritingclass'
+import { cx, p, px, py, pt, pr, pb, pl, ps, pe, m, mx, my, mt, mr, mb, ml, ms, me, spaceX, spaceY, bg, w, h, flex, gap, flexCol, textColor, textAlign, text } from 'typewritingclass'
+import { xs } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
 
 export const spacingData: ComparisonCategory = {
@@ -66,8 +67,8 @@ export const spacingData: ComparisonCategory = {
         {
           label: 'm-4 (1rem all sides)',
           twcCode: 'cx(m(4))',
-          twcElement: React.createElement('div', { style: { background: '#e0e7ff' } },
-            React.createElement('div', { className: cx(m(4), bg('#818cf8')), style: { color: 'white', padding: '4px' } }, 'm-4')
+          twcElement: React.createElement('div', { className: cx(bg('#e0e7ff')) },
+            React.createElement('div', { className: cx(m(4), bg('#818cf8'), textColor('#ffffff'), p(1)) }, 'm-4')
           ),
           tailwindCode: 'm-4',
           tailwindElement: React.createElement('div', { className: 'tw-bg-indigo-100' },
@@ -77,8 +78,8 @@ export const spacingData: ComparisonCategory = {
         {
           label: 'mx-auto (center horizontally)',
           twcCode: 'cx(mx("auto"), w("8rem"))',
-          twcElement: React.createElement('div', { style: { background: '#e0e7ff' } },
-            React.createElement('div', { className: cx(mx('auto'), w('8rem'), bg('#818cf8')), style: { color: 'white', padding: '4px', textAlign: 'center' } }, 'mx-auto')
+          twcElement: React.createElement('div', { className: cx(bg('#e0e7ff')) },
+            React.createElement('div', { className: cx(mx('auto'), w('8rem'), bg('#818cf8'), textColor('#ffffff'), p(1), textAlign('center')) }, 'mx-auto')
           ),
           tailwindCode: 'mx-auto w-32',
           tailwindElement: React.createElement('div', { className: 'tw-bg-indigo-100' },
@@ -88,8 +89,8 @@ export const spacingData: ComparisonCategory = {
         {
           label: 'my-6 (1.5rem vertical)',
           twcCode: 'cx(my(6))',
-          twcElement: React.createElement('div', { style: { background: '#e0e7ff' } },
-            React.createElement('div', { className: cx(my(6), bg('#818cf8')), style: { color: 'white', padding: '4px' } }, 'my-6')
+          twcElement: React.createElement('div', { className: cx(bg('#e0e7ff')) },
+            React.createElement('div', { className: cx(my(6), bg('#818cf8'), textColor('#ffffff'), p(1)) }, 'my-6')
           ),
           tailwindCode: 'my-6',
           tailwindElement: React.createElement('div', { className: 'tw-bg-indigo-100' },
@@ -105,9 +106,9 @@ export const spacingData: ComparisonCategory = {
           label: 'space-x-4 (1rem horizontal gap)',
           twcCode: 'cx(flex(), spaceX(4))',
           twcElement: React.createElement('div', { className: cx(flex(), spaceX(4)) },
-            React.createElement('div', { className: cx(p(2), bg('#818cf8')), style: { color: 'white' } }, '1'),
-            React.createElement('div', { className: cx(p(2), bg('#818cf8')), style: { color: 'white' } }, '2'),
-            React.createElement('div', { className: cx(p(2), bg('#818cf8')), style: { color: 'white' } }, '3'),
+            React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, '1'),
+            React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, '2'),
+            React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, '3'),
           ),
           tailwindCode: 'flex space-x-4',
           tailwindElement: React.createElement('div', { className: 'tw-flex tw-space-x-4' },
@@ -120,9 +121,9 @@ export const spacingData: ComparisonCategory = {
           label: 'space-y-3 (0.75rem vertical gap)',
           twcCode: 'cx(flexCol(), spaceY(3))',
           twcElement: React.createElement('div', { className: cx(flexCol(), spaceY(3)) },
-            React.createElement('div', { className: cx(p(2), bg('#818cf8')), style: { color: 'white' } }, 'A'),
-            React.createElement('div', { className: cx(p(2), bg('#818cf8')), style: { color: 'white' } }, 'B'),
-            React.createElement('div', { className: cx(p(2), bg('#818cf8')), style: { color: 'white' } }, 'C'),
+            React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, 'A'),
+            React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, 'B'),
+            React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, 'C'),
           ),
           tailwindCode: 'flex flex-col space-y-3',
           tailwindElement: React.createElement('div', { className: 'tw-flex tw-flex-col tw-space-y-3' },
