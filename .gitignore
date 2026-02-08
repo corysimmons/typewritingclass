@@ -7,3 +7,5 @@ test-results
 playwright-report
 target
 *.node
+.astro
+.env
