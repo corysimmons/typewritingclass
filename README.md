@@ -1,6 +1,12 @@
-# Typewriting Class
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./typewriting_class_logo_light.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./typewriting_class_logo_dark.svg">
+    <img alt="Typewriting Class" src="./typewriting_class_logo_dark.svg" width="400">
+  </picture>
+</p>
 
-**CSS-in-TS. Composable. Compiled. Correct.**
+<p align="center"><strong>CSS-in-TS. Composable. Compiled. Correct.</strong></p>
 
 Typewriting Class is a CSS-in-TypeScript framework where utilities are functions, not string conventions. Only two functions to learn: `cx()` to compose and `when()` to modify. Static by default — the compiler extracts CSS at build time. Dynamic when needed — CSS custom properties as an escape hatch.
 
