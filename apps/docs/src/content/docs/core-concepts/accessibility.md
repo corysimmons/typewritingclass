@@ -88,7 +88,7 @@ cx(when(data('state="error"'))(bg(red[100])))  // [data-state="error"] { ... }
 Respect user motion preferences:
 
 ```ts
-import { cx, transition, duration, when } from 'typewritingclass'
+import { cx, css, transition, duration, when } from 'typewritingclass'
 import { motionReduce, motionSafe } from 'typewritingclass'
 
 // Only animate for users who haven't requested reduced motion
@@ -101,7 +101,7 @@ cx(
 ### Forced colors
 
 ```ts
-import { cx, border, when } from 'typewritingclass'
+import { cx, css, border, when } from 'typewritingclass'
 import { forcedColors } from 'typewritingclass'
 
 cx(when(forcedColors)(border('2px'), css({ 'border-color': 'ButtonText' })))

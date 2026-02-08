@@ -181,6 +181,9 @@ The returned object has `className` and `style` properties, so spreading it onto
 When the component re-renders with a new `color` value, `useStyle()` recomputes the `dcx()` result. The class names stay stable (because the CSS rule structure hasn't changed -- only the custom property value), and the inline style updates to reflect the new value:
 
 ```tsx
+import { useStyle } from 'typewritingclass-react'
+import { css, bg, rounded, dynamic } from 'typewritingclass'
+
 function ProgressBar({ percent }: { percent: number }) {
   const props = useStyle(
     css({ height: '4px' }),
