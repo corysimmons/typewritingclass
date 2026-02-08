@@ -1,0 +1,14 @@
+- npm publish all necessary packages
+- tailwind 100% coverage. ensure whatever HOF and such existed before have a matching class in tailwind
+- nextjs support with demos/examples
+- add logo and domain name to everything (the dark svg is dark text, the light is light text)
+  - readme
+  - docs
+  - demos
+- ensure the word "typewritingclass" is broken up into "Typewriting Class" when written everywhere
+- astro docs has some markdown that isn't getting rendered
+- use bun as the primary package manager in all readmes and docs
+- use the frontend-design skill to make a few versions of custom astro starlight themes for the docs (add a debug picker so i can choose between them)
+- add lots of actually cool and helpful utility HOFs to docs so people can get a vibe for how extensible this is
+- make sure our theming implementation (default and custom) 1:1 with tailwind's shapes for those
+- register vscode extension (what do you need from me to do this? i have previously published a vscode extension and have an account under csimmonswork@gmail.com)
