@@ -12,7 +12,6 @@ import {
   items, justify, text, ml,
 } from 'typewritingclass'
 import { xs } from 'typewritingclass/theme/typography'
-import { DEFAULT as defaultRadius } from 'typewritingclass/theme/borders'
 import type { ComparisonCategory } from './types.ts'
 
 export const layoutData: ComparisonCategory = {
@@ -197,8 +196,8 @@ export const layoutData: ComparisonCategory = {
           label: 'z-10 / z-20 stacking',
           twcCode: 'z(10), z(20)',
           twcElement: React.createElement('div', { className: cx(relative(), h('4rem')) },
-            React.createElement('div', { className: cx(absolute(), z(10), bg('#818cf8'), p(2), w('4rem'), h('3rem'), rounded(defaultRadius), textColor('#ffffff'), text(xs), left(0)) }, 'z-10'),
-            React.createElement('div', { className: cx(absolute(), z(20), bg('#6366f1'), p(2), w('4rem'), h('3rem'), rounded(defaultRadius), textColor('#ffffff'), text(xs), left('2rem'), top('0.5rem')) }, 'z-20'),
+            React.createElement('div', { className: cx(absolute(), z(10), bg('#818cf8'), p(2), w('4rem'), h('3rem'), rounded(), textColor('#ffffff'), text(xs), left(0)) }, 'z-10'),
+            React.createElement('div', { className: cx(absolute(), z(20), bg('#6366f1'), p(2), w('4rem'), h('3rem'), rounded(), textColor('#ffffff'), text(xs), left('2rem'), top('0.5rem')) }, 'z-20'),
           ),
           tailwindCode: 'z-10, z-20',
           tailwindElement: React.createElement('div', { className: 'tw-relative tw-h-16' },
@@ -233,7 +232,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'object-cover',
           twcCode: 'objectFit("cover")',
-          twcElement: React.createElement('div', { className: cx(w('8rem'), h('4rem'), bg('#e0e7ff'), rounded(defaultRadius), overflow('hidden')) },
+          twcElement: React.createElement('div', { className: cx(w('8rem'), h('4rem'), bg('#e0e7ff'), rounded(), overflow('hidden')) },
             React.createElement('div', { className: cx(objectFit('cover'), w('100%'), h('100%'), bg('#818cf8'), textColor('#ffffff'), flex(), items('center'), justify('center'), text(xs)) }, 'cover'),
           ),
           tailwindCode: 'object-cover',
@@ -244,7 +243,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'object-contain',
           twcCode: 'objectFit("contain")',
-          twcElement: React.createElement('div', { className: cx(w('8rem'), h('4rem'), bg('#e0e7ff'), rounded(defaultRadius), overflow('hidden')) },
+          twcElement: React.createElement('div', { className: cx(w('8rem'), h('4rem'), bg('#e0e7ff'), rounded(), overflow('hidden')) },
             React.createElement('div', { className: cx(objectFit('contain'), w('100%'), h('100%'), bg('#818cf8'), textColor('#ffffff'), flex(), items('center'), justify('center'), text(xs)) }, 'contain'),
           ),
           tailwindCode: 'object-contain',
@@ -278,7 +277,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'box-border',
           twcCode: 'boxSizing("border-box")',
-          twcElement: React.createElement('div', { className: cx(boxSizing('border-box'), w('8rem'), p(4), border('2px'), borderColor('#818cf8'), bg('#c7d2fe'), text(xs)) }, 'border-box'),
+          twcElement: React.createElement('div', { className: cx(boxSizing('border-box'), w('8rem'), p(4), border(2), borderColor('#818cf8'), bg('#c7d2fe'), text(xs)) }, 'border-box'),
           tailwindCode: 'box-border',
           tailwindElement: React.createElement('div', { className: 'tw-box-border tw-w-32 tw-p-4 tw-border-2 tw-border-indigo-400 tw-bg-indigo-200 tw-text-xs' }, 'border-box'),
         },

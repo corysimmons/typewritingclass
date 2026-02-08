@@ -159,9 +159,9 @@ describe('border utilities', () => {
     })
   })
 
-  it('outline defaults to 1px solid', () => {
+  it('outline defaults to 2px solid', () => {
     const result = outline()
-    expect(result.declarations['outline-width']).toBe('1px')
+    expect(result.declarations['outline-width']).toBe('2px')
     expect(result.declarations['outline-style']).toBe('solid')
   })
 

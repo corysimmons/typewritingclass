@@ -7,8 +7,13 @@ describe('effects utilities', () => {
     expect(d['box-shadow']).toContain('rgb(0 0 0')
   })
 
-  it('shadow accepts custom value', () => {
-    expect(shadow('none').declarations).toEqual({ 'box-shadow': 'none' })
+  it('shadow accepts named value', () => {
+    expect(shadow('none').declarations).toEqual({ 'box-shadow': '0 0 #0000' })
+    expect(shadow('lg').declarations['box-shadow']).toContain('10px 15px')
+  })
+
+  it('shadow accepts raw CSS value', () => {
+    expect(shadow('0 4px 6px black').declarations).toEqual({ 'box-shadow': '0 4px 6px black' })
   })
 
   it('opacity sets opacity', () => {

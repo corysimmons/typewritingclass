@@ -9,7 +9,6 @@ import {
   items, justify, text,
 } from 'typewritingclass'
 import { xs } from 'typewritingclass/theme/typography'
-import { DEFAULT as defaultRadius, lg as lgRadius, xl as xlRadius, full as fullRadius } from 'typewritingclass/theme/borders'
 import type { ComparisonCategory } from './types.ts'
 
 export const bordersData: ComparisonCategory = {
@@ -21,36 +20,36 @@ export const bordersData: ComparisonCategory = {
       examples: [
         {
           label: 'rounded (0.25rem)',
-          twcCode: 'rounded(DEFAULT)',
-          twcElement: React.createElement('div', { className: cx(rounded(defaultRadius), bg('#818cf8'), p(4), textColor('#ffffff'), text(xs)) }, 'rounded'),
+          twcCode: 'rounded()',
+          twcElement: React.createElement('div', { className: cx(rounded(), bg('#818cf8'), p(4), textColor('#ffffff'), text(xs)) }, 'rounded'),
           tailwindCode: 'rounded',
           tailwindElement: React.createElement('div', { className: 'tw-rounded tw-bg-indigo-400 tw-p-4 tw-text-white tw-text-xs' }, 'rounded'),
         },
         {
           label: 'rounded-lg (0.5rem)',
-          twcCode: 'rounded(lg)',
-          twcElement: React.createElement('div', { className: cx(rounded(lgRadius), bg('#818cf8'), p(4), textColor('#ffffff'), text(xs)) }, 'rounded-lg'),
+          twcCode: 'rounded("lg")',
+          twcElement: React.createElement('div', { className: cx(rounded("lg"), bg('#818cf8'), p(4), textColor('#ffffff'), text(xs)) }, 'rounded-lg'),
           tailwindCode: 'rounded-lg',
           tailwindElement: React.createElement('div', { className: 'tw-rounded-lg tw-bg-indigo-400 tw-p-4 tw-text-white tw-text-xs' }, 'rounded-lg'),
         },
         {
           label: 'rounded-full (9999px)',
-          twcCode: 'rounded(full)',
-          twcElement: React.createElement('div', { className: cx(rounded(fullRadius), bg('#818cf8'), w('4rem'), h('4rem'), flex(), items('center'), justify('center'), textColor('#ffffff'), text(xs)) }, 'full'),
+          twcCode: 'rounded("full")',
+          twcElement: React.createElement('div', { className: cx(rounded("full"), bg('#818cf8'), w('4rem'), h('4rem'), flex(), items('center'), justify('center'), textColor('#ffffff'), text(xs)) }, 'full'),
           tailwindCode: 'rounded-full',
           tailwindElement: React.createElement('div', { className: 'tw-rounded-full tw-bg-indigo-400 tw-w-16 tw-h-16 tw-flex tw-items-center tw-justify-center tw-text-white tw-text-xs' }, 'full'),
         },
         {
           label: 'rounded-t-lg',
-          twcCode: 'roundedT(lg)',
-          twcElement: React.createElement('div', { className: cx(roundedT(lgRadius), bg('#818cf8'), p(4), textColor('#ffffff'), text(xs)) }, 'rounded-t-lg'),
+          twcCode: 'roundedT("lg")',
+          twcElement: React.createElement('div', { className: cx(roundedT("lg"), bg('#818cf8'), p(4), textColor('#ffffff'), text(xs)) }, 'rounded-t-lg'),
           tailwindCode: 'rounded-t-lg',
           tailwindElement: React.createElement('div', { className: 'tw-rounded-t-lg tw-bg-indigo-400 tw-p-4 tw-text-white tw-text-xs' }, 'rounded-t-lg'),
         },
         {
           label: 'rounded-bl-xl',
-          twcCode: 'roundedBL(xl)',
-          twcElement: React.createElement('div', { className: cx(roundedBL(xlRadius), bg('#818cf8'), p(4), textColor('#ffffff'), text(xs)) }, 'rounded-bl-xl'),
+          twcCode: 'roundedBL("xl")',
+          twcElement: React.createElement('div', { className: cx(roundedBL("xl"), bg('#818cf8'), p(4), textColor('#ffffff'), text(xs)) }, 'rounded-bl-xl'),
           tailwindCode: 'rounded-bl-xl',
           tailwindElement: React.createElement('div', { className: 'tw-rounded-bl-xl tw-bg-indigo-400 tw-p-4 tw-text-white tw-text-xs' }, 'rounded-bl-xl'),
         },
@@ -61,29 +60,29 @@ export const bordersData: ComparisonCategory = {
       examples: [
         {
           label: 'border (1px)',
-          twcCode: 'border("1px"), borderColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(border('1px'), borderColor('#818cf8'), p(4), rounded(defaultRadius), text(xs)) }, 'border'),
+          twcCode: 'border(), borderColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(border(), borderColor('#818cf8'), p(4), rounded(), text(xs)) }, 'border'),
           tailwindCode: 'border border-indigo-400',
           tailwindElement: React.createElement('div', { className: 'tw-border tw-border-indigo-400 tw-p-4 tw-rounded tw-text-xs' }, 'border'),
         },
         {
           label: 'border-2',
-          twcCode: 'border("2px"), borderColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(border('2px'), borderColor('#818cf8'), p(4), rounded(defaultRadius), text(xs)) }, 'border-2'),
+          twcCode: 'border(2), borderColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(border(2), borderColor('#818cf8'), p(4), rounded(), text(xs)) }, 'border-2'),
           tailwindCode: 'border-2 border-indigo-400',
           tailwindElement: React.createElement('div', { className: 'tw-border-2 tw-border-indigo-400 tw-p-4 tw-rounded tw-text-xs' }, 'border-2'),
         },
         {
           label: 'border-t-4',
-          twcCode: 'borderT("4px"), borderColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(borderT('4px'), borderColor('#818cf8'), p(4), bg('#f8fafc'), text(xs)) }, 'border-t-4'),
+          twcCode: 'borderT(4), borderColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(borderT(4), borderColor('#818cf8'), p(4), bg('#f8fafc'), text(xs)) }, 'border-t-4'),
           tailwindCode: 'border-t-4 border-indigo-400',
           tailwindElement: React.createElement('div', { className: 'tw-border-t-4 tw-border-indigo-400 tw-p-4 tw-bg-slate-50 tw-text-xs' }, 'border-t-4'),
         },
         {
           label: 'border-x-2',
-          twcCode: 'borderX("2px"), borderColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(borderX('2px'), borderColor('#818cf8'), p(4), text(xs)) }, 'border-x-2'),
+          twcCode: 'borderX(2), borderColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(borderX(2), borderColor('#818cf8'), p(4), text(xs)) }, 'border-x-2'),
           tailwindCode: 'border-x-2 border-indigo-400',
           tailwindElement: React.createElement('div', { className: 'tw-border-x-2 tw-border-indigo-400 tw-p-4 tw-text-xs' }, 'border-x-2'),
         },
@@ -94,15 +93,15 @@ export const bordersData: ComparisonCategory = {
       examples: [
         {
           label: 'border-dashed',
-          twcCode: 'border("2px"), borderStyle("dashed"), borderColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(border('2px'), borderStyle('dashed'), borderColor('#818cf8'), p(4), rounded(defaultRadius), text(xs)) }, 'dashed'),
+          twcCode: 'border(2), borderStyle("dashed"), borderColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(border(2), borderStyle('dashed'), borderColor('#818cf8'), p(4), rounded(), text(xs)) }, 'dashed'),
           tailwindCode: 'border-2 border-dashed border-indigo-400',
           tailwindElement: React.createElement('div', { className: 'tw-border-2 tw-border-dashed tw-border-indigo-400 tw-p-4 tw-rounded tw-text-xs' }, 'dashed'),
         },
         {
           label: 'border-dotted',
-          twcCode: 'border("2px"), borderStyle("dotted"), borderColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(border('2px'), borderStyle('dotted'), borderColor('#818cf8'), p(4), rounded(defaultRadius), text(xs)) }, 'dotted'),
+          twcCode: 'border(2), borderStyle("dotted"), borderColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(border(2), borderStyle('dotted'), borderColor('#818cf8'), p(4), rounded(), text(xs)) }, 'dotted'),
           tailwindCode: 'border-2 border-dotted border-indigo-400',
           tailwindElement: React.createElement('div', { className: 'tw-border-2 tw-border-dotted tw-border-indigo-400 tw-p-4 tw-rounded tw-text-xs' }, 'dotted'),
         },
@@ -113,8 +112,8 @@ export const bordersData: ComparisonCategory = {
       examples: [
         {
           label: 'divide-y',
-          twcCode: 'flex(), flexCol(), divideY("1px"), divideColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(flex(), flexCol(), divideY('1px'), divideColor('#818cf8')) },
+          twcCode: 'flex(), flexCol(), divideY(), divideColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(flex(), flexCol(), divideY(), divideColor('#818cf8')) },
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'Item 1'),
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'Item 2'),
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'Item 3'),
@@ -128,8 +127,8 @@ export const bordersData: ComparisonCategory = {
         },
         {
           label: 'divide-x-2',
-          twcCode: 'flex(), divideX("2px"), divideColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(flex(), divideX('2px'), divideColor('#818cf8')) },
+          twcCode: 'flex(), divideX(2), divideColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(flex(), divideX(2), divideColor('#818cf8')) },
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'A'),
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'B'),
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'C'),
@@ -148,15 +147,15 @@ export const bordersData: ComparisonCategory = {
       examples: [
         {
           label: 'ring-2 ring-blue-500',
-          twcCode: 'ring("2px"), ringColor("#3b82f6")',
-          twcElement: React.createElement('div', { className: cx(ring('2px'), ringColor('#3b82f6'), p(4), rounded(defaultRadius), text(xs)) }, 'ring-2'),
+          twcCode: 'ring(2), ringColor("#3b82f6")',
+          twcElement: React.createElement('div', { className: cx(ring(2), ringColor('#3b82f6'), p(4), rounded(), text(xs)) }, 'ring-2'),
           tailwindCode: 'ring-2 ring-blue-500',
           tailwindElement: React.createElement('div', { className: 'tw-ring-2 tw-ring-blue-500 tw-p-4 tw-rounded tw-text-xs' }, 'ring-2'),
         },
         {
           label: 'ring-4 with offset',
-          twcCode: 'ring("4px"), ringColor("#818cf8"), ringOffsetWidth("2px"), ringOffsetColor("#ffffff")',
-          twcElement: React.createElement('div', { className: cx(ring('4px'), ringColor('#818cf8'), ringOffsetWidth('2px'), ringOffsetColor('#ffffff'), p(4), rounded(defaultRadius), bg('#f8fafc'), text(xs)) }, 'ring + offset'),
+          twcCode: 'ring(4), ringColor("#818cf8"), ringOffsetWidth(2), ringOffsetColor("#ffffff")',
+          twcElement: React.createElement('div', { className: cx(ring(4), ringColor('#818cf8'), ringOffsetWidth(2), ringOffsetColor('#ffffff'), p(4), rounded(), bg('#f8fafc'), text(xs)) }, 'ring + offset'),
           tailwindCode: 'ring-4 ring-indigo-400 ring-offset-2',
           tailwindElement: React.createElement('div', { className: 'tw-ring-4 tw-ring-indigo-400 tw-ring-offset-2 tw-p-4 tw-rounded tw-bg-slate-50 tw-text-xs' }, 'ring + offset'),
         },
@@ -167,15 +166,15 @@ export const bordersData: ComparisonCategory = {
       examples: [
         {
           label: 'outline-2 outline-dashed',
-          twcCode: 'outlineWidth("2px"), outlineStyle("dashed"), outlineColor("#818cf8")',
-          twcElement: React.createElement('div', { className: cx(outlineWidth('2px'), outlineStyle('dashed'), outlineColor('#818cf8'), p(4), rounded(defaultRadius), text(xs)) }, 'outline dashed'),
+          twcCode: 'outlineWidth(2), outlineStyle("dashed"), outlineColor("#818cf8")',
+          twcElement: React.createElement('div', { className: cx(outlineWidth(2), outlineStyle('dashed'), outlineColor('#818cf8'), p(4), rounded(), text(xs)) }, 'outline dashed'),
           tailwindCode: 'outline-2 outline-dashed outline-indigo-400',
           tailwindElement: React.createElement('div', { className: 'tw-outline-2 tw-outline-dashed tw-outline-indigo-400 tw-p-4 tw-rounded tw-text-xs' }, 'outline dashed'),
         },
         {
           label: 'outline with offset',
-          twcCode: 'outlineWidth("2px"), outlineStyle("solid"), outlineColor("#818cf8"), outlineOffset("4px")',
-          twcElement: React.createElement('div', { className: cx(outlineWidth('2px'), outlineStyle('solid'), outlineColor('#818cf8'), outlineOffset('4px'), p(4), rounded(defaultRadius), bg('#f8fafc'), text(xs)) }, 'outline + offset'),
+          twcCode: 'outlineWidth(2), outlineStyle("solid"), outlineColor("#818cf8"), outlineOffset(4)',
+          twcElement: React.createElement('div', { className: cx(outlineWidth(2), outlineStyle('solid'), outlineColor('#818cf8'), outlineOffset(4), p(4), rounded(), bg('#f8fafc'), text(xs)) }, 'outline + offset'),
           tailwindCode: 'outline-2 outline-offset-4 outline-indigo-400',
           tailwindElement: React.createElement('div', { className: 'tw-outline tw-outline-2 tw-outline-offset-4 tw-outline-indigo-400 tw-p-4 tw-rounded tw-bg-slate-50 tw-text-xs' }, 'outline + offset'),
         },

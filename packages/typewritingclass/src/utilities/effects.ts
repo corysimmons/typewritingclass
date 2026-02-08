@@ -1,8 +1,19 @@
 import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
-import { DEFAULT as defaultShadow } from '../theme/shadows.ts'
+import * as shadows from '../theme/shadows.ts'
 import { isDynamic } from '../dynamic.ts'
+
+const shadowMap: Record<string, string> = {
+  sm: shadows.sm, DEFAULT: shadows.DEFAULT, md: shadows.md,
+  lg: shadows.lg, xl: shadows.xl, '2xl': shadows._2xl,
+  inner: shadows.inner, none: shadows.none,
+}
+
+function resolveShadow(value?: string): string {
+  if (value == null) return shadows.DEFAULT
+  return shadowMap[value] ?? value
+}
 
 /**
  * Sets the `box-shadow` of an element.
@@ -50,7 +61,7 @@ export function shadow(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'box-shadow': (value as string | undefined) ?? defaultShadow })
+  return createRule({ 'box-shadow': resolveShadow(value as string | undefined) })
 }
 
 /**

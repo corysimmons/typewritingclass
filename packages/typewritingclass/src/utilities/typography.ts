@@ -3,6 +3,11 @@ import type { TextSize } from '../theme/typography.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import { letterSpacings, lineHeights, fontFamilies } from '../theme/typography.ts'
+
+const trackingMap: Record<string, string> = { ...letterSpacings }
+const leadingMap: Record<string, string> = { ...lineHeights }
+const fontFamilyMap: Record<string, string> = { ...fontFamilies }
 
 /**
  * Sets the font size (and optionally line height) of an element.
@@ -132,7 +137,7 @@ export function tracking(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'letter-spacing': value })
+  return createRule({ 'letter-spacing': trackingMap[value] ?? value })
 }
 
 /**
@@ -173,7 +178,8 @@ export function leading(value: string | number | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'line-height': String(value) })
+  const v = typeof value === 'string' ? (leadingMap[value] ?? value) : String(value)
+  return createRule({ 'line-height': v })
 }
 
 /**
@@ -209,7 +215,7 @@ export function fontFamily(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'font-family': value })
+  return createRule({ 'font-family': fontFamilyMap[value] ?? value })
 }
 
 export function antialiased(): StyleRule {

@@ -1,8 +1,24 @@
 import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule, wrapWithSelectorTemplate } from '../rule.ts'
-import { DEFAULT as defaultRadius } from '../theme/borders.ts'
+import * as borderRadii from '../theme/borders.ts'
 import { isDynamic } from '../dynamic.ts'
+
+function px(value: string | number): string {
+  return typeof value === 'number' ? `${value}px` : value
+}
+
+const radiusMap: Record<string, string> = {
+  none: borderRadii.none, sm: borderRadii.sm, DEFAULT: borderRadii.DEFAULT,
+  md: borderRadii.md, lg: borderRadii.lg, xl: borderRadii.xl,
+  '2xl': borderRadii._2xl, '3xl': borderRadii._3xl, full: borderRadii.full,
+}
+
+function resolveRadius(value?: string | DynamicValue): string {
+  if (value == null) return borderRadii.DEFAULT
+  if (typeof value === 'string') return radiusMap[value] ?? value
+  return value as unknown as string // DynamicValue handled before this
+}
 
 /**
  * Sets the `border-radius` on all corners of an element.
@@ -49,7 +65,7 @@ export function rounded(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'border-radius': (value as string | undefined) ?? defaultRadius })
+  return createRule({ 'border-radius': resolveRadius(value) })
 }
 
 /**
@@ -91,7 +107,7 @@ export function roundedT(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  const v = (value as string | undefined) ?? defaultRadius
+  const v = resolveRadius(value)
   return createRule({ 'border-top-left-radius': v, 'border-top-right-radius': v })
 }
 
@@ -134,7 +150,7 @@ export function roundedB(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  const v = (value as string | undefined) ?? defaultRadius
+  const v = resolveRadius(value)
   return createRule({ 'border-bottom-left-radius': v, 'border-bottom-right-radius': v })
 }
 
@@ -177,7 +193,7 @@ export function roundedL(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  const v = (value as string | undefined) ?? defaultRadius
+  const v = resolveRadius(value)
   return createRule({ 'border-top-left-radius': v, 'border-bottom-left-radius': v })
 }
 
@@ -220,7 +236,7 @@ export function roundedR(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  const v = (value as string | undefined) ?? defaultRadius
+  const v = resolveRadius(value)
   return createRule({ 'border-top-right-radius': v, 'border-bottom-right-radius': v })
 }
 
@@ -247,8 +263,8 @@ export function roundedR(value?: string | DynamicValue): StyleRule {
  * // CSS: border-width: 2px; border-style: solid;
  * ```
  */
-export function border(width?: string): StyleRule {
-  return createRule({ 'border-width': width ?? '1px', 'border-style': 'solid' })
+export function border(width?: string | number): StyleRule {
+  return createRule({ 'border-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
 }
 
 /**
@@ -274,8 +290,8 @@ export function border(width?: string): StyleRule {
  * // CSS: border-top-width: 2px; border-style: solid;
  * ```
  */
-export function borderT(width?: string): StyleRule {
-  return createRule({ 'border-top-width': width ?? '1px', 'border-style': 'solid' })
+export function borderT(width?: string | number): StyleRule {
+  return createRule({ 'border-top-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
 }
 
 /**
@@ -301,8 +317,8 @@ export function borderT(width?: string): StyleRule {
  * // CSS: border-right-width: 3px; border-style: solid;
  * ```
  */
-export function borderR(width?: string): StyleRule {
-  return createRule({ 'border-right-width': width ?? '1px', 'border-style': 'solid' })
+export function borderR(width?: string | number): StyleRule {
+  return createRule({ 'border-right-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
 }
 
 /**
@@ -328,8 +344,8 @@ export function borderR(width?: string): StyleRule {
  * // CSS: border-bottom-width: 2px; border-style: solid;
  * ```
  */
-export function borderB(width?: string): StyleRule {
-  return createRule({ 'border-bottom-width': width ?? '1px', 'border-style': 'solid' })
+export function borderB(width?: string | number): StyleRule {
+  return createRule({ 'border-bottom-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
 }
 
 /**
@@ -355,8 +371,8 @@ export function borderB(width?: string): StyleRule {
  * // CSS: border-left-width: 4px; border-style: solid;
  * ```
  */
-export function borderL(width?: string): StyleRule {
-  return createRule({ 'border-left-width': width ?? '1px', 'border-style': 'solid' })
+export function borderL(width?: string | number): StyleRule {
+  return createRule({ 'border-left-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
 }
 
 /**
@@ -389,8 +405,8 @@ export function borderL(width?: string): StyleRule {
  * // CSS: box-shadow: 0 0 0 1px #3b82f6;
  * ```
  */
-export function ring(width?: string, color?: string): StyleRule {
-  const w = width ?? '3px'
+export function ring(width?: string | number, color?: string): StyleRule {
+  const w = width != null ? px(width) : '3px'
   const c = color ?? '#3b82f6'
   return createRule({ 'box-shadow': `0 0 0 ${w} ${c}` })
 }
@@ -404,7 +420,7 @@ export function roundedTL(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'border-top-left-radius': (value as string | undefined) ?? defaultRadius })
+  return createRule({ 'border-top-left-radius': resolveRadius(value) })
 }
 
 export function roundedTR(value?: string | DynamicValue): StyleRule {
@@ -414,7 +430,7 @@ export function roundedTR(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'border-top-right-radius': (value as string | undefined) ?? defaultRadius })
+  return createRule({ 'border-top-right-radius': resolveRadius(value) })
 }
 
 export function roundedBR(value?: string | DynamicValue): StyleRule {
@@ -424,7 +440,7 @@ export function roundedBR(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'border-bottom-right-radius': (value as string | undefined) ?? defaultRadius })
+  return createRule({ 'border-bottom-right-radius': resolveRadius(value) })
 }
 
 export function roundedBL(value?: string | DynamicValue): StyleRule {
@@ -434,7 +450,7 @@ export function roundedBL(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'border-bottom-left-radius': (value as string | undefined) ?? defaultRadius })
+  return createRule({ 'border-bottom-left-radius': resolveRadius(value) })
 }
 
 export function roundedSS(value?: string | DynamicValue): StyleRule {
@@ -444,7 +460,7 @@ export function roundedSS(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  const v = (value as string | undefined) ?? defaultRadius
+  const v = resolveRadius(value)
   return createRule({ 'border-start-start-radius': v, 'border-end-start-radius': v })
 }
 
@@ -455,7 +471,7 @@ export function roundedSE(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  const v = (value as string | undefined) ?? defaultRadius
+  const v = resolveRadius(value)
   return createRule({ 'border-start-end-radius': v, 'border-end-end-radius': v })
 }
 
@@ -466,7 +482,7 @@ export function roundedEE(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  const v = (value as string | undefined) ?? defaultRadius
+  const v = resolveRadius(value)
   return createRule({ 'border-start-end-radius': v, 'border-end-end-radius': v })
 }
 
@@ -477,26 +493,28 @@ export function roundedES(value?: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  const v = (value as string | undefined) ?? defaultRadius
+  const v = resolveRadius(value)
   return createRule({ 'border-end-start-radius': v, 'border-start-start-radius': v })
 }
 
 // --- Directional border width utilities ---
 
-export function borderX(width?: string): StyleRule {
-  return createRule({ 'border-left-width': width ?? '1px', 'border-right-width': width ?? '1px', 'border-style': 'solid' })
+export function borderX(width?: string | number): StyleRule {
+  const w = width != null ? px(width) : '1px'
+  return createRule({ 'border-left-width': w, 'border-right-width': w, 'border-style': 'solid' })
 }
 
-export function borderY(width?: string): StyleRule {
-  return createRule({ 'border-top-width': width ?? '1px', 'border-bottom-width': width ?? '1px', 'border-style': 'solid' })
+export function borderY(width?: string | number): StyleRule {
+  const w = width != null ? px(width) : '1px'
+  return createRule({ 'border-top-width': w, 'border-bottom-width': w, 'border-style': 'solid' })
 }
 
-export function borderS(width?: string): StyleRule {
-  return createRule({ 'border-inline-start-width': width ?? '1px', 'border-style': 'solid' })
+export function borderS(width?: string | number): StyleRule {
+  return createRule({ 'border-inline-start-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
 }
 
-export function borderE(width?: string): StyleRule {
-  return createRule({ 'border-inline-end-width': width ?? '1px', 'border-style': 'solid' })
+export function borderE(width?: string | number): StyleRule {
+  return createRule({ 'border-inline-end-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
 }
 
 export function borderStyle(value: string): StyleRule {
@@ -505,8 +523,8 @@ export function borderStyle(value: string): StyleRule {
 
 // --- Outline utilities ---
 
-export function outlineWidth(value: string): StyleRule {
-  return createRule({ 'outline-width': value })
+export function outlineWidth(value: string | number): StyleRule {
+  return createRule({ 'outline-width': px(value) })
 }
 
 export function outlineColor(value: string | DynamicValue): StyleRule {
@@ -523,13 +541,13 @@ export function outlineStyle(value: string): StyleRule {
   return createRule({ 'outline-style': value })
 }
 
-export function outlineOffset(value: string): StyleRule {
-  return createRule({ 'outline-offset': value })
+export function outlineOffset(value: string | number): StyleRule {
+  return createRule({ 'outline-offset': px(value) })
 }
 
-export function outline(width?: string, style?: string, color?: string): StyleRule {
+export function outline(width?: string | number, style?: string, color?: string): StyleRule {
   const decls: Record<string, string> = {}
-  decls['outline-width'] = width ?? '1px'
+  decls['outline-width'] = width != null ? px(width) : '2px'
   decls['outline-style'] = style ?? 'solid'
   if (color) decls['outline-color'] = color
   return createRule(decls)
@@ -555,8 +573,8 @@ export function ringColor(value: string | DynamicValue): StyleRule {
   return createRule({ '--twc-ring-color': value })
 }
 
-export function ringOffsetWidth(value: string): StyleRule {
-  return createRule({ '--twc-ring-offset-width': value })
+export function ringOffsetWidth(value: string | number): StyleRule {
+  return createRule({ '--twc-ring-offset-width': px(value) })
 }
 
 export function ringOffsetColor(value: string | DynamicValue): StyleRule {
@@ -571,13 +589,13 @@ export function ringOffsetColor(value: string | DynamicValue): StyleRule {
 
 // --- Divide utilities (selector-template-based) ---
 
-export function divideX(width?: string): StyleRule {
-  const rule = createRule({ 'border-left-width': width ?? '1px', 'border-style': 'solid' })
+export function divideX(width?: string | number): StyleRule {
+  const rule = createRule({ 'border-left-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
   return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
 }
 
-export function divideY(width?: string): StyleRule {
-  const rule = createRule({ 'border-top-width': width ?? '1px', 'border-style': 'solid' })
+export function divideY(width?: string | number): StyleRule {
+  const rule = createRule({ 'border-top-width': width != null ? px(width) : '1px', 'border-style': 'solid' })
   return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
 }
 

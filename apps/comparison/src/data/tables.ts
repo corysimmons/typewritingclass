@@ -4,10 +4,9 @@ import {
   border, borderColor, p, w, bg, textColor, rounded, text,
 } from 'typewritingclass'
 import { xs } from 'typewritingclass/theme/typography'
-import { DEFAULT as defaultRadius } from 'typewritingclass/theme/borders'
 import type { ComparisonCategory } from './types.ts'
 
-const cell = cx(border('1px'), borderColor('#818cf8'), p(2))
+const cell = cx(border(), borderColor('#818cf8'), p(2))
 const twCell = 'tw-border tw-border-indigo-400 tw-p-2'
 
 export const tablesData: ComparisonCategory = {
@@ -110,12 +109,12 @@ export const tablesData: ComparisonCategory = {
           twcElement: React.createElement('table', { className: cx(borderSeparate(), borderSpacing('0.5rem'), w('100%'), text(xs)) },
             React.createElement('tbody', null,
               React.createElement('tr', null,
-                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded(defaultRadius)) }, '1'),
-                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded(defaultRadius)) }, '2'),
+                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '1'),
+                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '2'),
               ),
               React.createElement('tr', null,
-                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded(defaultRadius)) }, '3'),
-                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded(defaultRadius)) }, '4'),
+                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '3'),
+                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '4'),
               ),
             ),
           ),

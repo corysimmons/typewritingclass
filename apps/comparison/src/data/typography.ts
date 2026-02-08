@@ -10,7 +10,6 @@ import {
 } from 'typewritingclass'
 import { xs, sm, base, lg, xl, _2xl, _3xl } from 'typewritingclass/theme/typography'
 import { thin, light, normal, medium, semibold, bold, extrabold, black_ } from 'typewritingclass/theme/typography'
-import { DEFAULT as defaultRadius } from 'typewritingclass/theme/borders'
 import type { ComparisonCategory } from './types.ts'
 
 export const typographyData: ComparisonCategory = {
@@ -115,14 +114,14 @@ export const typographyData: ComparisonCategory = {
         {
           label: 'text-center',
           twcCode: 'textAlign("center")',
-          twcElement: React.createElement('div', { className: cx(textAlign('center'), bg('#e0e7ff'), p(2), rounded(defaultRadius)) }, 'Centered text'),
+          twcElement: React.createElement('div', { className: cx(textAlign('center'), bg('#e0e7ff'), p(2), rounded()) }, 'Centered text'),
           tailwindCode: 'text-center',
           tailwindElement: React.createElement('div', { className: 'tw-text-center tw-bg-indigo-100 tw-p-2 tw-rounded' }, 'Centered text'),
         },
         {
           label: 'text-right',
           twcCode: 'textAlign("right")',
-          twcElement: React.createElement('div', { className: cx(textAlign('right'), bg('#e0e7ff'), p(2), rounded(defaultRadius)) }, 'Right-aligned text'),
+          twcElement: React.createElement('div', { className: cx(textAlign('right'), bg('#e0e7ff'), p(2), rounded()) }, 'Right-aligned text'),
           tailwindCode: 'text-right',
           tailwindElement: React.createElement('div', { className: 'tw-text-right tw-bg-indigo-100 tw-p-2 tw-rounded' }, 'Right-aligned text'),
         },
@@ -148,7 +147,7 @@ export const typographyData: ComparisonCategory = {
         {
           label: 'leading-loose (2)',
           twcCode: 'leading(2)',
-          twcElement: React.createElement('p', { className: cx(text(sm), leading(2), bg('#e0e7ff'), p(2), rounded(defaultRadius), w('16rem')) }, 'This paragraph has loose line-height (2) which gives generous spacing between lines of text.'),
+          twcElement: React.createElement('p', { className: cx(text(sm), leading(2), bg('#e0e7ff'), p(2), rounded(), w('16rem')) }, 'This paragraph has loose line-height (2) which gives generous spacing between lines of text.'),
           tailwindCode: 'leading-loose',
           tailwindElement: React.createElement('p', { className: 'tw-leading-loose tw-bg-indigo-100 tw-p-2 tw-rounded tw-w-64 tw-text-sm' }, 'This paragraph has loose line-height (2) which gives generous spacing between lines of text.'),
         },
@@ -231,14 +230,14 @@ export const typographyData: ComparisonCategory = {
         {
           label: 'truncate',
           twcCode: 'textOverflow("ellipsis"), overflow("hidden"), whitespace("nowrap")',
-          twcElement: React.createElement('div', { className: cx(textOverflow('ellipsis'), overflow('hidden'), whitespace('nowrap'), w('12rem'), bg('#e0e7ff'), p(2), rounded(defaultRadius), text(sm)) }, 'This is a very long text that should be truncated with an ellipsis'),
+          twcElement: React.createElement('div', { className: cx(textOverflow('ellipsis'), overflow('hidden'), whitespace('nowrap'), w('12rem'), bg('#e0e7ff'), p(2), rounded(), text(sm)) }, 'This is a very long text that should be truncated with an ellipsis'),
           tailwindCode: 'truncate',
           tailwindElement: React.createElement('div', { className: 'tw-truncate tw-w-48 tw-bg-indigo-100 tw-p-2 tw-rounded tw-text-sm' }, 'This is a very long text that should be truncated with an ellipsis'),
         },
         {
           label: 'line-clamp-2',
           twcCode: 'lineClamp(2)',
-          twcElement: React.createElement('div', { className: cx(lineClamp(2), w('16rem'), bg('#e0e7ff'), p(2), rounded(defaultRadius), text(sm)) }, 'This is a longer text that should be clamped to two lines. Any additional content beyond the second line will be hidden with an ellipsis at the end.'),
+          twcElement: React.createElement('div', { className: cx(lineClamp(2), w('16rem'), bg('#e0e7ff'), p(2), rounded(), text(sm)) }, 'This is a longer text that should be clamped to two lines. Any additional content beyond the second line will be hidden with an ellipsis at the end.'),
           tailwindCode: 'line-clamp-2',
           tailwindElement: React.createElement('div', { className: 'tw-line-clamp-2 tw-w-64 tw-bg-indigo-100 tw-p-2 tw-rounded tw-text-sm' }, 'This is a longer text that should be clamped to two lines. Any additional content beyond the second line will be hidden with an ellipsis at the end.'),
         },
@@ -250,7 +249,7 @@ export const typographyData: ComparisonCategory = {
         {
           label: 'list-disc list-inside',
           twcCode: 'listStyleType("disc"), listStylePosition("inside")',
-          twcElement: React.createElement('ul', { className: cx(listStyleType('disc'), listStylePosition('inside'), bg('#e0e7ff'), p(3), rounded(defaultRadius), text(sm)) },
+          twcElement: React.createElement('ul', { className: cx(listStyleType('disc'), listStylePosition('inside'), bg('#e0e7ff'), p(3), rounded(), text(sm)) },
             React.createElement('li', { key: 1 }, 'First item'),
             React.createElement('li', { key: 2 }, 'Second item'),
             React.createElement('li', { key: 3 }, 'Third item'),
@@ -265,7 +264,7 @@ export const typographyData: ComparisonCategory = {
         {
           label: 'list-decimal',
           twcCode: 'listStyleType("decimal"), listStylePosition("inside")',
-          twcElement: React.createElement('ol', { className: cx(listStyleType('decimal'), listStylePosition('inside'), bg('#e0e7ff'), p(3), rounded(defaultRadius), text(sm)) },
+          twcElement: React.createElement('ol', { className: cx(listStyleType('decimal'), listStylePosition('inside'), bg('#e0e7ff'), p(3), rounded(), text(sm)) },
             React.createElement('li', { key: 1 }, 'First item'),
             React.createElement('li', { key: 2 }, 'Second item'),
             React.createElement('li', { key: 3 }, 'Third item'),

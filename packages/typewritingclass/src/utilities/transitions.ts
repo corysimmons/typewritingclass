@@ -2,6 +2,15 @@ import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import * as animations from '../theme/animations.ts'
+
+const animateMap: Record<string, string> = {
+  spin: animations.spin,
+  ping: animations.ping,
+  pulse: animations.pulse,
+  bounce: animations.bounce,
+  none: 'none',
+}
 
 export function transition(): StyleRule {
   return createRule({
@@ -94,5 +103,5 @@ export function animate(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ animation: value })
+  return createRule({ animation: animateMap[value] ?? value })
 }

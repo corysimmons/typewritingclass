@@ -2,6 +2,20 @@ import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import { blur as blurSizes, dropShadow as dropShadowSizes } from '../theme/filters.ts'
+
+const blurMap: Record<string, string> = {
+  none: blurSizes.none, sm: blurSizes.sm, DEFAULT: blurSizes.DEFAULT,
+  md: blurSizes.md, lg: blurSizes.lg, xl: blurSizes.xl,
+  '2xl': blurSizes._2xl, '3xl': blurSizes._3xl,
+}
+
+const dropShadowMap: Record<string, string> = {
+  sm: dropShadowSizes.sm, DEFAULT: dropShadowSizes.DEFAULT,
+  md: dropShadowSizes.md, lg: dropShadowSizes.lg,
+  xl: dropShadowSizes.xl, '2xl': dropShadowSizes._2xl,
+  none: dropShadowSizes.none,
+}
 
 function filterRule(fn: string, value: string | DynamicValue, prop: 'filter' | 'backdrop-filter' = 'filter'): StyleRule {
   if (isDynamic(value)) {
@@ -16,6 +30,7 @@ function filterRule(fn: string, value: string | DynamicValue, prop: 'filter' | '
 // --- Filter utilities ---
 
 export function blur(value: string | DynamicValue = '8px'): StyleRule {
+  if (!isDynamic(value)) return filterRule('blur', blurMap[value] ?? value)
   return filterRule('blur', value)
 }
 
@@ -27,14 +42,15 @@ export function contrast(value: string | DynamicValue): StyleRule {
   return filterRule('contrast', value)
 }
 
-export function dropShadow(value: string | DynamicValue): StyleRule {
+export function dropShadow(value: string | DynamicValue = 'DEFAULT'): StyleRule {
   if (isDynamic(value)) {
     return createDynamicRule(
       { filter: `drop-shadow(var(${value.__id}))` },
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ filter: `drop-shadow(${value})` })
+  const resolved = dropShadowMap[value] ?? value
+  return createRule({ filter: `drop-shadow(${resolved})` })
 }
 
 export function grayscale(value: string | DynamicValue = '100%'): StyleRule {
@@ -60,6 +76,7 @@ export function sepia(value: string | DynamicValue = '100%'): StyleRule {
 // --- Backdrop filter utilities ---
 
 export function backdropBlur(value: string | DynamicValue = '8px'): StyleRule {
+  if (!isDynamic(value)) return filterRule('blur', blurMap[value] ?? value, 'backdrop-filter')
   return filterRule('blur', value, 'backdrop-filter')
 }
 
