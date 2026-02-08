@@ -1,11 +1,11 @@
 ---
 title: Solid
-description: Use typewritingclass with SolidJS.
+description: Use Typewriting Class with SolidJS.
 sidebar:
   order: 2
 ---
 
-typewritingclass works with SolidJS out of the box. Because Solid uses the `class` attribute (not `className`), you can use the core `cx()` function directly -- no framework-specific wrapper is needed.
+Typewriting Class works with SolidJS out of the box. Because Solid uses the `class` attribute (not `className`), you can use the core `cx()` function directly -- no framework-specific wrapper is needed.
 
 ## Installation
 
@@ -30,7 +30,7 @@ No separate `typewritingclass-solid` package exists because none is needed. The 
 
 ## Vite configuration
 
-SolidJS projects typically use Vite. Add the typewritingclass plugin alongside the Solid plugin:
+SolidJS projects typically use Vite. Add the Typewriting Class plugin alongside the Solid plugin:
 
 ```ts
 // vite.config.ts
@@ -187,7 +187,7 @@ function Alert(props: { type: 'info' | 'error'; message: string }) {
 
 ## SolidStart SSR
 
-SolidStart applications render on the server by default. Since typewritingclass with the compiler plugin extracts all static styles into a CSS file at build time (`virtual:twc.css`), SSR works automatically -- the CSS is included in the HTML response as a `<link>` or inlined `<style>` tag by Vite.
+SolidStart applications render on the server by default. Since Typewriting Class with the compiler plugin extracts all static styles into a CSS file at build time (`virtual:twc.css`), SSR works automatically -- the CSS is included in the HTML response as a `<link>` or inlined `<style>` tag by Vite.
 
 For dynamic values that are computed during SSR, `dcx()` will produce the correct `className` and `style` on the server. Solid's SSR serializes inline styles, so the custom property bindings survive hydration.
 

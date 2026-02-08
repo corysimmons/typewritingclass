@@ -1,6 +1,6 @@
 # demo-vanilla
 
-Vanilla TypeScript demo showing typewritingclass without any framework. Demonstrates the core API directly with the DOM.
+Vanilla TypeScript demo showing Typewriting Class without any framework. Demonstrates the core API directly with the DOM.
 
 ## Development
 

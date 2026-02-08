@@ -5,7 +5,7 @@ sidebar:
   order: 7
 ---
 
-typewritingclass provides utility functions for all CSS filter properties, including both element filters and backdrop filters.
+Typewriting Class provides utility functions for all CSS filter properties, including both element filters and backdrop filters.
 
 ## Element filters
 

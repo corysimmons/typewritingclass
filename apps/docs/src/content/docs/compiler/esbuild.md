@@ -1,6 +1,6 @@
 ---
 title: esbuild Plugin
-description: Use typewritingclass with esbuild.
+description: Use Typewriting Class with esbuild.
 sidebar:
   order: 2
 ---

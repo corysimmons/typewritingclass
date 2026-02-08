@@ -307,7 +307,7 @@ export function App() {
       p(8), flex(), flexCol(), gap(10),
     )}>
       <h1 class={cx(text(_2xl), font(bold), textColor('#0f172a'))}>
-        typewritingclass — Solid Demo
+        Typewriting Class — Solid Demo
       </h1>
       <p class={cx(text(base), textColor('#64748b'))}>
         Solid.js: Filters, transitions, gradients + dynamic(), dcx(), createTheme()

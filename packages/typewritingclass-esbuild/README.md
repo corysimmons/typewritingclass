@@ -1,6 +1,6 @@
 # typewritingclass-esbuild
 
-esbuild plugin for typewritingclass static CSS extraction.
+esbuild plugin for Typewriting Class static CSS extraction.
 
 ## Installation
 

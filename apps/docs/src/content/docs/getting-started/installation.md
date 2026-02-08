@@ -1,17 +1,17 @@
 ---
 title: Installation
-description: Install typewritingclass and set up your build tool.
+description: Install Typewriting Class and set up your build tool.
 sidebar:
   order: 1
 ---
 
-This guide walks you through installing typewritingclass and configuring your build tool so the compiler can extract static CSS at build time.
+This guide walks you through installing Typewriting Class and configuring your build tool so the compiler can extract static CSS at build time.
 
 ## Prerequisites
 
 Before you begin, make sure you have:
 
-- **Node.js 18+** -- typewritingclass uses modern JavaScript features that require Node 18 or later. You can check your version with `node --version`.
+- **Node.js 18+** -- Typewriting Class uses modern JavaScript features that require Node 18 or later. You can check your version with `node --version`.
 - A package manager: **Bun** (recommended), **pnpm**, **npm**, or **yarn**.
 - A project using a supported build tool: **Vite**, **esbuild**, or **Babel**.
 
@@ -46,7 +46,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ## Step 2: Install the compiler plugin
 
-typewritingclass works by statically analyzing your TypeScript at build time. A Rust-based compiler extracts utility calls, resolves theme tokens, and emits optimized CSS -- so there is zero runtime style generation in production. Choose the plugin that matches your build tool.
+Typewriting Class works by statically analyzing your TypeScript at build time. A Rust-based compiler extracts utility calls, resolves theme tokens, and emits optimized CSS -- so there is zero runtime style generation in production. Choose the plugin that matches your build tool.
 
 ### Vite
 
@@ -241,7 +241,7 @@ function App() {
 export default App
 ```
 
-Start your dev server. You should see a blue rounded box with white text and `1.5rem` of padding. If styles appear correctly, typewritingclass is installed and the compiler is extracting CSS as expected.
+Start your dev server. You should see a blue rounded box with white text and `1.5rem` of padding. If styles appear correctly, Typewriting Class is installed and the compiler is extracting CSS as expected.
 
 If you do not see styles, double-check that:
 
@@ -251,7 +251,7 @@ If you do not see styles, double-check that:
 
 ## Step 5 (optional): Framework integration
 
-typewritingclass works with any framework out of the box since `cx()` returns a plain class name string. For React-specific ergonomics, you can optionally install the React integration package:
+Typewriting Class works with any framework out of the box since `cx()` returns a plain class name string. For React-specific ergonomics, you can optionally install the React integration package:
 
 <Tabs>
   <TabItem label="bun">
@@ -295,4 +295,4 @@ See the [React integration guide](/integrations/react) for more details.
 
 ## Next steps
 
-Now that typewritingclass is installed, continue to the [Quick Start](/getting-started/quick-start) tutorial to build your first component, or jump to [Editor Setup](/getting-started/editor-setup) to configure hover previews in VS Code.
+Now that Typewriting Class is installed, continue to the [Quick Start](/getting-started/quick-start) tutorial to build your first component, or jump to [Editor Setup](/getting-started/editor-setup) to configure hover previews in VS Code.

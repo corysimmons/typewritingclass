@@ -5,11 +5,11 @@ sidebar:
   order: 4
 ---
 
-typewritingclass supports server-side rendering (SSR) and React Server Components (RSC) through dedicated server utilities. The compiler extracts static CSS at build time, and the server functions provide access to the generated styles during rendering for injection into the HTML response.
+Typewriting Class supports server-side rendering (SSR) and React Server Components (RSC) through dedicated server utilities. The compiler extracts static CSS at build time, and the server functions provide access to the generated styles during rendering for injection into the HTML response.
 
 ## Overview
 
-There are two approaches to getting typewritingclass styles into server-rendered HTML:
+There are two approaches to getting Typewriting Class styles into server-rendered HTML:
 
 1. **Compiler static extraction (recommended):** The Vite/esbuild/Babel compiler plugin extracts all static `cx()` calls into a CSS file at build time. This CSS file is included in the HTML as a `<link>` tag automatically. No extra server-side work is needed for static styles.
 
@@ -47,7 +47,7 @@ This is useful when you want to:
 
 - Inject CSS into your own `<style>` tag with custom attributes.
 - Write the CSS to a file for caching.
-- Combine typewritingclass CSS with other CSS sources before injecting.
+- Combine Typewriting Class CSS with other CSS sources before injecting.
 
 ### Example: custom style tag
 
@@ -144,7 +144,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ## Streaming SSR
 
-typewritingclass works with React's streaming SSR (`renderToPipeableStream` / `renderToReadableStream`). Since `cx()` calls are synchronous and register styles immediately, all styles used in the initial render chunk are available when `getStyleTag()` is called in the `<head>`.
+Typewriting Class works with React's streaming SSR (`renderToPipeableStream` / `renderToReadableStream`). Since `cx()` calls are synchronous and register styles immediately, all styles used in the initial render chunk are available when `getStyleTag()` is called in the `<head>`.
 
 For components that suspend and stream in later, styles are still registered synchronously when the component's render function executes. The CSS is included in the streamed chunk as part of the virtual CSS module (when using the compiler plugin) or via the runtime injector.
 
@@ -285,7 +285,7 @@ This pattern inlines critical CSS for the fastest possible first paint, while de
 
 ## How it works
 
-The SSR flow for typewritingclass:
+The SSR flow for Typewriting Class:
 
 1. During server rendering, `cx()` and `dcx()` calls execute synchronously and register style rules in an in-memory registry.
 2. `getStyleSheet()` reads the registry and returns all registered CSS as a string.

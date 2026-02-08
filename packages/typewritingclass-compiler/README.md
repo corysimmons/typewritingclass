@@ -1,6 +1,6 @@
 # typewritingclass-compiler
 
-Rust-powered compiler and Vite plugin for typewritingclass. Statically analyzes TypeScript source files, extracts CSS at build time, and replaces utility calls with generated class names — producing zero-runtime CSS output.
+Rust-powered compiler and Vite plugin for Typewriting Class. Statically analyzes TypeScript source files, extracts CSS at build time, and replaces utility calls with generated class names — producing zero-runtime CSS output.
 
 ## Installation
 

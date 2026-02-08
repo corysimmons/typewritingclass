@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-`cx()` is the core composition function in typewritingclass. It takes any number of `StyleRule` objects (returned by [utility functions](/core-concepts/utilities)) and plain string class names, registers each rule in the global stylesheet, and returns a single space-separated class string ready for any framework's `className` or `class` attribute.
+`cx()` is the core composition function in Typewriting Class. It takes any number of `StyleRule` objects (returned by [utility functions](/core-concepts/utilities)) and plain string class names, registers each rule in the global stylesheet, and returns a single space-separated class string ready for any framework's `className` or `class` attribute.
 
 ## Basic usage
 
@@ -28,7 +28,7 @@ The generated CSS looks like:
 @layer l2 { ._g5h6i { border-radius: 0.5rem; } }
 ```
 
-Each rule is wrapped in its own `@layer`, numbered in the order they appear. This is the key to typewritingclass's override system.
+Each rule is wrapped in its own `@layer`, numbered in the order they appear. This is the key to Typewriting Class's override system.
 
 ---
 

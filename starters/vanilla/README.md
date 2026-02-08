@@ -1,6 +1,6 @@
-# typewritingclass Vanilla Starter
+# Typewriting Class Vanilla Starter
 
-Minimal vanilla TypeScript + typewritingclass project template. No framework — just the DOM and typewritingclass.
+Minimal vanilla TypeScript + Typewriting Class project template. No framework — just the DOM and Typewriting Class.
 
 ## Quick start
 

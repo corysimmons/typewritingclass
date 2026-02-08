@@ -1,6 +1,6 @@
 # typewritingclass-babel
 
-Babel plugin for typewritingclass static CSS extraction. Use this for Babel-based build systems where the Vite plugin isn't applicable.
+Babel plugin for Typewriting Class static CSS extraction. Use this for Babel-based build systems where the Vite plugin isn't applicable.
 
 ## Installation
 

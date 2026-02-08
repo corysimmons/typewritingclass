@@ -1,6 +1,6 @@
 # demo-react
 
-Interactive React demo showcasing typewritingclass features with React 19.
+Interactive React demo showcasing Typewriting Class features with React 19.
 
 ## Development
 

@@ -302,7 +302,7 @@ export function App() {
       p(8), flex(), flexCol(), gap(10),
     )}>
       <h1 className={cx(text(_2xl), font(bold), textColor('#0f172a'))}>
-        typewritingclass — React Demo
+        Typewriting Class — React Demo
       </h1>
       <p className={cx(text(base), textColor('#64748b'))}>
         Phase 3: Filters, transforms, transitions, gradients + all Phase 2 features

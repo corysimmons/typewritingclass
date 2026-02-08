@@ -1,11 +1,11 @@
 ---
 title: Editor Setup
-description: Configure your editor for the best typewritingclass experience.
+description: Configure your editor for the best Typewriting Class experience.
 sidebar:
   order: 3
 ---
 
-Because typewritingclass is plain TypeScript, you already get autocomplete, go-to-definition, and type checking out of the box in any editor with TypeScript support. This guide covers the optional VS Code extension that adds CSS hover previews, along with recommended project settings for the smoothest experience.
+Because Typewriting Class is plain TypeScript, you already get autocomplete, go-to-definition, and type checking out of the box in any editor with TypeScript support. This guide covers the optional VS Code extension that adds CSS hover previews, along with recommended project settings for the smoothest experience.
 
 ## VS Code extension: typewritingclass-devtools
 
@@ -90,7 +90,7 @@ You can toggle this in your workspace or user settings:
 
 ## TypeScript configuration
 
-typewritingclass requires no special TypeScript configuration. All utilities, modifiers, and theme tokens are fully typed with standard TypeScript, so autocompletion and type checking work out of the box.
+Typewriting Class requires no special TypeScript configuration. All utilities, modifiers, and theme tokens are fully typed with standard TypeScript, so autocompletion and type checking work out of the box.
 
 That said, the following `tsconfig.json` settings are recommended for the best experience:
 
@@ -152,7 +152,7 @@ const card = cx(p(6), bg(white), rounded(lgRadius), shadow(lg))
 
 ## ESLint
 
-typewritingclass does not require a dedicated ESLint plugin. Since every utility is a regular TypeScript function, standard ESLint rules and TypeScript-aware linting (via `@typescript-eslint`) already cover all common cases:
+Typewriting Class does not require a dedicated ESLint plugin. Since every utility is a regular TypeScript function, standard ESLint rules and TypeScript-aware linting (via `@typescript-eslint`) already cover all common cases:
 
 - **Unused imports** -- `@typescript-eslint/no-unused-vars` catches unused utility or token imports.
 - **Missing imports** -- your editor's auto-import feature handles adding `import { p, bg } from 'typewritingclass'` as you type.
@@ -162,7 +162,7 @@ No additional lint rules, plugins, or configuration are needed.
 
 ### Optional: enforce import ordering
 
-If you want to keep your typewritingclass imports visually organized, you can configure ESLint's `import/order` rule (from `eslint-plugin-import`) to group them:
+If you want to keep your Typewriting Class imports visually organized, you can configure ESLint's `import/order` rule (from `eslint-plugin-import`) to group them:
 
 ```json
 {
@@ -187,7 +187,7 @@ If you want to keep your typewritingclass imports visually organized, you can co
 }
 ```
 
-This keeps typewritingclass imports grouped together and separated from other dependencies:
+This keeps Typewriting Class imports grouped together and separated from other dependencies:
 
 ```ts
 import React from 'react'
@@ -200,11 +200,11 @@ import { Card } from './Card'
 
 ## Prettier
 
-No Prettier configuration is needed. typewritingclass code is standard TypeScript, so Prettier formats it correctly with its default settings.
+No Prettier configuration is needed. Typewriting Class code is standard TypeScript, so Prettier formats it correctly with its default settings.
 
 ## Other editors
 
-typewritingclass works in any editor with TypeScript language server support. The hover preview extension is currently only available for VS Code, but the core developer experience -- autocomplete, type checking, go-to-definition, and inline documentation -- works everywhere the TypeScript language server runs:
+Typewriting Class works in any editor with TypeScript language server support. The hover preview extension is currently only available for VS Code, but the core developer experience -- autocomplete, type checking, go-to-definition, and inline documentation -- works everywhere the TypeScript language server runs:
 
 - **Neovim** (via `nvim-lspconfig` with `ts_ls` or `typescript-language-server`)
 - **WebStorm / IntelliJ** (built-in TypeScript support)
@@ -216,7 +216,7 @@ Since every utility, modifier, and theme token has JSDoc annotations, you get ri
 
 ## Next steps
 
-Your editor is now set up for a productive typewritingclass workflow. Continue exploring:
+Your editor is now set up for a productive Typewriting Class workflow. Continue exploring:
 
 - [Utility Functions](/core-concepts/utilities) -- the full list of available utilities
 - [Composing with cx()](/core-concepts/cx) -- advanced composition patterns

@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-typewritingclass ships with a comprehensive set of default design tokens available through subpath imports. These tokens are plain TypeScript constants -- fully tree-shakeable, type-safe, and ready to pass directly into utility functions.
+Typewriting Class ships with a comprehensive set of default design tokens available through subpath imports. These tokens are plain TypeScript constants -- fully tree-shakeable, type-safe, and ready to pass directly into utility functions.
 
 ## Import pattern
 

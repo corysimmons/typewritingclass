@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-This page lists every default token value shipped with typewritingclass. All tokens are available as named exports from their respective subpath imports.
+This page lists every default token value shipped with Typewriting Class. All tokens are available as named exports from their respective subpath imports.
 
 ## Colors
 

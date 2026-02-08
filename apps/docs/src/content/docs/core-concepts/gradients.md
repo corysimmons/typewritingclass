@@ -5,7 +5,7 @@ sidebar:
   order: 10
 ---
 
-typewritingclass provides a gradient system using CSS custom properties, matching Tailwind's `bg-gradient-to-*` + `from-*` + `via-*` + `to-*` pattern.
+Typewriting Class provides a gradient system using CSS custom properties, matching Tailwind's `bg-gradient-to-*` + `from-*` + `via-*` + `to-*` pattern.
 
 ## Basic gradient
 
@@ -73,7 +73,7 @@ const gradientButton = cx(
 
 ## Background utilities
 
-Beyond gradients, typewritingclass covers all background properties:
+Beyond gradients, Typewriting Class covers all background properties:
 
 ```ts
 import { cx, bgAttachment, bgClip, bgOrigin, bgPosition, bgRepeat, bgSize, bgImage } from 'typewritingclass'

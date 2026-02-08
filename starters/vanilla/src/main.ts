@@ -24,7 +24,7 @@ app.className = cx(
 // Heading
 const heading = document.createElement('h1')
 heading.className = cx(text(lg), font(bold), textColor(slate[900]))
-heading.textContent = 'typewritingclass + Vanilla TS'
+heading.textContent = 'Typewriting Class + Vanilla TS'
 app.appendChild(heading)
 
 // Card with hover effect
@@ -52,7 +52,7 @@ badge.className = cx(
   rounded(lgRadius),
   font(bold),
 )
-badge.textContent = 'Styled with typewritingclass'
+badge.textContent = 'Styled with Typewriting Class'
 card.appendChild(badge)
 
 app.appendChild(card)

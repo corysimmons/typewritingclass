@@ -1,26 +1,26 @@
 ---
 title: "Plugin Concepts"
-description: "The two function signatures that power the entire typewritingclass ecosystem."
+description: "The two function signatures that power the entire Typewriting Class ecosystem."
 sidebar:
   order: 1
 ---
 
-typewritingclass has no plugin registry, no configuration file, and no provider component. The entire system is built on two function signatures: **Utilities** and **Modifiers**. Every built-in function -- `p()`, `bg()`, `hover`, `md`, `dark` -- follows exactly the same pattern that your custom functions will follow.
+Typewriting Class has no plugin registry, no configuration file, and no provider component. The entire system is built on two function signatures: **Utilities** and **Modifiers**. Every built-in function -- `p()`, `bg()`, `hover`, `md`, `dark` -- follows exactly the same pattern that your custom functions will follow.
 
 ## Philosophy
 
-Traditional CSS frameworks have a concept of "plugins" that register themselves with a central configuration object. You modify a config file, restart your build, and hope the types align. typewritingclass takes a different approach:
+Traditional CSS frameworks have a concept of "plugins" that register themselves with a central configuration object. You modify a config file, restart your build, and hope the types align. Typewriting Class takes a different approach:
 
 - **No registration.** A utility is just a function that returns a `StyleRule`. Import it and use it.
 - **No configuration.** There is no central config file. Functions accept their values directly.
 - **No providers or context.** The system is plain functions in, class names out.
 - **Type safety for free.** Since utilities are TypeScript functions, you get autocompletion, type checking, and refactoring support from your editor.
 
-This means extending typewritingclass is the same as writing any TypeScript module: export functions from a file, import them where you need them.
+This means extending Typewriting Class is the same as writing any TypeScript module: export functions from a file, import them where you need them.
 
 ## The two signatures
 
-Everything in the typewritingclass ecosystem fits one of two shapes:
+Everything in the Typewriting Class ecosystem fits one of two shapes:
 
 ### Utility: `(value) => StyleRule`
 
@@ -142,7 +142,7 @@ Your custom utilities and modifiers are first-class citizens. They have the same
 
 ## The building blocks
 
-typewritingclass provides four low-level functions for constructing `StyleRule` objects:
+Typewriting Class provides four low-level functions for constructing `StyleRule` objects:
 
 | Function | Purpose |
 |---|---|

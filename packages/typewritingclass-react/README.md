@@ -1,6 +1,6 @@
 # typewritingclass-react
 
-React integration for typewritingclass. Provides the `useStyle` hook for composing styles in React components, with memoized output and support for dynamic values.
+React integration for Typewriting Class. Provides the `useStyle` hook for composing styles in React components, with memoized output and support for dynamic values.
 
 ## Installation
 

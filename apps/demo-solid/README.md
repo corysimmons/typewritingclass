@@ -1,6 +1,6 @@
 # demo-solid
 
-Solid.js demo showcasing typewritingclass usage with the Solid reactive framework.
+Solid.js demo showcasing Typewriting Class usage with the Solid reactive framework.
 
 ## Development
 

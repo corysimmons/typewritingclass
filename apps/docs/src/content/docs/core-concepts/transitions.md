@@ -5,7 +5,7 @@ sidebar:
   order: 9
 ---
 
-typewritingclass provides utilities for CSS transitions and animations, making it easy to add smooth interactive effects.
+Typewriting Class provides utilities for CSS transitions and animations, making it easy to add smooth interactive effects.
 
 ## Transition presets
 

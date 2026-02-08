@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-typewritingclass ships with utility functions for the most common CSS properties -- `p()`, `bg()`, `rounded()`, `flex()`, and many more. But CSS has hundreds of properties, and you will inevitably need one that doesn't have a built-in utility. The `css()` function is the escape hatch: it lets you write raw CSS declarations and get back a `StyleRule` that composes with everything else in the system.
+Typewriting Class ships with utility functions for the most common CSS properties -- `p()`, `bg()`, `rounded()`, `flex()`, and many more. But CSS has hundreds of properties, and you will inevitably need one that doesn't have a built-in utility. The `css()` function is the escape hatch: it lets you write raw CSS declarations and get back a `StyleRule` that composes with everything else in the system.
 
 ## Two forms
 

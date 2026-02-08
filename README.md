@@ -1,8 +1,8 @@
-# typewritingclass
+# Typewriting Class
 
 **CSS-in-TS. Composable. Compiled. Correct.**
 
-typewritingclass is a CSS-in-TypeScript framework where utilities are functions, not string conventions. Only two functions to learn: `cx()` to compose and `when()` to modify. Static by default — the compiler extracts CSS at build time. Dynamic when needed — CSS custom properties as an escape hatch.
+Typewriting Class is a CSS-in-TypeScript framework where utilities are functions, not string conventions. Only two functions to learn: `cx()` to compose and `when()` to modify. Static by default — the compiler extracts CSS at build time. Dynamic when needed — CSS custom properties as an escape hatch.
 
 ```ts
 import { cx, p, bg, textColor, rounded, when } from 'typewritingclass'
@@ -93,9 +93,9 @@ Minimal project templates to get started quickly:
 
 | Starter | Description |
 |---|---|
-| [`starters/react`](starters/react) | React + Vite + typewritingclass |
-| [`starters/solid`](starters/solid) | Solid.js + Vite + typewritingclass |
-| [`starters/vanilla`](starters/vanilla) | Vanilla TypeScript + Vite + typewritingclass |
+| [`starters/react`](starters/react) | React + Vite + Typewriting Class |
+| [`starters/solid`](starters/solid) | Solid.js + Vite + Typewriting Class |
+| [`starters/vanilla`](starters/vanilla) | Vanilla TypeScript + Vite + Typewriting Class |
 
 ## Core Concepts
 

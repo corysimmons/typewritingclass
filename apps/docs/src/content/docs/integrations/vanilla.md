@@ -1,11 +1,11 @@
 ---
 title: Vanilla JS
-description: Use typewritingclass without a framework.
+description: Use Typewriting Class without a framework.
 sidebar:
   order: 3
 ---
 
-typewritingclass works without any framework. The core `cx()` function returns a plain class name string that you can assign to any DOM element's `className` property. For dynamic values, `dcx()` returns both a class string and an inline style object.
+Typewriting Class works without any framework. The core `cx()` function returns a plain class name string that you can assign to any DOM element's `className` property. For dynamic values, `dcx()` returns both a class string and an inline style object.
 
 ## Installation
 
@@ -126,7 +126,7 @@ document.body.appendChild(createCard('Card two'))
 
 ## Mixing with existing classes
 
-`cx()` accepts plain strings alongside `StyleRule` objects, so you can mix typewritingclass styles with existing CSS classes:
+`cx()` accepts plain strings alongside `StyleRule` objects, so you can mix Typewriting Class styles with existing CSS classes:
 
 ```ts
 import { cx, p, bg } from 'typewritingclass'

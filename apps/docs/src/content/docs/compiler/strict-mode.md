@@ -9,7 +9,7 @@ Strict mode is a compiler feature that ensures all `cx()` arguments can be stati
 
 ## Why strict mode exists
 
-The core value proposition of typewritingclass is that styles are extracted at build time into static CSS -- zero runtime, no style injection, no FOUC. But if a `cx()` argument contains a variable that the compiler cannot evaluate, it must either:
+The core value proposition of Typewriting Class is that styles are extracted at build time into static CSS -- zero runtime, no style injection, no FOUC. But if a `cx()` argument contains a variable that the compiler cannot evaluate, it must either:
 
 1. **Error** and tell you to fix the code, or
 2. **Silently skip** the argument and leave it as a runtime call.

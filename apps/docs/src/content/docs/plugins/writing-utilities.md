@@ -172,7 +172,7 @@ export function square(size: string | DynamicValue): StyleRule {
 
 ## Accepting theme tokens
 
-typewritingclass theme tokens are branded strings. You can accept them in your utilities for type-safe theme integration:
+Typewriting Class theme tokens are branded strings. You can accept them in your utilities for type-safe theme integration:
 
 ```ts
 import type { StyleRule, CSSColor } from 'typewritingclass'
@@ -389,7 +389,7 @@ const card = cx(
 )
 ```
 
-The consumer does not need to register anything. They import the functions and pass them to `cx()`. The typewritingclass compiler handles the rest.
+The consumer does not need to register anything. They import the functions and pass them to `cx()`. The Typewriting Class compiler handles the rest.
 
 ## Complete example: a gradient utility
 

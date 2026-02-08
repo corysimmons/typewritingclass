@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-The core API consists of a small set of composable functions that form the foundation of typewritingclass. Every utility and modifier plugs into these functions.
+The core API consists of a small set of composable functions that form the foundation of Typewriting Class. Every utility and modifier plugs into these functions.
 
 ## cx()
 
@@ -682,7 +682,7 @@ const css = generateCSS()
 
 ### StyleRule
 
-The fundamental unit of the typewritingclass system. Every utility returns a `StyleRule`, and composing functions like `cx()` and `dcx()` consume them.
+The fundamental unit of the Typewriting Class system. Every utility returns a `StyleRule`, and composing functions like `cx()` and `dcx()` consume them.
 
 ```ts
 interface StyleRule {

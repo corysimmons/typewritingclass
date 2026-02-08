@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-typewritingclass provides a complete theming system that lets you define custom design tokens as CSS custom properties with full type safety. Themes are created at build time, injected at runtime, and switched instantly via a `data-theme` attribute on the document root.
+Typewriting Class provides a complete theming system that lets you define custom design tokens as CSS custom properties with full type safety. Themes are created at build time, injected at runtime, and switched instantly via a `data-theme` attribute on the document root.
 
 ## Overview
 

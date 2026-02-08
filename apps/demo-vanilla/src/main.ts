@@ -105,7 +105,7 @@ title.className = cx(
   relative(),
   when(dark)(textColor(white)),
 )
-title.textContent = 'typewritingclass'
+title.textContent = 'Typewriting Class'
 hero.appendChild(title)
 
 // Subtitle
@@ -687,5 +687,5 @@ footer.className = cx(
   textColor(slate[400]),
   when(dark)(textColor(slate[600])),
 )
-footer.textContent = 'typewritingclass — css-in-typescript'
+footer.textContent = 'Typewriting Class — css-in-typescript'
 app.appendChild(footer)

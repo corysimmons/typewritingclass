@@ -1,11 +1,11 @@
 ---
 title: Vite Plugin
-description: Configure the typewritingclass Vite plugin for static CSS extraction.
+description: Configure the Typewriting Class Vite plugin for static CSS extraction.
 sidebar:
   order: 1
 ---
 
-The Vite plugin is the recommended way to use typewritingclass. It statically analyzes your TypeScript/JavaScript source files at build time, extracts all `cx()` calls into optimized CSS, and serves the result through a virtual CSS module. In development, it provides full HMR support so styles update instantly as you edit.
+The Vite plugin is the recommended way to use Typewriting Class. It statically analyzes your TypeScript/JavaScript source files at build time, extracts all `cx()` calls into optimized CSS, and serves the result through a virtual CSS module. In development, it provides full HMR support so styles update instantly as you edit.
 
 ## Installation
 
@@ -211,7 +211,7 @@ Common diagnostics include:
 | Diagnostic | Severity | Cause |
 |---|---|---|
 | `Cannot statically evaluate argument` | Error (strict mode) | A `cx()` argument is a variable or expression that the compiler cannot resolve at build time. Wrap it in `dynamic()` or disable strict mode. |
-| `Unknown utility function` | Warning | A function call inside `cx()` is not a recognized typewritingclass utility. |
+| `Unknown utility function` | Warning | A function call inside `cx()` is not a recognized Typewriting Class utility. |
 | `Property conflict detected` | Warning | Multiple arguments in the same `cx()` call set the same CSS property. |
 
 ## Fallback behavior

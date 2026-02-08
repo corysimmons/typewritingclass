@@ -19,7 +19,7 @@ A modifier does not modify the CSS declarations. It copies the rule and appends 
 
 ## Building blocks
 
-typewritingclass provides two internal functions for constructing modifiers:
+Typewriting Class provides two internal functions for constructing modifiers:
 
 - **`wrapWithSelector(rule, selector)`** -- appends a CSS selector string (e.g., `':hover'`, `'::before'`) to the rule's `selectors` array.
 - **`wrapWithMediaQuery(rule, query)`** -- appends a media query string (e.g., `'(min-width: 768px)'`) to the rule's `mediaQueries` array.

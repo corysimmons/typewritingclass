@@ -1,6 +1,6 @@
 ---
 title: Quick Start
-description: Build your first component with typewritingclass in 5 minutes.
+description: Build your first component with Typewriting Class in 5 minutes.
 sidebar:
   order: 2
 ---
@@ -22,7 +22,7 @@ A card component with:
 
 ## Step 1: Basic utilities
 
-Every style property in typewritingclass is a TypeScript function. Call the function with a value, and it returns a `StyleRule` -- a lightweight object that describes one CSS declaration.
+Every style property in Typewriting Class is a TypeScript function. Call the function with a value, and it returns a `StyleRule` -- a lightweight object that describes one CSS declaration.
 
 ```ts
 import { p, bg, rounded, shadow } from 'typewritingclass'
@@ -76,7 +76,7 @@ function Card({ children }: { children: React.ReactNode }) {
 
 ### Override ordering
 
-When two rules in the same `cx()` call set the same CSS property, the **later** one wins. typewritingclass uses CSS cascade layers internally, so argument order is your specificity:
+When two rules in the same `cx()` call set the same CSS property, the **later** one wins. Typewriting Class uses CSS cascade layers internally, so argument order is your specificity:
 
 ```ts
 const box = cx(p(4), p(8))
@@ -156,7 +156,7 @@ This applies `bg(blue[700])` only on hover AND only at the `md` breakpoint or wi
 
 ## Step 5: Add theme tokens
 
-typewritingclass ships with a complete set of design tokens for colors, typography, spacing, shadows, and borders. Import them from the `typewritingclass/theme/*` modules:
+Typewriting Class ships with a complete set of design tokens for colors, typography, spacing, shadows, and borders. Import them from the `typewritingclass/theme/*` modules:
 
 ```ts
 import { white, slate, blue } from 'typewritingclass/theme/colors'

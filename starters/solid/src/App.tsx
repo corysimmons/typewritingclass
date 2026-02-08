@@ -19,7 +19,7 @@ export function App() {
       minH('100vh'),
     )}>
       <h1 class={cx(text(lg), font(bold), textColor(slate[900]))}>
-        typewritingclass + Solid
+        Typewriting Class + Solid
       </h1>
 
       <div class={cx(
@@ -41,7 +41,7 @@ export function App() {
           rounded(lgRadius),
           font(bold),
         )}>
-          Styled with typewritingclass
+          Styled with Typewriting Class
         </span>
       </div>
 

@@ -1,6 +1,6 @@
 # typewritingclass-devtools
 
-VS Code extension that provides inline CSS preview for typewritingclass utility calls.
+VS Code extension that provides inline CSS preview for Typewriting Class utility calls.
 
 ## Features
 

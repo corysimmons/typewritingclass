@@ -1,6 +1,6 @@
-# typewritingclass
+# Typewriting Class
 
-Core library for the typewritingclass CSS-in-TS framework. Provides utility functions, modifiers, theme tokens, and the composition API.
+Core library for the Typewriting Class CSS-in-TS framework. Provides utility functions, modifiers, theme tokens, and the composition API.
 
 ## Installation
 

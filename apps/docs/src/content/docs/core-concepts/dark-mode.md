@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-typewritingclass supports dark mode through the `dark` modifier, which wraps styles in a `@media (prefers-color-scheme: dark)` query. For manual theme switching, the library also provides `createTheme()` and `setTheme()` with a `data-theme` attribute approach.
+Typewriting Class supports dark mode through the `dark` modifier, which wraps styles in a `@media (prefers-color-scheme: dark)` query. For manual theme switching, the library also provides `createTheme()` and `setTheme()` with a `data-theme` attribute approach.
 
 ## System-based dark mode
 

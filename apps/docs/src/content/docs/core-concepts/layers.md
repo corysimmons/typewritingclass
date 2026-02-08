@@ -1,11 +1,11 @@
 ---
 title: Layer Ordering
-description: "How typewritingclass uses CSS @layer for deterministic specificity."
+description: "How Typewriting Class uses CSS @layer for deterministic specificity."
 sidebar:
   order: 6
 ---
 
-CSS specificity is one of the most common sources of frustration when building UIs. typewritingclass eliminates the problem entirely by using **CSS `@layer`** to give every style rule a deterministic, predictable priority. Later arguments in `cx()` always override earlier ones -- no `!important`, no specificity wars, no source-order surprises.
+CSS specificity is one of the most common sources of frustration when building UIs. Typewriting Class eliminates the problem entirely by using **CSS `@layer`** to give every style rule a deterministic, predictable priority. Later arguments in `cx()` always override earlier ones -- no `!important`, no specificity wars, no source-order surprises.
 
 ## The problem
 
@@ -28,7 +28,7 @@ The answer depends on selector weight, file import order, bundler output order, 
 
 ## The solution: @layer
 
-typewritingclass wraps every generated rule in a numbered CSS `@layer`. Each rule in a `cx()` call gets an auto-incremented layer number. Higher layer numbers have higher priority, regardless of selector specificity:
+Typewriting Class wraps every generated rule in a numbered CSS `@layer`. Each rule in a `cx()` call gets an auto-incremented layer number. Higher layer numbers have higher priority, regardless of selector specificity:
 
 ```ts
 import { cx, p, bg } from 'typewritingclass'
@@ -53,7 +53,7 @@ The CSS cascade evaluates `@layer` priority **before** selector specificity. Thi
 
 1. A rule in `@layer l2` always beats a rule in `@layer l1`, even if the `l1` rule has a more specific selector.
 2. Within the same layer, normal specificity and source order rules apply.
-3. Rules outside any `@layer` beat all layered rules (but typewritingclass puts everything in layers).
+3. Rules outside any `@layer` beat all layered rules (but Typewriting Class puts everything in layers).
 
 This gives you complete control: position in the `cx()` argument list is your specificity.
 
@@ -247,7 +247,7 @@ Layer 7    ──  when(dark)(bg(slate[900]))
 Layer 1000 ──  Critical overrides (via layer(1000))
 ```
 
-Each layer is a CSS `@layer` declaration. The cascade resolves conflicts by preferring higher-numbered layers. Within the same layer, standard CSS specificity and source order apply (but since typewritingclass generates one class per rule, ties within a layer are rare).
+Each layer is a CSS `@layer` declaration. The cascade resolves conflicts by preferring higher-numbered layers. Within the same layer, standard CSS specificity and source order apply (but since Typewriting Class generates one class per rule, ties within a layer are rare).
 
 ---
 
@@ -255,7 +255,7 @@ Each layer is a CSS `@layer` declaration. The cascade resolves conflicts by pref
 
 Tailwind CSS uses a different approach to specificity:
 
-| Aspect | Tailwind | typewritingclass |
+| Aspect | Tailwind | Typewriting Class |
 |--------|----------|------------------|
 | Override mechanism | Source order in generated CSS | CSS `@layer` numbers |
 | Composability | Last class in `class=""` string wins (if same specificity) | Last argument in `cx()` wins (guaranteed by layer) |
@@ -263,7 +263,7 @@ Tailwind CSS uses a different approach to specificity:
 | Predictability | Depends on stylesheet generation order | Deterministic -- layer number is based on declaration order |
 | Conflicts | Can be surprising when classes from different components interact | Always resolved by argument position in `cx()` |
 
-The key difference is **determinism**. In Tailwind, if two utility classes set the same property, the winner depends on which one appears later in the generated stylesheet -- which can change based on component import order, purge configuration, and bundler behavior. In typewritingclass, the winner is always the one that appears later in the `cx()` call, because it gets a higher `@layer` number.
+The key difference is **determinism**. In Tailwind, if two utility classes set the same property, the winner depends on which one appears later in the generated stylesheet -- which can change based on component import order, purge configuration, and bundler behavior. In Typewriting Class, the winner is always the one that appears later in the `cx()` call, because it gets a higher `@layer` number.
 
 ---
 

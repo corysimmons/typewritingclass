@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-typewritingclass uses a **mobile-first** approach to responsive design. Base styles apply at all screen sizes, and breakpoint modifiers layer on adjustments for progressively larger viewports. There are no special APIs to learn -- just `when()` with a breakpoint modifier.
+Typewriting Class uses a **mobile-first** approach to responsive design. Base styles apply at all screen sizes, and breakpoint modifiers layer on adjustments for progressively larger viewports. There are no special APIs to learn -- just `when()` with a breakpoint modifier.
 
 ## Mobile-first approach
 

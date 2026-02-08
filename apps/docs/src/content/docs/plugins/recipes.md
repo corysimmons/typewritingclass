@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-Utilities and modifiers are the atoms of typewritingclass. **Recipes** and **composites** are molecules -- higher-level functions that combine multiple utilities into reusable design patterns. A card, a button, a form input, a navigation bar: these are all recipes.
+Utilities and modifiers are the atoms of Typewriting Class. **Recipes** and **composites** are molecules -- higher-level functions that combine multiple utilities into reusable design patterns. A card, a button, a form input, a navigation bar: these are all recipes.
 
 ## What is a recipe?
 

@@ -5,7 +5,7 @@ sidebar:
   order: 11
 ---
 
-typewritingclass includes utilities and modifiers for building accessible interfaces.
+Typewriting Class includes utilities and modifiers for building accessible interfaces.
 
 ## Screen reader utilities
 

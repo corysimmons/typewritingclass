@@ -1,6 +1,6 @@
 # Tailwind CSS Parity Checklist
 
-Audit of every Tailwind CSS v3 utility category against typewritingclass coverage.
+Audit of every Tailwind CSS v3 utility category against Typewriting Class coverage.
 
 - [x] = Covered
 - [ ] = Not covered

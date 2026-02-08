@@ -1,6 +1,6 @@
 ---
 title: Babel Plugin
-description: Use typewritingclass with Babel.
+description: Use Typewriting Class with Babel.
 sidebar:
   order: 3
 ---
@@ -236,7 +236,7 @@ If you use `@babel/preset-typescript` to strip types:
 }
 ```
 
-The typewritingclass Babel plugin processes the file before Babel strips TypeScript syntax, so it can analyze the full TypeScript source.
+The Typewriting Class Babel plugin processes the file before Babel strips TypeScript syntax, so it can analyze the full TypeScript source.
 
 ## Comparison with Vite and esbuild plugins
 

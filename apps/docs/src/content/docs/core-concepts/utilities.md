@@ -1,11 +1,11 @@
 ---
 title: Utility Functions
-description: "How typewritingclass utilities work — functions in, CSS out."
+description: "How Typewriting Class utilities work — functions in, CSS out."
 sidebar:
   order: 1
 ---
 
-In typewritingclass, every CSS property is controlled by a **utility function**. A utility takes a value and returns a `StyleRule` object -- a plain data structure describing a CSS declaration. There are no magic strings, no class-name conventions, and no hidden side effects. Call a function, get a rule.
+In Typewriting Class, every CSS property is controlled by a **utility function**. A utility takes a value and returns a `StyleRule` object -- a plain data structure describing a CSS declaration. There are no magic strings, no class-name conventions, and no hidden side effects. Call a function, get a rule.
 
 ## What is a utility?
 
@@ -58,7 +58,7 @@ const rules = [p(4), bg('#3b82f6')]
 
 ## Utility categories
 
-typewritingclass ships with utilities across seven categories. Each category covers a family of related CSS properties.
+Typewriting Class ships with utilities across seven categories. Each category covers a family of related CSS properties.
 
 ### Spacing
 

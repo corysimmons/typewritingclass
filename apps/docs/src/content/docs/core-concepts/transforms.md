@@ -5,7 +5,7 @@ sidebar:
   order: 8
 ---
 
-typewritingclass provides utilities for all CSS transform operations.
+Typewriting Class provides utilities for all CSS transform operations.
 
 ## Scale
 

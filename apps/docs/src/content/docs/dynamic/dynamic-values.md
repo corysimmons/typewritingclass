@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-Most typewritingclass styles are **static** -- the compiler extracts them at build time and emits a stylesheet with no runtime cost. But sometimes a value is only known at runtime: a user-selected color, a progress percentage, a drag offset. The `dynamic()` and `dcx()` pair lets you handle those cases while keeping the rest of your styles fully compiled.
+Most Typewriting Class styles are **static** -- the compiler extracts them at build time and emits a stylesheet with no runtime cost. But sometimes a value is only known at runtime: a user-selected color, a progress percentage, a drag offset. The `dynamic()` and `dcx()` pair lets you handle those cases while keeping the rest of your styles fully compiled.
 
 ## How it works
 
@@ -210,7 +210,7 @@ const props = useStyle(p(4), rounded('lg'), 'my-custom-class')
 
 ## Compiler handling
 
-The typewritingclass compiler statically analyzes `dynamic()` calls and the utilities that receive them. Here is what happens at build time:
+The Typewriting Class compiler statically analyzes `dynamic()` calls and the utilities that receive them. Here is what happens at build time:
 
 1. The compiler sees `bg(dynamic(color))` and recognizes that `dynamic(color)` produces a `DynamicValue`.
 2. Instead of resolving `color` to a static CSS value, it emits a rule with `var(--twc-dN)` in place of the value.

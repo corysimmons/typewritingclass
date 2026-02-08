@@ -20,7 +20,7 @@ export function App() {
       minH('100vh'),
     )}>
       <h1 className={cx(text(lg), font(bold), textColor(slate[900]))}>
-        typewritingclass + React
+        Typewriting Class + React
       </h1>
 
       <div className={cx(
@@ -42,7 +42,7 @@ export function App() {
           rounded(lgRadius),
           font(bold),
         )}>
-          Styled with typewritingclass
+          Styled with Typewriting Class
         </span>
       </div>
 

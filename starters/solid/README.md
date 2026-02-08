@@ -1,6 +1,6 @@
-# typewritingclass Solid Starter
+# Typewriting Class Solid Starter
 
-Minimal Solid.js + typewritingclass project template.
+Minimal Solid.js + Typewriting Class project template.
 
 ## Quick start
 

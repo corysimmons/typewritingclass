@@ -1,11 +1,11 @@
 ---
 title: React
-description: Use typewritingclass with React and Next.js.
+description: Use Typewriting Class with React and Next.js.
 sidebar:
   order: 1
 ---
 
-typewritingclass integrates with React through the optional `typewritingclass-react` package, which provides the `useStyle()` hook for memoized style composition and server utilities for SSR. The core `cx()` function also works directly since it returns a plain class name string.
+Typewriting Class integrates with React through the optional `typewritingclass-react` package, which provides the `useStyle()` hook for memoized style composition and server utilities for SSR. The core `cx()` function also works directly since it returns a plain class name string.
 
 ## Installation
 
@@ -176,7 +176,7 @@ Both functions are safe to call from any server environment -- they do not use D
 
 ## Next.js App Router
 
-typewritingclass works with the Next.js App Router and React Server Components. Here is a typical `layout.tsx` setup:
+Typewriting Class works with the Next.js App Router and React Server Components. Here is a typical `layout.tsx` setup:
 
 ```tsx
 // app/layout.tsx

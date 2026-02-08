@@ -1,10 +1,10 @@
 # visual-tests
 
-Playwright-based visual regression tests that ensure pixel-perfect correctness by comparing typewritingclass output against equivalent hand-written CSS.
+Playwright-based visual regression tests that ensure pixel-perfect correctness by comparing Typewriting Class output against equivalent hand-written CSS.
 
 ## How it works
 
-Each test creates paired pages — one styled with typewritingclass utilities, one with equivalent raw CSS — then screenshots both and diffs them. The screenshots must be pixel-identical (zero-threshold by default).
+Each test creates paired pages — one styled with Typewriting Class utilities, one with equivalent raw CSS — then screenshots both and diffs them. The screenshots must be pixel-identical (zero-threshold by default).
 
 ## Test coverage
 

@@ -1,6 +1,6 @@
-# typewritingclass React Starter
+# Typewriting Class React Starter
 
-Minimal React + typewritingclass project template.
+Minimal React + Typewriting Class project template.
 
 ## Quick start
 

@@ -1,6 +1,6 @@
 # docs
 
-Documentation site for typewritingclass, built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build).
+Documentation site for Typewriting Class, built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build).
 
 ## Development
 
