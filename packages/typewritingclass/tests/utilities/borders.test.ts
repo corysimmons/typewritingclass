@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { rounded, roundedT, roundedB, roundedL, roundedR, border, borderT, borderR, borderB, borderL, ring, roundedTL, roundedTR, roundedBR, roundedBL, borderX, borderY, borderS, borderE, borderStyle, outlineWidth, outlineColor, outlineStyle, outlineOffset, divideX, divideY, divideColor, divideStyle } from '../../src/utilities/borders.ts'
+import { rounded, roundedT, roundedB, roundedL, roundedR, border, borderT, borderR, borderB, borderL, ring, roundedTL, roundedTR, roundedBR, roundedBL, borderX, borderY, borderS, borderE, borderStyle, outlineWidth, outlineColor, outlineStyle, outlineOffset, outline, outlineNone, ringInset, divideX, divideY, divideColor, divideStyle, divideXReverse, divideYReverse } from '../../src/utilities/borders.ts'
 
 describe('border utilities', () => {
   it('rounded uses default radius', () => {
@@ -148,5 +148,44 @@ describe('border utilities', () => {
     const result = divideStyle('dashed')
     expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
     expect(result.declarations['border-style']).toBe('dashed')
+  })
+
+  it('outline sets outline shorthand properties', () => {
+    const result = outline('2px', 'dashed', 'blue')
+    expect(result.declarations).toEqual({
+      'outline-width': '2px',
+      'outline-style': 'dashed',
+      'outline-color': 'blue',
+    })
+  })
+
+  it('outline defaults to 1px solid', () => {
+    const result = outline()
+    expect(result.declarations['outline-width']).toBe('1px')
+    expect(result.declarations['outline-style']).toBe('solid')
+  })
+
+  it('outlineNone sets transparent outline', () => {
+    const result = outlineNone()
+    expect(result.declarations).toEqual({
+      outline: '2px solid transparent',
+      'outline-offset': '2px',
+    })
+  })
+
+  it('ringInset sets --twc-ring-inset', () => {
+    expect(ringInset().declarations).toEqual({ '--twc-ring-inset': 'inset' })
+  })
+
+  it('divideXReverse sets selectorTemplate and --twc-divide-x-reverse', () => {
+    const result = divideXReverse()
+    expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
+    expect(result.declarations['--twc-divide-x-reverse']).toBe('1')
+  })
+
+  it('divideYReverse sets selectorTemplate and --twc-divide-y-reverse', () => {
+    const result = divideYReverse()
+    expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
+    expect(result.declarations['--twc-divide-y-reverse']).toBe('1')
   })
 })

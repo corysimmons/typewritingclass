@@ -669,3 +669,13 @@ export function spaceY(value: number | string | DynamicValue): StyleRule {
   const rule = spacingRule('margin-top', value)
   return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
 }
+
+export function spaceXReverse(): StyleRule {
+  const rule = createRule({ '--twc-space-x-reverse': '1' })
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
+}
+
+export function spaceYReverse(): StyleRule {
+  const rule = createRule({ '--twc-space-y-reverse': '1' })
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
+}

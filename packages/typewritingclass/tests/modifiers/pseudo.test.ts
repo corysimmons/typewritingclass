@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { hover, focus, active, disabled, focusVisible, focusWithin, firstChild, lastChild, visited, checked, indeterminate, default_, required_, valid, invalid, inRange, outOfRange, placeholderShown, autofill, readOnly, empty, even, odd, firstOfType, lastOfType, onlyChild, onlyOfType, target, open_ } from '../../src/modifiers/pseudo.ts'
+import { hover, focus, active, disabled, focusVisible, focusWithin, firstChild, lastChild, visited, checked, indeterminate, default_, required_, valid, invalid, inRange, outOfRange, placeholderShown, autofill, readOnly, empty, even, odd, firstOfType, lastOfType, onlyChild, onlyOfType, target, open_, has_ } from '../../src/modifiers/pseudo.ts'
 import { createRule } from '../../src/rule.ts'
 
 describe('pseudo-class modifiers', () => {
@@ -127,5 +127,15 @@ describe('pseudo-class modifiers', () => {
 
   it('open_ adds [open] selector', () => {
     expect(open_(rule).selectors).toEqual(['[open]'])
+  })
+
+  it('has_ factory creates :has() selector', () => {
+    const modifier = has_('.child')
+    expect(modifier(rule).selectors).toEqual([':has(.child)'])
+  })
+
+  it('has_ preserves declarations', () => {
+    const modifier = has_('input:checked')
+    expect(modifier(rule).declarations).toEqual({ color: 'red' })
   })
 })

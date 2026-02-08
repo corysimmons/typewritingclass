@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { text, font, tracking, leading, textAlign, fontFamily, antialiased, subpixelAntialiased, italic, notItalic, normalNums, ordinal, slashedZero, liningNums, oldstyleNums, proportionalNums, tabularNums, diagonalFractions, stackedFractions, lineClamp, listStyleImage, listStylePosition, listStyleType, textDecoration, textDecorationColor, textDecorationStyle, textDecorationThickness, textUnderlineOffset, textTransform, textOverflow, textWrap, textIndent, verticalAlign, whitespace, wordBreak, hyphens, content_ } from '../../src/utilities/typography.ts'
+import { text, font, tracking, leading, textAlign, fontFamily, antialiased, subpixelAntialiased, italic, notItalic, normalNums, ordinal, slashedZero, liningNums, oldstyleNums, proportionalNums, tabularNums, diagonalFractions, stackedFractions, lineClamp, listStyleImage, listStylePosition, listStyleType, textDecoration, textDecorationColor, textDecorationStyle, textDecorationThickness, textUnderlineOffset, textTransform, textOverflow, textWrap, textIndent, verticalAlign, whitespace, wordBreak, hyphens, content_, truncate } from '../../src/utilities/typography.ts'
 
 describe('typography utilities', () => {
   it('text with TextSize token sets font-size and line-height', () => {
@@ -123,5 +123,13 @@ describe('typography utilities', () => {
 
   it('content_ sets content', () => {
     expect(content_('""').declarations).toEqual({ content: '""' })
+  })
+
+  it('truncate sets overflow, text-overflow, and white-space', () => {
+    expect(truncate().declarations).toEqual({
+      overflow: 'hidden',
+      'text-overflow': 'ellipsis',
+      'white-space': 'nowrap',
+    })
   })
 })

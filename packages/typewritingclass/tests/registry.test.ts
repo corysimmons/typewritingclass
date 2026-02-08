@@ -52,6 +52,14 @@ describe('registry', () => {
     expect(css).toContain('._mq')
   })
 
+  it('generateCSS renders @supports queries', () => {
+    const rule = { ...createRule({ display: 'grid' }), supportsQueries: ['(display: grid)'] }
+    register('_sq', rule, 0)
+    const css = generateCSS()
+    expect(css).toContain('@supports (display: grid)')
+    expect(css).toContain('._sq')
+  })
+
   it('returns empty string for empty registry', () => {
     expect(generateCSS()).toBe('')
   })

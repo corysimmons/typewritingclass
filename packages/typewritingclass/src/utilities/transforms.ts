@@ -75,3 +75,11 @@ export function transformOrigin(value: string | DynamicValue): StyleRule {
   }
   return createRule({ 'transform-origin': value })
 }
+
+export function transformGpu(): StyleRule {
+  return createRule({ transform: 'translate3d(0, 0, 0)' })
+}
+
+export function transformNone(): StyleRule {
+  return createRule({ transform: 'none' })
+}

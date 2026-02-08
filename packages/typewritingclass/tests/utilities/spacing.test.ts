@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { p, px, py, pt, pr, pb, pl, m, mx, my, mt, mr, mb, ml, gap, gapX, gapY, ps, pe, ms, me, spaceX, spaceY } from '../../src/utilities/spacing.ts'
+import { p, px, py, pt, pr, pb, pl, m, mx, my, mt, mr, mb, ml, gap, gapX, gapY, ps, pe, ms, me, spaceX, spaceY, spaceXReverse, spaceYReverse } from '../../src/utilities/spacing.ts'
 
 describe('spacing utilities', () => {
   it('p resolves numeric values from spacing scale', () => {
@@ -113,6 +113,18 @@ describe('spacing utilities', () => {
   it('spaceY sets margin-top with selectorTemplate', () => {
     const result = spaceY(2)
     expect(result.declarations).toEqual({ 'margin-top': '0.5rem' })
+    expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
+  })
+
+  it('spaceXReverse sets --twc-space-x-reverse with selectorTemplate', () => {
+    const result = spaceXReverse()
+    expect(result.declarations).toEqual({ '--twc-space-x-reverse': '1' })
+    expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
+  })
+
+  it('spaceYReverse sets --twc-space-y-reverse with selectorTemplate', () => {
+    const result = spaceYReverse()
+    expect(result.declarations).toEqual({ '--twc-space-y-reverse': '1' })
     expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
   })
 })

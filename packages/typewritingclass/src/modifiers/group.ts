@@ -13,3 +13,9 @@ export const groupFirst: Modifier = (rule: StyleRule) => wrapWithSelectorTemplat
 export const groupLast: Modifier = (rule: StyleRule) => wrapWithSelectorTemplate(rule, '.group:last-child &')
 export const groupOdd: Modifier = (rule: StyleRule) => wrapWithSelectorTemplate(rule, '.group:nth-child(odd) &')
 export const groupEven: Modifier = (rule: StyleRule) => wrapWithSelectorTemplate(rule, '.group:nth-child(even) &')
+export const groupOpen: Modifier = (rule: StyleRule) => wrapWithSelectorTemplate(rule, '.group[open] &')
+export const groupVisited: Modifier = (rule: StyleRule) => wrapWithSelectorTemplate(rule, '.group:visited &')
+
+export function groupHas(selector: string): Modifier {
+  return (rule: StyleRule) => wrapWithSelectorTemplate(rule, `.group:has(${selector}) &`)
+}

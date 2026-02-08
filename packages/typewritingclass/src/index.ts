@@ -27,13 +27,13 @@ export {
   m, mx, my, mt, mr, mb, ml,
   gap, gapX, gapY,
   ps, pe, ms, me,
-  spaceX, spaceY,
+  spaceX, spaceY, spaceXReverse, spaceYReverse,
   // Colors
   bg, textColor, borderColor,
   // Typography
   text, font, tracking, leading, textAlign,
   fontFamily, antialiased, subpixelAntialiased,
-  italic, notItalic,
+  italic, notItalic, truncate,
   normalNums, ordinal, slashedZero, liningNums, oldstyleNums,
   proportionalNums, tabularNums, diagonalFractions, stackedFractions,
   lineClamp, listStyleImage, listStylePosition, listStyleType,
@@ -67,9 +67,9 @@ export {
   roundedSS, roundedSE, roundedEE, roundedES,
   border, borderT, borderR, borderB, borderL,
   borderX, borderY, borderS, borderE, borderStyle,
-  ring, ringColor, ringOffsetWidth, ringOffsetColor,
-  outlineWidth, outlineColor, outlineStyle, outlineOffset,
-  divideX, divideY, divideColor, divideStyle,
+  ring, ringColor, ringOffsetWidth, ringOffsetColor, ringInset,
+  outlineWidth, outlineColor, outlineStyle, outlineOffset, outline, outlineNone,
+  divideX, divideY, divideColor, divideStyle, divideXReverse, divideYReverse,
   // Effects
   shadow, opacity, backdrop,
   shadowColor, mixBlendMode, bgBlendMode,
@@ -86,7 +86,7 @@ export {
   backdropBlur, backdropBrightness, backdropContrast, backdropGrayscale, backdropHueRotate,
   backdropInvert, backdropOpacity, backdropSaturate, backdropSepia,
   // Transforms
-  scale, scaleX, scaleY, rotate, translateX, translateY, skewX, skewY, transformOrigin,
+  scale, scaleX, scaleY, rotate, translateX, translateY, skewX, skewY, transformOrigin, transformGpu, transformNone,
   // Transitions
   transition, transitionAll, transitionColors, transitionOpacity, transitionShadow, transitionTransform, transitionNone,
   duration, ease, delay, animate,
@@ -108,6 +108,7 @@ export {
   visited, checked, indeterminate, default_, required_, valid, invalid,
   inRange, outOfRange, placeholderShown, autofill, readOnly, empty,
   even, odd, firstOfType, lastOfType, onlyChild, onlyOfType, target, open_,
+  has_,
   // Responsive
   sm, md, lg, xl, _2xl,
   maxSm, maxMd, maxLg, maxXl, max2xl,
@@ -121,12 +122,16 @@ export {
   ariaChecked, ariaDisabled, ariaExpanded, ariaHidden, ariaPressed, ariaReadonly, ariaRequired, ariaSelected, aria,
   // Data
   data,
+  // Supports
+  supports,
   // Group
   groupHover, groupFocus, groupActive, groupFocusVisible, groupFocusWithin,
   groupDisabled, groupChecked, groupEmpty, groupFirst, groupLast, groupOdd, groupEven,
+  groupOpen, groupVisited, groupHas,
   // Peer
   peerHover, peerFocus, peerActive, peerFocusVisible, peerDisabled,
   peerChecked, peerInvalid, peerRequired, peerPlaceholderShown,
+  peerFocusWithin, peerEmpty, peerFirst, peerLast, peerOdd, peerEven, peerOpen, peerVisited, peerHas,
   // Direction
   rtl, ltr,
 } from './modifiers/index.ts'

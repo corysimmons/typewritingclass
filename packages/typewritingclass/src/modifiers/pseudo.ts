@@ -177,3 +177,7 @@ export const onlyChild: Modifier = (rule: StyleRule) => wrapWithSelector(rule, '
 export const onlyOfType: Modifier = (rule: StyleRule) => wrapWithSelector(rule, ':only-of-type')
 export const target: Modifier = (rule: StyleRule) => wrapWithSelector(rule, ':target')
 export const open_: Modifier = (rule: StyleRule) => wrapWithSelector(rule, '[open]')
+
+export function has_(selector: string): Modifier {
+  return (rule: StyleRule) => wrapWithSelector(rule, `:has(${selector})`)
+}

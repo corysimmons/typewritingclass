@@ -24,6 +24,7 @@ export function createRule(declarations: Record<string, string>): StyleRule {
     declarations,
     selectors: [],
     mediaQueries: [],
+    supportsQueries: [],
   }
 }
 
@@ -60,6 +61,7 @@ export function createDynamicRule(
     declarations,
     selectors: [],
     mediaQueries: [],
+    supportsQueries: [],
     dynamicBindings,
   }
 }
@@ -88,6 +90,7 @@ export function combineRules(rules: StyleRule[]): StyleRule {
   const merged: Record<string, string> = {}
   const selectors: string[] = []
   const mediaQueries: string[] = []
+  const supportsQueries: string[] = []
   let dynamicBindings: Record<string, string> | undefined
   for (const rule of rules) {
     Object.assign(merged, rule.declarations)
@@ -97,12 +100,15 @@ export function combineRules(rules: StyleRule[]): StyleRule {
     for (const mq of rule.mediaQueries) {
       if (!mediaQueries.includes(mq)) mediaQueries.push(mq)
     }
+    for (const sq of rule.supportsQueries) {
+      if (!supportsQueries.includes(sq)) supportsQueries.push(sq)
+    }
     if (rule.dynamicBindings) {
       if (!dynamicBindings) dynamicBindings = {}
       Object.assign(dynamicBindings, rule.dynamicBindings)
     }
   }
-  const result: StyleRule = { _tag: 'StyleRule', declarations: merged, selectors, mediaQueries }
+  const result: StyleRule = { _tag: 'StyleRule', declarations: merged, selectors, mediaQueries, supportsQueries }
   if (dynamicBindings) result.dynamicBindings = dynamicBindings
   return result
 }
@@ -174,5 +180,23 @@ export function wrapWithSelectorTemplate(rule: StyleRule, template: string): Sty
   return {
     ...rule,
     selectorTemplate: template,
+  }
+}
+
+/**
+ * Returns a copy of the given rule wrapped in an additional CSS `@supports` query.
+ *
+ * When rendered, the rule's CSS block is nested inside a `@supports` at-rule.
+ * Multiple supports queries can be stacked by calling this function repeatedly.
+ *
+ * @internal
+ * @param rule - The source {@link StyleRule} to wrap.
+ * @param query - The supports query condition (e.g., `'(display: grid)'`).
+ * @returns A new {@link StyleRule} with the query added to its `supportsQueries` array.
+ */
+export function wrapWithSupportsQuery(rule: StyleRule, query: string): StyleRule {
+  return {
+    ...rule,
+    supportsQueries: [...rule.supportsQueries, query],
   }
 }

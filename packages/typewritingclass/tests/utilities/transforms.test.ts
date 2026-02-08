@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { scale, scaleX, scaleY, rotate, translateX, translateY, skewX, skewY, transformOrigin } from '../../src/utilities/transforms.ts'
+import { scale, scaleX, scaleY, rotate, translateX, translateY, skewX, skewY, transformOrigin, transformGpu, transformNone } from '../../src/utilities/transforms.ts'
 
 describe('transform utilities', () => {
   it('scale converts number to decimal', () => {
@@ -46,9 +46,19 @@ describe('transform utilities', () => {
     expect(transformOrigin('top left').declarations).toEqual({ 'transform-origin': 'top left' })
   })
 
+  it('transformGpu sets translate3d', () => {
+    expect(transformGpu().declarations).toEqual({ transform: 'translate3d(0, 0, 0)' })
+  })
+
+  it('transformNone sets transform none', () => {
+    expect(transformNone().declarations).toEqual({ transform: 'none' })
+  })
+
   it('all return valid StyleRules', () => {
     expect(scale(100)._tag).toBe('StyleRule')
     expect(rotate('0deg')._tag).toBe('StyleRule')
     expect(transformOrigin('center')._tag).toBe('StyleRule')
+    expect(transformGpu()._tag).toBe('StyleRule')
+    expect(transformNone()._tag).toBe('StyleRule')
   })
 })

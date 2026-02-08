@@ -168,6 +168,13 @@ export interface StyleRule {
    */
   dynamicBindings?: Record<string, string>
   /**
+   * `@supports` query strings that wrap the generated rule
+   * (e.g. `['(display: grid)']`).
+   *
+   * An empty array means no `@supports` wrapper is emitted.
+   */
+  supportsQueries: string[]
+  /**
    * Optional selector template that wraps the generated class name in a
    * more complex selector pattern. The `&` character is replaced with the
    * generated `.className` at render time.

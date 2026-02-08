@@ -108,6 +108,10 @@ function renderRule(className: string, rule: StyleRule): string {
 
   let css = `${selector} {\n${decls}\n}`
 
+  for (const sq of rule.supportsQueries) {
+    css = `@supports ${sq} {\n${css}\n}`
+  }
+
   for (const mq of rule.mediaQueries) {
     css = `@media ${mq} {\n${css}\n}`
   }

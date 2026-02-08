@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { groupHover, groupFocus, groupActive, groupFocusVisible, groupFocusWithin, groupDisabled, groupChecked, groupEmpty, groupFirst, groupLast, groupOdd, groupEven } from '../../src/modifiers/group.ts'
+import { groupHover, groupFocus, groupActive, groupFocusVisible, groupFocusWithin, groupDisabled, groupChecked, groupEmpty, groupFirst, groupLast, groupOdd, groupEven, groupOpen, groupVisited, groupHas } from '../../src/modifiers/group.ts'
 import { createRule } from '../../src/rule.ts'
 
 describe('group modifiers', () => {
@@ -51,6 +51,19 @@ describe('group modifiers', () => {
 
   it('groupEven sets selectorTemplate', () => {
     expect(groupEven(rule).selectorTemplate).toBe('.group:nth-child(even) &')
+  })
+
+  it('groupOpen sets selectorTemplate', () => {
+    expect(groupOpen(rule).selectorTemplate).toBe('.group[open] &')
+  })
+
+  it('groupVisited sets selectorTemplate', () => {
+    expect(groupVisited(rule).selectorTemplate).toBe('.group:visited &')
+  })
+
+  it('groupHas factory sets selectorTemplate', () => {
+    const modifier = groupHas('.child')
+    expect(modifier(rule).selectorTemplate).toBe('.group:has(.child) &')
   })
 
   it('preserves declarations', () => {

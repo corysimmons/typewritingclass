@@ -370,3 +370,11 @@ export function hyphens(value: string): StyleRule {
 export function content_(value: string): StyleRule {
   return createRule({ content: value })
 }
+
+export function truncate(): StyleRule {
+  return createRule({
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis',
+    'white-space': 'nowrap',
+  })
+}

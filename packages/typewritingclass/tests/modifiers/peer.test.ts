@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { peerHover, peerFocus, peerActive, peerFocusVisible, peerDisabled, peerChecked, peerInvalid, peerRequired, peerPlaceholderShown } from '../../src/modifiers/peer.ts'
+import { peerHover, peerFocus, peerActive, peerFocusVisible, peerDisabled, peerChecked, peerInvalid, peerRequired, peerPlaceholderShown, peerFocusWithin, peerEmpty, peerFirst, peerLast, peerOdd, peerEven, peerOpen, peerVisited, peerHas } from '../../src/modifiers/peer.ts'
 import { createRule } from '../../src/rule.ts'
 
 describe('peer modifiers', () => {
@@ -39,6 +39,43 @@ describe('peer modifiers', () => {
 
   it('peerPlaceholderShown sets selectorTemplate', () => {
     expect(peerPlaceholderShown(rule).selectorTemplate).toBe('.peer:placeholder-shown ~ &')
+  })
+
+  it('peerFocusWithin sets selectorTemplate', () => {
+    expect(peerFocusWithin(rule).selectorTemplate).toBe('.peer:focus-within ~ &')
+  })
+
+  it('peerEmpty sets selectorTemplate', () => {
+    expect(peerEmpty(rule).selectorTemplate).toBe('.peer:empty ~ &')
+  })
+
+  it('peerFirst sets selectorTemplate', () => {
+    expect(peerFirst(rule).selectorTemplate).toBe('.peer:first-child ~ &')
+  })
+
+  it('peerLast sets selectorTemplate', () => {
+    expect(peerLast(rule).selectorTemplate).toBe('.peer:last-child ~ &')
+  })
+
+  it('peerOdd sets selectorTemplate', () => {
+    expect(peerOdd(rule).selectorTemplate).toBe('.peer:nth-child(odd) ~ &')
+  })
+
+  it('peerEven sets selectorTemplate', () => {
+    expect(peerEven(rule).selectorTemplate).toBe('.peer:nth-child(even) ~ &')
+  })
+
+  it('peerOpen sets selectorTemplate', () => {
+    expect(peerOpen(rule).selectorTemplate).toBe('.peer[open] ~ &')
+  })
+
+  it('peerVisited sets selectorTemplate', () => {
+    expect(peerVisited(rule).selectorTemplate).toBe('.peer:visited ~ &')
+  })
+
+  it('peerHas factory sets selectorTemplate', () => {
+    const modifier = peerHas('.child')
+    expect(modifier(rule).selectorTemplate).toBe('.peer:has(.child) ~ &')
   })
 
   it('preserves declarations', () => {

@@ -527,7 +527,23 @@ export function outlineOffset(value: string): StyleRule {
   return createRule({ 'outline-offset': value })
 }
 
+export function outline(width?: string, style?: string, color?: string): StyleRule {
+  const decls: Record<string, string> = {}
+  decls['outline-width'] = width ?? '1px'
+  decls['outline-style'] = style ?? 'solid'
+  if (color) decls['outline-color'] = color
+  return createRule(decls)
+}
+
+export function outlineNone(): StyleRule {
+  return createRule({ outline: '2px solid transparent', 'outline-offset': '2px' })
+}
+
 // --- Ring utilities ---
+
+export function ringInset(): StyleRule {
+  return createRule({ '--twc-ring-inset': 'inset' })
+}
 
 export function ringColor(value: string | DynamicValue): StyleRule {
   if (isDynamic(value)) {
@@ -580,5 +596,15 @@ export function divideColor(value: string | DynamicValue): StyleRule {
 
 export function divideStyle(value: string): StyleRule {
   const rule = createRule({ 'border-style': value })
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
+}
+
+export function divideXReverse(): StyleRule {
+  const rule = createRule({ '--twc-divide-x-reverse': '1' })
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
+}
+
+export function divideYReverse(): StyleRule {
+  const rule = createRule({ '--twc-divide-y-reverse': '1' })
   return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
 }
