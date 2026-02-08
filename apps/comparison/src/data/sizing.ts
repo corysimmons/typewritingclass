@@ -69,8 +69,8 @@ export const sizingData: ComparisonCategory = {
       examples: [
         {
           label: 'min-w-[8rem]',
-          twcCode: 'minW(32)',
-          twcElement: React.createElement('div', { className: cx(minW(32), bg('#818cf8'), p(2), rounded(), textColor('#ffffff'), text(xs), display('inline-block')) }, 'min-w'),
+          twcCode: 'minW("8rem")',
+          twcElement: React.createElement('div', { className: cx(minW('8rem'), bg('#818cf8'), p(2), rounded(), textColor('#ffffff'), text(xs), display('inline-block')) }, 'min-w'),
           tailwindCode: 'min-w-[8rem]',
           tailwindElement: React.createElement('div', { className: 'tw-min-w-[8rem] tw-bg-indigo-400 tw-p-2 tw-rounded tw-text-white tw-text-xs tw-inline-block' }, 'min-w'),
         },
@@ -83,8 +83,8 @@ export const sizingData: ComparisonCategory = {
         },
         {
           label: 'min-h-[4rem]',
-          twcCode: 'minH(16)',
-          twcElement: React.createElement('div', { className: cx(minH(16), w(24), bg('#818cf8'), p(2), rounded(), flex(), items('center'), textColor('#ffffff'), text(xs)) }, 'min-h'),
+          twcCode: 'minH("4rem")',
+          twcElement: React.createElement('div', { className: cx(minH('4rem'), w(24), bg('#818cf8'), p(2), rounded(), flex(), items('center'), textColor('#ffffff'), text(xs)) }, 'min-h'),
           tailwindCode: 'min-h-[4rem]',
           tailwindElement: React.createElement('div', { className: 'tw-min-h-[4rem] tw-w-24 tw-bg-indigo-400 tw-p-2 tw-rounded tw-flex tw-items-center tw-text-white tw-text-xs' }, 'min-h'),
         },
