@@ -18,7 +18,7 @@ VS Code extension that provides inline CSS preview for typewritingclass utility 
 ## Development
 
 ```bash
-pnpm build    # Compile TypeScript
-pnpm watch    # Watch mode
-pnpm package  # Create .vsix extension package
+bun run build    # Compile TypeScript
+bun run watch    # Watch mode
+bun run package  # Create .vsix extension package
 ```

@@ -12,7 +12,7 @@ This guide walks you through installing typewritingclass and configuring your bu
 Before you begin, make sure you have:
 
 - **Node.js 18+** -- typewritingclass uses modern JavaScript features that require Node 18 or later. You can check your version with `node --version`.
-- A package manager: **pnpm** (recommended), **npm**, or **yarn**.
+- A package manager: **Bun** (recommended), **pnpm**, **npm**, or **yarn**.
 - A project using a supported build tool: **Vite**, **esbuild**, or **Babel**.
 
 ## Step 1: Install the core package
@@ -22,6 +22,11 @@ The `typewritingclass` package contains all the utility functions, modifiers, th
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <Tabs>
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
+    ```
+  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass
@@ -48,6 +53,11 @@ typewritingclass works by statically analyzing your TypeScript at build time. A 
 The Vite plugin is the recommended setup for most projects. It provides full HMR support, so styles update instantly as you edit.
 
 <Tabs>
+  <TabItem label="bun">
+    ```bash
+    bun add -d typewritingclass-compiler
+    ```
+  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add -D typewritingclass-compiler
@@ -93,6 +103,11 @@ When `strict` is enabled, the compiler reports errors for invalid utility argume
 If you are using esbuild directly, install the esbuild-specific plugin package. It depends on `typewritingclass-compiler` as a peer dependency, so install both.
 
 <Tabs>
+  <TabItem label="bun">
+    ```bash
+    bun add -d typewritingclass-esbuild typewritingclass-compiler
+    ```
+  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add -D typewritingclass-esbuild typewritingclass-compiler
@@ -136,6 +151,11 @@ twcEsbuildPlugin({ strict: true })
 For projects that use Babel (such as older Create React App setups or custom Babel pipelines), install the Babel plugin. It also depends on `typewritingclass-compiler`.
 
 <Tabs>
+  <TabItem label="bun">
+    ```bash
+    bun add -d typewritingclass-babel typewritingclass-compiler
+    ```
+  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add -D typewritingclass-babel typewritingclass-compiler
@@ -234,6 +254,11 @@ If you do not see styles, double-check that:
 typewritingclass works with any framework out of the box since `cx()` returns a plain class name string. For React-specific ergonomics, you can optionally install the React integration package:
 
 <Tabs>
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass-react
+    ```
+  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass-react

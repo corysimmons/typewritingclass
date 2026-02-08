@@ -65,8 +65,8 @@ If you are working on the typewritingclass monorepo itself, you can build and in
 
 ```bash
 cd packages/typewritingclass-devtools
-pnpm install
-pnpm run build
+bun install
+bun run build
 ```
 
 Then use the **Extensions: Install from VSIX** command in VS Code to install the generated `.vsix` file.

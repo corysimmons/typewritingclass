@@ -185,6 +185,6 @@ Since plugins are plain TypeScript modules, publishing them to npm is straightfo
 1. Create a package with your utility and modifier functions.
 2. Export them from the package's entry point.
 3. Publish to npm.
-4. Consumers `npm install your-package` and import the functions.
+4. Consumers `bun add your-package` and import the functions.
 
 No peer dependency on a specific typewritingclass version is needed beyond the `StyleRule` type, which is stable. See [Recipes & Composites](/plugins/recipes/) for patterns around packaging and distributing reusable style compositions.

@@ -20,14 +20,14 @@ In practice, most applications use the compiler for static styles and the SSR ut
 ## Installation
 
 ```bash
+# bun
+bun add typewritingclass typewritingclass-react
+
 # pnpm
 pnpm add typewritingclass typewritingclass-react
 
 # npm
 npm install typewritingclass typewritingclass-react
-
-# yarn
-yarn add typewritingclass typewritingclass-react
 ```
 
 The server utilities are exported from the `typewritingclass-react/server` subpath.

@@ -5,8 +5,8 @@ Solid.js demo showcasing typewritingclass usage with the Solid reactive framewor
 ## Development
 
 ```bash
-pnpm dev    # Start dev server
-pnpm build  # Production build
+bun dev    # Start dev server
+bun run build  # Production build
 ```
 
 ## Stack

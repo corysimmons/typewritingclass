@@ -12,6 +12,10 @@ The Babel plugin provides static CSS extraction for projects that use Babel as t
 Install the Babel plugin alongside the core compiler package:
 
 ```bash
+# bun
+bun add typewritingclass
+bun add -d typewritingclass-babel typewritingclass-compiler
+
 # pnpm
 pnpm add typewritingclass
 pnpm add -D typewritingclass-babel typewritingclass-compiler
@@ -19,10 +23,6 @@ pnpm add -D typewritingclass-babel typewritingclass-compiler
 # npm
 npm install typewritingclass
 npm install -D typewritingclass-babel typewritingclass-compiler
-
-# yarn
-yarn add typewritingclass
-yarn add -D typewritingclass-babel typewritingclass-compiler
 ```
 
 `typewritingclass-babel` depends on `typewritingclass-compiler` for the native Rust compiler binary and on `@babel/parser` for re-parsing the transformed source.

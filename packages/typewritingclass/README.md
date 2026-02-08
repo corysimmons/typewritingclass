@@ -5,7 +5,7 @@ Core library for the typewritingclass CSS-in-TS framework. Provides utility func
 ## Installation
 
 ```bash
-pnpm add typewritingclass
+bun add typewritingclass
 ```
 
 ## Usage

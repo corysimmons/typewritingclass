@@ -5,7 +5,7 @@ Babel plugin for typewritingclass static CSS extraction. Use this for Babel-base
 ## Installation
 
 ```bash
-pnpm add -D typewritingclass-babel
+bun add -d typewritingclass-babel
 ```
 
 Requires `@babel/core` 7.x as a peer dependency.

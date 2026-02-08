@@ -5,7 +5,7 @@ Rust-powered compiler and Vite plugin for typewritingclass. Statically analyzes 
 ## Installation
 
 ```bash
-pnpm add -D typewritingclass-compiler
+bun add -d typewritingclass-compiler
 ```
 
 ## Vite Plugin

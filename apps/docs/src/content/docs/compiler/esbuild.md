@@ -12,6 +12,10 @@ The esbuild plugin provides static CSS extraction for projects that use esbuild 
 Install the esbuild plugin alongside the core compiler package:
 
 ```bash
+# bun
+bun add typewritingclass
+bun add -d typewritingclass-esbuild typewritingclass-compiler
+
 # pnpm
 pnpm add typewritingclass
 pnpm add -D typewritingclass-esbuild typewritingclass-compiler
@@ -19,10 +23,6 @@ pnpm add -D typewritingclass-esbuild typewritingclass-compiler
 # npm
 npm install typewritingclass
 npm install -D typewritingclass-esbuild typewritingclass-compiler
-
-# yarn
-yarn add typewritingclass
-yarn add -D typewritingclass-esbuild typewritingclass-compiler
 ```
 
 `typewritingclass-esbuild` depends on `typewritingclass-compiler` as a peer dependency. The compiler package contains the native Rust binary that performs the actual AST analysis and CSS extraction.

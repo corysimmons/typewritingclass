@@ -5,8 +5,8 @@ Interactive React demo showcasing typewritingclass features with React 19.
 ## Development
 
 ```bash
-pnpm dev    # Start dev server
-pnpm build  # Production build
+bun dev    # Start dev server
+bun run build  # Production build
 ```
 
 ## Stack

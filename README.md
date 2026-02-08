@@ -33,8 +33,8 @@ const button = cx(
 
 ```bash
 # Install the core library and compiler
-pnpm add typewritingclass
-pnpm add -D typewritingclass-compiler
+bun add typewritingclass
+bun add -d typewritingclass-compiler
 ```
 
 Add the Vite plugin:
@@ -145,19 +145,19 @@ const myTheme = createTheme({
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Run the React demo
-pnpm --filter demo-react dev
+bun --filter demo-react dev
 
 # Run tests
-pnpm --filter typewritingclass test
+bun --filter typewritingclass test
 
 # Run visual tests
-pnpm --filter visual-tests test
+bun --filter visual-tests test
 
 # Build docs
-pnpm --filter docs build
+bun --filter docs build
 ```
 
 ## License

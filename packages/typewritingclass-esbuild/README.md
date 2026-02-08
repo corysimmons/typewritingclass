@@ -5,7 +5,7 @@ esbuild plugin for typewritingclass static CSS extraction.
 ## Installation
 
 ```bash
-pnpm add -D typewritingclass-esbuild
+bun add -d typewritingclass-esbuild
 ```
 
 Requires `esbuild` >= 0.17.0 as a peer dependency.

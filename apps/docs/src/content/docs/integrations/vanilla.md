@@ -12,6 +12,10 @@ typewritingclass works without any framework. The core `cx()` function returns a
 Install the core package and a compiler plugin:
 
 ```bash
+# bun
+bun add typewritingclass
+bun add -d typewritingclass-compiler
+
 # pnpm
 pnpm add typewritingclass
 pnpm add -D typewritingclass-compiler
@@ -19,9 +23,6 @@ pnpm add -D typewritingclass-compiler
 # npm
 npm install typewritingclass
 npm install -D typewritingclass-compiler
-
-# yarn
-yarn add typewritingclass
 yarn add -D typewritingclass-compiler
 ```
 

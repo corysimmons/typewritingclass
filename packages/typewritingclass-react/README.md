@@ -5,7 +5,7 @@ React integration for typewritingclass. Provides the `useStyle` hook for composi
 ## Installation
 
 ```bash
-pnpm add typewritingclass-react
+bun add typewritingclass-react
 ```
 
 Requires `react` (18 or 19) and `typewritingclass` as peer dependencies.

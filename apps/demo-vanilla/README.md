@@ -5,8 +5,8 @@ Vanilla TypeScript demo showing typewritingclass without any framework. Demonstr
 ## Development
 
 ```bash
-pnpm dev    # Start dev server
-pnpm build  # Production build
+bun dev    # Start dev server
+bun run build  # Production build
 ```
 
 ## Stack

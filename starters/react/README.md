@@ -6,14 +6,14 @@ Minimal React + typewritingclass project template.
 
 ```bash
 # Copy this starter
-npx degit typewritingclass/typewritingclass/starters/react my-app
+bunx degit typewritingclass/typewritingclass/starters/react my-app
 cd my-app
 
 # Install dependencies
-pnpm install
+bun install
 
 # Start dev server
-pnpm dev
+bun dev
 ```
 
 ## What's included
@@ -28,6 +28,6 @@ pnpm dev
 
 | Command | Description |
 |---|---|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Production build |
-| `pnpm preview` | Preview production build |
+| `bun dev` | Start development server |
+| `bun run build` | Production build |
+| `bun run preview` | Preview production build |

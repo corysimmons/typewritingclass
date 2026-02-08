@@ -22,8 +22,8 @@ Each test creates paired pages — one styled with typewritingclass utilities, o
 ## Usage
 
 ```bash
-pnpm test          # Build and run visual tests
-pnpm test:update   # Update baseline snapshots
+bun test          # Build and run visual tests
+bun run test:update   # Update baseline snapshots
 ```
 
 ## Browsers

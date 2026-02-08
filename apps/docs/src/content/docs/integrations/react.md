@@ -12,14 +12,14 @@ typewritingclass integrates with React through the optional `typewritingclass-re
 Install the core package and the React integration:
 
 ```bash
+# bun
+bun add typewritingclass typewritingclass-react
+
 # pnpm
 pnpm add typewritingclass typewritingclass-react
 
 # npm
 npm install typewritingclass typewritingclass-react
-
-# yarn
-yarn add typewritingclass typewritingclass-react
 ```
 
 You also need a compiler plugin for static CSS extraction. See the [Vite Plugin](/compiler/vite/) or [Installation](/getting-started/installation/) guide for setup.

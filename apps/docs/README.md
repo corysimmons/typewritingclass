@@ -5,9 +5,9 @@ Documentation site for typewritingclass, built with [Astro](https://astro.build)
 ## Development
 
 ```bash
-pnpm dev    # Start dev server
-pnpm build  # Build static site
-pnpm preview # Preview production build
+bun dev    # Start dev server
+bun run build  # Build static site
+bun run preview # Preview production build
 ```
 
 ## Structure

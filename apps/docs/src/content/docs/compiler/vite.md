@@ -10,6 +10,10 @@ The Vite plugin is the recommended way to use typewritingclass. It statically an
 ## Installation
 
 ```bash
+# bun
+bun add typewritingclass
+bun add -d typewritingclass-compiler
+
 # pnpm
 pnpm add typewritingclass
 pnpm add -D typewritingclass-compiler
@@ -17,10 +21,6 @@ pnpm add -D typewritingclass-compiler
 # npm
 npm install typewritingclass
 npm install -D typewritingclass-compiler
-
-# yarn
-yarn add typewritingclass
-yarn add -D typewritingclass-compiler
 ```
 
 The `typewritingclass-compiler` package contains both the Vite plugin and the native Rust compiler binary.
