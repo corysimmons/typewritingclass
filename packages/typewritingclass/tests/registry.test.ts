@@ -20,11 +20,10 @@ describe('registry', () => {
     expect(getRegistry().size).toBe(1)
   })
 
-  it('generateCSS wraps in @layer twc', () => {
+  it('generateCSS renders rules', () => {
     const rule = createRule({ color: 'red' })
     register('_test1', rule, 0)
     const css = generateCSS()
-    expect(css).toContain('@layer twc')
     expect(css).toContain('._test1')
     expect(css).toContain('color: red')
   })

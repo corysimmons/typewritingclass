@@ -23,11 +23,10 @@ pub fn render_rule(class_name: &str, rule: &StyleRule) -> String {
     css
 }
 
-/// Wrap multiple CSS rules in @layer twc { ... }
+/// Join multiple CSS rules into a single stylesheet.
 pub fn wrap_in_layer(rules_css: &[String]) -> String {
     if rules_css.is_empty() {
         return String::new();
     }
-    let inner = rules_css.join("\n\n");
-    format!("@layer twc {{\n{}\n}}", inner)
+    rules_css.join("\n\n")
 }

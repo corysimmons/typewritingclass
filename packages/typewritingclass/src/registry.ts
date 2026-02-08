@@ -45,7 +45,7 @@ export function generateCSS(): string {
   const entries = [...registry.entries()].sort((a, b) => a[1].layer - b[1].layer)
   const rules = entries.map(([className, { rule }]) => renderRule(className, rule))
   if (rules.length === 0) return ''
-  return `@layer twc {\n${rules.join('\n\n')}\n}`
+  return rules.join('\n\n')
 }
 
 export function getRegistry(): ReadonlyMap<string, RegistryEntry> {
