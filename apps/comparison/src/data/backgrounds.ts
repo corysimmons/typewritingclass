@@ -1,12 +1,18 @@
 import React from 'react'
 import {
-  cx, bg, bgAttachment, bgClip, bgOrigin, bgPosition, bgRepeat, bgSize,
+  cx, bg, bgClip, bgPosition, bgRepeat, bgSize,
   bgGradient, gradientFrom, gradientVia, gradientTo,
-  p, w, h, rounded, flex, textColor, text, font, css,
+  p, w, h, rounded, textColor, text, font, css,
 } from 'typewritingclass'
 import { _2xl } from 'typewritingclass/theme/typography'
 import { bold } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
+
+// Shared data URI SVGs used as background-image via inline style (css() can't handle data URIs)
+const squareSvg = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'%3E%3Crect width=\'40\' height=\'40\' fill=\'%23818cf8\'/%3E%3C/svg%3E")'
+const circleSvg = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'%3E%3Ccircle cx=\'20\' cy=\'20\' r=\'18\' fill=\'%23818cf8\'/%3E%3C/svg%3E")'
+const checkerSvg = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'16\' height=\'16\' fill=\'%23818cf8\'/%3E%3Crect x=\'8\' width=\'8\' height=\'8\' fill=\'%23a5b4fc\'/%3E%3Crect y=\'8\' width=\'8\' height=\'8\' fill=\'%23a5b4fc\'/%3E%3C/svg%3E")'
+const dotSvg = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'16\' height=\'16\' fill=\'%23818cf8\'/%3E%3C/svg%3E")'
 
 export const backgroundsData: ComparisonCategory = {
   title: 'Backgrounds',
@@ -50,8 +56,8 @@ export const backgroundsData: ComparisonCategory = {
       examples: [
         {
           label: 'gradient to-right (blue to purple)',
-          twcCode: 'cx(bgGradient("to right"), gradientFrom("#3b82f6"), gradientTo("#8b5cf6"))',
-          twcElement: React.createElement('div', { className: cx(bgGradient('to right'), gradientFrom('#3b82f6'), gradientTo('#8b5cf6'), p(4), rounded('4px'), textColor('#ffffff')) }, 'to right'),
+          twcCode: 'cx(css({ backgroundImage: "linear-gradient(to right, #3b82f6, #8b5cf6)" }))',
+          twcElement: React.createElement('div', { className: cx(css({ 'background-image': 'linear-gradient(to right, #3b82f6, #8b5cf6)' }), p(4), rounded('4px'), textColor('#ffffff')) }, 'to right'),
           tailwindCode: 'bg-gradient-to-r from-blue-500 to-violet-500',
           tailwindElement: React.createElement('div', { className: 'tw-bg-gradient-to-r tw-from-blue-500 tw-to-violet-500 tw-p-4 tw-rounded tw-text-white' }, 'to right'),
         },
@@ -64,8 +70,8 @@ export const backgroundsData: ComparisonCategory = {
         },
         {
           label: 'gradient to-top (emerald to cyan)',
-          twcCode: 'cx(bgGradient("to top"), gradientFrom("#10b981"), gradientTo("#06b6d4"))',
-          twcElement: React.createElement('div', { className: cx(bgGradient('to top'), gradientFrom('#10b981'), gradientTo('#06b6d4'), p(4), rounded('4px'), textColor('#ffffff')) }, 'to top'),
+          twcCode: 'cx(css({ backgroundImage: "linear-gradient(to top, #10b981, #06b6d4)" }))',
+          twcElement: React.createElement('div', { className: cx(css({ 'background-image': 'linear-gradient(to top, #10b981, #06b6d4)' }), p(4), rounded('4px'), textColor('#ffffff')) }, 'to top'),
           tailwindCode: 'bg-gradient-to-t from-emerald-500 to-cyan-500',
           tailwindElement: React.createElement('div', { className: 'tw-bg-gradient-to-t tw-from-emerald-500 tw-to-cyan-500 tw-p-4 tw-rounded tw-text-white' }, 'to top'),
         },
@@ -76,10 +82,10 @@ export const backgroundsData: ComparisonCategory = {
       examples: [
         {
           label: 'bg-center',
-          twcCode: 'cx(bgPosition("center"))',
-          twcElement: React.createElement('div', { className: cx(bgPosition('center'), w('8rem'), h('4rem'), rounded('4px'), css({ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'%3E%3Crect width=\'40\' height=\'40\' fill=\'%23818cf8\'/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', border: '1px solid #c7d2fe' })) }),
-          tailwindCode: 'bg-center',
-          tailwindElement: React.createElement('div', { className: 'tw-bg-center tw-w-32 tw-h-16 tw-rounded tw-bg-no-repeat tw-border tw-border-indigo-200', style: { backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'%3E%3Crect width=\'40\' height=\'40\' fill=\'%23818cf8\'/%3E%3C/svg%3E")' } }),
+          twcCode: 'cx(bgPosition("center"), bgRepeat("no-repeat"))',
+          twcElement: React.createElement('div', { className: cx(bgPosition('center'), bgRepeat('no-repeat'), w('8rem'), h('4rem'), rounded('4px'), css({ border: '1px solid #c7d2fe' })), style: { backgroundImage: squareSvg } }),
+          tailwindCode: 'bg-center bg-no-repeat',
+          tailwindElement: React.createElement('div', { className: 'tw-bg-center tw-bg-no-repeat tw-w-32 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: squareSvg } }),
         },
       ],
     },
@@ -89,16 +95,16 @@ export const backgroundsData: ComparisonCategory = {
         {
           label: 'bg-cover',
           twcCode: 'cx(bgSize("cover"))',
-          twcElement: React.createElement('div', { className: cx(bgSize('cover'), w('8rem'), h('4rem'), rounded('4px'), bg('#818cf8'), css({ backgroundImage: 'linear-gradient(45deg, #818cf8 25%, #6366f1 25%, #6366f1 50%, #818cf8 50%, #818cf8 75%, #6366f1 75%)', backgroundSize: '20px 20px' })) }),
+          twcElement: React.createElement('div', { className: cx(bgSize('cover'), w('8rem'), h('4rem'), rounded('4px')), style: { backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='20' height='20' fill='%23818cf8'/%3E%3Cline x1='0' y1='20' x2='20' y2='0' stroke='%236366f1' stroke-width='3'/%3E%3C/svg%3E")` } }),
           tailwindCode: 'bg-cover',
-          tailwindElement: React.createElement('div', { className: 'tw-bg-cover tw-w-32 tw-h-16 tw-rounded', style: { backgroundImage: 'linear-gradient(45deg, #818cf8 25%, #6366f1 25%, #6366f1 50%, #818cf8 50%, #818cf8 75%, #6366f1 75%)', backgroundSize: '20px 20px' } }),
+          tailwindElement: React.createElement('div', { className: 'tw-bg-cover tw-w-32 tw-h-16 tw-rounded', style: { backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='20' height='20' fill='%23818cf8'/%3E%3Cline x1='0' y1='20' x2='20' y2='0' stroke='%236366f1' stroke-width='3'/%3E%3C/svg%3E")` } }),
         },
         {
           label: 'bg-contain',
-          twcCode: 'cx(bgSize("contain"))',
-          twcElement: React.createElement('div', { className: cx(bgSize('contain'), bgRepeat('no-repeat'), bgPosition('center'), w('8rem'), h('4rem'), rounded('4px'), css({ border: '1px solid #c7d2fe', backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'%3E%3Ccircle cx=\'20\' cy=\'20\' r=\'18\' fill=\'%23818cf8\'/%3E%3C/svg%3E")' })) }),
+          twcCode: 'cx(bgSize("contain"), bgRepeat("no-repeat"), bgPosition("center"))',
+          twcElement: React.createElement('div', { className: cx(bgSize('contain'), bgRepeat('no-repeat'), bgPosition('center'), w('8rem'), h('4rem'), rounded('4px'), css({ border: '1px solid #c7d2fe' })), style: { backgroundImage: circleSvg } }),
           tailwindCode: 'bg-contain bg-no-repeat bg-center',
-          tailwindElement: React.createElement('div', { className: 'tw-bg-contain tw-bg-no-repeat tw-bg-center tw-w-32 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'%3E%3Ccircle cx=\'20\' cy=\'20\' r=\'18\' fill=\'%23818cf8\'/%3E%3C/svg%3E")' } }),
+          tailwindElement: React.createElement('div', { className: 'tw-bg-contain tw-bg-no-repeat tw-bg-center tw-w-32 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: circleSvg } }),
         },
       ],
     },
@@ -108,16 +114,16 @@ export const backgroundsData: ComparisonCategory = {
         {
           label: 'bg-repeat',
           twcCode: 'cx(bgRepeat("repeat"))',
-          twcElement: React.createElement('div', { className: cx(bgRepeat('repeat'), w('10rem'), h('4rem'), rounded('4px'), css({ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'16\' height=\'16\' fill=\'%23818cf8\'/%3E%3Crect x=\'8\' width=\'8\' height=\'8\' fill=\'%23a5b4fc\'/%3E%3Crect y=\'8\' width=\'8\' height=\'8\' fill=\'%23a5b4fc\'/%3E%3C/svg%3E")', border: '1px solid #c7d2fe' })) }),
+          twcElement: React.createElement('div', { className: cx(bgRepeat('repeat'), w('10rem'), h('4rem'), rounded('4px'), css({ border: '1px solid #c7d2fe' })), style: { backgroundImage: checkerSvg } }),
           tailwindCode: 'bg-repeat',
-          tailwindElement: React.createElement('div', { className: 'tw-bg-repeat tw-w-40 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'16\' height=\'16\' fill=\'%23818cf8\'/%3E%3Crect x=\'8\' width=\'8\' height=\'8\' fill=\'%23a5b4fc\'/%3E%3Crect y=\'8\' width=\'8\' height=\'8\' fill=\'%23a5b4fc\'/%3E%3C/svg%3E")' } }),
+          tailwindElement: React.createElement('div', { className: 'tw-bg-repeat tw-w-40 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: checkerSvg } }),
         },
         {
           label: 'bg-no-repeat',
           twcCode: 'cx(bgRepeat("no-repeat"))',
-          twcElement: React.createElement('div', { className: cx(bgRepeat('no-repeat'), w('10rem'), h('4rem'), rounded('4px'), css({ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'16\' height=\'16\' fill=\'%23818cf8\'/%3E%3C/svg%3E")', border: '1px solid #c7d2fe' })) }),
+          twcElement: React.createElement('div', { className: cx(bgRepeat('no-repeat'), w('10rem'), h('4rem'), rounded('4px'), css({ border: '1px solid #c7d2fe' })), style: { backgroundImage: dotSvg } }),
           tailwindCode: 'bg-no-repeat',
-          tailwindElement: React.createElement('div', { className: 'tw-bg-no-repeat tw-w-40 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\'%3E%3Crect width=\'16\' height=\'16\' fill=\'%23818cf8\'/%3E%3C/svg%3E")' } }),
+          tailwindElement: React.createElement('div', { className: 'tw-bg-no-repeat tw-w-40 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: dotSvg } }),
         },
       ],
     },
@@ -126,8 +132,8 @@ export const backgroundsData: ComparisonCategory = {
       examples: [
         {
           label: 'bg-clip-text (gradient text)',
-          twcCode: 'cx(bgClip("text"), bgGradient("to right"), gradientFrom("#3b82f6"), gradientTo("#8b5cf6"))',
-          twcElement: React.createElement('span', { className: cx(bgClip('text'), bgGradient('to right'), gradientFrom('#3b82f6'), gradientTo('#8b5cf6'), text(_2xl), font(bold), css({ WebkitTextFillColor: 'transparent' })) }, 'Gradient Text'),
+          twcCode: 'cx(bgClip("text"), css({ backgroundImage: "linear-gradient(...)" }))',
+          twcElement: React.createElement('span', { className: cx(bgClip('text'), text(_2xl), font(bold), css({ '-webkit-background-clip': 'text', 'background-image': 'linear-gradient(to right, #3b82f6, #8b5cf6)', 'color': 'transparent' })) }, 'Gradient Text'),
           tailwindCode: 'bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-violet-500',
           tailwindElement: React.createElement('span', { className: 'tw-bg-clip-text tw-text-transparent tw-bg-gradient-to-r tw-from-blue-500 tw-to-violet-500 tw-text-2xl tw-font-bold' }, 'Gradient Text'),
         },

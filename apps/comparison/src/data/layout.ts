@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  cx, display, flex, flexCol, flexRow, inlineFlex, grid,
+  cx, display, flex, flexCol, flexRow, inlineFlex, grid, gridCols, gap,
   relative, absolute, fixed, sticky, static_,
   visible, invisible, collapse_,
   z, overflow, overflowX, overflowY,
@@ -55,7 +55,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'flex',
           twcCode: 'cx(flex(), gap(2))',
-          twcElement: React.createElement('div', { className: cx(flex(), css({ gap: '0.5rem' })) },
+          twcElement: React.createElement('div', { className: cx(flex(), gap(2)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2)), style: { color: 'white' } }, 'A'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2)), style: { color: 'white' } }, 'B'),
           ),
@@ -69,7 +69,7 @@ export const layoutData: ComparisonCategory = {
           label: 'inline-flex',
           twcCode: 'cx(inlineFlex())',
           twcElement: React.createElement('div', null,
-            React.createElement('span', { className: cx(inlineFlex(), css({ gap: '0.25rem' }), bg('#c7d2fe'), p(2)) },
+            React.createElement('span', { className: cx(inlineFlex(), gap(1), bg('#c7d2fe'), p(2)) },
               React.createElement('span', null, 'A'),
               React.createElement('span', null, 'B'),
             ),
@@ -86,8 +86,8 @@ export const layoutData: ComparisonCategory = {
         },
         {
           label: 'grid',
-          twcCode: 'cx(grid())',
-          twcElement: React.createElement('div', { className: cx(grid(), css({ gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' })) },
+          twcCode: 'cx(grid(), gridCols(2), gap(2))',
+          twcElement: React.createElement('div', { className: cx(grid(), gridCols(2), gap(2)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2)), style: { color: 'white' } }, '1'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2)), style: { color: 'white' } }, '2'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2)), style: { color: 'white' } }, '3'),
@@ -154,7 +154,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'invisible (takes space)',
           twcCode: 'cx(invisible())',
-          twcElement: React.createElement('div', { className: cx(flex(), css({ gap: '0.5rem' })) },
+          twcElement: React.createElement('div', { className: cx(flex(), gap(2)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2)), style: { color: 'white' } }, 'A'),
             React.createElement('div', { className: cx(invisible(), bg('#818cf8'), p(2)), style: { color: 'white' } }, 'B'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2)), style: { color: 'white' } }, 'C'),
@@ -211,14 +211,14 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'aspect-square',
           twcCode: 'cx(aspectRatio("1 / 1"), w("5rem"))',
-          twcElement: React.createElement('div', { className: cx(aspectRatio('1 / 1'), w('5rem'), bg('#818cf8'), flex(), css({ alignItems: 'center', justifyContent: 'center' })), style: { color: 'white' } }, '1:1'),
+          twcElement: React.createElement('div', { className: cx(aspectRatio('1 / 1'), w('5rem'), bg('#818cf8'), flex(), css({ 'align-items': 'center', 'justify-content': 'center' })), style: { color: 'white' } }, '1:1'),
           tailwindCode: 'aspect-square w-20',
           tailwindElement: React.createElement('div', { className: 'tw-aspect-square tw-w-20 tw-bg-indigo-400 tw-flex tw-items-center tw-justify-center tw-text-white' }, '1:1'),
         },
         {
           label: 'aspect-video',
           twcCode: 'cx(aspectRatio("16 / 9"), w("10rem"))',
-          twcElement: React.createElement('div', { className: cx(aspectRatio('16 / 9'), w('10rem'), bg('#818cf8'), flex(), css({ alignItems: 'center', justifyContent: 'center' })), style: { color: 'white' } }, '16:9'),
+          twcElement: React.createElement('div', { className: cx(aspectRatio('16 / 9'), w('10rem'), bg('#818cf8'), flex(), css({ 'align-items': 'center', 'justify-content': 'center' })), style: { color: 'white' } }, '16:9'),
           tailwindCode: 'aspect-video w-40',
           tailwindElement: React.createElement('div', { className: 'tw-aspect-video tw-w-40 tw-bg-indigo-400 tw-flex tw-items-center tw-justify-center tw-text-white' }, '16:9'),
         },

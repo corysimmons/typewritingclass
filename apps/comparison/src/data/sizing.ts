@@ -38,7 +38,7 @@ export const sizingData: ComparisonCategory = {
         {
           label: 'h-16 (4rem)',
           twcCode: 'cx(h(16))',
-          twcElement: React.createElement('div', { className: cx(h(16), w(16), bg('#818cf8'), rounded('4px'), flex(), css({ alignItems: 'center', justifyContent: 'center' })), style: { color: 'white', fontSize: '12px' } }, 'h-16'),
+          twcElement: React.createElement('div', { className: cx(h(16), w(16), bg('#818cf8'), rounded('4px'), flex(), css({ 'align-items': 'center', 'justify-content': 'center' })), style: { color: 'white', fontSize: '12px' } }, 'h-16'),
           tailwindCode: 'h-16',
           tailwindElement: React.createElement('div', { className: 'tw-h-16 tw-w-16 tw-bg-indigo-400 tw-rounded tw-flex tw-items-center tw-justify-center tw-text-white tw-text-xs' }, 'h-16'),
         },
@@ -57,7 +57,7 @@ export const sizingData: ComparisonCategory = {
         {
           label: 'size-12 (3rem × 3rem)',
           twcCode: 'cx(size(12))',
-          twcElement: React.createElement('div', { className: cx(size(12), bg('#818cf8'), rounded('4px'), flex(), css({ alignItems: 'center', justifyContent: 'center' })), style: { color: 'white', fontSize: '12px' } }, '12'),
+          twcElement: React.createElement('div', { className: cx(size(12), bg('#818cf8'), rounded('4px'), flex(), css({ 'align-items': 'center', 'justify-content': 'center' })), style: { color: 'white', fontSize: '12px' } }, '12'),
           tailwindCode: 'size-12',
           tailwindElement: React.createElement('div', { className: 'tw-size-12 tw-bg-indigo-400 tw-rounded tw-flex tw-items-center tw-justify-center tw-text-white tw-text-xs' }, '12'),
         },
@@ -83,7 +83,7 @@ export const sizingData: ComparisonCategory = {
         {
           label: 'min-h-[4rem]',
           twcCode: 'cx(minH("4rem"))',
-          twcElement: React.createElement('div', { className: cx(minH('4rem'), w(24), bg('#818cf8'), p(2), rounded('4px'), flex(), css({ alignItems: 'center' })), style: { color: 'white', fontSize: '12px' } }, 'min-h'),
+          twcElement: React.createElement('div', { className: cx(minH('4rem'), w(24), bg('#818cf8'), p(2), rounded('4px'), flex(), css({ 'align-items': 'center' })), style: { color: 'white', fontSize: '12px' } }, 'min-h'),
           tailwindCode: 'min-h-[4rem]',
           tailwindElement: React.createElement('div', { className: 'tw-min-h-[4rem] tw-w-24 tw-bg-indigo-400 tw-p-2 tw-rounded tw-flex tw-items-center tw-text-white tw-text-xs' }, 'min-h'),
         },

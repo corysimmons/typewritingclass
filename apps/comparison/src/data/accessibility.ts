@@ -12,7 +12,7 @@ export const accessibilityData: ComparisonCategory = {
         {
           label: 'sr-only',
           twcCode: 'cx(srOnly())',
-          twcElement: React.createElement('div', { className: cx(flex(), css({ gap: '0.5rem', alignItems: 'center' })) },
+          twcElement: React.createElement('div', { className: cx(flex(), css({ gap: '0.5rem', 'align-items': 'center' })) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('0.25rem'), textColor('#ffffff')), style: { fontSize: '12px' } }, 'Visible'),
             React.createElement('span', { className: cx(srOnly()) }, 'Screen reader only text'),
             React.createElement('span', { style: { fontSize: '12px', color: '#64748b' } }, '(hidden span with sr-only is here)'),

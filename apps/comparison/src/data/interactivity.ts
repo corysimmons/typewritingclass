@@ -101,7 +101,7 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'accent-indigo-500',
           twcCode: 'cx(accentColor("#6366f1"))',
-          twcElement: React.createElement('label', { className: cx(flex(), css({ gap: '0.5rem', alignItems: 'center' })), style: { fontSize: '12px' } },
+          twcElement: React.createElement('label', { className: cx(flex(), css({ gap: '0.5rem', 'align-items': 'center' })), style: { fontSize: '12px' } },
             React.createElement('input', { type: 'checkbox', className: cx(accentColor('#6366f1')), defaultChecked: true }),
             'Accent color checkbox',
           ),
@@ -126,8 +126,8 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'snap-x snap-mandatory + snap-start',
           twcCode: 'cx(snapType("x mandatory")) + cx(snapAlign("start"))',
-          twcElement: React.createElement('div', { className: cx(snapType('x mandatory'), flex(), overflow('auto'), css({ gap: '0.5rem', scrollPaddingLeft: '0.5rem' })), style: { width: '14rem' } },
-            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(snapAlign('start'), bg('#818cf8'), p(4), rounded('0.25rem'), textColor('#ffffff'), css({ flexShrink: '0', width: '6rem' })), style: { fontSize: '12px', textAlign: 'center' } }, `Snap ${n}`)),
+          twcElement: React.createElement('div', { className: cx(snapType('x mandatory'), flex(), overflow('auto'), css({ gap: '0.5rem', 'scroll-padding-left': '0.5rem' })), style: { width: '14rem' } },
+            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(snapAlign('start'), bg('#818cf8'), p(4), rounded('0.25rem'), textColor('#ffffff'), css({ 'flex-shrink': '0', width: '6rem' })), style: { fontSize: '12px', textAlign: 'center' } }, `Snap ${n}`)),
           ),
           tailwindCode: 'snap-x snap-mandatory + snap-start',
           tailwindElement: React.createElement('div', { className: 'tw-snap-x tw-snap-mandatory tw-flex tw-overflow-auto tw-gap-2', style: { width: '14rem', scrollPaddingLeft: '0.5rem' } },

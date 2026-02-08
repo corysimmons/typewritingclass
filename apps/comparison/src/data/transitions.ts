@@ -16,7 +16,7 @@ export const transitionsData: ComparisonCategory = {
         {
           label: 'transition (default properties)',
           twcCode: 'cx(transition(), duration(300))',
-          twcElement: React.createElement('div', { className: cx(transition(), duration(300), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), css({ ':hover': { backgroundColor: '#6366f1' }, cursor: 'pointer' })), style: { fontSize: '12px' } }, 'Hover me (transition)'),
+          twcElement: React.createElement('div', { className: cx(transition(), duration(300), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), css({ ':hover': { 'background-color': '#6366f1' }, cursor: 'pointer' })), style: { fontSize: '12px' } }, 'Hover me (transition)'),
           tailwindCode: 'transition duration-300',
           tailwindElement: React.createElement('div', { className: 'tw-transition tw-duration-300 tw-bg-indigo-400 tw-p-4 tw-rounded-lg tw-text-white tw-text-xs hover:tw-bg-indigo-500 tw-cursor-pointer' }, 'Hover me (transition)'),
         },

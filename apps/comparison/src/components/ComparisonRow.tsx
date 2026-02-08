@@ -11,7 +11,7 @@ import { CodeBlock } from './CodeBlock.tsx'
 
 export function ComparisonRow({ example }: { example: ComparisonExample }) {
   return (
-    <div className={cx(
+    <div data-comparison-row={example.label} className={cx(
       mb(4),
       rounded(lgRadius),
       border('1px'), borderColor('#e2e8f0'),
@@ -28,7 +28,7 @@ export function ComparisonRow({ example }: { example: ComparisonExample }) {
             typewritingclass
           </div>
           <CodeBlock code={example.twcCode} />
-          <div className={cx(
+          <div data-render="twc" className={cx(
             p(3), rounded(mdRadius), bg('#f8fafc'),
             border('1px'), borderColor('#e2e8f0'),
             css({ minHeight: '3rem', display: 'flex', alignItems: 'center' }),
@@ -42,7 +42,7 @@ export function ComparisonRow({ example }: { example: ComparisonExample }) {
             Tailwind CSS
           </div>
           <CodeBlock code={example.tailwindCode} />
-          <div className={cx(
+          <div data-render="tw" className={cx(
             p(3), rounded(mdRadius), bg('#f8fafc'),
             border('1px'), borderColor('#e2e8f0'),
             css({ minHeight: '3rem', display: 'flex', alignItems: 'center' }),

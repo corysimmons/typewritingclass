@@ -33,7 +33,7 @@ export const bordersData: ComparisonCategory = {
         {
           label: 'rounded-full (9999px)',
           twcCode: 'cx(rounded("9999px"))',
-          twcElement: React.createElement('div', { className: cx(rounded('9999px'), bg('#818cf8'), w('4rem'), h('4rem'), flex(), css({ alignItems: 'center', justifyContent: 'center' }), textColor('#ffffff')), style: { fontSize: '12px' } }, 'full'),
+          twcElement: React.createElement('div', { className: cx(rounded('9999px'), bg('#818cf8'), w('4rem'), h('4rem'), flex(), css({ 'align-items': 'center', 'justify-content': 'center' }), textColor('#ffffff')), style: { fontSize: '12px' } }, 'full'),
           tailwindCode: 'rounded-full',
           tailwindElement: React.createElement('div', { className: 'tw-rounded-full tw-bg-indigo-400 tw-w-16 tw-h-16 tw-flex tw-items-center tw-justify-center tw-text-white tw-text-xs' }, 'full'),
         },

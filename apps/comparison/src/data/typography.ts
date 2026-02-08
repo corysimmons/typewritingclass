@@ -230,7 +230,7 @@ export const typographyData: ComparisonCategory = {
         {
           label: 'truncate',
           twcCode: 'cx(textOverflow("ellipsis"), overflow("hidden"), whitespace("nowrap"))',
-          twcElement: React.createElement('div', { className: cx(textOverflow('ellipsis'), css({ overflow: 'hidden', whiteSpace: 'nowrap' }), w('12rem'), bg('#e0e7ff'), p(2), rounded('4px')), style: { fontSize: '14px' } }, 'This is a very long text that should be truncated with an ellipsis'),
+          twcElement: React.createElement('div', { className: cx(textOverflow('ellipsis'), css({ overflow: 'hidden', 'white-space': 'nowrap' }), w('12rem'), bg('#e0e7ff'), p(2), rounded('4px')), style: { fontSize: '14px' } }, 'This is a very long text that should be truncated with an ellipsis'),
           tailwindCode: 'truncate',
           tailwindElement: React.createElement('div', { className: 'tw-truncate tw-w-48 tw-bg-indigo-100 tw-p-2 tw-rounded tw-text-sm' }, 'This is a very long text that should be truncated with an ellipsis'),
         },

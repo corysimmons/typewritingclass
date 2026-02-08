@@ -3,6 +3,7 @@ import {
   cx, shadow, shadowColor, opacity, mixBlendMode, bgBlendMode,
   bg, p, w, h, flex, rounded, textColor, css,
 } from 'typewritingclass'
+import { sm as smShadow, md as mdShadow, lg as lgShadow, xl as xlShadow } from 'typewritingclass/theme/shadows'
 import type { ComparisonCategory } from './types.ts'
 
 export const effectsData: ComparisonCategory = {
@@ -14,36 +15,36 @@ export const effectsData: ComparisonCategory = {
       examples: [
         {
           label: 'shadow-sm',
-          twcCode: 'cx(shadow("0 1px 2px 0 rgb(0 0 0 / 0.05)"))',
-          twcElement: React.createElement('div', { className: cx(shadow('0 1px 2px 0 rgb(0 0 0 / 0.05)'), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow-sm'),
+          twcCode: 'cx(shadow(sm))',
+          twcElement: React.createElement('div', { className: cx(shadow(smShadow), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow-sm'),
           tailwindCode: 'shadow-sm',
           tailwindElement: React.createElement('div', { className: 'tw-shadow-sm tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow-sm'),
         },
         {
           label: 'shadow',
-          twcCode: 'cx(shadow("0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"))',
-          twcElement: React.createElement('div', { className: cx(shadow('0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)'), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow'),
+          twcCode: 'cx(shadow())',
+          twcElement: React.createElement('div', { className: cx(shadow(), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow'),
           tailwindCode: 'shadow',
           tailwindElement: React.createElement('div', { className: 'tw-shadow tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow'),
         },
         {
           label: 'shadow-md',
-          twcCode: 'cx(shadow("0 4px 6px -1px rgb(0 0 0 / 0.1), ..."))',
-          twcElement: React.createElement('div', { className: cx(shadow('0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow-md'),
+          twcCode: 'cx(shadow(md))',
+          twcElement: React.createElement('div', { className: cx(shadow(mdShadow), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow-md'),
           tailwindCode: 'shadow-md',
           tailwindElement: React.createElement('div', { className: 'tw-shadow-md tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow-md'),
         },
         {
           label: 'shadow-lg',
-          twcCode: 'cx(shadow("0 10px 15px -3px rgb(0 0 0 / 0.1), ..."))',
-          twcElement: React.createElement('div', { className: cx(shadow('0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)'), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow-lg'),
+          twcCode: 'cx(shadow(lg))',
+          twcElement: React.createElement('div', { className: cx(shadow(lgShadow), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow-lg'),
           tailwindCode: 'shadow-lg',
           tailwindElement: React.createElement('div', { className: 'tw-shadow-lg tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow-lg'),
         },
         {
           label: 'shadow-xl',
-          twcCode: 'cx(shadow("0 20px 25px -5px rgb(0 0 0 / 0.1), ..."))',
-          twcElement: React.createElement('div', { className: cx(shadow('0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)'), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow-xl'),
+          twcCode: 'cx(shadow(xl))',
+          twcElement: React.createElement('div', { className: cx(shadow(xlShadow), bg('#ffffff'), p(4), rounded('0.5rem')), style: { fontSize: '12px' } }, 'shadow-xl'),
           tailwindCode: 'shadow-xl',
           tailwindElement: React.createElement('div', { className: 'tw-shadow-xl tw-bg-white tw-p-4 tw-rounded-lg tw-text-xs' }, 'shadow-xl'),
         },
