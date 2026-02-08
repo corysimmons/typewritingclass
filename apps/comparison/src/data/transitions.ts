@@ -110,14 +110,14 @@ export const transitionsData: ComparisonCategory = {
         {
           label: 'animate-spin',
           twcCode: 'animate("spin")',
-          twcElement: React.createElement('div', { className: cx(animate("spin"), w('2rem'), h('2rem'), bg('#818cf8'), rounded()) }),
+          twcElement: React.createElement('div', { className: cx(animate("spin"), w(8), h(8), bg('#818cf8'), rounded()) }),
           tailwindCode: 'animate-spin',
           tailwindElement: React.createElement('div', { className: 'tw-animate-spin tw-w-8 tw-h-8 tw-bg-indigo-400 tw-rounded' }),
         },
         {
           label: 'animate-ping',
           twcCode: 'animate("ping")',
-          twcElement: React.createElement('div', { className: cx(animate("ping"), w('2rem'), h('2rem'), bg('#818cf8'), rounded("full")) }),
+          twcElement: React.createElement('div', { className: cx(animate("ping"), w(8), h(8), bg('#818cf8'), rounded("full")) }),
           tailwindCode: 'animate-ping',
           tailwindElement: React.createElement('div', { className: 'tw-animate-ping tw-w-8 tw-h-8 tw-bg-indigo-400 tw-rounded-full' }),
         },
@@ -131,7 +131,7 @@ export const transitionsData: ComparisonCategory = {
         {
           label: 'animate-bounce',
           twcCode: 'animate("bounce")',
-          twcElement: React.createElement('div', { className: cx(animate("bounce"), w('2rem'), h('2rem'), bg('#818cf8'), rounded("full")) }),
+          twcElement: React.createElement('div', { className: cx(animate("bounce"), w(8), h(8), bg('#818cf8'), rounded("full")) }),
           tailwindCode: 'animate-bounce',
           tailwindElement: React.createElement('div', { className: 'tw-animate-bounce tw-w-8 tw-h-8 tw-bg-indigo-400 tw-rounded-full' }),
         },

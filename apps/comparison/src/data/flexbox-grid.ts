@@ -92,8 +92,8 @@ export const flexboxGridData: ComparisonCategory = {
         {
           label: 'flex-wrap',
           twcCode: 'flex(), flexWrap(), gap(2)',
-          twcElement: React.createElement('div', { className: cx(flex(), flexWrap(), gap(2), w('12rem')) },
-            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(bg('#818cf8'), p(2), rounded(), w('4rem'), textColor('#ffffff'), text(xs), textAlign('center')) }, String(n))),
+          twcElement: React.createElement('div', { className: cx(flex(), flexWrap(), gap(2), w(48)) },
+            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(bg('#818cf8'), p(2), rounded(), w(16), textColor('#ffffff'), text(xs), textAlign('center')) }, String(n))),
           ),
           tailwindCode: 'flex flex-wrap gap-2',
           tailwindElement: React.createElement('div', { className: 'tw-flex tw-flex-wrap tw-gap-2 tw-w-48' },
@@ -103,8 +103,8 @@ export const flexboxGridData: ComparisonCategory = {
         {
           label: 'flex-nowrap',
           twcCode: 'flex(), flexNowrap()',
-          twcElement: React.createElement('div', { className: cx(flex(), flexNowrap(), gap(2), w('10rem'), overflow('hidden')) },
-            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(bg('#818cf8'), p(2), rounded(), w('4rem'), textColor('#ffffff'), text(xs), textAlign('center'), shrink(0)) }, String(n))),
+          twcElement: React.createElement('div', { className: cx(flex(), flexNowrap(), gap(2), w(40), overflow('hidden')) },
+            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(bg('#818cf8'), p(2), rounded(), w(16), textColor('#ffffff'), text(xs), textAlign('center'), shrink(0)) }, String(n))),
           ),
           tailwindCode: 'flex flex-nowrap overflow-hidden',
           tailwindElement: React.createElement('div', { className: 'tw-flex tw-flex-nowrap tw-gap-2 tw-w-40 tw-overflow-hidden' },
@@ -287,7 +287,7 @@ export const flexboxGridData: ComparisonCategory = {
         {
           label: 'items-center',
           twcCode: 'flex(), items("center")',
-          twcElement: React.createElement('div', { className: cx(flex(), items('center'), gap(2), bg('#e0e7ff'), p(2), h('5rem')) },
+          twcElement: React.createElement('div', { className: cx(flex(), items('center'), gap(2), bg('#e0e7ff'), p(2), h(20)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded(), textColor('#ffffff'), text(xs)) }, 'Short'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(4), rounded(), textColor('#ffffff'), text(xs)) }, 'Tall'),
           ),
@@ -300,7 +300,7 @@ export const flexboxGridData: ComparisonCategory = {
         {
           label: 'items-end',
           twcCode: 'flex(), items("end")',
-          twcElement: React.createElement('div', { className: cx(flex(), items('end'), gap(2), bg('#e0e7ff'), p(2), h('5rem')) },
+          twcElement: React.createElement('div', { className: cx(flex(), items('end'), gap(2), bg('#e0e7ff'), p(2), h(20)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded(), textColor('#ffffff'), text(xs)) }, 'A'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded(), textColor('#ffffff'), text(xs)) }, 'B'),
           ),
@@ -313,7 +313,7 @@ export const flexboxGridData: ComparisonCategory = {
         {
           label: 'self-center',
           twcCode: 'self("center")',
-          twcElement: React.createElement('div', { className: cx(flex(), gap(2), bg('#e0e7ff'), p(2), h('5rem')) },
+          twcElement: React.createElement('div', { className: cx(flex(), gap(2), bg('#e0e7ff'), p(2), h(20)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded(), textColor('#ffffff'), text(xs)) }, 'start'),
             React.createElement('div', { className: cx(self('center'), bg('#6366f1'), p(2), rounded(), textColor('#ffffff'), text(xs)) }, 'self-center'),
           ),

@@ -84,14 +84,14 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'resize',
           twcCode: 'resize("both"), overflow("auto")',
-          twcElement: React.createElement('div', { className: cx(resize('both'), overflow('auto'), bg('#c7d2fe'), p(4), rounded(), border(), borderColor('#818cf8'), w('12rem'), h('4rem'), text(xs)) }, 'Resize me (both)'),
+          twcElement: React.createElement('div', { className: cx(resize('both'), overflow('auto'), bg('#c7d2fe'), p(4), rounded(), border(), borderColor('#818cf8'), w(48), h(16), text(xs)) }, 'Resize me (both)'),
           tailwindCode: 'resize overflow-auto',
           tailwindElement: React.createElement('div', { className: 'tw-resize tw-overflow-auto tw-bg-indigo-200 tw-p-4 tw-rounded tw-border tw-border-indigo-400 tw-w-48 tw-h-16 tw-text-xs' }, 'Resize me (both)'),
         },
         {
           label: 'resize-y',
           twcCode: 'resize("vertical"), overflow("auto")',
-          twcElement: React.createElement('div', { className: cx(resize('vertical'), overflow('auto'), bg('#c7d2fe'), p(4), rounded(), border(), borderColor('#818cf8'), w('12rem'), h('4rem'), text(xs)) }, 'Resize vertical'),
+          twcElement: React.createElement('div', { className: cx(resize('vertical'), overflow('auto'), bg('#c7d2fe'), p(4), rounded(), border(), borderColor('#818cf8'), w(48), h(16), text(xs)) }, 'Resize vertical'),
           tailwindCode: 'resize-y overflow-auto',
           tailwindElement: React.createElement('div', { className: 'tw-resize-y tw-overflow-auto tw-bg-indigo-200 tw-p-4 tw-rounded tw-border tw-border-indigo-400 tw-w-48 tw-h-16 tw-text-xs' }, 'Resize vertical'),
         },
@@ -116,7 +116,7 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'caret-red-500',
           twcCode: 'caretColor("#ef4444")',
-          twcElement: React.createElement('input', { type: 'text', placeholder: 'Type here (red caret)', className: cx(caretColor('#ef4444'), p(2), border(), borderColor('#e2e8f0'), rounded(), w('12rem'), text(xs)) }),
+          twcElement: React.createElement('input', { type: 'text', placeholder: 'Type here (red caret)', className: cx(caretColor('#ef4444'), p(2), border(), borderColor('#e2e8f0'), rounded(), w(48), text(xs)) }),
           tailwindCode: 'caret-red-500',
           tailwindElement: React.createElement('input', { type: 'text', placeholder: 'Type here (red caret)', className: 'tw-caret-red-500 tw-p-2 tw-border tw-border-slate-200 tw-rounded tw-w-48 tw-text-xs' }),
         },
@@ -128,8 +128,8 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'snap-x snap-mandatory + snap-start',
           twcCode: 'snapType("x mandatory") + snapAlign("start")',
-          twcElement: React.createElement('div', { className: cx(snapType('x mandatory'), flex(), overflow('auto'), gap(2), scrollPaddingL('0.5rem'), w('14rem')) },
-            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(snapAlign('start'), bg('#818cf8'), p(4), rounded(), textColor('#ffffff'), shrink(0), w('6rem'), text(xs), textAlign('center')) }, `Snap ${n}`)),
+          twcElement: React.createElement('div', { className: cx(snapType('x mandatory'), flex(), overflow('auto'), gap(2), scrollPaddingL('0.5rem'), w(56)) },
+            ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(snapAlign('start'), bg('#818cf8'), p(4), rounded(), textColor('#ffffff'), shrink(0), w(24), text(xs), textAlign('center')) }, `Snap ${n}`)),
           ),
           tailwindCode: 'snap-x snap-mandatory + snap-start',
           tailwindElement: React.createElement('div', { className: 'tw-snap-x tw-snap-mandatory tw-flex tw-overflow-auto tw-gap-2', style: { width: '14rem', scrollPaddingLeft: '0.5rem' } },
@@ -144,7 +144,7 @@ export const interactivityData: ComparisonCategory = {
         {
           label: 'appearance-none',
           twcCode: 'appearance("none")',
-          twcElement: React.createElement('select', { className: cx(appearance('none'), p(2), border(), borderColor('#818cf8'), rounded(), bg('#ffffff'), w('10rem'), text(xs)) },
+          twcElement: React.createElement('select', { className: cx(appearance('none'), p(2), border(), borderColor('#818cf8'), rounded(), bg('#ffffff'), w(40), text(xs)) },
             React.createElement('option', null, 'appearance-none'),
             React.createElement('option', null, 'Option 2'),
           ),

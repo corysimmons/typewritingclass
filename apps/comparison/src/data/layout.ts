@@ -124,7 +124,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'relative',
           twcCode: 'relative()',
-          twcElement: React.createElement('div', { className: cx(relative(), bg('#c7d2fe'), p(4), h('4rem')) },
+          twcElement: React.createElement('div', { className: cx(relative(), bg('#c7d2fe'), p(4), h(16)) },
             React.createElement('div', { className: cx(absolute(), top(0), right(0), bg('#818cf8'), p(1), textColor('#ffffff'), text(xs)) }, 'abs'),
             'relative parent',
           ),
@@ -176,14 +176,14 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'overflow-hidden',
           twcCode: 'overflow("hidden")',
-          twcElement: React.createElement('div', { className: cx(overflow('hidden'), w('8rem'), h('3rem'), bg('#c7d2fe'), p(2)) }, 'This is a long text that will be clipped by overflow hidden'),
+          twcElement: React.createElement('div', { className: cx(overflow('hidden'), w(32), h(12), bg('#c7d2fe'), p(2)) }, 'This is a long text that will be clipped by overflow hidden'),
           tailwindCode: 'overflow-hidden',
           tailwindElement: React.createElement('div', { className: 'tw-overflow-hidden tw-w-32 tw-h-12 tw-bg-indigo-200 tw-p-2' }, 'This is a long text that will be clipped by overflow hidden'),
         },
         {
           label: 'overflow-auto',
           twcCode: 'overflow("auto")',
-          twcElement: React.createElement('div', { className: cx(overflow('auto'), w('8rem'), h('3rem'), bg('#c7d2fe'), p(2), text(xs)) }, 'This is a long text that can be scrolled with overflow auto applied'),
+          twcElement: React.createElement('div', { className: cx(overflow('auto'), w(32), h(12), bg('#c7d2fe'), p(2), text(xs)) }, 'This is a long text that can be scrolled with overflow auto applied'),
           tailwindCode: 'overflow-auto',
           tailwindElement: React.createElement('div', { className: 'tw-overflow-auto tw-w-32 tw-h-12 tw-bg-indigo-200 tw-p-2 tw-text-xs' }, 'This is a long text that can be scrolled with overflow auto applied'),
         },
@@ -195,9 +195,9 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'z-10 / z-20 stacking',
           twcCode: 'z(10), z(20)',
-          twcElement: React.createElement('div', { className: cx(relative(), h('4rem')) },
-            React.createElement('div', { className: cx(absolute(), z(10), bg('#818cf8'), p(2), w('4rem'), h('3rem'), rounded(), textColor('#ffffff'), text(xs), left(0)) }, 'z-10'),
-            React.createElement('div', { className: cx(absolute(), z(20), bg('#6366f1'), p(2), w('4rem'), h('3rem'), rounded(), textColor('#ffffff'), text(xs), left('2rem'), top('0.5rem')) }, 'z-20'),
+          twcElement: React.createElement('div', { className: cx(relative(), h(16)) },
+            React.createElement('div', { className: cx(absolute(), z(10), bg('#818cf8'), p(2), w(16), h(12), rounded(), textColor('#ffffff'), text(xs), left(0)) }, 'z-10'),
+            React.createElement('div', { className: cx(absolute(), z(20), bg('#6366f1'), p(2), w(16), h(12), rounded(), textColor('#ffffff'), text(xs), left(8), top(2)) }, 'z-20'),
           ),
           tailwindCode: 'z-10, z-20',
           tailwindElement: React.createElement('div', { className: 'tw-relative tw-h-16' },
@@ -212,15 +212,15 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'aspect-square',
-          twcCode: 'aspectRatio("1 / 1"), w("5rem")',
-          twcElement: React.createElement('div', { className: cx(aspectRatio('1 / 1'), w('5rem'), bg('#818cf8'), flex(), items('center'), justify('center'), textColor('#ffffff')) }, '1:1'),
+          twcCode: 'aspectRatio("1 / 1"), w(20)',
+          twcElement: React.createElement('div', { className: cx(aspectRatio('1 / 1'), w(20), bg('#818cf8'), flex(), items('center'), justify('center'), textColor('#ffffff')) }, '1:1'),
           tailwindCode: 'aspect-square w-20',
           tailwindElement: React.createElement('div', { className: 'tw-aspect-square tw-w-20 tw-bg-indigo-400 tw-flex tw-items-center tw-justify-center tw-text-white' }, '1:1'),
         },
         {
           label: 'aspect-video',
-          twcCode: 'aspectRatio("16 / 9"), w("10rem")',
-          twcElement: React.createElement('div', { className: cx(aspectRatio('16 / 9'), w('10rem'), bg('#818cf8'), flex(), items('center'), justify('center'), textColor('#ffffff')) }, '16:9'),
+          twcCode: 'aspectRatio("16 / 9"), w(40)',
+          twcElement: React.createElement('div', { className: cx(aspectRatio('16 / 9'), w(40), bg('#818cf8'), flex(), items('center'), justify('center'), textColor('#ffffff')) }, '16:9'),
           tailwindCode: 'aspect-video w-40',
           tailwindElement: React.createElement('div', { className: 'tw-aspect-video tw-w-40 tw-bg-indigo-400 tw-flex tw-items-center tw-justify-center tw-text-white' }, '16:9'),
         },
@@ -232,7 +232,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'object-cover',
           twcCode: 'objectFit("cover")',
-          twcElement: React.createElement('div', { className: cx(w('8rem'), h('4rem'), bg('#e0e7ff'), rounded(), overflow('hidden')) },
+          twcElement: React.createElement('div', { className: cx(w(32), h(16), bg('#e0e7ff'), rounded(), overflow('hidden')) },
             React.createElement('div', { className: cx(objectFit('cover'), w('100%'), h('100%'), bg('#818cf8'), textColor('#ffffff'), flex(), items('center'), justify('center'), text(xs)) }, 'cover'),
           ),
           tailwindCode: 'object-cover',
@@ -243,7 +243,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'object-contain',
           twcCode: 'objectFit("contain")',
-          twcElement: React.createElement('div', { className: cx(w('8rem'), h('4rem'), bg('#e0e7ff'), rounded(), overflow('hidden')) },
+          twcElement: React.createElement('div', { className: cx(w(32), h(16), bg('#e0e7ff'), rounded(), overflow('hidden')) },
             React.createElement('div', { className: cx(objectFit('contain'), w('100%'), h('100%'), bg('#818cf8'), textColor('#ffffff'), flex(), items('center'), justify('center'), text(xs)) }, 'contain'),
           ),
           tailwindCode: 'object-contain',
@@ -277,7 +277,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'box-border',
           twcCode: 'boxSizing("border-box")',
-          twcElement: React.createElement('div', { className: cx(boxSizing('border-box'), w('8rem'), p(4), border(2), borderColor('#818cf8'), bg('#c7d2fe'), text(xs)) }, 'border-box'),
+          twcElement: React.createElement('div', { className: cx(boxSizing('border-box'), w(32), p(4), border(2), borderColor('#818cf8'), bg('#c7d2fe'), text(xs)) }, 'border-box'),
           tailwindCode: 'box-border',
           tailwindElement: React.createElement('div', { className: 'tw-box-border tw-w-32 tw-p-4 tw-border-2 tw-border-indigo-400 tw-bg-indigo-200 tw-text-xs' }, 'border-box'),
         },

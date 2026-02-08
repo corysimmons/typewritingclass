@@ -83,7 +83,7 @@ export const backgroundsData: ComparisonCategory = {
         {
           label: 'bg-center',
           twcCode: 'bgPosition("center"), bgRepeat("no-repeat")',
-          twcElement: React.createElement('div', { className: cx(bgPosition('center'), bgRepeat('no-repeat'), w('8rem'), h('4rem'), rounded(), border(), borderColor('#c7d2fe'), bgImage(squareSvg)) }),
+          twcElement: React.createElement('div', { className: cx(bgPosition('center'), bgRepeat('no-repeat'), w(32), h(16), rounded(), border(), borderColor('#c7d2fe'), bgImage(squareSvg)) }),
           tailwindCode: 'bg-center bg-no-repeat',
           tailwindElement: React.createElement('div', { className: 'tw-bg-center tw-bg-no-repeat tw-w-32 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: squareSvg } }),
         },
@@ -95,14 +95,14 @@ export const backgroundsData: ComparisonCategory = {
         {
           label: 'bg-cover',
           twcCode: 'bgSize("cover")',
-          twcElement: React.createElement('div', { className: cx(bgSize('cover'), w('8rem'), h('4rem'), rounded(), bgImage(`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='20' height='20' fill='%23818cf8'/%3E%3Cline x1='0' y1='20' x2='20' y2='0' stroke='%236366f1' stroke-width='3'/%3E%3C/svg%3E")`)) }),
+          twcElement: React.createElement('div', { className: cx(bgSize('cover'), w(32), h(16), rounded(), bgImage(`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='20' height='20' fill='%23818cf8'/%3E%3Cline x1='0' y1='20' x2='20' y2='0' stroke='%236366f1' stroke-width='3'/%3E%3C/svg%3E")`)) }),
           tailwindCode: 'bg-cover',
           tailwindElement: React.createElement('div', { className: 'tw-bg-cover tw-w-32 tw-h-16 tw-rounded', style: { backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='20' height='20' fill='%23818cf8'/%3E%3Cline x1='0' y1='20' x2='20' y2='0' stroke='%236366f1' stroke-width='3'/%3E%3C/svg%3E")` } }),
         },
         {
           label: 'bg-contain',
           twcCode: 'bgSize("contain"), bgRepeat("no-repeat"), bgPosition("center")',
-          twcElement: React.createElement('div', { className: cx(bgSize('contain'), bgRepeat('no-repeat'), bgPosition('center'), w('8rem'), h('4rem'), rounded(), border(), borderColor('#c7d2fe'), bgImage(circleSvg)) }),
+          twcElement: React.createElement('div', { className: cx(bgSize('contain'), bgRepeat('no-repeat'), bgPosition('center'), w(32), h(16), rounded(), border(), borderColor('#c7d2fe'), bgImage(circleSvg)) }),
           tailwindCode: 'bg-contain bg-no-repeat bg-center',
           tailwindElement: React.createElement('div', { className: 'tw-bg-contain tw-bg-no-repeat tw-bg-center tw-w-32 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: circleSvg } }),
         },
@@ -114,14 +114,14 @@ export const backgroundsData: ComparisonCategory = {
         {
           label: 'bg-repeat',
           twcCode: 'bgRepeat("repeat")',
-          twcElement: React.createElement('div', { className: cx(bgRepeat('repeat'), w('10rem'), h('4rem'), rounded(), border(), borderColor('#c7d2fe'), bgImage(checkerSvg)) }),
+          twcElement: React.createElement('div', { className: cx(bgRepeat('repeat'), w(40), h(16), rounded(), border(), borderColor('#c7d2fe'), bgImage(checkerSvg)) }),
           tailwindCode: 'bg-repeat',
           tailwindElement: React.createElement('div', { className: 'tw-bg-repeat tw-w-40 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: checkerSvg } }),
         },
         {
           label: 'bg-no-repeat',
           twcCode: 'bgRepeat("no-repeat")',
-          twcElement: React.createElement('div', { className: cx(bgRepeat('no-repeat'), w('10rem'), h('4rem'), rounded(), border(), borderColor('#c7d2fe'), bgImage(dotSvg)) }),
+          twcElement: React.createElement('div', { className: cx(bgRepeat('no-repeat'), w(40), h(16), rounded(), border(), borderColor('#c7d2fe'), bgImage(dotSvg)) }),
           tailwindCode: 'bg-no-repeat',
           tailwindElement: React.createElement('div', { className: 'tw-bg-no-repeat tw-w-40 tw-h-16 tw-rounded tw-border tw-border-indigo-200', style: { backgroundImage: dotSvg } }),
         },

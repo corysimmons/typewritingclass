@@ -77,9 +77,9 @@ export const spacingData: ComparisonCategory = {
         },
         {
           label: 'mx-auto (center horizontally)',
-          twcCode: 'mx("auto"), w("8rem")',
+          twcCode: 'mx("auto"), w(32)',
           twcElement: React.createElement('div', { className: cx(bg('#e0e7ff')) },
-            React.createElement('div', { className: cx(mx('auto'), w('8rem'), bg('#818cf8'), textColor('#ffffff'), p(1), textAlign('center')) }, 'mx-auto')
+            React.createElement('div', { className: cx(mx('auto'), w(32), bg('#818cf8'), textColor('#ffffff'), p(1), textAlign('center')) }, 'mx-auto')
           ),
           tailwindCode: 'mx-auto w-32',
           tailwindElement: React.createElement('div', { className: 'tw-bg-indigo-100' },
