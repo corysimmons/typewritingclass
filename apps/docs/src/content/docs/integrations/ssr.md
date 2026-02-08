@@ -2,7 +2,7 @@
 title: SSR & RSC
 description: Server-side rendering and React Server Components.
 sidebar:
-  order: 4
+  order: 5
 ---
 
 ## Two approaches

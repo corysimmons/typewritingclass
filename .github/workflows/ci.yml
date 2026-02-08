@@ -52,6 +52,9 @@ jobs:
       - name: Build demo-vanilla app
         run: pnpm --filter demo-vanilla build
 
+      - name: Build docs
+        run: pnpm --filter docs build
+
       - name: Install Playwright browsers
         run: pnpm --filter visual-tests exec playwright install --with-deps chromium
 

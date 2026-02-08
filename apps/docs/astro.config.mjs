@@ -1,9 +1,19 @@
 import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
+import starlightDocSearchTypesense from 'starlight-docsearch-typesense'
 
 export default defineConfig({
   integrations: [
     starlight({
+      plugins: [
+        starlightDocSearchTypesense({
+          typesenseCollectionName: 'typewritingclass-docs',
+          typesenseServerConfig: {
+            nodes: [{ url: 'https://96vke4hzilsp2nw3p-1.a2.typesense.net' }],
+            apiKey: 'OON0dh7gaz6eN9VLPDqBTHWByesdSacY',
+          },
+        }),
+      ],
       title: 'Typewriting Class',
       description: 'CSS-in-TS. Composable. Compiled. Correct.',
       logo: {
@@ -16,9 +26,9 @@ export default defineConfig({
       components: {
         ThemeSelect: './src/components/ThemeSelect.astro',
       },
-      social: {
-        github: 'https://github.com/corysimmons/typewritingclass',
-      },
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/corysimmons/typewritingclass' },
+      ],
       editLink: {
         baseUrl: 'https://github.com/corysimmons/typewritingclass/edit/main/apps/docs/',
       },

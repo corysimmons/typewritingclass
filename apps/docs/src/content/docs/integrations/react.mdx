@@ -1,6 +1,6 @@
 ---
 title: React
-description: Use Typewriting Class with React and Next.js.
+description: Use Typewriting Class with React (Vite).
 sidebar:
   order: 1
 ---
@@ -66,20 +66,4 @@ function Banner({ color }: { color: string }) {
 }
 ```
 
-## Next.js App Router
-
-```tsx
-// app/layout.tsx
-import { getStyleTag } from 'typewritingclass-react/server'
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head dangerouslySetInnerHTML={{ __html: getStyleTag() }} />
-      <body>{children}</body>
-    </html>
-  )
-}
-```
-
-Server Components use `tw` or `cx()` directly. Client Components with dynamic values use `useStyle()` with `'use client'`.
+For Next.js, see the dedicated [Next.js integration guide](/integrations/nextjs/).

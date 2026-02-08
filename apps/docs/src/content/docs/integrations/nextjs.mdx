@@ -1,0 +1,126 @@
+---
+title: Next.js
+description: Use Typewriting Class with Next.js App Router.
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Setup
+
+<Tabs syncKey="pkg">
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass typewritingclass-react typewritingclass-next
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add typewritingclass typewritingclass-react typewritingclass-next
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install typewritingclass typewritingclass-react typewritingclass-next
+    ```
+  </TabItem>
+</Tabs>
+
+## Root layout
+
+Add `<TWCStyles />` in `<head>` for SSR styles, and a client-side `<TWCInject />` for runtime injection during development:
+
+```tsx
+// app/layout.tsx
+import { TWCStyles } from 'typewritingclass-next'
+import { TWCInject } from './twc-inject'
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <TWCStyles />
+      </head>
+      <body>
+        <TWCInject />
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+```tsx
+// app/twc-inject.tsx
+'use client'
+
+import 'typewritingclass/inject'
+
+export function TWCInject() {
+  return null
+}
+```
+
+`TWCStyles` is a Server Component that renders a `<style data-twc>` tag with all registered CSS. `TWCInject` loads the runtime injector on the client so styles added after SSR are picked up.
+
+## Server Components
+
+Use `tw` directly -- no hooks, no client boundary:
+
+```tsx
+import { tw } from 'typewritingclass'
+
+export default function Home() {
+  return (
+    <div className={`${tw.flex.flexCol.gap(8).p(8).items('center')}`}>
+      <h1 className={`${tw.text('2xl').font('700').textColor('slate-900')}`}>
+        Hello from Next.js
+      </h1>
+      <div className={`${tw.p(6).bg('white').rounded('lg').shadow('md').hover.shadow('lg')}`}>
+        Hover this card
+      </div>
+    </div>
+  )
+}
+```
+
+## Client Components
+
+For static styles, `tw` works the same with `'use client'`. For dynamic values, use `useStyle()`:
+
+```tsx
+'use client'
+
+import { useStyle } from 'typewritingclass-react'
+import { p, bg, rounded, dynamic } from 'typewritingclass'
+
+export function Banner({ color }: { color: string }) {
+  const props = useStyle(p(6), bg(dynamic(color)), rounded('lg'))
+  return <div {...props}>Welcome!</div>
+}
+```
+
+## Build-time extraction (optional)
+
+For production, wrap your Next config with `withTwc` to extract CSS at build time via the Babel plugin:
+
+```js
+// next.config.mjs
+import { withTwc } from 'typewritingclass-next/plugin'
+
+export default withTwc({
+  // your Next.js config
+})
+```
+
+Options:
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `outputFile` | `string` | `".next/twc.css"` | Path for extracted CSS |
+| `strict` | `boolean` | `false` | Error on non-static `cx()` args |
+
+```js
+export default withTwc({}, { strict: true })
+```

@@ -1,61 +1,34 @@
-/* ─── Typewriting Class Docs — Accent Theme Variants ─── */
+/* ─── Typewriting Class Docs — Brand Theme ─── */
 
-/* Indigo (default) */
+@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+
 :root {
-  --sl-color-accent-low: #1e1b4b;
-  --sl-color-accent: #818cf8;
-  --sl-color-accent-high: #eef2ff;
+  --sl-font: 'Zalando Sans', system-ui, sans-serif;
+  --sl-content-width: 100%;
 }
+
+/* Full-width content without squishing the right sidebar */
+@media (min-width: 72rem) {
+  [data-has-sidebar][data-has-toc] .main-pane {
+    width: auto !important;
+    flex: 1;
+  }
+  .right-sidebar-container {
+    width: var(--sl-sidebar-width) !important;
+    flex-shrink: 0;
+  }
+}
+
+/* Dark mode (default) */
+:root {
+  --sl-color-accent-low: #111d45;
+  --sl-color-accent: #6b8af7;
+  --sl-color-accent-high: #e8edfe;
+}
+
+/* Light mode */
 :root[data-theme='light'] {
-  --sl-color-accent-low: #eef2ff;
-  --sl-color-accent: #4f46e5;
-  --sl-color-accent-high: #312e81;
-}
-
-/* Emerald */
-:root[data-accent='emerald'] {
-  --sl-color-accent-low: #022c22;
-  --sl-color-accent: #34d399;
-  --sl-color-accent-high: #ecfdf5;
-}
-:root[data-accent='emerald'][data-theme='light'] {
-  --sl-color-accent-low: #ecfdf5;
-  --sl-color-accent: #059669;
-  --sl-color-accent-high: #022c22;
-}
-
-/* Rose */
-:root[data-accent='rose'] {
-  --sl-color-accent-low: #4c0519;
-  --sl-color-accent: #fb7185;
-  --sl-color-accent-high: #fff1f2;
-}
-:root[data-accent='rose'][data-theme='light'] {
-  --sl-color-accent-low: #fff1f2;
-  --sl-color-accent: #e11d48;
-  --sl-color-accent-high: #4c0519;
-}
-
-/* Amber */
-:root[data-accent='amber'] {
-  --sl-color-accent-low: #451a03;
-  --sl-color-accent: #fbbf24;
-  --sl-color-accent-high: #fffbeb;
-}
-:root[data-accent='amber'][data-theme='light'] {
-  --sl-color-accent-low: #fffbeb;
-  --sl-color-accent: #d97706;
-  --sl-color-accent-high: #451a03;
-}
-
-/* Violet */
-:root[data-accent='violet'] {
-  --sl-color-accent-low: #2e1065;
-  --sl-color-accent: #a78bfa;
-  --sl-color-accent-high: #f5f3ff;
-}
-:root[data-accent='violet'][data-theme='light'] {
-  --sl-color-accent-low: #f5f3ff;
-  --sl-color-accent: #7c3aed;
-  --sl-color-accent-high: #2e1065;
+  --sl-color-accent-low: #e8edfe;
+  --sl-color-accent: #3558d4;
+  --sl-color-accent-high: #1F2538;
 }

@@ -1,63 +1,100 @@
 ---
-import StarlightThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro'
 ---
 
-<accent-theme-picker>
-  <StarlightThemeSelect {...Astro.props} />
-  <div class="accent-picker">
-    <button data-accent="indigo" class="swatch" style="background: #6366f1;" title="Indigo"></button>
-    <button data-accent="emerald" class="swatch" style="background: #10b981;" title="Emerald"></button>
-    <button data-accent="rose" class="swatch" style="background: #f43f5e;" title="Rose"></button>
-    <button data-accent="amber" class="swatch" style="background: #f59e0b;" title="Amber"></button>
-    <button data-accent="violet" class="swatch" style="background: #8b5cf6;" title="Violet"></button>
-  </div>
-</accent-theme-picker>
+<starlight-theme-select>
+  <button class="theme-toggle" aria-label="Toggle color theme">
+    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  </button>
+</starlight-theme-select>
+
+{/* Inlined to avoid FOUC. Uses global scope from ThemeProvider.astro */}
+<script is:inline>
+  StarlightThemeProvider.updatePickers();
+</script>
 
 <style>
-  accent-theme-picker {
+  .theme-toggle {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-  }
-  .accent-picker {
-    display: flex;
-    gap: 0.25rem;
-  }
-  .swatch {
-    width: 0.875rem;
-    height: 0.875rem;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    cursor: pointer;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
     padding: 0;
-    transition: border-color 0.15s;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--sl-color-gray-1);
+    cursor: pointer;
+    transition: color 0.15s;
   }
-  .swatch:hover {
-    border-color: var(--sl-color-white);
+  .theme-toggle:hover {
+    color: var(--sl-color-accent);
   }
-  .swatch.active {
-    border-color: var(--sl-color-white);
-    box-shadow: 0 0 0 1px var(--sl-color-gray-5);
-  }
+
+  /* Light mode: show moon (to switch to dark), hide sun */
+  :global([data-theme='light']) .icon-sun { display: none; }
+  :global([data-theme='light']) .icon-moon { display: block; }
+
+  /* Dark mode: show sun (to switch to light), hide moon */
+  :global(:not([data-theme='light'])) .icon-sun { display: block; }
+  :global(:not([data-theme='light'])) .icon-moon { display: none; }
 </style>
 
 <script>
-  class AccentThemePicker extends HTMLElement {
-    connectedCallback() {
-      const saved = localStorage.getItem('starlight-accent') || 'indigo'
-      document.documentElement.dataset.accent = saved
+  type Theme = 'dark' | 'light';
 
-      this.querySelectorAll<HTMLButtonElement>('.swatch').forEach((btn) => {
-        if (btn.dataset.accent === saved) btn.classList.add('active')
-        btn.addEventListener('click', () => {
-          const accent = btn.dataset.accent!
-          document.documentElement.dataset.accent = accent
-          localStorage.setItem('starlight-accent', accent)
-          this.querySelectorAll('.swatch').forEach((b) => b.classList.remove('active'))
-          btn.classList.add('active')
-        })
-      })
+  const storageKey = 'starlight-theme';
+
+  const getPreferredColorScheme = (): Theme =>
+    matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+
+  const loadTheme = (): Theme => {
+    if (typeof localStorage !== 'undefined') {
+      const stored = localStorage.getItem(storageKey);
+      if (stored === 'dark' || stored === 'light') return stored;
+    }
+    return getPreferredColorScheme();
+  };
+
+  function storeTheme(theme: Theme): void {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(storageKey, theme);
     }
   }
-  customElements.define('accent-theme-picker', AccentThemePicker)
+
+  function applyTheme(theme: Theme): void {
+    document.documentElement.dataset.theme = theme;
+    storeTheme(theme);
+  }
+
+  matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+    if (!localStorage.getItem(storageKey)) {
+      applyTheme(getPreferredColorScheme());
+    }
+  });
+
+  class StarlightThemeSelect extends HTMLElement {
+    constructor() {
+      super();
+      applyTheme(loadTheme());
+      this.querySelector('button')?.addEventListener('click', () => {
+        const current = document.documentElement.dataset.theme;
+        applyTheme(current === 'light' ? 'dark' : 'light');
+      });
+    }
+  }
+  customElements.define('starlight-theme-select', StarlightThemeSelect);
 </script>
