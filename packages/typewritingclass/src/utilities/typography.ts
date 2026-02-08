@@ -201,3 +201,172 @@ export function leading(value: string | DynamicValue): StyleRule {
 export function textAlign(value: string): StyleRule {
   return createRule({ 'text-align': value })
 }
+
+export function fontFamily(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'font-family': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'font-family': value })
+}
+
+export function antialiased(): StyleRule {
+  return createRule({
+    '-webkit-font-smoothing': 'antialiased',
+    '-moz-osx-font-smoothing': 'grayscale',
+  })
+}
+
+export function subpixelAntialiased(): StyleRule {
+  return createRule({
+    '-webkit-font-smoothing': 'auto',
+    '-moz-osx-font-smoothing': 'auto',
+  })
+}
+
+export function italic(): StyleRule {
+  return createRule({ 'font-style': 'italic' })
+}
+
+export function notItalic(): StyleRule {
+  return createRule({ 'font-style': 'normal' })
+}
+
+export function normalNums(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'normal' })
+}
+
+export function ordinal(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'ordinal' })
+}
+
+export function slashedZero(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'slashed-zero' })
+}
+
+export function liningNums(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'lining-nums' })
+}
+
+export function oldstyleNums(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'oldstyle-nums' })
+}
+
+export function proportionalNums(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'proportional-nums' })
+}
+
+export function tabularNums(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'tabular-nums' })
+}
+
+export function diagonalFractions(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'diagonal-fractions' })
+}
+
+export function stackedFractions(): StyleRule {
+  return createRule({ 'font-variant-numeric': 'stacked-fractions' })
+}
+
+export function lineClamp(value: number): StyleRule {
+  return createRule({
+    overflow: 'hidden',
+    display: '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': String(value),
+  })
+}
+
+export function listStyleImage(value: string): StyleRule {
+  return createRule({ 'list-style-image': value })
+}
+
+export function listStylePosition(value: string): StyleRule {
+  return createRule({ 'list-style-position': value })
+}
+
+export function listStyleType(value: string): StyleRule {
+  return createRule({ 'list-style-type': value })
+}
+
+export function textDecoration(value: string): StyleRule {
+  return createRule({ 'text-decoration-line': value })
+}
+
+export function textDecorationColor(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'text-decoration-color': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'text-decoration-color': value })
+}
+
+export function textDecorationStyle(value: string): StyleRule {
+  return createRule({ 'text-decoration-style': value })
+}
+
+export function textDecorationThickness(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'text-decoration-thickness': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'text-decoration-thickness': value })
+}
+
+export function textUnderlineOffset(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'text-underline-offset': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'text-underline-offset': value })
+}
+
+export function textTransform(value: string): StyleRule {
+  return createRule({ 'text-transform': value })
+}
+
+export function textOverflow(value: string): StyleRule {
+  return createRule({ 'text-overflow': value })
+}
+
+export function textWrap(value: string): StyleRule {
+  return createRule({ 'text-wrap': value })
+}
+
+export function textIndent(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'text-indent': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'text-indent': value })
+}
+
+export function verticalAlign(value: string): StyleRule {
+  return createRule({ 'vertical-align': value })
+}
+
+export function whitespace(value: string): StyleRule {
+  return createRule({ 'white-space': value })
+}
+
+export function wordBreak(value: string): StyleRule {
+  return createRule({ 'word-break': value })
+}
+
+export function hyphens(value: string): StyleRule {
+  return createRule({ hyphens: value })
+}
+
+export function content_(value: string): StyleRule {
+  return createRule({ content: value })
+}

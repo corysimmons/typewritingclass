@@ -167,6 +167,21 @@ export interface StyleRule {
    * the current runtime values (e.g. `'#ff0000'`).
    */
   dynamicBindings?: Record<string, string>
+  /**
+   * Optional selector template that wraps the generated class name in a
+   * more complex selector pattern. The `&` character is replaced with the
+   * generated `.className` at render time.
+   *
+   * Used for utilities like `spaceX`/`spaceY` (child combinator selectors),
+   * `group-*` / `peer-*` modifiers, and `rtl`/`ltr` direction modifiers.
+   *
+   * @example
+   * ```ts
+   * // spaceX uses: '& > :not([hidden]) ~ :not([hidden])'
+   * // group-hover uses: '.group:hover &'
+   * ```
+   */
+  selectorTemplate?: string
 }
 
 /**

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { shadow, opacity, backdrop } from '../../src/utilities/effects.ts'
+import { shadow, opacity, backdrop, shadowColor, mixBlendMode, bgBlendMode } from '../../src/utilities/effects.ts'
 
 describe('effects utilities', () => {
   it('shadow uses default value', () => {
@@ -17,5 +17,17 @@ describe('effects utilities', () => {
 
   it('backdrop sets backdrop-filter', () => {
     expect(backdrop('blur(8px)').declarations).toEqual({ 'backdrop-filter': 'blur(8px)' })
+  })
+
+  it('shadowColor sets --twc-shadow-color', () => {
+    expect(shadowColor('#000').declarations).toEqual({ '--twc-shadow-color': '#000' })
+  })
+
+  it('mixBlendMode sets mix-blend-mode', () => {
+    expect(mixBlendMode('multiply').declarations).toEqual({ 'mix-blend-mode': 'multiply' })
+  })
+
+  it('bgBlendMode sets background-blend-mode', () => {
+    expect(bgBlendMode('overlay').declarations).toEqual({ 'background-blend-mode': 'overlay' })
   })
 })

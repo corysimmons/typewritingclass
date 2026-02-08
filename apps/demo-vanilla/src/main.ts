@@ -14,6 +14,16 @@ import {
   cursor, select, pointerEvents,
   hover, focus, active, disabled, focusVisible, dark,
   sm, md, lg, xl,
+  blur, brightness, grayscale, saturate,
+  scale, rotate, translateX, translateY, transformOrigin, skewX,
+  transition, transitionAll, transitionColors, duration, ease, delay,
+  bgGradient, gradientFrom, gradientVia, gradientTo,
+  before, after,
+  groupHover,
+  checked, focusWithin, firstChild, lastChild, even, odd, placeholderShown,
+  maxSm, maxMd,
+  motionReduce, motionSafe,
+  pl,
 } from 'typewritingclass'
 import {
   slate, gray, zinc, stone, red, orange, amber, yellow, lime,
@@ -532,6 +542,139 @@ const card = cx(
 document.getElementById('card')!.className = card`
 
 showcase.appendChild(section('08', 'Usage', [codeBlock]))
+
+// ─── 9. Filters ──────────────────────────────────────────
+const filtersDemo = document.createElement('div')
+filtersDemo.className = cx(flex(), flexWrap(), gap(4))
+
+const filterExamples: [string, ...Parameters<typeof cx>][] = [
+  ['Blur', blur('8px'), bg(indigo[200]), size(20), rounded(xlRadius), flex(), items('center'), justify('center'), textColor(indigo[700]), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+  ['Grayscale', grayscale('100%'), bg(emerald[400]), size(20), rounded(xlRadius), flex(), items('center'), justify('center'), textColor(white), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+  ['Brightness', brightness('150%'), bg(amber[400]), size(20), rounded(xlRadius), flex(), items('center'), justify('center'), textColor(amber[900]), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+  ['Saturate', saturate('200%'), bg(rose[400]), size(20), rounded(xlRadius), flex(), items('center'), justify('center'), textColor(white), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+]
+
+for (const [label, ...styles] of filterExamples) {
+  const el = document.createElement('div')
+  el.textContent = label
+  el.className = cx(...styles)
+  filtersDemo.appendChild(el)
+}
+
+showcase.appendChild(section('09', 'Filters', [filtersDemo]))
+
+// ─── 10. Transforms ──────────────────────────────────────
+const transformsDemo = document.createElement('div')
+transformsDemo.className = cx(flex(), gap(6), items('end'), flexWrap())
+
+const transformExamples: [string, ...Parameters<typeof cx>][] = [
+  ['Scale 1.2', scale(120), bg(violet[200]), size(16), rounded(lgRadius), flex(), items('center'), justify('center'), textColor(violet[800]), css({ 'font-family': mono, 'font-size': '0.7rem', transition: 'transform 200ms ease' })],
+  ['Rotate 12\u00B0', rotate('12deg'), bg(sky[200]), size(16), rounded(lgRadius), flex(), items('center'), justify('center'), textColor(sky[800]), css({ 'font-family': mono, 'font-size': '0.7rem' })],
+  ['Skew X', skewX('6deg'), bg(pink[200]), px(6), py(4), rounded(lgRadius), flex(), items('center'), justify('center'), textColor(pink[800]), css({ 'font-family': mono, 'font-size': '0.7rem' })],
+  ['Translate', translateX('0.5rem'), translateY('-0.25rem'), bg(teal[200]), size(16), rounded(lgRadius), flex(), items('center'), justify('center'), textColor(teal[800]), css({ 'font-family': mono, 'font-size': '0.7rem' })],
+]
+
+for (const [label, ...styles] of transformExamples) {
+  const el = document.createElement('div')
+  el.textContent = label
+  el.className = cx(...styles)
+  transformsDemo.appendChild(el)
+}
+
+showcase.appendChild(section('10', 'Transforms', [transformsDemo]))
+
+// ─── 11. Transitions ──────────────────────────────────────
+const transitionsDemo = document.createElement('div')
+transitionsDemo.className = cx(flex(), gap(4), flexWrap())
+
+const transBtn = (label: string, ...extra: Parameters<typeof cx>) => {
+  const b = document.createElement('button')
+  b.textContent = label
+  b.className = cx(
+    px(5), py(3),
+    rounded(lgRadius),
+    bg(slate[100]),
+    textColor(slate[700]),
+    css({ border: 'none', 'font-family': mono, 'font-size': '0.8rem', cursor: 'pointer' }),
+    ...extra,
+  )
+  return b
+}
+
+transitionsDemo.append(
+  transBtn('Colors 300ms',
+    transitionColors(), duration(300),
+    when(hover)(bg(indigo[500]), textColor(white)),
+  ),
+  transBtn('All 500ms ease-out',
+    transitionAll(), duration(500), ease('ease-out'),
+    when(hover)(bg(emerald[500]), textColor(white), shadow(lgShadow), css({ transform: 'translateY(-2px)' })),
+  ),
+  transBtn('Delayed 200ms',
+    transitionColors(), duration(300), delay(200),
+    when(hover)(bg(rose[500]), textColor(white)),
+  ),
+)
+
+showcase.appendChild(section('11', 'Transitions', [transitionsDemo]))
+
+// ─── 12. Gradients ──────────────────────────────────────
+const gradientsDemo = document.createElement('div')
+gradientsDemo.className = cx(flex(), gap(4), flexWrap())
+
+const gradientCards: [string, string, string, string][] = [
+  ['Sunset', rose[500], amber[400], yellow[300]],
+  ['Ocean', blue[600], cyan[400], teal[300]],
+  ['Forest', emerald[700], green[500], lime[400]],
+  ['Twilight', purple[700], violet[500], indigo[400]],
+]
+
+for (const [label, from, via, to] of gradientCards) {
+  const el = document.createElement('div')
+  el.className = cx(
+    px(6), py(8),
+    rounded(_2xlRadius),
+    bgGradient('to right'),
+    gradientFrom(from),
+    gradientVia(via),
+    gradientTo(to),
+    textColor(white),
+    font(typo.semibold),
+    css({ 'font-family': sans, 'font-size': '0.875rem', 'min-width': '10rem', 'text-align': 'center' }),
+  )
+  el.textContent = label
+  gradientsDemo.appendChild(el)
+}
+
+showcase.appendChild(section('12', 'Gradients', [gradientsDemo]))
+
+// ─── 13. Before & After ──────────────────────────────────
+const pseudoDemo = document.createElement('div')
+pseudoDemo.className = cx(flexCol(), gap(6))
+
+const quotedText = document.createElement('blockquote')
+quotedText.className = cx(
+  relative(),
+  pl(10), py(4),
+  css({ 'font-family': serif, 'font-size': '1.25rem', 'font-style': 'italic' }),
+  textColor(slate[600]),
+  borderL('4px'), borderColor(indigo[400]),
+  when(dark)(textColor(slate[300])),
+)
+quotedText.textContent = 'CSS-in-TypeScript is not the future \u2014 it is the present.'
+
+const decorLine = document.createElement('div')
+decorLine.className = cx(
+  relative(),
+  h('2px'),
+  css({
+    background: `linear-gradient(to right, ${indigo[500]}, ${violet[500]}, ${rose[500]})`,
+  }),
+  rounded(fullRadius),
+)
+
+pseudoDemo.append(quotedText, decorLine)
+showcase.appendChild(section('13', 'Decorative Elements', [pseudoDemo]))
 
 // ─── Footer ───────────────────────────────────────────────
 app.appendChild(createDivider())

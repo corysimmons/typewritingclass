@@ -5,8 +5,12 @@ import {
   w, h, flex, flexCol, flexRow, gap, items, justify,
   border, borderColor,
   createTheme, injectTheme, setTheme,
+  blur, brightness, grayscale, saturate,
+  transitionColors, duration,
+  bgGradient, gradientFrom, gradientVia, gradientTo,
+  opacity, flexWrap, when, hover,
 } from 'typewritingclass'
-import { blue, indigo, emerald, rose } from 'typewritingclass/theme/colors'
+import { blue, indigo, emerald, rose, amber, cyan, violet, purple } from 'typewritingclass/theme/colors'
 import { base, lg, xl, _2xl, bold, semibold, medium } from 'typewritingclass/theme/typography'
 import { lg as lgRadius } from 'typewritingclass/theme/borders'
 import { md as mdShadow, lg as lgShadow } from 'typewritingclass/theme/shadows'
@@ -207,6 +211,94 @@ function MultiPropertyDemo() {
   )
 }
 
+// --- Filters Demo ---
+function FiltersDemo() {
+  const filterExamples = [
+    { label: 'Blur', filter: blur('8px'), bgColor: indigo[200] },
+    { label: 'Grayscale', filter: grayscale('100%'), bgColor: emerald[400] },
+    { label: 'Bright', filter: brightness('150%'), bgColor: amber[400] },
+    { label: 'Saturate', filter: saturate('200%'), bgColor: rose[400] },
+  ]
+
+  return (
+    <div class={cx(flexCol(), gap(4))}>
+      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+        Filters
+      </h3>
+      <div class={cx(flexRow(), gap(4), flexWrap())}>
+        {filterExamples.map(({ label, filter, bgColor }) => (
+          <div class={cx(
+            filter, bg(bgColor),
+            w('5rem'), h('5rem'),
+            rounded(lgRadius),
+            flex(), items('center'), justify('center'),
+            textColor('#ffffff'), css({ 'font-size': '0.75rem' }),
+          )}>
+            {label}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// --- Transitions Demo ---
+function TransitionsDemo() {
+  return (
+    <div class={cx(flexCol(), gap(4))}>
+      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+        Transitions
+      </h3>
+      <div class={cx(flexRow(), gap(3))}>
+        <button class={cx(
+          px(5), py(2.5), rounded(lgRadius),
+          bg('#e2e8f0'), textColor('#475569'),
+          font(medium),
+          transitionColors(), duration(300),
+          css({ border: 'none', cursor: 'pointer', 'font-size': '0.875rem' }),
+          when(hover)(bg(indigo[500]), textColor('#ffffff')),
+        )}>
+          Hover me (300ms)
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// --- Gradients Demo ---
+function GradientsDemo() {
+  const gradients = [
+    { label: 'Sunset', from: rose[500], via: amber[400], to: '#fde68a' },
+    { label: 'Ocean', from: blue[500], via: cyan[400], to: '#99f6e4' },
+    { label: 'Twilight', from: purple[500], via: violet[400], to: indigo[300] },
+  ]
+
+  return (
+    <div class={cx(flexCol(), gap(4))}>
+      <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+        Gradients
+      </h3>
+      <div class={cx(flexRow(), gap(4), flexWrap())}>
+        {gradients.map(({ label, from, via, to }) => (
+          <div class={cx(
+            px(6), py(4),
+            rounded(lgRadius),
+            bgGradient('to right'),
+            gradientFrom(from),
+            gradientVia(via),
+            gradientTo(to),
+            textColor('#ffffff'),
+            font(semibold),
+            css({ 'min-width': '8rem', 'text-align': 'center' }),
+          )}>
+            {label}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // --- App ---
 export function App() {
   return (
@@ -218,13 +310,16 @@ export function App() {
         typewritingclass — Solid Demo
       </h1>
       <p class={cx(text(base), textColor('#64748b'))}>
-        Solid.js: Fine-grained reactivity with dynamic(), dcx(), createTheme(), css tagged templates
+        Solid.js: Filters, transitions, gradients + dynamic(), dcx(), createTheme()
       </p>
 
       <ColorPickerDemo />
       <ProgressBarDemo />
       <ThemeSwitcherDemo />
       <MultiPropertyDemo />
+      <FiltersDemo />
+      <TransitionsDemo />
+      <GradientsDemo />
     </div>
   )
 }

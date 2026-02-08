@@ -7,10 +7,10 @@ export default defineConfig({
       title: 'typewritingclass',
       description: 'CSS-in-TS. Composable. Compiled. Correct.',
       social: {
-        github: 'https://github.com/anthropics/typewritingclass',
+        github: 'https://github.com/corysimmons/typewritingclass',
       },
       editLink: {
-        baseUrl: 'https://github.com/anthropics/typewritingclass/edit/main/apps/docs/',
+        baseUrl: 'https://github.com/corysimmons/typewritingclass/edit/main/apps/docs/',
       },
       sidebar: [
         {

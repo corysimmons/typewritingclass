@@ -158,3 +158,21 @@ export function wrapWithMediaQuery(rule: StyleRule, query: string): StyleRule {
     mediaQueries: [...rule.mediaQueries, query],
   }
 }
+
+/**
+ * Returns a copy of the given rule with a selector template applied.
+ *
+ * The template uses `&` as a placeholder for the generated class name.
+ * At render time, `&` is replaced with `.className`.
+ *
+ * @internal
+ * @param rule - The source {@link StyleRule} to wrap.
+ * @param template - The selector template (e.g., `'.group:hover &'`).
+ * @returns A new {@link StyleRule} with the `selectorTemplate` set.
+ */
+export function wrapWithSelectorTemplate(rule: StyleRule, template: string): StyleRule {
+  return {
+    ...rule,
+    selectorTemplate: template,
+  }
+}

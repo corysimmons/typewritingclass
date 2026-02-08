@@ -48,6 +48,7 @@ export function generateHash(rule: StyleRule, layer: number): string {
     JSON.stringify(rule.declarations) +
     JSON.stringify(rule.selectors) +
     JSON.stringify(rule.mediaQueries) +
-    String(layer)
+    String(layer) +
+    (rule.selectorTemplate ?? '')
   return '_' + djb2(input).toString(36)
 }

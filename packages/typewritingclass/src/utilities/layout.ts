@@ -929,3 +929,221 @@ export function z(value: number | string | DynamicValue): StyleRule {
   }
   return createRule({ 'z-index': String(value) })
 }
+
+// --- Additional layout utilities ---
+
+export function aspectRatio(value: string): StyleRule {
+  return createRule({ 'aspect-ratio': value })
+}
+
+export function columns(value: string | number): StyleRule {
+  return createRule({ columns: String(value) })
+}
+
+export function breakAfter(value: string): StyleRule {
+  return createRule({ 'break-after': value })
+}
+
+export function breakBefore(value: string): StyleRule {
+  return createRule({ 'break-before': value })
+}
+
+export function breakInside(value: string): StyleRule {
+  return createRule({ 'break-inside': value })
+}
+
+export function boxDecorationBreak(value: string): StyleRule {
+  return createRule({ 'box-decoration-break': value })
+}
+
+export function boxSizing(value: string): StyleRule {
+  return createRule({ 'box-sizing': value })
+}
+
+export function float_(value: string): StyleRule {
+  return createRule({ float: value })
+}
+
+export function clear_(value: string): StyleRule {
+  return createRule({ clear: value })
+}
+
+export function isolate(): StyleRule {
+  return createRule({ isolation: 'isolate' })
+}
+
+export function isolationAuto(): StyleRule {
+  return createRule({ isolation: 'auto' })
+}
+
+export function objectFit(value: string): StyleRule {
+  return createRule({ 'object-fit': value })
+}
+
+export function objectPosition(value: string): StyleRule {
+  return createRule({ 'object-position': value })
+}
+
+export function overscrollBehavior(value: string): StyleRule {
+  return createRule({ 'overscroll-behavior': value })
+}
+
+export function overscrollX(value: string): StyleRule {
+  return createRule({ 'overscroll-behavior-x': value })
+}
+
+export function overscrollY(value: string): StyleRule {
+  return createRule({ 'overscroll-behavior-y': value })
+}
+
+export function static_(): StyleRule {
+  return createRule({ position: 'static' })
+}
+
+export function insetX(value: number | string | DynamicValue): StyleRule {
+  return sizeRuleMulti(['left', 'right'], value)
+}
+
+export function insetY(value: number | string | DynamicValue): StyleRule {
+  return sizeRuleMulti(['top', 'bottom'], value)
+}
+
+export function start(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('inset-inline-start', value)
+}
+
+export function end(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('inset-inline-end', value)
+}
+
+export function visible(): StyleRule {
+  return createRule({ visibility: 'visible' })
+}
+
+export function invisible(): StyleRule {
+  return createRule({ visibility: 'hidden' })
+}
+
+export function collapse_(): StyleRule {
+  return createRule({ visibility: 'collapse' })
+}
+
+export function flexBasis(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('flex-basis', value)
+}
+
+export function flexRowReverse(): StyleRule {
+  return createRule({ display: 'flex', 'flex-direction': 'row-reverse' })
+}
+
+export function flexColReverse(): StyleRule {
+  return createRule({ display: 'flex', 'flex-direction': 'column-reverse' })
+}
+
+export function flexWrapReverse(): StyleRule {
+  return createRule({ 'flex-wrap': 'wrap-reverse' })
+}
+
+export function flexNowrap(): StyleRule {
+  return createRule({ 'flex-wrap': 'nowrap' })
+}
+
+export function flex1(): StyleRule {
+  return createRule({ flex: '1 1 0%' })
+}
+
+export function flexAuto(): StyleRule {
+  return createRule({ flex: '1 1 auto' })
+}
+
+export function flexInitial(): StyleRule {
+  return createRule({ flex: '0 1 auto' })
+}
+
+export function flexNone(): StyleRule {
+  return createRule({ flex: 'none' })
+}
+
+export function grow(value: string | number = 1): StyleRule {
+  return createRule({ 'flex-grow': String(value) })
+}
+
+export function shrink(value: string | number = 1): StyleRule {
+  return createRule({ 'flex-shrink': String(value) })
+}
+
+export function order(value: number | string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { order: `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ order: String(value) })
+}
+
+export function colSpan(value: number | string): StyleRule {
+  if (value === 'full') return createRule({ 'grid-column': '1 / -1' })
+  return createRule({ 'grid-column': `span ${value} / span ${value}` })
+}
+
+export function colStart(value: number | string): StyleRule {
+  return createRule({ 'grid-column-start': String(value) })
+}
+
+export function colEnd(value: number | string): StyleRule {
+  return createRule({ 'grid-column-end': String(value) })
+}
+
+export function rowSpan(value: number | string): StyleRule {
+  if (value === 'full') return createRule({ 'grid-row': '1 / -1' })
+  return createRule({ 'grid-row': `span ${value} / span ${value}` })
+}
+
+export function rowStart(value: number | string): StyleRule {
+  return createRule({ 'grid-row-start': String(value) })
+}
+
+export function rowEnd(value: number | string): StyleRule {
+  return createRule({ 'grid-row-end': String(value) })
+}
+
+export function gridFlow(value: string): StyleRule {
+  return createRule({ 'grid-auto-flow': value })
+}
+
+export function autoCols(value: string): StyleRule {
+  return createRule({ 'grid-auto-columns': value })
+}
+
+export function autoRows(value: string): StyleRule {
+  return createRule({ 'grid-auto-rows': value })
+}
+
+export function justifyItems(value: string): StyleRule {
+  return createRule({ 'justify-items': value })
+}
+
+export function justifySelf(value: string): StyleRule {
+  return createRule({ 'justify-self': value })
+}
+
+export function alignContent(value: string): StyleRule {
+  return createRule({ 'align-content': value })
+}
+
+export function placeContent(value: string): StyleRule {
+  return createRule({ 'place-content': value })
+}
+
+export function placeItems(value: string): StyleRule {
+  return createRule({ 'place-items': value })
+}
+
+export function placeSelf(value: string): StyleRule {
+  return createRule({ 'place-self': value })
+}
+
+export function container(): StyleRule {
+  return createRule({ width: '100%' })
+}

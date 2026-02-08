@@ -2,6 +2,7 @@ import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import { resolveSpacing } from '../theme/spacing.ts'
 
 /**
  * Sets the `cursor` style of an element.
@@ -102,4 +103,151 @@ export function select(value: string): StyleRule {
  */
 export function pointerEvents(value: string): StyleRule {
   return createRule({ 'pointer-events': value })
+}
+
+export function accentColor(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'accent-color': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'accent-color': value })
+}
+
+export function appearance(value: string): StyleRule {
+  return createRule({ appearance: value })
+}
+
+export function caretColor(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'caret-color': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'caret-color': value })
+}
+
+export function resize(value: string): StyleRule {
+  return createRule({ resize: value })
+}
+
+export function scrollBehavior(value: string): StyleRule {
+  return createRule({ 'scroll-behavior': value })
+}
+
+function scrollSpacingRule(prop: string, value: number | string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { [prop]: `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = typeof value === 'number' ? resolveSpacing(value) : value
+  return createRule({ [prop]: v })
+}
+
+export function scrollMargin(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-margin', value)
+}
+
+export function scrollMarginX(value: number | string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'scroll-margin-left': `var(${value.__id})`, 'scroll-margin-right': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = typeof value === 'number' ? resolveSpacing(value) : String(value)
+  return createRule({ 'scroll-margin-left': v, 'scroll-margin-right': v })
+}
+
+export function scrollMarginY(value: number | string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'scroll-margin-top': `var(${value.__id})`, 'scroll-margin-bottom': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = typeof value === 'number' ? resolveSpacing(value) : String(value)
+  return createRule({ 'scroll-margin-top': v, 'scroll-margin-bottom': v })
+}
+
+export function scrollMarginT(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-margin-top', value)
+}
+
+export function scrollMarginR(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-margin-right', value)
+}
+
+export function scrollMarginB(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-margin-bottom', value)
+}
+
+export function scrollMarginL(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-margin-left', value)
+}
+
+export function scrollPadding(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-padding', value)
+}
+
+export function scrollPaddingX(value: number | string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'scroll-padding-left': `var(${value.__id})`, 'scroll-padding-right': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = typeof value === 'number' ? resolveSpacing(value) : String(value)
+  return createRule({ 'scroll-padding-left': v, 'scroll-padding-right': v })
+}
+
+export function scrollPaddingY(value: number | string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'scroll-padding-top': `var(${value.__id})`, 'scroll-padding-bottom': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = typeof value === 'number' ? resolveSpacing(value) : String(value)
+  return createRule({ 'scroll-padding-top': v, 'scroll-padding-bottom': v })
+}
+
+export function scrollPaddingT(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-padding-top', value)
+}
+
+export function scrollPaddingR(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-padding-right', value)
+}
+
+export function scrollPaddingB(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-padding-bottom', value)
+}
+
+export function scrollPaddingL(value: number | string | DynamicValue): StyleRule {
+  return scrollSpacingRule('scroll-padding-left', value)
+}
+
+export function snapAlign(value: string): StyleRule {
+  return createRule({ 'scroll-snap-align': value })
+}
+
+export function snapStop(value: string): StyleRule {
+  return createRule({ 'scroll-snap-stop': value })
+}
+
+export function snapType(value: string): StyleRule {
+  return createRule({ 'scroll-snap-type': value })
+}
+
+export function touchAction(value: string): StyleRule {
+  return createRule({ 'touch-action': value })
+}
+
+export function willChange(value: string): StyleRule {
+  return createRule({ 'will-change': value })
 }

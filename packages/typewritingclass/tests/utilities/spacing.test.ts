@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { p, px, py, pt, pr, pb, pl, m, mx, my, mt, mr, mb, ml, gap, gapX, gapY } from '../../src/utilities/spacing.ts'
+import { p, px, py, pt, pr, pb, pl, m, mx, my, mt, mr, mb, ml, gap, gapX, gapY, ps, pe, ms, me, spaceX, spaceY } from '../../src/utilities/spacing.ts'
 
 describe('spacing utilities', () => {
   it('p resolves numeric values from spacing scale', () => {
@@ -86,5 +86,33 @@ describe('spacing utilities', () => {
     expect(p(1)._tag).toBe('StyleRule')
     expect(m(1)._tag).toBe('StyleRule')
     expect(gap(1)._tag).toBe('StyleRule')
+  })
+
+  it('ps sets padding-inline-start', () => {
+    expect(ps(4).declarations).toEqual({ 'padding-inline-start': '1rem' })
+  })
+
+  it('pe sets padding-inline-end', () => {
+    expect(pe(4).declarations).toEqual({ 'padding-inline-end': '1rem' })
+  })
+
+  it('ms sets margin-inline-start', () => {
+    expect(ms(4).declarations).toEqual({ 'margin-inline-start': '1rem' })
+  })
+
+  it('me sets margin-inline-end', () => {
+    expect(me(4).declarations).toEqual({ 'margin-inline-end': '1rem' })
+  })
+
+  it('spaceX sets margin-left with selectorTemplate', () => {
+    const result = spaceX(4)
+    expect(result.declarations).toEqual({ 'margin-left': '1rem' })
+    expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
+  })
+
+  it('spaceY sets margin-top with selectorTemplate', () => {
+    const result = spaceY(2)
+    expect(result.declarations).toEqual({ 'margin-top': '0.5rem' })
+    expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
   })
 })

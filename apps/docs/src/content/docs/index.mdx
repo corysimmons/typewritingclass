@@ -10,27 +10,44 @@ hero:
       icon: right-arrow
       variant: primary
     - text: View on GitHub
-      link: https://github.com/anthropics/typewritingclass
+      link: https://github.com/corysimmons/typewritingclass
       icon: external
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components'
 
 ## Why typewritingclass?
 
 <CardGrid>
-  <Card title="TypeScript-native" icon="seti:typescript">
-    Utilities are functions, not string conventions. Full autocomplete, type checking, and refactoring support out of the box.
+  <Card
+    title="TypeScript-native"
+    icon="seti:typescript"
+  >
+    Utilities are functions, not string conventions. Full autocomplete, type
+    checking, and refactoring support out of the box.
   </Card>
-  <Card title="Two functions" icon="puzzle">
-    `cx()` to compose, `when()` to modify. That's the entire API surface. Everything else is just utilities and modifiers slotting into these two shapes.
+  <Card
+    title="Two functions"
+    icon="puzzle"
+  >
+    `cx()` to compose, `when()` to modify. That's the entire API surface.
+    Everything else is just utilities and modifiers slotting into these two
+    shapes.
   </Card>
-  <Card title="Zero runtime" icon="rocket">
-    The compiler extracts all static styles at build time. No runtime CSS generation, no style injection, no FOUC. Just plain CSS files.
+  <Card
+    title="Zero runtime"
+    icon="rocket"
+  >
+    The compiler extracts all static styles at build time. No runtime CSS
+    generation, no style injection, no FOUC. Just plain CSS files.
   </Card>
-  <Card title="Dynamic when needed" icon="random">
-    Wrap runtime values with `dynamic()` and use `dcx()` — the compiler emits CSS custom properties and a tiny runtime handles the rest.
+  <Card
+    title="Dynamic when needed"
+    icon="random"
+  >
+    Wrap runtime values with `dynamic()` and use `dcx()` — the compiler emits
+    CSS custom properties and a tiny runtime handles the rest.
   </Card>
 </CardGrid>
 
@@ -53,11 +70,33 @@ const className = cx(
 The compiler extracts this into static CSS at build time:
 
 ```css
-@layer l0 { ._a1b2c { padding: 1rem; } }
-@layer l1 { ._d3e4f { background-color: #3b82f6; } }
-@layer l2 { ._g5h6i { border-radius: 0.5rem; } }
-@layer l3 { ._j7k8l:hover { background-color: #2563eb; } }
-@layer l4 { @media (min-width: 768px) { ._m9n0o { padding: 2rem; } } }
+@layer l0 {
+  ._a1b2c {
+    padding: 1rem;
+  }
+}
+@layer l1 {
+  ._d3e4f {
+    background-color: #3b82f6;
+  }
+}
+@layer l2 {
+  ._g5h6i {
+    border-radius: 0.5rem;
+  }
+}
+@layer l3 {
+  ._j7k8l:hover {
+    background-color: #2563eb;
+  }
+}
+@layer l4 {
+  @media (min-width: 768px) {
+    ._m9n0o {
+      padding: 2rem;
+    }
+  }
+}
 ```
 
 ## The plugin model

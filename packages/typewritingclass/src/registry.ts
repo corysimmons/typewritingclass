@@ -96,9 +96,14 @@ function renderRule(className: string, rule: StyleRule): string {
     .map(([prop, val]) => `  ${prop}: ${val};`)
     .join('\n')
 
-  let selector = `.${className}`
-  if (rule.selectors.length > 0) {
-    selector += rule.selectors.join('')
+  let selector: string
+  if (rule.selectorTemplate) {
+    selector = rule.selectorTemplate.replace(/&/g, `.${className}`)
+  } else {
+    selector = `.${className}`
+    if (rule.selectors.length > 0) {
+      selector += rule.selectors.join('')
+    }
   }
 
   let css = `${selector} {\n${decls}\n}`

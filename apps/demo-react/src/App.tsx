@@ -2,12 +2,17 @@ import React, { useState } from 'react'
 import {
   cx, dcx, dynamic, css,
   p, px, py, m, bg, textColor, text, font, rounded, shadow,
-  w, h, flex, flexCol, flexRow, gap, items, justify,
+  w, h, size, flex, flexCol, flexRow, flexWrap, gap, items, justify,
   border, borderColor,
   createTheme, injectTheme, setTheme,
+  blur, brightness, grayscale, saturate,
+  transitionColors, duration,
+  bgGradient, gradientFrom, gradientVia, gradientTo,
+  grid, gridCols, opacity,
+  when, hover,
 } from 'typewritingclass'
 import { useStyle } from 'typewritingclass-react'
-import { blue, indigo, emerald, rose } from 'typewritingclass/theme/colors'
+import { blue, indigo, emerald, rose, amber, cyan, violet, purple } from 'typewritingclass/theme/colors'
 import { base, lg, xl, _2xl, bold, semibold, medium } from 'typewritingclass/theme/typography'
 import { lg as lgRadius } from 'typewritingclass/theme/borders'
 import { md as mdShadow, lg as lgShadow } from 'typewritingclass/theme/shadows'
@@ -205,6 +210,90 @@ function MultiPropertyDemo() {
   )
 }
 
+// --- Filters Demo ---
+function FiltersDemo() {
+  return (
+    <div className={cx(flexCol(), gap(4))}>
+      <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+        Filters
+      </h3>
+      <div className={cx(flexRow(), gap(4), flexWrap())}>
+        {[
+          ['Blur', blur('8px'), bg(indigo[200])],
+          ['Grayscale', grayscale('100%'), bg(emerald[400])],
+          ['Bright', brightness('150%'), bg(amber[400])],
+          ['Saturate', saturate('200%'), bg(rose[400])],
+        ].map(([label, filter, bgColor]) => (
+          <div key={label as string} className={cx(
+            filter as any, bgColor as any,
+            w('5rem'), h('5rem'),
+            rounded(lgRadius),
+            flex(), items('center'), justify('center'),
+            textColor('#ffffff'), css({ 'font-size': '0.75rem' }),
+          )}>
+            {label as string}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// --- Transitions Demo ---
+function TransitionsDemo() {
+  return (
+    <div className={cx(flexCol(), gap(4))}>
+      <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+        Transitions
+      </h3>
+      <div className={cx(flexRow(), gap(3))}>
+        <button className={cx(
+          px(5), py(2.5), rounded(lgRadius),
+          bg('#e2e8f0'), textColor('#475569'),
+          font(medium),
+          transitionColors(), duration(300),
+          css({ border: 'none', cursor: 'pointer', 'font-size': '0.875rem' }),
+          when(hover)(bg(indigo[500]), textColor('#ffffff')),
+        )}>
+          Hover me (300ms)
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// --- Gradients Demo ---
+function GradientsDemo() {
+  return (
+    <div className={cx(flexCol(), gap(4))}>
+      <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
+        Gradients
+      </h3>
+      <div className={cx(flexRow(), gap(4), flexWrap())}>
+        {[
+          ['Sunset', rose[500], amber[400], '#fde68a'],
+          ['Ocean', blue[500], cyan[400], '#99f6e4'],
+          ['Twilight', purple[500], violet[400], indigo[300]],
+        ].map(([label, from, via, to]) => (
+          <div key={label as string} className={cx(
+            px(6), py(4),
+            rounded(lgRadius),
+            bgGradient('to right'),
+            gradientFrom(from as string),
+            gradientVia(via as string),
+            gradientTo(to as string),
+            textColor('#ffffff'),
+            font(semibold),
+            css({ 'min-width': '8rem', 'text-align': 'center' }),
+          )}>
+            {label as string}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // --- App ---
 export function App() {
   return (
@@ -216,13 +305,16 @@ export function App() {
         typewritingclass — React Demo
       </h1>
       <p className={cx(text(base), textColor('#64748b'))}>
-        Phase 2: dynamic(), dcx(), useStyle(), createTheme(), css tagged templates
+        Phase 3: Filters, transforms, transitions, gradients + all Phase 2 features
       </p>
 
       <ColorPickerDemo />
       <ProgressBarDemo />
       <ThemeSwitcherDemo />
       <MultiPropertyDemo />
+      <FiltersDemo />
+      <TransitionsDemo />
+      <GradientsDemo />
     </div>
   )
 }

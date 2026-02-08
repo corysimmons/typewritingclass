@@ -8,6 +8,18 @@ import {
   relative, absolute, fixed, sticky,
   top, right, bottom, left, inset,
   z,
+  aspectRatio, columns, breakAfter, breakBefore, breakInside,
+  boxSizing, float_, clear_, isolate, isolationAuto,
+  objectFit, objectPosition, overscrollBehavior,
+  static_, insetX, insetY, start, end,
+  visible, invisible, collapse_,
+  flexBasis, flexRowReverse, flexColReverse, flexWrapReverse, flexNowrap,
+  flex1, flexAuto, flexInitial, flexNone,
+  grow, shrink, order,
+  colSpan, colStart, colEnd, rowSpan, rowStart, rowEnd,
+  gridFlow, autoCols, autoRows,
+  justifyItems, justifySelf, alignContent, placeContent, placeItems, placeSelf,
+  container,
 } from '../../src/utilities/layout.ts'
 
 describe('layout utilities', () => {
@@ -156,5 +168,215 @@ describe('layout utilities', () => {
 
   it('z with string', () => {
     expect(z('auto').declarations).toEqual({ 'z-index': 'auto' })
+  })
+
+  // --- New layout utilities ---
+
+  it('aspectRatio sets aspect-ratio', () => {
+    expect(aspectRatio('16 / 9').declarations).toEqual({ 'aspect-ratio': '16 / 9' })
+  })
+
+  it('columns sets columns', () => {
+    expect(columns(3).declarations).toEqual({ columns: '3' })
+  })
+
+  it('breakAfter sets break-after', () => {
+    expect(breakAfter('page').declarations).toEqual({ 'break-after': 'page' })
+  })
+
+  it('breakBefore sets break-before', () => {
+    expect(breakBefore('column').declarations).toEqual({ 'break-before': 'column' })
+  })
+
+  it('breakInside sets break-inside', () => {
+    expect(breakInside('avoid').declarations).toEqual({ 'break-inside': 'avoid' })
+  })
+
+  it('boxSizing sets box-sizing', () => {
+    expect(boxSizing('border-box').declarations).toEqual({ 'box-sizing': 'border-box' })
+  })
+
+  it('float_ sets float', () => {
+    expect(float_('left').declarations).toEqual({ float: 'left' })
+  })
+
+  it('clear_ sets clear', () => {
+    expect(clear_('both').declarations).toEqual({ clear: 'both' })
+  })
+
+  it('isolate sets isolation: isolate', () => {
+    expect(isolate().declarations).toEqual({ isolation: 'isolate' })
+  })
+
+  it('isolationAuto sets isolation: auto', () => {
+    expect(isolationAuto().declarations).toEqual({ isolation: 'auto' })
+  })
+
+  it('objectFit sets object-fit', () => {
+    expect(objectFit('cover').declarations).toEqual({ 'object-fit': 'cover' })
+  })
+
+  it('objectPosition sets object-position', () => {
+    expect(objectPosition('center').declarations).toEqual({ 'object-position': 'center' })
+  })
+
+  it('overscrollBehavior sets overscroll-behavior', () => {
+    expect(overscrollBehavior('contain').declarations).toEqual({ 'overscroll-behavior': 'contain' })
+  })
+
+  it('static_ sets position: static', () => {
+    expect(static_().declarations).toEqual({ position: 'static' })
+  })
+
+  it('insetX sets left and right', () => {
+    expect(insetX(0).declarations).toEqual({ left: '0px', right: '0px' })
+  })
+
+  it('insetY sets top and bottom', () => {
+    expect(insetY(0).declarations).toEqual({ top: '0px', bottom: '0px' })
+  })
+
+  it('start sets inset-inline-start', () => {
+    expect(start('1rem').declarations).toEqual({ 'inset-inline-start': '1rem' })
+  })
+
+  it('end sets inset-inline-end', () => {
+    expect(end('1rem').declarations).toEqual({ 'inset-inline-end': '1rem' })
+  })
+
+  it('visible sets visibility: visible', () => {
+    expect(visible().declarations).toEqual({ visibility: 'visible' })
+  })
+
+  it('invisible sets visibility: hidden', () => {
+    expect(invisible().declarations).toEqual({ visibility: 'hidden' })
+  })
+
+  it('collapse_ sets visibility: collapse', () => {
+    expect(collapse_().declarations).toEqual({ visibility: 'collapse' })
+  })
+
+  it('flexBasis sets flex-basis', () => {
+    expect(flexBasis('50%').declarations).toEqual({ 'flex-basis': '50%' })
+  })
+
+  it('flexRowReverse sets flex row-reverse', () => {
+    expect(flexRowReverse().declarations).toEqual({ display: 'flex', 'flex-direction': 'row-reverse' })
+  })
+
+  it('flexColReverse sets flex column-reverse', () => {
+    expect(flexColReverse().declarations).toEqual({ display: 'flex', 'flex-direction': 'column-reverse' })
+  })
+
+  it('flexWrapReverse sets flex-wrap: wrap-reverse', () => {
+    expect(flexWrapReverse().declarations).toEqual({ 'flex-wrap': 'wrap-reverse' })
+  })
+
+  it('flexNowrap sets flex-wrap: nowrap', () => {
+    expect(flexNowrap().declarations).toEqual({ 'flex-wrap': 'nowrap' })
+  })
+
+  it('flex1 sets flex: 1 1 0%', () => {
+    expect(flex1().declarations).toEqual({ flex: '1 1 0%' })
+  })
+
+  it('flexAuto sets flex: 1 1 auto', () => {
+    expect(flexAuto().declarations).toEqual({ flex: '1 1 auto' })
+  })
+
+  it('flexInitial sets flex: 0 1 auto', () => {
+    expect(flexInitial().declarations).toEqual({ flex: '0 1 auto' })
+  })
+
+  it('flexNone sets flex: none', () => {
+    expect(flexNone().declarations).toEqual({ flex: 'none' })
+  })
+
+  it('grow sets flex-grow with default', () => {
+    expect(grow().declarations).toEqual({ 'flex-grow': '1' })
+  })
+
+  it('grow accepts custom value', () => {
+    expect(grow(0).declarations).toEqual({ 'flex-grow': '0' })
+  })
+
+  it('shrink sets flex-shrink with default', () => {
+    expect(shrink().declarations).toEqual({ 'flex-shrink': '1' })
+  })
+
+  it('shrink accepts custom value', () => {
+    expect(shrink(0).declarations).toEqual({ 'flex-shrink': '0' })
+  })
+
+  it('order sets order', () => {
+    expect(order(1).declarations).toEqual({ order: '1' })
+  })
+
+  it('colSpan sets grid-column span', () => {
+    expect(colSpan(2).declarations).toEqual({ 'grid-column': 'span 2 / span 2' })
+  })
+
+  it('colSpan full sets 1 / -1', () => {
+    expect(colSpan('full').declarations).toEqual({ 'grid-column': '1 / -1' })
+  })
+
+  it('colStart sets grid-column-start', () => {
+    expect(colStart(2).declarations).toEqual({ 'grid-column-start': '2' })
+  })
+
+  it('colEnd sets grid-column-end', () => {
+    expect(colEnd(4).declarations).toEqual({ 'grid-column-end': '4' })
+  })
+
+  it('rowSpan sets grid-row span', () => {
+    expect(rowSpan(3).declarations).toEqual({ 'grid-row': 'span 3 / span 3' })
+  })
+
+  it('rowStart sets grid-row-start', () => {
+    expect(rowStart(1).declarations).toEqual({ 'grid-row-start': '1' })
+  })
+
+  it('rowEnd sets grid-row-end', () => {
+    expect(rowEnd(3).declarations).toEqual({ 'grid-row-end': '3' })
+  })
+
+  it('gridFlow sets grid-auto-flow', () => {
+    expect(gridFlow('row dense').declarations).toEqual({ 'grid-auto-flow': 'row dense' })
+  })
+
+  it('autoCols sets grid-auto-columns', () => {
+    expect(autoCols('min-content').declarations).toEqual({ 'grid-auto-columns': 'min-content' })
+  })
+
+  it('autoRows sets grid-auto-rows', () => {
+    expect(autoRows('auto').declarations).toEqual({ 'grid-auto-rows': 'auto' })
+  })
+
+  it('justifyItems sets justify-items', () => {
+    expect(justifyItems('center').declarations).toEqual({ 'justify-items': 'center' })
+  })
+
+  it('justifySelf sets justify-self', () => {
+    expect(justifySelf('end').declarations).toEqual({ 'justify-self': 'end' })
+  })
+
+  it('alignContent sets align-content', () => {
+    expect(alignContent('center').declarations).toEqual({ 'align-content': 'center' })
+  })
+
+  it('placeContent sets place-content', () => {
+    expect(placeContent('center').declarations).toEqual({ 'place-content': 'center' })
+  })
+
+  it('placeItems sets place-items', () => {
+    expect(placeItems('center').declarations).toEqual({ 'place-items': 'center' })
+  })
+
+  it('placeSelf sets place-self', () => {
+    expect(placeSelf('center').declarations).toEqual({ 'place-self': 'center' })
+  })
+
+  it('container sets width: 100%', () => {
+    expect(container().declarations).toEqual({ width: '100%' })
   })
 })

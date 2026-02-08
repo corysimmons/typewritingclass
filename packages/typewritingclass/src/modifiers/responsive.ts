@@ -102,3 +102,9 @@ export const xl: Modifier = (rule: StyleRule) => wrapWithMediaQuery(rule, '(min-
  * ```
  */
 export const _2xl: Modifier = (rule: StyleRule) => wrapWithMediaQuery(rule, '(min-width: 1536px)')
+
+export const maxSm: Modifier = (rule: StyleRule) => wrapWithMediaQuery(rule, '(max-width: 639px)')
+export const maxMd: Modifier = (rule: StyleRule) => wrapWithMediaQuery(rule, '(max-width: 767px)')
+export const maxLg: Modifier = (rule: StyleRule) => wrapWithMediaQuery(rule, '(max-width: 1023px)')
+export const maxXl: Modifier = (rule: StyleRule) => wrapWithMediaQuery(rule, '(max-width: 1279px)')
+export const max2xl: Modifier = (rule: StyleRule) => wrapWithMediaQuery(rule, '(max-width: 1535px)')

@@ -1,11 +1,14 @@
 import 'virtual:twc.css'
 import {
-  cx, css, p, bg, textColor, text, font, rounded, shadow,
-  flex, flexCol, gap, items, justify, minH, when,
+  cx, css, p, px, py, bg, textColor, text, font, rounded, shadow,
+  flex, flexCol, flexRow, gap, items, justify, minH, when,
+  bgGradient, gradientFrom, gradientTo,
+  transitionAll, duration,
+  opacity, blur,
 } from 'typewritingclass'
 import { hover } from 'typewritingclass'
-import { blue, white, slate } from 'typewritingclass/theme/colors'
-import { bold, lg } from 'typewritingclass/theme/typography'
+import { blue, white, slate, indigo, purple, emerald } from 'typewritingclass/theme/colors'
+import { bold, semibold, lg } from 'typewritingclass/theme/typography'
 import { lg as lgRadius } from 'typewritingclass/theme/borders'
 import { md as mdShadow } from 'typewritingclass/theme/shadows'
 
@@ -53,3 +56,46 @@ badge.textContent = 'Styled with typewritingclass'
 card.appendChild(badge)
 
 app.appendChild(card)
+
+// Gradient button with transition
+const gradBtn = document.createElement('button')
+gradBtn.textContent = 'Gradient Button'
+gradBtn.className = cx(
+  px(6), py(3),
+  rounded(lgRadius),
+  bgGradient('to right'),
+  gradientFrom(indigo[500]),
+  gradientTo(purple[600]),
+  textColor(white),
+  font(semibold),
+  transitionAll(), duration(200),
+  css({ border: 'none', cursor: 'pointer', 'font-size': '1rem' }),
+  when(hover)(opacity(0.9), shadow('0 10px 15px -3px rgb(0 0 0 / 0.2)')),
+)
+app.appendChild(gradBtn)
+
+// Filter demo
+const filterRow = document.createElement('div')
+filterRow.className = cx(flexRow(), gap(4))
+
+const normalBox = document.createElement('div')
+normalBox.textContent = 'Normal'
+normalBox.className = cx(
+  bg(emerald[400]),
+  p(4), rounded(lgRadius),
+  textColor(white), font(bold),
+  css({ 'font-size': '0.875rem' }),
+)
+
+const blurredBox = document.createElement('div')
+blurredBox.textContent = 'Blurred'
+blurredBox.className = cx(
+  bg(emerald[400]),
+  blur('2px'),
+  p(4), rounded(lgRadius),
+  textColor(white), font(bold),
+  css({ 'font-size': '0.875rem' }),
+)
+
+filterRow.append(normalBox, blurredBox)
+app.appendChild(filterRow)

@@ -1,6 +1,6 @@
 import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
-import { createRule, createDynamicRule } from '../rule.ts'
+import { createRule, createDynamicRule, wrapWithSelectorTemplate } from '../rule.ts'
 import { resolveSpacing } from '../theme/spacing.ts'
 import { isDynamic } from '../dynamic.ts'
 
@@ -642,4 +642,30 @@ export function gapX(value: number | string | DynamicValue): StyleRule {
  */
 export function gapY(value: number | string | DynamicValue): StyleRule {
   return spacingRule('row-gap', value)
+}
+
+export function ps(value: number | string | DynamicValue): StyleRule {
+  return spacingRule('padding-inline-start', value)
+}
+
+export function pe(value: number | string | DynamicValue): StyleRule {
+  return spacingRule('padding-inline-end', value)
+}
+
+export function ms(value: number | string | DynamicValue): StyleRule {
+  return spacingRule('margin-inline-start', value)
+}
+
+export function me(value: number | string | DynamicValue): StyleRule {
+  return spacingRule('margin-inline-end', value)
+}
+
+export function spaceX(value: number | string | DynamicValue): StyleRule {
+  const rule = spacingRule('margin-left', value)
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
+}
+
+export function spaceY(value: number | string | DynamicValue): StyleRule {
+  const rule = spacingRule('margin-top', value)
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
 }

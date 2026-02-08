@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { sm, md, lg, xl, _2xl } from '../../src/modifiers/responsive.ts'
+import { sm, md, lg, xl, _2xl, maxSm, maxMd, maxLg, maxXl, max2xl } from '../../src/modifiers/responsive.ts'
 import { createRule } from '../../src/rule.ts'
 
 describe('responsive modifiers', () => {
@@ -28,5 +28,25 @@ describe('responsive modifiers', () => {
   it('preserves declarations', () => {
     const result = md(rule)
     expect(result.declarations).toEqual({ display: 'flex' })
+  })
+
+  it('maxSm wraps with max-width: 639px', () => {
+    expect(maxSm(rule).mediaQueries).toEqual(['(max-width: 639px)'])
+  })
+
+  it('maxMd wraps with max-width: 767px', () => {
+    expect(maxMd(rule).mediaQueries).toEqual(['(max-width: 767px)'])
+  })
+
+  it('maxLg wraps with max-width: 1023px', () => {
+    expect(maxLg(rule).mediaQueries).toEqual(['(max-width: 1023px)'])
+  })
+
+  it('maxXl wraps with max-width: 1279px', () => {
+    expect(maxXl(rule).mediaQueries).toEqual(['(max-width: 1279px)'])
+  })
+
+  it('max2xl wraps with max-width: 1535px', () => {
+    expect(max2xl(rule).mediaQueries).toEqual(['(max-width: 1535px)'])
   })
 })

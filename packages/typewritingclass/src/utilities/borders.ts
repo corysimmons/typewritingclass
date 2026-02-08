@@ -1,6 +1,6 @@
 import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
-import { createRule, createDynamicRule } from '../rule.ts'
+import { createRule, createDynamicRule, wrapWithSelectorTemplate } from '../rule.ts'
 import { DEFAULT as defaultRadius } from '../theme/borders.ts'
 import { isDynamic } from '../dynamic.ts'
 
@@ -393,4 +393,192 @@ export function ring(width?: string, color?: string): StyleRule {
   const w = width ?? '3px'
   const c = color ?? '#3b82f6'
   return createRule({ 'box-shadow': `0 0 0 ${w} ${c}` })
+}
+
+// --- Individual corner radius utilities ---
+
+export function roundedTL(value?: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'border-top-left-radius': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'border-top-left-radius': (value as string | undefined) ?? defaultRadius })
+}
+
+export function roundedTR(value?: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'border-top-right-radius': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'border-top-right-radius': (value as string | undefined) ?? defaultRadius })
+}
+
+export function roundedBR(value?: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'border-bottom-right-radius': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'border-bottom-right-radius': (value as string | undefined) ?? defaultRadius })
+}
+
+export function roundedBL(value?: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'border-bottom-left-radius': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'border-bottom-left-radius': (value as string | undefined) ?? defaultRadius })
+}
+
+export function roundedSS(value?: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'border-start-start-radius': `var(${value.__id})`, 'border-end-start-radius': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = (value as string | undefined) ?? defaultRadius
+  return createRule({ 'border-start-start-radius': v, 'border-end-start-radius': v })
+}
+
+export function roundedSE(value?: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'border-start-end-radius': `var(${value.__id})`, 'border-end-end-radius': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = (value as string | undefined) ?? defaultRadius
+  return createRule({ 'border-start-end-radius': v, 'border-end-end-radius': v })
+}
+
+export function roundedEE(value?: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'border-start-end-radius': `var(${value.__id})`, 'border-end-end-radius': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = (value as string | undefined) ?? defaultRadius
+  return createRule({ 'border-start-end-radius': v, 'border-end-end-radius': v })
+}
+
+export function roundedES(value?: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'border-end-start-radius': `var(${value.__id})`, 'border-start-start-radius': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  const v = (value as string | undefined) ?? defaultRadius
+  return createRule({ 'border-end-start-radius': v, 'border-start-start-radius': v })
+}
+
+// --- Directional border width utilities ---
+
+export function borderX(width?: string): StyleRule {
+  return createRule({ 'border-left-width': width ?? '1px', 'border-right-width': width ?? '1px', 'border-style': 'solid' })
+}
+
+export function borderY(width?: string): StyleRule {
+  return createRule({ 'border-top-width': width ?? '1px', 'border-bottom-width': width ?? '1px', 'border-style': 'solid' })
+}
+
+export function borderS(width?: string): StyleRule {
+  return createRule({ 'border-inline-start-width': width ?? '1px', 'border-style': 'solid' })
+}
+
+export function borderE(width?: string): StyleRule {
+  return createRule({ 'border-inline-end-width': width ?? '1px', 'border-style': 'solid' })
+}
+
+export function borderStyle(value: string): StyleRule {
+  return createRule({ 'border-style': value })
+}
+
+// --- Outline utilities ---
+
+export function outlineWidth(value: string): StyleRule {
+  return createRule({ 'outline-width': value })
+}
+
+export function outlineColor(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'outline-color': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ 'outline-color': value })
+}
+
+export function outlineStyle(value: string): StyleRule {
+  return createRule({ 'outline-style': value })
+}
+
+export function outlineOffset(value: string): StyleRule {
+  return createRule({ 'outline-offset': value })
+}
+
+// --- Ring utilities ---
+
+export function ringColor(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { '--twc-ring-color': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ '--twc-ring-color': value })
+}
+
+export function ringOffsetWidth(value: string): StyleRule {
+  return createRule({ '--twc-ring-offset-width': value })
+}
+
+export function ringOffsetColor(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { '--twc-ring-offset-color': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ '--twc-ring-offset-color': value })
+}
+
+// --- Divide utilities (selector-template-based) ---
+
+export function divideX(width?: string): StyleRule {
+  const rule = createRule({ 'border-left-width': width ?? '1px', 'border-style': 'solid' })
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
+}
+
+export function divideY(width?: string): StyleRule {
+  const rule = createRule({ 'border-top-width': width ?? '1px', 'border-style': 'solid' })
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
+}
+
+export function divideColor(value: string | DynamicValue): StyleRule {
+  let rule: StyleRule
+  if (isDynamic(value)) {
+    rule = createDynamicRule(
+      { 'border-color': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  } else {
+    rule = createRule({ 'border-color': value })
+  }
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
+}
+
+export function divideStyle(value: string): StyleRule {
+  const rule = createRule({ 'border-style': value })
+  return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
 }

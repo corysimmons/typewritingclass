@@ -31,6 +31,14 @@
       "types": "./src/theme/createTheme.ts",
       "default": "./src/theme/createTheme.ts"
     },
+    "./theme/animations": {
+      "types": "./src/theme/animations.ts",
+      "default": "./src/theme/animations.ts"
+    },
+    "./theme/filters": {
+      "types": "./src/theme/filters.ts",
+      "default": "./src/theme/filters.ts"
+    },
     "./theme": {
       "types": "./src/theme/index.ts",
       "default": "./src/theme/index.ts"

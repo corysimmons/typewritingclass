@@ -149,3 +149,21 @@ export function backdrop(value: string | DynamicValue): StyleRule {
   }
   return createRule({ 'backdrop-filter': value })
 }
+
+export function shadowColor(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { '--twc-shadow-color': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
+  return createRule({ '--twc-shadow-color': value })
+}
+
+export function mixBlendMode(value: string): StyleRule {
+  return createRule({ 'mix-blend-mode': value })
+}
+
+export function bgBlendMode(value: string): StyleRule {
+  return createRule({ 'background-blend-mode': value })
+}
