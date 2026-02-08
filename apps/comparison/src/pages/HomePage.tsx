@@ -41,11 +41,12 @@ export function HomePage() {
   return (
     <div className={cx(flex(), flexCol(), gap(8), maxW('960px'))}>
       <div>
+        <img src="/logo.svg" alt="Typewriting Class" style={{ width: '240px', marginBottom: '12px' }} />
         <h1 className={cx(text(_3xl), font(bold), textColor('#0f172a'), mb(2))}>
-          typewritingclass vs Tailwind CSS
+          Typewriting Class vs Tailwind CSS
         </h1>
         <p className={cx(text(lgText), textColor('#64748b'), mb(4))}>
-          Side-by-side visual comparison proving parity between typewritingclass utility functions and Tailwind CSS classes.
+          Side-by-side visual comparison proving parity between Typewriting Class utility functions and Tailwind CSS classes.
         </p>
         <div className={cx(flex(), gap(4), flexWrap())}>
           <div className={cx(bg('#eff6ff'), px(4), py(2), rounded(lgRadius))}>

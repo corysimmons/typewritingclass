@@ -85,6 +85,13 @@ gridBg.className = cx(
 )
 hero.appendChild(gridBg)
 
+// Logo
+const logo = document.createElement('img')
+logo.src = '/logo.svg'
+logo.alt = 'Typewriting Class'
+logo.className = cx(w('280px'), mb(10), relative())
+hero.appendChild(logo)
+
 // Accent line
 const accentLine = document.createElement('div')
 accentLine.className = cx(

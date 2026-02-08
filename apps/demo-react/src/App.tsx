@@ -301,6 +301,7 @@ export function App() {
       css({ 'max-width': '800px', margin: '0 auto' }),
       p(8), flex(), flexCol(), gap(10),
     )}>
+      <img src="/logo.svg" alt="Typewriting Class" style={{ width: '240px' }} />
       <h1 className={cx(text(_2xl), font(bold), textColor('#0f172a'))}>
         Typewriting Class — React Demo
       </h1>
