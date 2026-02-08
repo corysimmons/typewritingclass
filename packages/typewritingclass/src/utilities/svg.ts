@@ -2,6 +2,7 @@ import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import { resolveColor } from './colors.ts'
 
 export function fill(value: string | DynamicValue): StyleRule {
   if (isDynamic(value)) {
@@ -10,7 +11,7 @@ export function fill(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ fill: value })
+  return createRule({ fill: resolveColor(value) })
 }
 
 export function stroke(value: string | DynamicValue): StyleRule {
@@ -20,7 +21,7 @@ export function stroke(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ stroke: value })
+  return createRule({ stroke: resolveColor(value) })
 }
 
 export function strokeWidth(value: string | number | DynamicValue): StyleRule {

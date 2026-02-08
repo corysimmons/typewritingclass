@@ -3,6 +3,7 @@ import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule, wrapWithSelectorTemplate } from '../rule.ts'
 import * as borderRadii from '../theme/borders.ts'
 import { isDynamic } from '../dynamic.ts'
+import { resolveColor } from './colors.ts'
 
 function px(value: string | number): string {
   return typeof value === 'number' ? `${value}px` : value
@@ -534,7 +535,7 @@ export function outlineColor(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'outline-color': value })
+  return createRule({ 'outline-color': resolveColor(value) })
 }
 
 export function outlineStyle(value: string): StyleRule {
@@ -570,7 +571,7 @@ export function ringColor(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ '--twc-ring-color': value })
+  return createRule({ '--twc-ring-color': resolveColor(value) })
 }
 
 export function ringOffsetWidth(value: string | number): StyleRule {
@@ -584,7 +585,7 @@ export function ringOffsetColor(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ '--twc-ring-offset-color': value })
+  return createRule({ '--twc-ring-offset-color': resolveColor(value) })
 }
 
 // --- Divide utilities (selector-template-based) ---
@@ -607,7 +608,7 @@ export function divideColor(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   } else {
-    rule = createRule({ 'border-color': value })
+    rule = createRule({ 'border-color': resolveColor(value) })
   }
   return wrapWithSelectorTemplate(rule, '& > :not([hidden]) ~ :not([hidden])')
 }

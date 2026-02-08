@@ -6,7 +6,7 @@ import {
 import { xs } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
 
-const cell = cx(border(), borderColor('#818cf8'), p(2))
+const cell = cx(border(), borderColor('indigo-400'), p(2))
 const twCell = 'tw-border tw-border-indigo-400 tw-p-2'
 
 export const tablesData: ComparisonCategory = {
@@ -19,11 +19,11 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'border-collapse',
           twcCode: 'borderCollapse()',
-          twcElement: React.createElement('table', { className: cx(borderCollapse(), w('100%'), text(xs)) },
+          twcElement: React.createElement('table', { className: cx(borderCollapse(), w("full"), text(xs)) },
             React.createElement('thead', null,
               React.createElement('tr', null,
-                React.createElement('th', { className: cx(cell, bg('#e0e7ff')) }, 'Name'),
-                React.createElement('th', { className: cx(cell, bg('#e0e7ff')) }, 'Role'),
+                React.createElement('th', { className: cx(cell, bg('indigo-100')) }, 'Name'),
+                React.createElement('th', { className: cx(cell, bg('indigo-100')) }, 'Role'),
               ),
             ),
             React.createElement('tbody', null,
@@ -60,11 +60,11 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'border-separate',
           twcCode: 'borderSeparate()',
-          twcElement: React.createElement('table', { className: cx(borderSeparate(), w('100%'), text(xs)) },
+          twcElement: React.createElement('table', { className: cx(borderSeparate(), w("full"), text(xs)) },
             React.createElement('thead', null,
               React.createElement('tr', null,
-                React.createElement('th', { className: cx(cell, bg('#e0e7ff')) }, 'Name'),
-                React.createElement('th', { className: cx(cell, bg('#e0e7ff')) }, 'Role'),
+                React.createElement('th', { className: cx(cell, bg('indigo-100')) }, 'Name'),
+                React.createElement('th', { className: cx(cell, bg('indigo-100')) }, 'Role'),
               ),
             ),
             React.createElement('tbody', null,
@@ -106,15 +106,15 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'border-spacing-2',
           twcCode: 'borderSeparate(), borderSpacing(2)',
-          twcElement: React.createElement('table', { className: cx(borderSeparate(), borderSpacing(2), w('100%'), text(xs)) },
+          twcElement: React.createElement('table', { className: cx(borderSeparate(), borderSpacing(2), w("full"), text(xs)) },
             React.createElement('tbody', null,
               React.createElement('tr', null,
-                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '1'),
-                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '2'),
+                React.createElement('td', { className: cx(bg('indigo-400'), p(2), textColor('white'), rounded()) }, '1'),
+                React.createElement('td', { className: cx(bg('indigo-400'), p(2), textColor('white'), rounded()) }, '2'),
               ),
               React.createElement('tr', null,
-                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '3'),
-                React.createElement('td', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff'), rounded()) }, '4'),
+                React.createElement('td', { className: cx(bg('indigo-400'), p(2), textColor('white'), rounded()) }, '3'),
+                React.createElement('td', { className: cx(bg('indigo-400'), p(2), textColor('white'), rounded()) }, '4'),
               ),
             ),
           ),
@@ -140,11 +140,11 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'table-fixed',
           twcCode: 'tableLayout("fixed")',
-          twcElement: React.createElement('table', { className: cx(tableLayout('fixed'), borderCollapse(), w('100%'), text(xs)) },
+          twcElement: React.createElement('table', { className: cx(tableLayout('fixed'), borderCollapse(), w("full"), text(xs)) },
             React.createElement('thead', null,
               React.createElement('tr', null,
-                React.createElement('th', { className: cx(cell, bg('#e0e7ff'), w('25%')) }, 'Short'),
-                React.createElement('th', { className: cx(cell, bg('#e0e7ff')) }, 'A much longer header that would normally stretch'),
+                React.createElement('th', { className: cx(cell, bg('indigo-100'), w("1/4")) }, 'Short'),
+                React.createElement('th', { className: cx(cell, bg('indigo-100')) }, 'A much longer header that would normally stretch'),
               ),
             ),
             React.createElement('tbody', null,
@@ -178,12 +178,12 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'caption-bottom',
           twcCode: 'captionSide("bottom")',
-          twcElement: React.createElement('table', { className: cx(captionSide('bottom'), borderCollapse(), w('100%'), text(xs)) },
-            React.createElement('caption', { className: cx(p(2), textColor('#64748b')) }, 'Table caption at bottom'),
+          twcElement: React.createElement('table', { className: cx(captionSide('bottom'), borderCollapse(), w("full"), text(xs)) },
+            React.createElement('caption', { className: cx(p(2), textColor('slate-500')) }, 'Table caption at bottom'),
             React.createElement('tbody', null,
               React.createElement('tr', null,
-                React.createElement('td', { className: cx(cell, bg('#e0e7ff')) }, 'Data 1'),
-                React.createElement('td', { className: cx(cell, bg('#e0e7ff')) }, 'Data 2'),
+                React.createElement('td', { className: cx(cell, bg('indigo-100')) }, 'Data 1'),
+                React.createElement('td', { className: cx(cell, bg('indigo-100')) }, 'Data 2'),
               ),
             ),
           ),

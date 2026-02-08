@@ -2,6 +2,7 @@ import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import { resolveSpacing } from '../theme/spacing.ts'
 
 function transformRule(fn: string, value: string | number | DynamicValue): StyleRule {
   if (isDynamic(value)) {
@@ -50,11 +51,13 @@ export function rotate(value: string | DynamicValue): StyleRule {
   return transformRule('rotate', value)
 }
 
-export function translateX(value: string | DynamicValue): StyleRule {
+export function translateX(value: string | number | DynamicValue): StyleRule {
+  if (typeof value === 'number') return transformRule('translateX', resolveSpacing(value))
   return transformRule('translateX', value)
 }
 
-export function translateY(value: string | DynamicValue): StyleRule {
+export function translateY(value: string | number | DynamicValue): StyleRule {
+  if (typeof value === 'number') return transformRule('translateY', resolveSpacing(value))
   return transformRule('translateY', value)
 }
 

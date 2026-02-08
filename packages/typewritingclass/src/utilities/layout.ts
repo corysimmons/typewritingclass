@@ -3,15 +3,54 @@ import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { resolveSpacing } from '../theme/spacing.ts'
 import { isDynamic } from '../dynamic.ts'
+import { maxWidths } from '../theme/sizes.ts'
 
-function resolveSize(value: number | string | DynamicValue): string | DynamicValue {
+const sizeMap: Record<string, string> = {
+  full: '100%',
+  auto: 'auto',
+  min: 'min-content',
+  max: 'max-content',
+  fit: 'fit-content',
+  '1/2': '50%',
+  '1/3': '33.333333%',
+  '2/3': '66.666667%',
+  '1/4': '25%',
+  '2/4': '50%',
+  '3/4': '75%',
+  '1/5': '20%',
+  '2/5': '40%',
+  '3/5': '60%',
+  '4/5': '80%',
+  '1/6': '16.666667%',
+  '2/6': '33.333333%',
+  '3/6': '50%',
+  '4/6': '66.666667%',
+  '5/6': '83.333333%',
+  '1/12': '8.333333%',
+  '2/12': '16.666667%',
+  '3/12': '25%',
+  '4/12': '33.333333%',
+  '5/12': '41.666667%',
+  '6/12': '50%',
+  '7/12': '58.333333%',
+  '8/12': '66.666667%',
+  '9/12': '75%',
+  '10/12': '83.333333%',
+  '11/12': '91.666667%',
+}
+
+const widthSizeMap: Record<string, string> = { ...sizeMap, screen: '100vw' }
+const heightSizeMap: Record<string, string> = { ...sizeMap, screen: '100vh' }
+const maxWidthMap: Record<string, string> = { ...sizeMap, ...maxWidths }
+
+function resolveSize(value: number | string | DynamicValue, nameMap?: Record<string, string>): string | DynamicValue {
   if (isDynamic(value)) return value
-  if (typeof value === 'string') return value
+  if (typeof value === 'string') return (nameMap && nameMap[value]) ?? sizeMap[value] ?? value
   return resolveSpacing(value)
 }
 
-function sizeRule(prop: string, value: number | string | DynamicValue): StyleRule {
-  const v = resolveSize(value)
+function sizeRule(prop: string, value: number | string | DynamicValue, nameMap?: Record<string, string>): StyleRule {
+  const v = resolveSize(value, nameMap)
   if (isDynamic(v)) {
     return createDynamicRule(
       { [prop]: `var(${v.__id})` },
@@ -21,8 +60,8 @@ function sizeRule(prop: string, value: number | string | DynamicValue): StyleRul
   return createRule({ [prop]: v as string })
 }
 
-function sizeRuleMulti(props: string[], value: number | string | DynamicValue): StyleRule {
-  const v = resolveSize(value)
+function sizeRuleMulti(props: string[], value: number | string | DynamicValue, nameMap?: Record<string, string>): StyleRule {
+  const v = resolveSize(value, nameMap)
   if (isDynamic(v)) {
     const decls: Record<string, string> = {}
     for (const prop of props) decls[prop] = `var(${v.__id})`
@@ -228,7 +267,7 @@ export function gridRows(n: number): StyleRule {
  * ```
  */
 export function w(value: number | string | DynamicValue): StyleRule {
-  return sizeRule('width', value)
+  return sizeRule('width', value, widthSizeMap)
 }
 
 /**
@@ -264,7 +303,7 @@ export function w(value: number | string | DynamicValue): StyleRule {
  * ```
  */
 export function h(value: number | string | DynamicValue): StyleRule {
-  return sizeRule('height', value)
+  return sizeRule('height', value, heightSizeMap)
 }
 
 /**
@@ -372,7 +411,7 @@ export function minW(value: number | string | DynamicValue): StyleRule {
  * ```
  */
 export function minH(value: number | string | DynamicValue): StyleRule {
-  return sizeRule('min-height', value)
+  return sizeRule('min-height', value, heightSizeMap)
 }
 
 /**
@@ -408,7 +447,7 @@ export function minH(value: number | string | DynamicValue): StyleRule {
  * ```
  */
 export function maxW(value: number | string | DynamicValue): StyleRule {
-  return sizeRule('max-width', value)
+  return sizeRule('max-width', value, maxWidthMap)
 }
 
 /**
@@ -444,7 +483,7 @@ export function maxW(value: number | string | DynamicValue): StyleRule {
  * ```
  */
 export function maxH(value: number | string | DynamicValue): StyleRule {
-  return sizeRule('max-height', value)
+  return sizeRule('max-height', value, heightSizeMap)
 }
 
 /**
@@ -932,8 +971,14 @@ export function z(value: number | string | DynamicValue): StyleRule {
 
 // --- Additional layout utilities ---
 
+const aspectRatioMap: Record<string, string> = {
+  auto: 'auto',
+  square: '1 / 1',
+  video: '16 / 9',
+}
+
 export function aspectRatio(value: string): StyleRule {
-  return createRule({ 'aspect-ratio': value })
+  return createRule({ 'aspect-ratio': aspectRatioMap[value] ?? value })
 }
 
 export function columns(value: string | number): StyleRule {

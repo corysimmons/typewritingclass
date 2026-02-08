@@ -3,6 +3,7 @@ import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import * as shadows from '../theme/shadows.ts'
 import { isDynamic } from '../dynamic.ts'
+import { resolveColor } from './colors.ts'
 
 const shadowMap: Record<string, string> = {
   sm: shadows.sm, DEFAULT: shadows.DEFAULT, md: shadows.md,
@@ -168,7 +169,7 @@ export function shadowColor(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ '--twc-shadow-color': value })
+  return createRule({ '--twc-shadow-color': resolveColor(value) })
 }
 
 export function mixBlendMode(value: string): StyleRule {

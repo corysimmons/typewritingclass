@@ -3,6 +3,7 @@ import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
 import { resolveSpacing } from '../theme/spacing.ts'
+import { resolveColor } from './colors.ts'
 
 /**
  * Sets the `cursor` style of an element.
@@ -112,7 +113,7 @@ export function accentColor(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'accent-color': value })
+  return createRule({ 'accent-color': resolveColor(value) })
 }
 
 export function appearance(value: string): StyleRule {
@@ -126,7 +127,7 @@ export function caretColor(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'caret-color': value })
+  return createRule({ 'caret-color': resolveColor(value) })
 }
 
 export function resize(value: string): StyleRule {

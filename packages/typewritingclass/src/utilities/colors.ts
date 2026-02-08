@@ -2,6 +2,30 @@ import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import * as colors from '../theme/colors.ts'
+
+const colorMap: Record<string, string> = {}
+const colorScales: Record<string, colors.ColorScale> = {
+  slate: colors.slate, gray: colors.gray, zinc: colors.zinc, neutral: colors.neutral,
+  stone: colors.stone, red: colors.red, orange: colors.orange, amber: colors.amber,
+  yellow: colors.yellow, lime: colors.lime, green: colors.green, emerald: colors.emerald,
+  teal: colors.teal, cyan: colors.cyan, sky: colors.sky, blue: colors.blue,
+  indigo: colors.indigo, violet: colors.violet, purple: colors.purple, fuchsia: colors.fuchsia,
+  pink: colors.pink, rose: colors.rose,
+}
+for (const [name, scale] of Object.entries(colorScales)) {
+  for (const [shade, hex] of Object.entries(scale)) {
+    colorMap[`${name}-${shade}`] = hex
+  }
+}
+colorMap['white'] = colors.white
+colorMap['black'] = colors.black
+colorMap['transparent'] = 'transparent'
+colorMap['current'] = 'currentColor'
+
+export function resolveColor(value: string): string {
+  return colorMap[value] ?? value
+}
 
 /**
  * Sets the background color of an element.
@@ -41,7 +65,7 @@ export function bg(color: string | DynamicValue): StyleRule {
       { [color.__id]: String(color.__value) },
     )
   }
-  return createRule({ 'background-color': color })
+  return createRule({ 'background-color': resolveColor(color) })
 }
 
 /**
@@ -82,7 +106,7 @@ export function textColor(color: string | DynamicValue): StyleRule {
       { [color.__id]: String(color.__value) },
     )
   }
-  return createRule({ color })
+  return createRule({ color: resolveColor(color) })
 }
 
 /**
@@ -123,5 +147,5 @@ export function borderColor(color: string | DynamicValue): StyleRule {
       { [color.__id]: String(color.__value) },
     )
   }
-  return createRule({ 'border-color': color })
+  return createRule({ 'border-color': resolveColor(color) })
 }

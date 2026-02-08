@@ -3,6 +3,7 @@ import type { TextSize } from '../theme/typography.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import { resolveColor } from './colors.ts'
 import { letterSpacings, lineHeights, fontFamilies } from '../theme/typography.ts'
 
 const trackingMap: Record<string, string> = { ...letterSpacings }
@@ -308,7 +309,7 @@ export function textDecorationColor(value: string | DynamicValue): StyleRule {
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'text-decoration-color': value })
+  return createRule({ 'text-decoration-color': resolveColor(value) })
 }
 
 export function textDecorationStyle(value: string): StyleRule {

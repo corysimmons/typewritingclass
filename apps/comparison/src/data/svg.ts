@@ -11,8 +11,8 @@ export const svgData: ComparisonCategory = {
       examples: [
         {
           label: 'fill-blue-500',
-          twcCode: 'fill("#3b82f6")',
-          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(fill('#3b82f6')) },
+          twcCode: 'fill("blue-500")',
+          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(fill('blue-500')) },
             React.createElement('circle', { cx: 12, cy: 12, r: 10 }),
           ),
           tailwindCode: 'fill-blue-500',
@@ -22,8 +22,8 @@ export const svgData: ComparisonCategory = {
         },
         {
           label: 'fill-emerald-500',
-          twcCode: 'fill("#10b981")',
-          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(fill('#10b981')) },
+          twcCode: 'fill("emerald-500")',
+          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(fill('emerald-500')) },
             React.createElement('rect', { x: 2, y: 2, width: 20, height: 20, rx: 3 }),
           ),
           tailwindCode: 'fill-emerald-500',
@@ -38,8 +38,8 @@ export const svgData: ComparisonCategory = {
       examples: [
         {
           label: 'stroke-indigo-500 stroke-2',
-          twcCode: 'stroke("#6366f1"), strokeWidth("2")',
-          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(stroke('#6366f1'), strokeWidth('2'), fill('none')) },
+          twcCode: 'stroke("indigo-500"), strokeWidth("2")',
+          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(stroke('indigo-500'), strokeWidth('2'), fill('none')) },
             React.createElement('circle', { cx: 12, cy: 12, r: 10 }),
           ),
           tailwindCode: 'stroke-indigo-500 stroke-2',
@@ -49,8 +49,8 @@ export const svgData: ComparisonCategory = {
         },
         {
           label: 'stroke-rose-500 stroke-[3]',
-          twcCode: 'stroke("#f43f5e"), strokeWidth("3")',
-          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(stroke('#f43f5e'), strokeWidth('3'), fill('none')) },
+          twcCode: 'stroke("rose-500"), strokeWidth("3")',
+          twcElement: React.createElement('svg', { width: 48, height: 48, viewBox: '0 0 24 24', className: cx(stroke('rose-500'), strokeWidth('3'), fill('none')) },
             React.createElement('path', { d: 'M3 12h4l3-9 4 18 3-9h4', strokeLinecap: 'round', strokeLinejoin: 'round' }),
           ),
           tailwindCode: 'stroke-rose-500 stroke-[3]',

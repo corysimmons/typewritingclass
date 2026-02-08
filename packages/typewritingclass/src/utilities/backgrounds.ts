@@ -2,6 +2,7 @@ import type { StyleRule } from '../types.ts'
 import type { DynamicValue } from '../dynamic.ts'
 import { createRule, createDynamicRule } from '../rule.ts'
 import { isDynamic } from '../dynamic.ts'
+import { resolveColor } from './colors.ts'
 
 export function bgAttachment(value: string): StyleRule {
   return createRule({ 'background-attachment': value })
@@ -62,7 +63,7 @@ export function gradientFrom(color: string | DynamicValue): StyleRule {
       { [color.__id]: String(color.__value) },
     )
   }
-  return createRule({ '--twc-gradient-from': color })
+  return createRule({ '--twc-gradient-from': resolveColor(color) })
 }
 
 export function gradientVia(color: string | DynamicValue): StyleRule {
@@ -72,7 +73,7 @@ export function gradientVia(color: string | DynamicValue): StyleRule {
       { [color.__id]: String(color.__value) },
     )
   }
-  return createRule({ '--twc-gradient-via': color, '--twc-gradient-stops': 'var(--twc-gradient-from, transparent), var(--twc-gradient-via), var(--twc-gradient-to, transparent)' })
+  return createRule({ '--twc-gradient-via': resolveColor(color), '--twc-gradient-stops': 'var(--twc-gradient-from, transparent), var(--twc-gradient-via), var(--twc-gradient-to, transparent)' })
 }
 
 export function gradientTo(color: string | DynamicValue): StyleRule {
@@ -82,5 +83,5 @@ export function gradientTo(color: string | DynamicValue): StyleRule {
       { [color.__id]: String(color.__value) },
     )
   }
-  return createRule({ '--twc-gradient-to': color })
+  return createRule({ '--twc-gradient-to': resolveColor(color) })
 }
