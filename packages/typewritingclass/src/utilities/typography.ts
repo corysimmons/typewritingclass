@@ -166,14 +166,14 @@ export function tracking(value: string | DynamicValue): StyleRule {
  * // style: { '--twc-d0': lineHeight }
  * ```
  */
-export function leading(value: string | DynamicValue): StyleRule {
+export function leading(value: string | number | DynamicValue): StyleRule {
   if (isDynamic(value)) {
     return createDynamicRule(
       { 'line-height': `var(${value.__id})` },
       { [value.__id]: String(value.__value) },
     )
   }
-  return createRule({ 'line-height': value })
+  return createRule({ 'line-height': String(value) })
 }
 
 /**

@@ -146,8 +146,8 @@ export const typographyData: ComparisonCategory = {
         },
         {
           label: 'leading-loose (2)',
-          twcCode: 'leading("2")',
-          twcElement: React.createElement('p', { className: cx(text(sm), leading('2'), bg('#e0e7ff'), p(2), rounded('4px'), w('16rem')) }, 'This paragraph has loose line-height (2) which gives generous spacing between lines of text.'),
+          twcCode: 'leading(2)',
+          twcElement: React.createElement('p', { className: cx(text(sm), leading(2), bg('#e0e7ff'), p(2), rounded('4px'), w('16rem')) }, 'This paragraph has loose line-height (2) which gives generous spacing between lines of text.'),
           tailwindCode: 'leading-loose',
           tailwindElement: React.createElement('p', { className: 'tw-leading-loose tw-bg-indigo-100 tw-p-2 tw-rounded tw-w-64 tw-text-sm' }, 'This paragraph has loose line-height (2) which gives generous spacing between lines of text.'),
         },
