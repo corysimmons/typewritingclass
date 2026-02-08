@@ -26,7 +26,7 @@ export const flexboxGridData: ComparisonCategory = {
       examples: [
         {
           label: 'flex-row (default)',
-          twcCode: 'cx(flex(), flexRow(), gap(2))',
+          twcCode: 'flex(), flexRow(), gap(2)',
           twcElement: React.createElement('div', { className: cx(flex(), flexRow(), gap(2)) },
             React.createElement('div', box('1'), '1'),
             React.createElement('div', box('2'), '2'),
@@ -41,7 +41,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'flex-col',
-          twcCode: 'cx(flex(), flexCol(), gap(2))',
+          twcCode: 'flex(), flexCol(), gap(2)',
           twcElement: React.createElement('div', { className: cx(flex(), flexCol(), gap(2)) },
             React.createElement('div', box('1'), '1'),
             React.createElement('div', box('2'), '2'),
@@ -56,7 +56,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'flex-row-reverse',
-          twcCode: 'cx(flex(), flexRowReverse(), gap(2))',
+          twcCode: 'flex(), flexRowReverse(), gap(2)',
           twcElement: React.createElement('div', { className: cx(flex(), flexRowReverse(), gap(2)) },
             React.createElement('div', box('1'), '1'),
             React.createElement('div', box('2'), '2'),
@@ -71,7 +71,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'flex-col-reverse',
-          twcCode: 'cx(flex(), flexColReverse(), gap(2))',
+          twcCode: 'flex(), flexColReverse(), gap(2)',
           twcElement: React.createElement('div', { className: cx(flex(), flexColReverse(), gap(2)) },
             React.createElement('div', box('1'), '1'),
             React.createElement('div', box('2'), '2'),
@@ -91,7 +91,7 @@ export const flexboxGridData: ComparisonCategory = {
       examples: [
         {
           label: 'flex-wrap',
-          twcCode: 'cx(flex(), flexWrap(), gap(2))',
+          twcCode: 'flex(), flexWrap(), gap(2)',
           twcElement: React.createElement('div', { className: cx(flex(), flexWrap(), gap(2), w('12rem')) },
             ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(bg('#818cf8'), p(2), rounded('4px'), w('4rem'), textColor('#ffffff'), text(xs), textAlign('center')) }, String(n))),
           ),
@@ -102,7 +102,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'flex-nowrap',
-          twcCode: 'cx(flex(), flexNowrap())',
+          twcCode: 'flex(), flexNowrap()',
           twcElement: React.createElement('div', { className: cx(flex(), flexNowrap(), gap(2), w('10rem'), overflow('hidden')) },
             ...[1,2,3,4,5].map(n => React.createElement('div', { key: n, className: cx(bg('#818cf8'), p(2), rounded('4px'), w('4rem'), textColor('#ffffff'), text(xs), textAlign('center'), shrink(0)) }, String(n))),
           ),
@@ -118,7 +118,7 @@ export const flexboxGridData: ComparisonCategory = {
       examples: [
         {
           label: 'flex-1',
-          twcCode: 'cx(flex1())',
+          twcCode: 'flex1()',
           twcElement: React.createElement('div', { className: cx(flex(), gap(2)) },
             React.createElement('div', { className: cx(flex1(), bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'flex-1'),
             React.createElement('div', { className: cx(flex1(), bg('#a5b4fc'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'flex-1'),
@@ -131,7 +131,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'flex-none',
-          twcCode: 'cx(flexNone())',
+          twcCode: 'flexNone()',
           twcElement: React.createElement('div', { className: cx(flex(), gap(2)) },
             React.createElement('div', { className: cx(flexNone(), bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'none'),
             React.createElement('div', { className: cx(flex1(), bg('#a5b4fc'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'flex-1 takes rest'),
@@ -144,7 +144,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'grow',
-          twcCode: 'cx(grow())',
+          twcCode: 'grow()',
           twcElement: React.createElement('div', { className: cx(flex(), gap(2)) },
             React.createElement('div', { className: cx(grow(), bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'grow'),
             React.createElement('div', { className: cx(bg('#a5b4fc'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'fixed'),
@@ -157,7 +157,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'order',
-          twcCode: 'cx(order(2)), cx(order(1)), cx(order(3))',
+          twcCode: 'order(2), order(1), order(3)',
           twcElement: React.createElement('div', { className: cx(flex(), gap(2)) },
             React.createElement('div', { className: cx(order(2), bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'A (order-2)'),
             React.createElement('div', { className: cx(order(1), bg('#a5b4fc'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'B (order-1)'),
@@ -177,7 +177,7 @@ export const flexboxGridData: ComparisonCategory = {
       examples: [
         {
           label: 'grid-cols-3',
-          twcCode: 'cx(grid(), gridCols(3), gap(2))',
+          twcCode: 'grid(), gridCols(3), gap(2)',
           twcElement: React.createElement('div', { className: cx(grid(), gridCols(3), gap(2)) },
             ...[1,2,3,4,5,6].map(n => React.createElement('div', { key: n, className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, String(n))),
           ),
@@ -188,7 +188,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'col-span-2',
-          twcCode: 'cx(grid(), gridCols(3), gap(2)) + cx(colSpan(2))',
+          twcCode: 'grid(), gridCols(3), gap(2) + colSpan(2)',
           twcElement: React.createElement('div', { className: cx(grid(), gridCols(3), gap(2)) },
             React.createElement('div', { className: cx(colSpan(2), bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'span 2'),
             React.createElement('div', { className: cx(bg('#a5b4fc'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, '1'),
@@ -205,7 +205,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'grid-rows-2 with row-span',
-          twcCode: 'cx(grid(), gridCols(3), gridRows(2), gap(2)) + cx(rowSpan(2))',
+          twcCode: 'grid(), gridCols(3), gridRows(2), gap(2) + rowSpan(2)',
           twcElement: React.createElement('div', { className: cx(grid(), gridCols(3), gridRows(2), gap(2)) },
             React.createElement('div', { className: cx(rowSpan(2), bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'row-span-2'),
             React.createElement('div', { className: cx(bg('#a5b4fc'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, '2'),
@@ -229,7 +229,7 @@ export const flexboxGridData: ComparisonCategory = {
       examples: [
         {
           label: 'gap-4',
-          twcCode: 'cx(flex(), gap(4))',
+          twcCode: 'flex(), gap(4)',
           twcElement: React.createElement('div', { className: cx(flex(), gap(4)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'A'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'B'),
@@ -244,7 +244,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'gap-x-8 gap-y-2',
-          twcCode: 'cx(grid(), gridCols(2), gapX(8), gapY(2))',
+          twcCode: 'grid(), gridCols(2), gapX(8), gapY(2)',
           twcElement: React.createElement('div', { className: cx(grid(), gridCols(2), gapX(8), gapY(2)) },
             ...[1,2,3,4].map(n => React.createElement('div', { key: n, className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs), textAlign('center')) }, String(n))),
           ),
@@ -260,7 +260,7 @@ export const flexboxGridData: ComparisonCategory = {
       examples: [
         {
           label: 'justify-center',
-          twcCode: 'cx(flex(), justify("center"))',
+          twcCode: 'flex(), justify("center")',
           twcElement: React.createElement('div', { className: cx(flex(), justify('center'), gap(2), bg('#e0e7ff'), p(2)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'A'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'B'),
@@ -273,7 +273,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'justify-between',
-          twcCode: 'cx(flex(), justify("between"))',
+          twcCode: 'flex(), justify("between")',
           twcElement: React.createElement('div', { className: cx(flex(), justify('between'), bg('#e0e7ff'), p(2)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'Left'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'Right'),
@@ -286,7 +286,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'items-center',
-          twcCode: 'cx(flex(), items("center"))',
+          twcCode: 'flex(), items("center")',
           twcElement: React.createElement('div', { className: cx(flex(), items('center'), gap(2), bg('#e0e7ff'), p(2), h('5rem')) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'Short'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(4), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'Tall'),
@@ -299,7 +299,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'items-end',
-          twcCode: 'cx(flex(), items("end"))',
+          twcCode: 'flex(), items("end")',
           twcElement: React.createElement('div', { className: cx(flex(), items('end'), gap(2), bg('#e0e7ff'), p(2), h('5rem')) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'A'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'B'),
@@ -312,7 +312,7 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'self-center',
-          twcCode: 'cx(self("center"))',
+          twcCode: 'self("center")',
           twcElement: React.createElement('div', { className: cx(flex(), gap(2), bg('#e0e7ff'), p(2), h('5rem')) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'start'),
             React.createElement('div', { className: cx(self('center'), bg('#6366f1'), p(2), rounded('4px'), textColor('#ffffff'), text(xs)) }, 'self-center'),

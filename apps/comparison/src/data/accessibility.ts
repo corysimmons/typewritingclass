@@ -12,7 +12,7 @@ export const accessibilityData: ComparisonCategory = {
       examples: [
         {
           label: 'sr-only',
-          twcCode: 'cx(srOnly())',
+          twcCode: 'srOnly()',
           twcElement: React.createElement('div', { className: cx(flex(), gap(2), items('center')) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), rounded('0.25rem'), textColor('#ffffff'), text(xs)) }, 'Visible'),
             React.createElement('span', { className: cx(srOnly()) }, 'Screen reader only text'),
@@ -27,7 +27,7 @@ export const accessibilityData: ComparisonCategory = {
         },
         {
           label: 'not-sr-only',
-          twcCode: 'cx(notSrOnly())',
+          twcCode: 'notSrOnly()',
           twcElement: React.createElement('div', { className: cx(notSrOnly(), bg('#c7d2fe'), p(4), rounded('0.25rem'), text(xs)) }, 'This reverses sr-only (not-sr-only)'),
           tailwindCode: 'not-sr-only',
           tailwindElement: React.createElement('div', { className: 'tw-not-sr-only tw-bg-indigo-200 tw-p-4 tw-rounded tw-text-xs' }, 'This reverses sr-only (not-sr-only)'),
@@ -39,14 +39,14 @@ export const accessibilityData: ComparisonCategory = {
       examples: [
         {
           label: 'forced-color-adjust-auto',
-          twcCode: 'cx(forcedColorAdjust("auto"))',
+          twcCode: 'forcedColorAdjust("auto")',
           twcElement: React.createElement('div', { className: cx(forcedColorAdjust('auto'), bg('#818cf8'), p(4), rounded('0.25rem'), textColor('#ffffff'), text(xs)) }, 'forced-color-adjust: auto'),
           tailwindCode: 'forced-color-adjust-auto',
           tailwindElement: React.createElement('div', { className: 'tw-forced-color-adjust-auto tw-bg-indigo-400 tw-p-4 tw-rounded tw-text-white tw-text-xs' }, 'forced-color-adjust: auto'),
         },
         {
           label: 'forced-color-adjust-none',
-          twcCode: 'cx(forcedColorAdjust("none"))',
+          twcCode: 'forcedColorAdjust("none")',
           twcElement: React.createElement('div', { className: cx(forcedColorAdjust('none'), bg('#818cf8'), p(4), rounded('0.25rem'), textColor('#ffffff'), text(xs)) }, 'forced-color-adjust: none'),
           tailwindCode: 'forced-color-adjust-none',
           tailwindElement: React.createElement('div', { className: 'tw-forced-color-adjust-none tw-bg-indigo-400 tw-p-4 tw-rounded tw-text-white tw-text-xs' }, 'forced-color-adjust: none'),

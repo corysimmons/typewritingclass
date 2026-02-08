@@ -23,14 +23,14 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'block',
-          twcCode: 'cx(display("block"))',
+          twcCode: 'display("block")',
           twcElement: React.createElement('div', { className: cx(display('block'), bg('#c7d2fe'), p(2)) }, 'block'),
           tailwindCode: 'block',
           tailwindElement: React.createElement('div', { className: 'tw-block tw-bg-indigo-200 tw-p-2' }, 'block'),
         },
         {
           label: 'inline-block',
-          twcCode: 'cx(display("inline-block"))',
+          twcCode: 'display("inline-block")',
           twcElement: React.createElement('div', null,
             React.createElement('span', { className: cx(display('inline-block'), bg('#c7d2fe'), p(2)) }, 'inline-block'),
             React.createElement('span', { className: cx(display('inline-block'), bg('#a5b4fc'), p(2)) }, 'inline-block'),
@@ -43,7 +43,7 @@ export const layoutData: ComparisonCategory = {
         },
         {
           label: 'inline',
-          twcCode: 'cx(display("inline"))',
+          twcCode: 'display("inline")',
           twcElement: React.createElement('div', null,
             React.createElement('span', { className: cx(display('inline'), bg('#c7d2fe')) }, 'inline '),
             React.createElement('span', { className: cx(display('inline'), bg('#a5b4fc')) }, 'inline'),
@@ -56,7 +56,7 @@ export const layoutData: ComparisonCategory = {
         },
         {
           label: 'flex',
-          twcCode: 'cx(flex(), gap(2))',
+          twcCode: 'flex(), gap(2)',
           twcElement: React.createElement('div', { className: cx(flex(), gap(2)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff')) }, 'A'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff')) }, 'B'),
@@ -69,7 +69,7 @@ export const layoutData: ComparisonCategory = {
         },
         {
           label: 'inline-flex',
-          twcCode: 'cx(inlineFlex())',
+          twcCode: 'inlineFlex()',
           twcElement: React.createElement('div', null,
             React.createElement('span', { className: cx(inlineFlex(), gap(1), bg('#c7d2fe'), p(2)) },
               React.createElement('span', null, 'A'),
@@ -88,7 +88,7 @@ export const layoutData: ComparisonCategory = {
         },
         {
           label: 'grid',
-          twcCode: 'cx(grid(), gridCols(2), gap(2))',
+          twcCode: 'grid(), gridCols(2), gap(2)',
           twcElement: React.createElement('div', { className: cx(grid(), gridCols(2), gap(2)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff')) }, '1'),
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff')) }, '2'),
@@ -105,7 +105,7 @@ export const layoutData: ComparisonCategory = {
         },
         {
           label: 'hidden',
-          twcCode: 'cx(display("none"))',
+          twcCode: 'display("none")',
           twcElement: React.createElement('div', null,
             React.createElement('div', { className: cx(display('none')) }, 'Hidden'),
             React.createElement('div', { className: cx(bg('#c7d2fe'), p(2)) }, 'Visible (hidden element above)'),
@@ -123,7 +123,7 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'relative',
-          twcCode: 'cx(relative())',
+          twcCode: 'relative()',
           twcElement: React.createElement('div', { className: cx(relative(), bg('#c7d2fe'), p(4), h('4rem')) },
             React.createElement('div', { className: cx(absolute(), top(0), right(0), bg('#818cf8'), p(1), textColor('#ffffff'), text(xs)) }, 'abs'),
             'relative parent',
@@ -136,7 +136,7 @@ export const layoutData: ComparisonCategory = {
         },
         {
           label: 'sticky (note: needs scroll context)',
-          twcCode: 'cx(sticky(), top(0))',
+          twcCode: 'sticky(), top(0)',
           twcElement: React.createElement('div', { className: cx(sticky(), top(0), bg('#c7d2fe'), p(2)) }, 'sticky'),
           tailwindCode: 'sticky top-0',
           tailwindElement: React.createElement('div', { className: 'tw-sticky tw-top-0 tw-bg-indigo-200 tw-p-2' }, 'sticky'),
@@ -148,14 +148,14 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'visible',
-          twcCode: 'cx(visible())',
+          twcCode: 'visible()',
           twcElement: React.createElement('div', { className: cx(visible(), bg('#c7d2fe'), p(2)) }, 'visible'),
           tailwindCode: 'visible',
           tailwindElement: React.createElement('div', { className: 'tw-visible tw-bg-indigo-200 tw-p-2' }, 'visible'),
         },
         {
           label: 'invisible (takes space)',
-          twcCode: 'cx(invisible())',
+          twcCode: 'invisible()',
           twcElement: React.createElement('div', { className: cx(flex(), gap(2)) },
             React.createElement('div', { className: cx(bg('#818cf8'), p(2), textColor('#ffffff')) }, 'A'),
             React.createElement('div', { className: cx(invisible(), bg('#818cf8'), p(2), textColor('#ffffff')) }, 'B'),
@@ -175,14 +175,14 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'overflow-hidden',
-          twcCode: 'cx(overflow("hidden"))',
+          twcCode: 'overflow("hidden")',
           twcElement: React.createElement('div', { className: cx(overflow('hidden'), w('8rem'), h('3rem'), bg('#c7d2fe'), p(2)) }, 'This is a long text that will be clipped by overflow hidden'),
           tailwindCode: 'overflow-hidden',
           tailwindElement: React.createElement('div', { className: 'tw-overflow-hidden tw-w-32 tw-h-12 tw-bg-indigo-200 tw-p-2' }, 'This is a long text that will be clipped by overflow hidden'),
         },
         {
           label: 'overflow-auto',
-          twcCode: 'cx(overflow("auto"))',
+          twcCode: 'overflow("auto")',
           twcElement: React.createElement('div', { className: cx(overflow('auto'), w('8rem'), h('3rem'), bg('#c7d2fe'), p(2), text(xs)) }, 'This is a long text that can be scrolled with overflow auto applied'),
           tailwindCode: 'overflow-auto',
           tailwindElement: React.createElement('div', { className: 'tw-overflow-auto tw-w-32 tw-h-12 tw-bg-indigo-200 tw-p-2 tw-text-xs' }, 'This is a long text that can be scrolled with overflow auto applied'),
@@ -194,7 +194,7 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'z-10 / z-20 stacking',
-          twcCode: 'cx(z(10)), cx(z(20))',
+          twcCode: 'z(10), z(20)',
           twcElement: React.createElement('div', { className: cx(relative(), h('4rem')) },
             React.createElement('div', { className: cx(absolute(), z(10), bg('#818cf8'), p(2), w('4rem'), h('3rem'), rounded('4px'), textColor('#ffffff'), text(xs), left(0)) }, 'z-10'),
             React.createElement('div', { className: cx(absolute(), z(20), bg('#6366f1'), p(2), w('4rem'), h('3rem'), rounded('4px'), textColor('#ffffff'), text(xs), left('2rem'), top('0.5rem')) }, 'z-20'),
@@ -212,14 +212,14 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'aspect-square',
-          twcCode: 'cx(aspectRatio("1 / 1"), w("5rem"))',
+          twcCode: 'aspectRatio("1 / 1"), w("5rem")',
           twcElement: React.createElement('div', { className: cx(aspectRatio('1 / 1'), w('5rem'), bg('#818cf8'), flex(), items('center'), justify('center'), textColor('#ffffff')) }, '1:1'),
           tailwindCode: 'aspect-square w-20',
           tailwindElement: React.createElement('div', { className: 'tw-aspect-square tw-w-20 tw-bg-indigo-400 tw-flex tw-items-center tw-justify-center tw-text-white' }, '1:1'),
         },
         {
           label: 'aspect-video',
-          twcCode: 'cx(aspectRatio("16 / 9"), w("10rem"))',
+          twcCode: 'aspectRatio("16 / 9"), w("10rem")',
           twcElement: React.createElement('div', { className: cx(aspectRatio('16 / 9'), w('10rem'), bg('#818cf8'), flex(), items('center'), justify('center'), textColor('#ffffff')) }, '16:9'),
           tailwindCode: 'aspect-video w-40',
           tailwindElement: React.createElement('div', { className: 'tw-aspect-video tw-w-40 tw-bg-indigo-400 tw-flex tw-items-center tw-justify-center tw-text-white' }, '16:9'),
@@ -231,7 +231,7 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'object-cover',
-          twcCode: 'cx(objectFit("cover"))',
+          twcCode: 'objectFit("cover")',
           twcElement: React.createElement('div', { className: cx(w('8rem'), h('4rem'), bg('#e0e7ff'), rounded('4px'), overflow('hidden')) },
             React.createElement('div', { className: cx(objectFit('cover'), w('100%'), h('100%'), bg('#818cf8'), textColor('#ffffff'), flex(), items('center'), justify('center'), text(xs)) }, 'cover'),
           ),
@@ -242,7 +242,7 @@ export const layoutData: ComparisonCategory = {
         },
         {
           label: 'object-contain',
-          twcCode: 'cx(objectFit("contain"))',
+          twcCode: 'objectFit("contain")',
           twcElement: React.createElement('div', { className: cx(w('8rem'), h('4rem'), bg('#e0e7ff'), rounded('4px'), overflow('hidden')) },
             React.createElement('div', { className: cx(objectFit('contain'), w('100%'), h('100%'), bg('#818cf8'), textColor('#ffffff'), flex(), items('center'), justify('center'), text(xs)) }, 'contain'),
           ),
@@ -258,7 +258,7 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'float-right',
-          twcCode: 'cx(float_("right"))',
+          twcCode: 'float_("right")',
           twcElement: React.createElement('div', { className: cx(bg('#e0e7ff'), p(2), overflow('hidden')) },
             React.createElement('div', { className: cx(float_('right'), bg('#818cf8'), p(2), textColor('#ffffff'), text(xs)) }, 'float right'),
             React.createElement('span', { className: cx(text(xs)) }, 'Text wraps around the floated element on the left side.'),
@@ -276,7 +276,7 @@ export const layoutData: ComparisonCategory = {
       examples: [
         {
           label: 'box-border',
-          twcCode: 'cx(boxSizing("border-box"))',
+          twcCode: 'boxSizing("border-box")',
           twcElement: React.createElement('div', { className: cx(boxSizing('border-box'), w('8rem'), p(4), border('2px'), borderColor('#818cf8'), bg('#c7d2fe'), text(xs)) }, 'border-box'),
           tailwindCode: 'box-border',
           tailwindElement: React.createElement('div', { className: 'tw-box-border tw-w-32 tw-p-4 tw-border-2 tw-border-indigo-400 tw-bg-indigo-200 tw-text-xs' }, 'border-box'),

@@ -45,8 +45,11 @@ describe('background utilities', () => {
     expect(gradientFrom('#ff0000').declarations).toEqual({ '--twc-gradient-from': '#ff0000' })
   })
 
-  it('gradientVia sets --twc-gradient-via', () => {
-    expect(gradientVia('#00ff00').declarations).toEqual({ '--twc-gradient-via': '#00ff00' })
+  it('gradientVia sets --twc-gradient-via and --twc-gradient-stops', () => {
+    expect(gradientVia('#00ff00').declarations).toEqual({
+      '--twc-gradient-via': '#00ff00',
+      '--twc-gradient-stops': 'var(--twc-gradient-from, transparent), var(--twc-gradient-via), var(--twc-gradient-to, transparent)',
+    })
   })
 
   it('gradientTo sets --twc-gradient-to', () => {

@@ -15,7 +15,7 @@ export const transformsData: ComparisonCategory = {
       examples: [
         {
           label: 'scale-75',
-          twcCode: 'cx(scale("0.75"))',
+          twcCode: 'scale("0.75")',
           twcElement: React.createElement('div', { className: cx(p(4)) },
             React.createElement('div', { className: cx(scale('0.75'), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'scale-75'),
           ),
@@ -26,7 +26,7 @@ export const transformsData: ComparisonCategory = {
         },
         {
           label: 'scale-110',
-          twcCode: 'cx(scale("1.1"))',
+          twcCode: 'scale("1.1")',
           twcElement: React.createElement('div', { className: cx(p(4)) },
             React.createElement('div', { className: cx(scale('1.1'), bg('#818cf8'), p(4), rounded('0.5rem'), textColor('#ffffff'), text(xs), textAlign('center')) }, 'scale-110'),
           ),
@@ -37,7 +37,7 @@ export const transformsData: ComparisonCategory = {
         },
         {
           label: 'scale-x-150',
-          twcCode: 'cx(scaleX("1.5"))',
+          twcCode: 'scaleX("1.5")',
           twcElement: React.createElement('div', { className: cx(py(4), px(8)) },
             React.createElement('div', { className: cx(scaleX('1.5'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs), textAlign('center'), w('5rem')) }, 'scaleX'),
           ),
@@ -53,7 +53,7 @@ export const transformsData: ComparisonCategory = {
       examples: [
         {
           label: 'rotate-45',
-          twcCode: 'cx(rotate("45deg"))',
+          twcCode: 'rotate("45deg")',
           twcElement: React.createElement('div', { className: cx(p(8), flex(), justify('center')) },
             React.createElement('div', { className: cx(rotate('45deg'), bg('#818cf8'), w('3rem'), h('3rem'), rounded('0.25rem'), flex(), items('center'), justify('center'), textColor('#ffffff'), text(xs)) }, '45'),
           ),
@@ -64,7 +64,7 @@ export const transformsData: ComparisonCategory = {
         },
         {
           label: 'rotate-90',
-          twcCode: 'cx(rotate("90deg"))',
+          twcCode: 'rotate("90deg")',
           twcElement: React.createElement('div', { className: cx(p(8), flex(), justify('center')) },
             React.createElement('div', { className: cx(rotate('90deg'), bg('#818cf8'), w('3rem'), h('3rem'), rounded('0.25rem'), flex(), items('center'), justify('center'), textColor('#ffffff'), text(xs)) }, '90'),
           ),
@@ -75,7 +75,7 @@ export const transformsData: ComparisonCategory = {
         },
         {
           label: '-rotate-12',
-          twcCode: 'cx(rotate("-12deg"))',
+          twcCode: 'rotate("-12deg")',
           twcElement: React.createElement('div', { className: cx(p(4), flex(), justify('center')) },
             React.createElement('div', { className: cx(rotate('-12deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs)) }, '-rotate-12'),
           ),
@@ -91,7 +91,7 @@ export const transformsData: ComparisonCategory = {
       examples: [
         {
           label: 'translate-x-4 (1rem)',
-          twcCode: 'cx(translateX("1rem"))',
+          twcCode: 'translateX("1rem")',
           twcElement: React.createElement('div', { className: cx(bg('#e0e7ff'), p(2), rounded('0.25rem')) },
             React.createElement('div', { className: cx(translateX('1rem'), bg('#818cf8'), p(2), rounded('0.25rem'), textColor('#ffffff'), w('6rem'), text(xs)) }, 'translate-x'),
           ),
@@ -102,7 +102,7 @@ export const transformsData: ComparisonCategory = {
         },
         {
           label: 'translate-y-2 (0.5rem)',
-          twcCode: 'cx(translateY("0.5rem"))',
+          twcCode: 'translateY("0.5rem")',
           twcElement: React.createElement('div', { className: cx(bg('#e0e7ff'), p(2), pb(6), rounded('0.25rem')) },
             React.createElement('div', { className: cx(translateY('0.5rem'), bg('#818cf8'), p(2), rounded('0.25rem'), textColor('#ffffff'), text(xs), w('6rem')) }, 'translate-y'),
           ),
@@ -118,7 +118,7 @@ export const transformsData: ComparisonCategory = {
       examples: [
         {
           label: 'skew-x-6',
-          twcCode: 'cx(skewX("6deg"))',
+          twcCode: 'skewX("6deg")',
           twcElement: React.createElement('div', { className: cx(p(4)) },
             React.createElement('div', { className: cx(skewX('6deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs), textAlign('center'), w('8rem')) }, 'skew-x-6'),
           ),
@@ -129,7 +129,7 @@ export const transformsData: ComparisonCategory = {
         },
         {
           label: 'skew-y-3',
-          twcCode: 'cx(skewY("3deg"))',
+          twcCode: 'skewY("3deg")',
           twcElement: React.createElement('div', { className: cx(p(4)) },
             React.createElement('div', { className: cx(skewY('3deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs), textAlign('center'), w('8rem')) }, 'skew-y-3'),
           ),
@@ -145,7 +145,7 @@ export const transformsData: ComparisonCategory = {
       examples: [
         {
           label: 'origin-top-left + rotate',
-          twcCode: 'cx(transformOrigin("top left"), rotate("12deg"))',
+          twcCode: 'transformOrigin("top left"), rotate("12deg")',
           twcElement: React.createElement('div', { className: cx(p(4), pb(8)) },
             React.createElement('div', { className: cx(transformOrigin('top left'), rotate('12deg'), bg('#818cf8'), p(3), rounded('0.25rem'), textColor('#ffffff'), text(xs), w('8rem')) }, 'origin-top-left'),
           ),

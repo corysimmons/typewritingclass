@@ -16,7 +16,12 @@
       },
     }
   </script>
-  <style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border-width: 0; border-style: solid; border-color: currentColor; } body { font-family: 'Inter', system-ui, sans-serif; background: #f8fafc; }</style>
+  <style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border-width: 0; border-style: solid; border-color: currentColor; } body { font-family: 'Inter', system-ui, sans-serif; background: #f8fafc; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
+  @keyframes pulse { 50% { opacity: .5; } }
+  @keyframes bounce { 0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8,0,1,1); } 50% { transform: none; animation-timing-function: cubic-bezier(0,0,0.2,1); } }
+  </style>
 </head>
 <body>
   <div id="root"></div>

@@ -18,7 +18,7 @@ export const tablesData: ComparisonCategory = {
       examples: [
         {
           label: 'border-collapse',
-          twcCode: 'cx(borderCollapse())',
+          twcCode: 'borderCollapse()',
           twcElement: React.createElement('table', { className: cx(borderCollapse(), w('100%'), text(xs)) },
             React.createElement('thead', null,
               React.createElement('tr', null,
@@ -59,7 +59,7 @@ export const tablesData: ComparisonCategory = {
         },
         {
           label: 'border-separate',
-          twcCode: 'cx(borderSeparate())',
+          twcCode: 'borderSeparate()',
           twcElement: React.createElement('table', { className: cx(borderSeparate(), w('100%'), text(xs)) },
             React.createElement('thead', null,
               React.createElement('tr', null,
@@ -105,7 +105,7 @@ export const tablesData: ComparisonCategory = {
       examples: [
         {
           label: 'border-spacing-2',
-          twcCode: 'cx(borderSeparate(), borderSpacing("0.5rem"))',
+          twcCode: 'borderSeparate(), borderSpacing("0.5rem")',
           twcElement: React.createElement('table', { className: cx(borderSeparate(), borderSpacing('0.5rem'), w('100%'), text(xs)) },
             React.createElement('tbody', null,
               React.createElement('tr', null,
@@ -139,7 +139,7 @@ export const tablesData: ComparisonCategory = {
       examples: [
         {
           label: 'table-fixed',
-          twcCode: 'cx(tableLayout("fixed"))',
+          twcCode: 'tableLayout("fixed")',
           twcElement: React.createElement('table', { className: cx(tableLayout('fixed'), borderCollapse(), w('100%'), text(xs)) },
             React.createElement('thead', null,
               React.createElement('tr', null,
@@ -177,7 +177,7 @@ export const tablesData: ComparisonCategory = {
       examples: [
         {
           label: 'caption-bottom',
-          twcCode: 'cx(captionSide("bottom"))',
+          twcCode: 'captionSide("bottom")',
           twcElement: React.createElement('table', { className: cx(captionSide('bottom'), borderCollapse(), w('100%'), text(xs)) },
             React.createElement('caption', { className: cx(p(2), textColor('#64748b')) }, 'Table caption at bottom'),
             React.createElement('tbody', null,
