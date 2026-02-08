@@ -1,0 +1,32 @@
+{
+  "name": "typewritingclass-next",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./plugin": {
+      "types": "./src/plugin.ts",
+      "default": "./src/plugin.ts"
+    }
+  },
+  "peerDependencies": {
+    "next": "^13 || ^14 || ^15",
+    "react": "^18 || ^19",
+    "typewritingclass": "workspace:*",
+    "typewritingclass-react": "workspace:*"
+  },
+  "dependencies": {
+    "typewritingclass-babel": "workspace:*"
+  },
+  "devDependencies": {
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "@types/react": "^19.0.0",
+    "typescript": "^5.7.3",
+    "typewritingclass": "workspace:*",
+    "typewritingclass-react": "workspace:*"
+  }
+}
