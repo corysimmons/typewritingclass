@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-const fixtures = ['spacing', 'colors', 'typography', 'layout', 'borders', 'composition'] as const
+const fixtures = ['spacing', 'colors', 'typography', 'layout', 'borders', 'composition', 'dynamic', 'theme-switch'] as const
 
 for (const fixture of fixtures) {
   test(`${fixture}: TWC matches reference`, async ({ page }) => {

@@ -1,10 +1,18 @@
 // Core API
 export { cx } from './cx.ts'
+export { dcx } from './dcx.ts'
 export { when } from './when.ts'
 export { css } from './css.ts'
+export { dynamic, isDynamic } from './dynamic.ts'
 
 // Types
-export type { StyleRule, Utility, Modifier } from './types.ts'
+export type { StyleRule, Utility, Modifier, DynamicResult } from './types.ts'
+export type { DynamicValue } from './dynamic.ts'
+
+// Theme creation & switching
+export { createTheme } from './theme/createTheme.ts'
+export type { ThemeConfig, ThemeResult, ThemeVars } from './theme/createTheme.ts'
+export { injectTheme, setTheme } from './theme/inject-theme.ts'
 
 // Utilities
 export {

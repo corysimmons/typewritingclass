@@ -6,6 +6,8 @@ use crate::theme::ThemeData;
 pub enum Value {
     Str(String),
     Num(f64),
+    /// Dynamic value: (css custom property name, original expression text)
+    Dynamic(String, String),
 }
 
 impl Value {
@@ -22,6 +24,10 @@ impl Value {
             _ => None,
         }
     }
+
+    pub fn is_dynamic(&self) -> bool {
+        matches!(self, Value::Dynamic(_, _))
+    }
 }
 
 /// Resolve a spacing argument using the theme scale
@@ -29,12 +35,62 @@ fn resolve_spacing(val: &Value, theme: &ThemeData) -> Option<String> {
     match val {
         Value::Num(n) => theme.resolve_spacing_num(*n),
         Value::Str(s) => Some(s.clone()),
+        Value::Dynamic(_, _) => None, // handled separately
     }
 }
 
 /// Resolve a size argument (uses spacing scale for numbers, passthrough for strings)
 fn resolve_size(val: &Value, theme: &ThemeData) -> Option<String> {
     resolve_spacing(val, theme)
+}
+
+/// Create a simple single-property rule, handling dynamic values
+fn single_prop_rule(prop: &str, val: &Value, _theme: &ThemeData) -> Option<StyleRule> {
+    match val {
+        Value::Dynamic(id, expr) => {
+            let var_ref = format!("var({})", id);
+            Some(StyleRule::new(vec![(prop, &var_ref)])
+                .with_dynamic_binding(id, expr))
+        }
+        Value::Str(s) => Some(StyleRule::new(vec![(prop, s)])),
+        _ => None,
+    }
+}
+
+/// Create a spacing-based single-property rule
+fn spacing_prop_rule(prop: &str, val: &Value, theme: &ThemeData) -> Option<StyleRule> {
+    match val {
+        Value::Dynamic(id, expr) => {
+            let var_ref = format!("var({})", id);
+            Some(StyleRule::new(vec![(prop, &var_ref)])
+                .with_dynamic_binding(id, expr))
+        }
+        _ => {
+            let v = resolve_spacing(val, theme)?;
+            Some(StyleRule::new(vec![(prop, &v)]))
+        }
+    }
+}
+
+/// Create a spacing-based multi-property rule
+fn spacing_multi_rule(props: &[&str], val: &Value, theme: &ThemeData) -> Option<StyleRule> {
+    match val {
+        Value::Dynamic(id, expr) => {
+            let var_ref = format!("var({})", id);
+            let decls: Vec<(&str, &str)> = props.iter().map(|p| (*p, var_ref.as_str())).collect();
+            Some(StyleRule::new(decls).with_dynamic_binding(id, expr))
+        }
+        _ => {
+            let v = resolve_spacing(val, theme)?;
+            let decls: Vec<(&str, &str)> = props.iter().map(|p| (*p, v.as_str())).collect();
+            Some(StyleRule::new(decls))
+        }
+    }
+}
+
+/// Create a size-based single-property rule
+fn size_prop_rule(prop: &str, val: &Value, theme: &ThemeData) -> Option<StyleRule> {
+    spacing_prop_rule(prop, val, theme)
 }
 
 /// Evaluate a utility function call to a StyleRule.
@@ -44,118 +100,34 @@ fn resolve_size(val: &Value, theme: &ThemeData) -> Option<String> {
 pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRule> {
     match name {
         // --- Spacing ---
-        "p" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("padding", &v)]))
-        }
-        "px" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![
-                ("padding-left", &v),
-                ("padding-right", &v),
-            ]))
-        }
-        "py" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![
-                ("padding-top", &v),
-                ("padding-bottom", &v),
-            ]))
-        }
-        "pt" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("padding-top", &v)]))
-        }
-        "pr" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("padding-right", &v)]))
-        }
-        "pb" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("padding-bottom", &v)]))
-        }
-        "pl" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("padding-left", &v)]))
-        }
-        "m" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("margin", &v)]))
-        }
-        "mx" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![
-                ("margin-left", &v),
-                ("margin-right", &v),
-            ]))
-        }
-        "my" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![
-                ("margin-top", &v),
-                ("margin-bottom", &v),
-            ]))
-        }
-        "mt" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("margin-top", &v)]))
-        }
-        "mr" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("margin-right", &v)]))
-        }
-        "mb" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("margin-bottom", &v)]))
-        }
-        "ml" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("margin-left", &v)]))
-        }
-        "gap" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("gap", &v)]))
-        }
-        "gapX" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("column-gap", &v)]))
-        }
-        "gapY" => {
-            let v = resolve_spacing(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("row-gap", &v)]))
-        }
+        "p" => spacing_prop_rule("padding", args.first()?, theme),
+        "px" => spacing_multi_rule(&["padding-left", "padding-right"], args.first()?, theme),
+        "py" => spacing_multi_rule(&["padding-top", "padding-bottom"], args.first()?, theme),
+        "pt" => spacing_prop_rule("padding-top", args.first()?, theme),
+        "pr" => spacing_prop_rule("padding-right", args.first()?, theme),
+        "pb" => spacing_prop_rule("padding-bottom", args.first()?, theme),
+        "pl" => spacing_prop_rule("padding-left", args.first()?, theme),
+        "m" => spacing_prop_rule("margin", args.first()?, theme),
+        "mx" => spacing_multi_rule(&["margin-left", "margin-right"], args.first()?, theme),
+        "my" => spacing_multi_rule(&["margin-top", "margin-bottom"], args.first()?, theme),
+        "mt" => spacing_prop_rule("margin-top", args.first()?, theme),
+        "mr" => spacing_prop_rule("margin-right", args.first()?, theme),
+        "mb" => spacing_prop_rule("margin-bottom", args.first()?, theme),
+        "ml" => spacing_prop_rule("margin-left", args.first()?, theme),
+        "gap" => spacing_prop_rule("gap", args.first()?, theme),
+        "gapX" => spacing_prop_rule("column-gap", args.first()?, theme),
+        "gapY" => spacing_prop_rule("row-gap", args.first()?, theme),
 
         // --- Colors ---
-        "bg" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("background-color", v)]))
-        }
-        "textColor" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("color", v)]))
-        }
-        "borderColor" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("border-color", v)]))
-        }
+        "bg" => single_prop_rule("background-color", args.first()?, theme),
+        "textColor" => single_prop_rule("color", args.first()?, theme),
+        "borderColor" => single_prop_rule("border-color", args.first()?, theme),
 
         // --- Typography ---
-        "text" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("font-size", v)]))
-        }
-        "font" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("font-weight", v)]))
-        }
-        "tracking" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("letter-spacing", v)]))
-        }
-        "leading" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("line-height", v)]))
-        }
+        "text" => single_prop_rule("font-size", args.first()?, theme),
+        "font" => single_prop_rule("font-weight", args.first()?, theme),
+        "tracking" => single_prop_rule("letter-spacing", args.first()?, theme),
+        "leading" => single_prop_rule("line-height", args.first()?, theme),
         "textAlign" => {
             let v = args.first()?.as_str()?;
             Some(StyleRule::new(vec![("text-align", v)]))
@@ -201,34 +173,13 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
             let v = format!("repeat({}, minmax(0, 1fr))", n);
             Some(StyleRule::new(vec![("grid-template-rows", &v)]))
         }
-        "w" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("width", &v)]))
-        }
-        "h" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("height", &v)]))
-        }
-        "size" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("width", &v), ("height", &v)]))
-        }
-        "minW" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("min-width", &v)]))
-        }
-        "minH" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("min-height", &v)]))
-        }
-        "maxW" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("max-width", &v)]))
-        }
-        "maxH" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("max-height", &v)]))
-        }
+        "w" => size_prop_rule("width", args.first()?, theme),
+        "h" => size_prop_rule("height", args.first()?, theme),
+        "size" => spacing_multi_rule(&["width", "height"], args.first()?, theme),
+        "minW" => size_prop_rule("min-width", args.first()?, theme),
+        "minH" => size_prop_rule("min-height", args.first()?, theme),
+        "maxW" => size_prop_rule("max-width", args.first()?, theme),
+        "maxH" => size_prop_rule("max-height", args.first()?, theme),
         "display" => {
             let v = args.first()?.as_str()?;
             Some(StyleRule::new(vec![("display", v)]))
@@ -261,42 +212,41 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
         "absolute" if args.is_empty() => Some(StyleRule::new(vec![("position", "absolute")])),
         "fixed" if args.is_empty() => Some(StyleRule::new(vec![("position", "fixed")])),
         "sticky" if args.is_empty() => Some(StyleRule::new(vec![("position", "sticky")])),
-        "top" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("top", &v)]))
-        }
-        "right" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("right", &v)]))
-        }
-        "bottom" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("bottom", &v)]))
-        }
-        "left" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("left", &v)]))
-        }
-        "inset" => {
-            let v = resolve_size(args.first()?, theme)?;
-            Some(StyleRule::new(vec![("inset", &v)]))
-        }
+        "top" => size_prop_rule("top", args.first()?, theme),
+        "right" => size_prop_rule("right", args.first()?, theme),
+        "bottom" => size_prop_rule("bottom", args.first()?, theme),
+        "left" => size_prop_rule("left", args.first()?, theme),
+        "inset" => size_prop_rule("inset", args.first()?, theme),
         "z" => match args.first()? {
             Value::Num(n) => {
                 let v = format!("{}", *n as i64);
                 Some(StyleRule::new(vec![("z-index", &v)]))
             }
             Value::Str(s) => Some(StyleRule::new(vec![("z-index", s)])),
+            Value::Dynamic(id, expr) => {
+                let var_ref = format!("var({})", id);
+                Some(StyleRule::new(vec![("z-index", &var_ref)])
+                    .with_dynamic_binding(id, expr))
+            }
         },
 
         // --- Borders ---
         "rounded" => {
-            let v = if args.is_empty() {
-                theme.default_radius.clone()
+            if args.is_empty() {
+                Some(StyleRule::new(vec![("border-radius", &theme.default_radius)]))
             } else {
-                args.first()?.as_str()?.to_string()
-            };
-            Some(StyleRule::new(vec![("border-radius", &v)]))
+                match args.first()? {
+                    Value::Dynamic(id, expr) => {
+                        let var_ref = format!("var({})", id);
+                        Some(StyleRule::new(vec![("border-radius", &var_ref)])
+                            .with_dynamic_binding(id, expr))
+                    }
+                    _ => {
+                        let v = args.first()?.as_str()?.to_string();
+                        Some(StyleRule::new(vec![("border-radius", &v)]))
+                    }
+                }
+            }
         }
         "roundedT" => {
             let v = if args.is_empty() {
@@ -378,30 +328,40 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
 
         // --- Effects ---
         "shadow" => {
-            let v = if args.is_empty() {
-                theme.default_shadow.clone()
+            if args.is_empty() {
+                Some(StyleRule::new(vec![("box-shadow", &theme.default_shadow)]))
             } else {
-                args.first()?.as_str()?.to_string()
-            };
-            Some(StyleRule::new(vec![("box-shadow", &v)]))
+                match args.first()? {
+                    Value::Dynamic(id, expr) => {
+                        let var_ref = format!("var({})", id);
+                        Some(StyleRule::new(vec![("box-shadow", &var_ref)])
+                            .with_dynamic_binding(id, expr))
+                    }
+                    _ => {
+                        let v = args.first()?.as_str()?.to_string();
+                        Some(StyleRule::new(vec![("box-shadow", &v)]))
+                    }
+                }
+            }
         }
         "opacity" => {
-            let v = match args.first()? {
-                Value::Num(n) => format!("{}", n),
-                Value::Str(s) => s.clone(),
-            };
-            Some(StyleRule::new(vec![("opacity", &v)]))
+            match args.first()? {
+                Value::Dynamic(id, expr) => {
+                    let var_ref = format!("var({})", id);
+                    Some(StyleRule::new(vec![("opacity", &var_ref)])
+                        .with_dynamic_binding(id, expr))
+                }
+                Value::Num(n) => {
+                    let v = format!("{}", n);
+                    Some(StyleRule::new(vec![("opacity", &v)]))
+                }
+                Value::Str(s) => Some(StyleRule::new(vec![("opacity", s)])),
+            }
         }
-        "backdrop" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("backdrop-filter", v)]))
-        }
+        "backdrop" => single_prop_rule("backdrop-filter", args.first()?, theme),
 
         // --- Interactivity ---
-        "cursor" => {
-            let v = args.first()?.as_str()?;
-            Some(StyleRule::new(vec![("cursor", v)]))
-        }
+        "cursor" => single_prop_rule("cursor", args.first()?, theme),
         "select" => {
             let v = args.first()?.as_str()?;
             Some(StyleRule::new(vec![("user-select", v)]))

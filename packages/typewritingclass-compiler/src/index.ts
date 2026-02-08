@@ -10,12 +10,18 @@ const native: typeof import('../index.d.ts') = require(resolve(__dirname, '..', 
 
 // Re-export the native transform for direct use
 export const { transform: nativeTransform, generateCss } = native
-export type { ThemeInput, TransformOutput, ExtractedRule } from '../index.d.ts'
+export type { ThemeInput, TransformOutput, ExtractedRule, Diagnostic } from '../index.d.ts'
+
+export interface TwcPluginOptions {
+  strict?: boolean
+}
 
 const VIRTUAL_CSS_ID = 'virtual:twc.css'
 const RESOLVED_VIRTUAL_CSS_ID = '\0' + VIRTUAL_CSS_ID
 
-export default function twcPlugin(): Plugin {
+export default function twcPlugin(options?: TwcPluginOptions): Plugin {
+  const strict = options?.strict ?? true
+
   let themeInput: import('../index.d.ts').ThemeInput
   let layer = 0
   // file path -> extracted CSS rules (css text strings ordered by layer)
@@ -47,8 +53,25 @@ export default function twcPlugin(): Plugin {
       if (!code.includes('typewritingclass')) return
 
       try {
-        const result = native.transform(code, id, layer, themeInput)
+        const result = native.transform(code, id, layer, themeInput, strict)
         layer = result.nextLayer
+
+        // Surface diagnostics as Vite warnings/errors
+        for (const diag of result.diagnostics) {
+          if (diag.severity === 'error') {
+            this.error({
+              message: diag.message,
+              id,
+              pos: diag.line,
+            })
+          } else {
+            this.warn({
+              message: diag.message,
+              id,
+              pos: diag.line,
+            })
+          }
+        }
 
         if (result.rules.length > 0) {
           fileRules.set(

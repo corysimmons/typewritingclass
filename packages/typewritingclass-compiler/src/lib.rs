@@ -42,10 +42,20 @@ pub struct ExtractedRule {
 }
 
 #[napi(object)]
+pub struct Diagnostic {
+    pub message: String,
+    pub line: u32,
+    pub column: u32,
+    pub severity: String, // "error" | "warning"
+}
+
+#[napi(object)]
 pub struct TransformOutput {
     pub code: String,
     pub rules: Vec<ExtractedRule>,
     pub next_layer: u32,
+    pub has_dynamic: bool,
+    pub diagnostics: Vec<Diagnostic>,
 }
 
 fn parse_theme(input: &ThemeInput) -> theme::ThemeData {
@@ -94,9 +104,11 @@ pub fn transform(
     filename: String,
     layer_offset: u32,
     theme_input: ThemeInput,
+    strict: Option<bool>,
 ) -> TransformOutput {
     let theme_data = parse_theme(&theme_input);
-    let result = extractor::transform(&code, &filename, layer_offset, &theme_data);
+    let strict_mode = strict.unwrap_or(true);
+    let result = extractor::transform(&code, &filename, layer_offset, &theme_data, strict_mode);
 
     TransformOutput {
         code: result.code,
@@ -110,6 +122,17 @@ pub fn transform(
             })
             .collect(),
         next_layer: result.next_layer,
+        has_dynamic: result.has_dynamic,
+        diagnostics: result
+            .diagnostics
+            .into_iter()
+            .map(|d| Diagnostic {
+                message: d.message,
+                line: d.line,
+                column: d.column,
+                severity: d.severity,
+            })
+            .collect(),
     }
 }
 

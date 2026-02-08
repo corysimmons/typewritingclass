@@ -3,7 +3,7 @@ import { resolve } from 'path'
 import twcPlugin from 'typewritingclass-compiler'
 
 export default defineConfig({
-  plugins: [twcPlugin()],
+  plugins: [twcPlugin({ strict: false })],
   build: {
     rollupOptions: {
       input: {
@@ -20,6 +20,10 @@ export default defineConfig({
         'borders-ref': resolve(__dirname, 'tests/fixtures/borders-ref.html'),
         'composition-twc': resolve(__dirname, 'tests/fixtures/composition-twc.html'),
         'composition-ref': resolve(__dirname, 'tests/fixtures/composition-ref.html'),
+        'dynamic-twc': resolve(__dirname, 'tests/fixtures/dynamic-twc.html'),
+        'dynamic-ref': resolve(__dirname, 'tests/fixtures/dynamic-ref.html'),
+        'theme-switch-twc': resolve(__dirname, 'tests/fixtures/theme-switch-twc.html'),
+        'theme-switch-ref': resolve(__dirname, 'tests/fixtures/theme-switch-ref.html'),
       },
     },
   },

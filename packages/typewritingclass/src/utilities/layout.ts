@@ -1,10 +1,36 @@
 import type { StyleRule } from '../types.ts'
-import { createRule } from '../rule.ts'
+import type { DynamicValue } from '../dynamic.ts'
+import { createRule, createDynamicRule } from '../rule.ts'
 import { resolveSpacing } from '../theme/spacing.ts'
+import { isDynamic } from '../dynamic.ts'
 
-function resolveSize(value: number | string): string {
+function resolveSize(value: number | string | DynamicValue): string | DynamicValue {
+  if (isDynamic(value)) return value
   if (typeof value === 'string') return value
   return resolveSpacing(value)
+}
+
+function sizeRule(prop: string, value: number | string | DynamicValue): StyleRule {
+  const v = resolveSize(value)
+  if (isDynamic(v)) {
+    return createDynamicRule(
+      { [prop]: `var(${v.__id})` },
+      { [v.__id]: String(v.__value) },
+    )
+  }
+  return createRule({ [prop]: v as string })
+}
+
+function sizeRuleMulti(props: string[], value: number | string | DynamicValue): StyleRule {
+  const v = resolveSize(value)
+  if (isDynamic(v)) {
+    const decls: Record<string, string> = {}
+    for (const prop of props) decls[prop] = `var(${v.__id})`
+    return createDynamicRule(decls, { [v.__id]: String(v.__value) })
+  }
+  const decls: Record<string, string> = {}
+  for (const prop of props) decls[prop] = v as string
+  return createRule(decls)
 }
 
 export function flex(): StyleRule {
@@ -43,33 +69,32 @@ export function gridRows(n: number): StyleRule {
   return createRule({ 'grid-template-rows': `repeat(${n}, minmax(0, 1fr))` })
 }
 
-export function w(value: number | string): StyleRule {
-  return createRule({ width: resolveSize(value) })
+export function w(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('width', value)
 }
 
-export function h(value: number | string): StyleRule {
-  return createRule({ height: resolveSize(value) })
+export function h(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('height', value)
 }
 
-export function size(value: number | string): StyleRule {
-  const v = resolveSize(value)
-  return createRule({ width: v, height: v })
+export function size(value: number | string | DynamicValue): StyleRule {
+  return sizeRuleMulti(['width', 'height'], value)
 }
 
-export function minW(value: number | string): StyleRule {
-  return createRule({ 'min-width': resolveSize(value) })
+export function minW(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('min-width', value)
 }
 
-export function minH(value: number | string): StyleRule {
-  return createRule({ 'min-height': resolveSize(value) })
+export function minH(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('min-height', value)
 }
 
-export function maxW(value: number | string): StyleRule {
-  return createRule({ 'max-width': resolveSize(value) })
+export function maxW(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('max-width', value)
 }
 
-export function maxH(value: number | string): StyleRule {
-  return createRule({ 'max-height': resolveSize(value) })
+export function maxH(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('max-height', value)
 }
 
 export function display(value: string): StyleRule {
@@ -116,26 +141,32 @@ export function sticky(): StyleRule {
   return createRule({ position: 'sticky' })
 }
 
-export function top(value: number | string): StyleRule {
-  return createRule({ top: resolveSize(value) })
+export function top(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('top', value)
 }
 
-export function right(value: number | string): StyleRule {
-  return createRule({ right: resolveSize(value) })
+export function right(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('right', value)
 }
 
-export function bottom(value: number | string): StyleRule {
-  return createRule({ bottom: resolveSize(value) })
+export function bottom(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('bottom', value)
 }
 
-export function left(value: number | string): StyleRule {
-  return createRule({ left: resolveSize(value) })
+export function left(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('left', value)
 }
 
-export function inset(value: number | string): StyleRule {
-  return createRule({ inset: resolveSize(value) })
+export function inset(value: number | string | DynamicValue): StyleRule {
+  return sizeRule('inset', value)
 }
 
-export function z(value: number | string): StyleRule {
+export function z(value: number | string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { 'z-index': `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
   return createRule({ 'z-index': String(value) })
 }

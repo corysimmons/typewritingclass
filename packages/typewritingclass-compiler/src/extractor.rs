@@ -25,6 +25,8 @@ enum Binding {
     When,
     /// css() escape hatch
     Css,
+    /// dynamic() wrapper
+    Dynamic,
     /// A color scale object (e.g., blue, red) — value is the color name
     ColorScale(String),
     /// A resolved string value (e.g., theme token like border radius, shadow, size, weight)
@@ -35,11 +37,20 @@ enum Binding {
     Namespace(String),
 }
 
+pub struct DiagnosticInfo {
+    pub message: String,
+    pub line: u32,
+    pub column: u32,
+    pub severity: String,
+}
+
 /// Result of a single file transform
 pub struct TransformResult {
     pub code: String,
     pub css_rules: Vec<(String, String, u32)>, // (class_name, css_text, layer)
     pub next_layer: u32,
+    pub has_dynamic: bool,
+    pub diagnostics: Vec<DiagnosticInfo>,
 }
 
 /// All known utility function names exported from typewritingclass
@@ -54,7 +65,21 @@ const UTILITY_NAMES: &[&str] = &[
     "backdrop", "cursor", "select", "pointerEvents",
 ];
 
-pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeData) -> TransformResult {
+/// Counter for dynamic variable IDs (per-file)
+struct DynCounter {
+    next: u32,
+}
+
+impl DynCounter {
+    fn new() -> Self { Self { next: 0 } }
+    fn next_id(&mut self) -> String {
+        let id = format!("--twc-d{}", self.next);
+        self.next += 1;
+        id
+    }
+}
+
+pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeData, strict: bool) -> TransformResult {
     let allocator = Allocator::default();
     let source_type = SourceType::from_path(filename).unwrap_or_default();
     let ret = Parser::new(&allocator, source, source_type).parse();
@@ -64,6 +89,8 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
             code: source.to_string(),
             css_rules: vec![],
             next_layer: layer_offset,
+            has_dynamic: false,
+            diagnostics: vec![],
         };
     }
 
@@ -77,11 +104,15 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
             code: source.to_string(),
             css_rules: vec![],
             next_layer: layer_offset,
+            has_dynamic: false,
+            diagnostics: vec![],
         };
     }
 
     // Check if there's a cx binding
     let has_cx = bindings.values().any(|b| matches!(b, Binding::Cx));
+    let has_dynamic_import = bindings.values().any(|b| matches!(b, Binding::Dynamic));
+
     if !has_cx {
         // No cx() usage, just prepend inject import
         let code = prepend_inject(source);
@@ -89,23 +120,54 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
             code,
             css_rules: vec![],
             next_layer: layer_offset,
+            has_dynamic: false,
+            diagnostics: vec![],
         };
     }
 
     // Phase 2: Find cx() calls and try to extract them
     let mut layer = layer_offset;
     let mut css_rules = vec![];
-    let mut replacements: Vec<(u32, u32, String)> = vec![]; // (start, end, replacement)
+    let mut replacements: Vec<(u32, u32, String)> = vec![];
+    let mut has_dynamic = false;
+    let mut diagnostics: Vec<DiagnosticInfo> = vec![];
+    let mut dyn_counter = DynCounter::new();
 
     visit_expressions(program, &mut |expr| {
         if let Expression::CallExpression(call) = expr {
             if is_cx_call(call, &bindings) {
-                if let Some((class_str, rules)) =
-                    try_extract_cx(call, &bindings, &mut layer, theme)
-                {
-                    let span = call.span;
-                    replacements.push((span.start, span.end, format!("'{}'", class_str)));
-                    css_rules.extend(rules);
+                match try_extract_cx(call, &bindings, &mut layer, theme, &mut dyn_counter) {
+                    Some(ExtractedCx::Static(class_str, rules)) => {
+                        let span = call.span;
+                        replacements.push((span.start, span.end, format!("'{}'", class_str)));
+                        css_rules.extend(rules);
+                    }
+                    Some(ExtractedCx::Dynamic(class_str, rules, dyn_bindings)) => {
+                        has_dynamic = true;
+                        let span = call.span;
+                        // Build the bindings object literal
+                        let bindings_obj = format_bindings_object(&dyn_bindings);
+                        replacements.push((
+                            span.start,
+                            span.end,
+                            format!("__twcDynamic('{}', {})", class_str, bindings_obj),
+                        ));
+                        css_rules.extend(rules);
+                    }
+                    None => {
+                        // Could not statically extract
+                        if strict && !has_dynamic_import {
+                            let span = call.span;
+                            diagnostics.push(DiagnosticInfo {
+                                message: format!(
+                                    "cx() call could not be statically evaluated. Wrap runtime values with dynamic() or disable strict mode."
+                                ),
+                                line: span.start,
+                                column: 0,
+                                severity: "error".to_string(),
+                            });
+                        }
+                    }
                 }
             }
         }
@@ -118,14 +180,49 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
         code.replace_range(*start as usize..*end as usize, replacement);
     }
 
-    // Always prepend inject import for any non-extracted cx() calls or runtime needs
-    code = prepend_inject(&code);
+    // Phase 4: Inject appropriate imports
+    if has_dynamic {
+        // Import runtime helper for dynamic values
+        if !code.contains("typewritingclass/runtime") {
+            code = format!("import {{ __twcDynamic }} from 'typewritingclass/runtime';\n{}", code);
+        }
+    }
+
+    if !has_dynamic && replacements.len() == count_cx_calls(program, &bindings) {
+        // All cx() calls were statically extracted and no dynamic — no runtime needed
+        // Just ensure virtual CSS import is there (handled by plugin)
+    } else {
+        // Some cx() calls need runtime fallback
+        code = prepend_inject(&code);
+    }
 
     TransformResult {
         code,
         css_rules,
         next_layer: layer,
+        has_dynamic,
+        diagnostics,
     }
+}
+
+fn format_bindings_object(bindings: &[(String, String)]) -> String {
+    let pairs: Vec<String> = bindings
+        .iter()
+        .map(|(key, expr)| format!("'{}': {}", key, expr))
+        .collect();
+    format!("{{ {} }}", pairs.join(", "))
+}
+
+fn count_cx_calls(program: &Program, bindings: &HashMap<String, Binding>) -> usize {
+    let mut count = 0;
+    visit_expressions(program, &mut |expr| {
+        if let Expression::CallExpression(call) = expr {
+            if is_cx_call(call, bindings) {
+                count += 1;
+            }
+        }
+    });
+    count
 }
 
 fn prepend_inject(source: &str) -> String {
@@ -198,6 +295,9 @@ fn resolve_import(source: &str, name: &str, theme: &ThemeData) -> Option<Binding
             if name == "css" {
                 return Some(Binding::Css);
             }
+            if name == "dynamic" {
+                return Some(Binding::Dynamic);
+            }
             // Modifiers
             if modifiers::is_modifier(name) {
                 return Some(Binding::Modifier(name.to_string()));
@@ -266,6 +366,13 @@ fn is_cx_call(call: &CallExpression, bindings: &HashMap<String, Binding>) -> boo
     false
 }
 
+enum ExtractedCx {
+    /// All arguments were static — just class names
+    Static(String, Vec<(String, String, u32)>),
+    /// Some arguments had dynamic() — class names + dynamic bindings
+    Dynamic(String, Vec<(String, String, u32)>, Vec<(String, String)>),
+}
+
 /// Try to statically extract a cx() call.
 /// Returns None if any argument can't be evaluated (falls back to runtime).
 fn try_extract_cx(
@@ -273,16 +380,22 @@ fn try_extract_cx(
     bindings: &HashMap<String, Binding>,
     layer: &mut u32,
     theme: &ThemeData,
-) -> Option<(String, Vec<(String, String, u32)>)> {
+    dyn_counter: &mut DynCounter,
+) -> Option<ExtractedCx> {
     let mut class_names = vec![];
     let mut rules = vec![];
+    let mut all_dynamic_bindings: Vec<(String, String)> = vec![];
 
     for arg in &call.arguments {
         let expr = arg.as_expression()?;
-        match evaluate_cx_arg(expr, bindings, theme)? {
+        match evaluate_cx_arg(expr, bindings, theme, dyn_counter)? {
             CxArg::Rule(rule) => {
                 let l = *layer;
                 *layer += 1;
+                // Collect dynamic bindings before generating hash/css
+                for (var_name, expr_text) in &rule.dynamic_bindings {
+                    all_dynamic_bindings.push((var_name.clone(), expr_text.clone()));
+                }
                 let class_name = hash::generate_hash(&rule, l);
                 let css_text = css::render_rule(&class_name, &rule);
                 class_names.push(class_name.clone());
@@ -294,7 +407,13 @@ fn try_extract_cx(
         }
     }
 
-    Some((class_names.join(" "), rules))
+    let class_str = class_names.join(" ");
+
+    if all_dynamic_bindings.is_empty() {
+        Some(ExtractedCx::Static(class_str, rules))
+    } else {
+        Some(ExtractedCx::Dynamic(class_str, rules, all_dynamic_bindings))
+    }
 }
 
 enum CxArg {
@@ -307,13 +426,14 @@ fn evaluate_cx_arg(
     expr: &Expression,
     bindings: &HashMap<String, Binding>,
     theme: &ThemeData,
+    dyn_counter: &mut DynCounter,
 ) -> Option<CxArg> {
     match expr {
         Expression::StringLiteral(s) => Some(CxArg::ClassName(s.value.to_string())),
 
         Expression::CallExpression(call) => {
             // Could be: utility call, when(mod)(rules), css({...})
-            evaluate_call_as_cx_arg(call, bindings, theme)
+            evaluate_call_as_cx_arg(call, bindings, theme, dyn_counter)
         }
 
         _ => None, // Can't evaluate — bail
@@ -325,13 +445,14 @@ fn evaluate_call_as_cx_arg(
     call: &CallExpression,
     bindings: &HashMap<String, Binding>,
     theme: &ThemeData,
+    dyn_counter: &mut DynCounter,
 ) -> Option<CxArg> {
     match &call.callee {
         Expression::Identifier(id) => {
             let binding = bindings.get(id.name.as_str())?;
             match binding {
                 Binding::Utility(name) => {
-                    let args = evaluate_call_args(&call.arguments, bindings, theme)?;
+                    let args = evaluate_call_args(&call.arguments, bindings, theme, dyn_counter)?;
                     // Special handling for text() with TextSize tokens
                     if name == "text" && call.arguments.len() == 1 {
                         if let Some(expr) = call.arguments[0].as_expression() {
@@ -360,7 +481,7 @@ fn evaluate_call_as_cx_arg(
         Expression::CallExpression(inner_call) => {
             if let Expression::Identifier(id) = &inner_call.callee {
                 if let Some(Binding::When) = bindings.get(id.name.as_str()) {
-                    return evaluate_when_call(inner_call, call, bindings, theme);
+                    return evaluate_when_call(inner_call, call, bindings, theme, dyn_counter);
                 }
             }
             None
@@ -375,6 +496,7 @@ fn evaluate_when_call(
     outer_call: &CallExpression,  // (rule, ...)
     bindings: &HashMap<String, Binding>,
     theme: &ThemeData,
+    dyn_counter: &mut DynCounter,
 ) -> Option<CxArg> {
     // Collect modifier names
     let mut modifier_names = vec![];
@@ -395,7 +517,7 @@ fn evaluate_when_call(
     let mut style_rules = vec![];
     for arg in &outer_call.arguments {
         let expr = arg.as_expression()?;
-        match evaluate_cx_arg(expr, bindings, theme)? {
+        match evaluate_cx_arg(expr, bindings, theme, dyn_counter)? {
             CxArg::Rule(rule) => style_rules.push(rule),
             _ => return None,
         }
@@ -443,6 +565,7 @@ fn evaluate_css_call(
             declarations,
             selectors: vec![],
             media_queries: vec![],
+            dynamic_bindings: vec![],
         })
     } else {
         None
@@ -454,20 +577,22 @@ fn evaluate_call_args(
     args: &oxc_allocator::Vec<Argument>,
     bindings: &HashMap<String, Binding>,
     theme: &ThemeData,
+    dyn_counter: &mut DynCounter,
 ) -> Option<Vec<Value>> {
     let mut values = vec![];
     for arg in args {
         let expr = arg.as_expression()?;
-        values.push(evaluate_value(expr, bindings, theme)?);
+        values.push(evaluate_value(expr, bindings, theme, dyn_counter)?);
     }
     Some(values)
 }
 
-/// Evaluate an expression to a Value (string or number)
+/// Evaluate an expression to a Value (string, number, or dynamic)
 fn evaluate_value(
     expr: &Expression,
     bindings: &HashMap<String, Binding>,
     theme: &ThemeData,
+    dyn_counter: &mut DynCounter,
 ) -> Option<Value> {
     match expr {
         Expression::StringLiteral(s) => Some(Value::Str(s.value.to_string())),
@@ -483,6 +608,23 @@ fn evaluate_value(
                 }
                 _ => None,
             }
+        }
+
+        // dynamic(expr) pattern
+        Expression::CallExpression(call) => {
+            if let Expression::Identifier(callee_id) = &call.callee {
+                if let Some(Binding::Dynamic) = bindings.get(callee_id.name.as_str()) {
+                    // dynamic() call — generate a CSS custom property ID
+                    if call.arguments.len() == 1 {
+                        let inner_expr = call.arguments[0].as_expression()?;
+                        let id = dyn_counter.next_id();
+                        // Get the source text of the inner expression
+                        let expr_text = extract_source_text(inner_expr);
+                        return Some(Value::Dynamic(id, expr_text));
+                    }
+                }
+            }
+            None
         }
 
         // blue[500] pattern — computed member expression
@@ -515,6 +657,58 @@ fn evaluate_value(
         }
 
         _ => None,
+    }
+}
+
+/// Extract the source text representation of an expression for use in generated code
+fn extract_source_text(expr: &Expression) -> String {
+    match expr {
+        Expression::Identifier(id) => id.name.to_string(),
+        Expression::StringLiteral(s) => format!("'{}'", s.value),
+        Expression::NumericLiteral(n) => format!("{}", n.value),
+        Expression::StaticMemberExpression(member) => {
+            let obj = extract_source_text(&member.object);
+            format!("{}.{}", obj, member.property.name)
+        }
+        Expression::ComputedMemberExpression(computed) => {
+            let obj = extract_source_text(&computed.object);
+            let prop = extract_source_text(&computed.expression);
+            format!("{}[{}]", obj, prop)
+        }
+        Expression::CallExpression(call) => {
+            let callee = extract_source_text(&call.callee);
+            let args: Vec<String> = call.arguments.iter().filter_map(|a| {
+                a.as_expression().map(extract_source_text)
+            }).collect();
+            format!("{}({})", callee, args.join(", "))
+        }
+        Expression::TemplateLiteral(tmpl) => {
+            // Simple case: reconstruct template literal
+            let mut result = String::from("`");
+            for (i, quasi) in tmpl.quasis.iter().enumerate() {
+                result.push_str(quasi.value.raw.as_str());
+                if i < tmpl.expressions.len() {
+                    result.push_str("${");
+                    result.push_str(&extract_source_text(&tmpl.expressions[i]));
+                    result.push('}');
+                }
+            }
+            result.push('`');
+            result
+        }
+        Expression::BinaryExpression(bin) => {
+            let left = extract_source_text(&bin.left);
+            let right = extract_source_text(&bin.right);
+            let op = match bin.operator {
+                BinaryOperator::Addition => "+",
+                BinaryOperator::Subtraction => "-",
+                BinaryOperator::Multiplication => "*",
+                BinaryOperator::Division => "/",
+                _ => "?",
+            };
+            format!("{} {} {}", left, op, right)
+        }
+        _ => "undefined".to_string(),
     }
 }
 

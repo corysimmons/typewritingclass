@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="custom">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1280, initial-scale=1.0" />
+  <title>Theme Switch Reference</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; }
+    [data-theme="custom"] {
+      --twc-color-primary-500: #8b5cf6;
+      --twc-color-surface-50: #faf5ff;
+      --twc-color-text-900: #581c87;
+      --twc-color-text-500: #7c3aed;
+    }
+    .container { display: flex; flex-direction: column; gap: 1.5rem; padding: 2rem; }
+    .card {
+      background-color: var(--twc-color-surface-50);
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .title { font-size: 1.125rem; line-height: 1.75rem; font-weight: 700; color: var(--twc-color-text-900); }
+    .body { font-size: 1rem; line-height: 1.5rem; color: var(--twc-color-text-500); }
+    .badge {
+      background-color: var(--twc-color-primary-500);
+      color: #ffffff;
+      font-size: 1rem; line-height: 1.5rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="card">
+        <h3 class="title">Custom Theme Card</h3>
+        <p class="body">This card uses custom theme variables via createTheme()</p>
+        <span class="badge">Custom Theme Active</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

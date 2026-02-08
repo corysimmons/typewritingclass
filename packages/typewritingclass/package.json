@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "exports": {
     ".": {
@@ -27,6 +27,10 @@
       "types": "./src/theme/borders.ts",
       "default": "./src/theme/borders.ts"
     },
+    "./theme/createTheme": {
+      "types": "./src/theme/createTheme.ts",
+      "default": "./src/theme/createTheme.ts"
+    },
     "./theme": {
       "types": "./src/theme/index.ts",
       "default": "./src/theme/index.ts"
@@ -34,6 +38,10 @@
     "./inject": {
       "types": "./src/inject.ts",
       "default": "./src/inject.ts"
+    },
+    "./runtime": {
+      "types": "./src/runtime.ts",
+      "default": "./src/runtime.ts"
     }
   },
   "scripts": {

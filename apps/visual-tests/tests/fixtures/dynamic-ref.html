@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1280, initial-scale=1.0" />
+  <title>Dynamic Reference</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; }
+    .container { display: flex; flex-direction: column; gap: 1.5rem; padding: 2rem; }
+    .box {
+      height: 4rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: #ffffff; font-size: 1rem; line-height: 1.5rem; font-weight: 700;
+    }
+    .box1 { width: 8rem; background-color: #ef4444; }
+    .box2 { width: 8rem; background-color: #3b82f6; }
+    .box3 { width: 12rem; background-color: #22c55e; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="box box1">Dynamic Red</div>
+      <div class="box box2">Dynamic Blue</div>
+      <div class="box box3">Dynamic Width</div>
+    </div>
+  </div>
+</body>
+</html>

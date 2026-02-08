@@ -1,14 +1,13 @@
 import type { StyleRule } from './types.ts'
 import { generateHash } from './hash.ts'
 import { register } from './registry.ts'
-
-let globalLayer = 0
+import { nextLayer, _resetLayer } from './layer.ts'
 
 export function cx(...args: (StyleRule | string)[]): string {
   return args
     .map((arg) => {
       if (typeof arg === 'string') return arg
-      const layer = globalLayer++
+      const layer = nextLayer()
       const className = generateHash(arg, layer)
       register(className, arg, layer)
       return className
@@ -16,7 +15,4 @@ export function cx(...args: (StyleRule | string)[]): string {
     .join(' ')
 }
 
-/** @internal — exposed for testing only */
-export function _resetLayer(): void {
-  globalLayer = 0
-}
+export { _resetLayer }

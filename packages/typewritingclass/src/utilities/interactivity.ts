@@ -1,7 +1,15 @@
 import type { StyleRule } from '../types.ts'
-import { createRule } from '../rule.ts'
+import type { DynamicValue } from '../dynamic.ts'
+import { createRule, createDynamicRule } from '../rule.ts'
+import { isDynamic } from '../dynamic.ts'
 
-export function cursor(value: string): StyleRule {
+export function cursor(value: string | DynamicValue): StyleRule {
+  if (isDynamic(value)) {
+    return createDynamicRule(
+      { cursor: `var(${value.__id})` },
+      { [value.__id]: String(value.__value) },
+    )
+  }
   return createRule({ cursor: value })
 }
 
