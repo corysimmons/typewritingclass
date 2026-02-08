@@ -1,0 +1,63 @@
+---
+import StarlightThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro'
+---
+
+<accent-theme-picker>
+  <StarlightThemeSelect {...Astro.props} />
+  <div class="accent-picker">
+    <button data-accent="indigo" class="swatch" style="background: #6366f1;" title="Indigo"></button>
+    <button data-accent="emerald" class="swatch" style="background: #10b981;" title="Emerald"></button>
+    <button data-accent="rose" class="swatch" style="background: #f43f5e;" title="Rose"></button>
+    <button data-accent="amber" class="swatch" style="background: #f59e0b;" title="Amber"></button>
+    <button data-accent="violet" class="swatch" style="background: #8b5cf6;" title="Violet"></button>
+  </div>
+</accent-theme-picker>
+
+<style>
+  accent-theme-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .accent-picker {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .swatch {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: border-color 0.15s;
+  }
+  .swatch:hover {
+    border-color: var(--sl-color-white);
+  }
+  .swatch.active {
+    border-color: var(--sl-color-white);
+    box-shadow: 0 0 0 1px var(--sl-color-gray-5);
+  }
+</style>
+
+<script>
+  class AccentThemePicker extends HTMLElement {
+    connectedCallback() {
+      const saved = localStorage.getItem('starlight-accent') || 'indigo'
+      document.documentElement.dataset.accent = saved
+
+      this.querySelectorAll<HTMLButtonElement>('.swatch').forEach((btn) => {
+        if (btn.dataset.accent === saved) btn.classList.add('active')
+        btn.addEventListener('click', () => {
+          const accent = btn.dataset.accent!
+          document.documentElement.dataset.accent = accent
+          localStorage.setItem('starlight-accent', accent)
+          this.querySelectorAll('.swatch').forEach((b) => b.classList.remove('active'))
+          btn.classList.add('active')
+        })
+      })
+    }
+  }
+  customElements.define('accent-theme-picker', AccentThemePicker)
+</script>

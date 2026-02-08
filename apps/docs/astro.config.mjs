@@ -12,6 +12,10 @@ export default defineConfig({
         replacesTitle: true,
       },
       favicon: '/favicon.svg',
+      customCss: ['./src/styles/themes.css'],
+      components: {
+        ThemeSelect: './src/components/ThemeSelect.astro',
+      },
       social: {
         github: 'https://github.com/corysimmons/typewritingclass',
       },
