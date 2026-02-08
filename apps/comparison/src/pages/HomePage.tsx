@@ -39,7 +39,7 @@ const totalExamples = categories.reduce(
 
 export function HomePage() {
   return (
-    <div className={cx(flexCol(), gap(8), maxW('960px'))}>
+    <div className={cx(flex(), flexCol(), gap(8), maxW('960px'))}>
       <div>
         <h1 className={cx(text(_3xl), font(bold), textColor('#0f172a'), mb(2))}>
           typewritingclass vs Tailwind CSS

@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import {
-  cx, py, px, flexCol, gap, text, font, textColor, rounded, bg, w,
+  cx, py, px, flex, flexCol, gap, text, font, textColor, rounded, bg, w,
   shrink, borderR, borderColor, h, overflowY, sticky, top, mb,
   textDecoration, display,
 } from 'typewritingclass'
@@ -32,7 +32,7 @@ export function Sidebar() {
   return (
     <nav className={cx(
       w('16rem'),
-      flexCol(), gap(1),
+      flex(), flexCol(), gap(1),
       py(6), px(4),
       shrink(0), borderR('1px'), borderColor('#e2e8f0'), h('100vh'), overflowY('auto'), sticky(), top(0),
     )}>

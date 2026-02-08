@@ -119,8 +119,8 @@ export const spacingData: ComparisonCategory = {
         },
         {
           label: 'space-y-3 (0.75rem vertical gap)',
-          twcCode: 'cx(flexCol(), spaceY(3))',
-          twcElement: React.createElement('div', { className: cx(flexCol(), spaceY(3)) },
+          twcCode: 'cx(flex(), flexCol(), spaceY(3))',
+          twcElement: React.createElement('div', { className: cx(flex(), flexCol(), spaceY(3)) },
             React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, 'A'),
             React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, 'B'),
             React.createElement('div', { className: cx(p(2), bg('#818cf8'), textColor('#ffffff')) }, 'C'),

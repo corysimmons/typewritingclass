@@ -7,7 +7,7 @@ const app = document.getElementById('app')!
 const container = document.createElement('div')
 
 // Use dcx() for static container styling
-const containerStyle = dcx(flexCol(), gap(6), p(8))
+const containerStyle = dcx(flex(), flexCol(), gap(6), p(8))
 container.className = containerStyle.className
 Object.assign(container.style, containerStyle.style)
 

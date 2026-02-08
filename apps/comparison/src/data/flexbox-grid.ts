@@ -26,8 +26,8 @@ export const flexboxGridData: ComparisonCategory = {
       examples: [
         {
           label: 'flex-row (default)',
-          twcCode: 'cx(flexRow(), gap(2))',
-          twcElement: React.createElement('div', { className: cx(flexRow(), gap(2)) },
+          twcCode: 'cx(flex(), flexRow(), gap(2))',
+          twcElement: React.createElement('div', { className: cx(flex(), flexRow(), gap(2)) },
             React.createElement('div', box('1'), '1'),
             React.createElement('div', box('2'), '2'),
             React.createElement('div', box('3'), '3'),
@@ -41,8 +41,8 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'flex-col',
-          twcCode: 'cx(flexCol(), gap(2))',
-          twcElement: React.createElement('div', { className: cx(flexCol(), gap(2)) },
+          twcCode: 'cx(flex(), flexCol(), gap(2))',
+          twcElement: React.createElement('div', { className: cx(flex(), flexCol(), gap(2)) },
             React.createElement('div', box('1'), '1'),
             React.createElement('div', box('2'), '2'),
             React.createElement('div', box('3'), '3'),
@@ -56,8 +56,8 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'flex-row-reverse',
-          twcCode: 'cx(flexRowReverse(), gap(2))',
-          twcElement: React.createElement('div', { className: cx(flexRowReverse(), gap(2)) },
+          twcCode: 'cx(flex(), flexRowReverse(), gap(2))',
+          twcElement: React.createElement('div', { className: cx(flex(), flexRowReverse(), gap(2)) },
             React.createElement('div', box('1'), '1'),
             React.createElement('div', box('2'), '2'),
             React.createElement('div', box('3'), '3'),
@@ -71,8 +71,8 @@ export const flexboxGridData: ComparisonCategory = {
         },
         {
           label: 'flex-col-reverse',
-          twcCode: 'cx(flexColReverse(), gap(2))',
-          twcElement: React.createElement('div', { className: cx(flexColReverse(), gap(2)) },
+          twcCode: 'cx(flex(), flexColReverse(), gap(2))',
+          twcElement: React.createElement('div', { className: cx(flex(), flexColReverse(), gap(2)) },
             React.createElement('div', box('1'), '1'),
             React.createElement('div', box('2'), '2'),
             React.createElement('div', box('3'), '3'),

@@ -6,7 +6,7 @@ import { base, bold } from 'typewritingclass/theme/typography'
 
 const app = document.getElementById('app')!
 const container = document.createElement('div')
-container.className = cx(flexCol(), gap(8), p(8))
+container.className = cx(flex(), flexCol(), gap(8), p(8))
 
 // Flex row
 const flexSection = document.createElement('div')
@@ -32,7 +32,7 @@ container.appendChild(gridSection)
 
 // Flex col
 const colSection = document.createElement('div')
-colSection.className = cx(flexCol(), gap(2), w(64))
+colSection.className = cx(flex(), flexCol(), gap(2), w(64))
 for (let i = 0; i < 3; i++) {
   const box = document.createElement('div')
   box.className = cx(h(10), bg('#10b981'), rounded(), flex(), items('center'), justify('center'), textColor('#ffffff'), text(base), font(bold))

@@ -54,11 +54,11 @@ function ColorPickerDemo() {
   )
 
   return (
-    <div className={cx(flexCol(), gap(4))}>
+    <div className={cx(flex(), flexCol(), gap(4))}>
       <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Color Picker with dynamic()
       </h3>
-      <div className={cx(flexRow(), gap(4), items('center'))}>
+      <div className={cx(flex(), flexRow(), gap(4), items('center'))}>
         <input
           type="color"
           value={color}
@@ -84,7 +84,7 @@ function ProgressBarDemo() {
   )
 
   return (
-    <div className={cx(flexCol(), gap(4))}>
+    <div className={cx(flex(), flexCol(), gap(4))}>
       <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Dynamic Progress Bar
       </h3>
@@ -114,11 +114,11 @@ function ThemeSwitcherDemo() {
   }
 
   return (
-    <div className={cx(flexCol(), gap(4))}>
+    <div className={cx(flex(), flexCol(), gap(4))}>
       <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Theme Switcher
       </h3>
-      <div className={cx(flexRow(), gap(3))}>
+      <div className={cx(flex(), flexRow(), gap(3))}>
         <button
           onClick={() => switchTheme('light')}
           className={cx(
@@ -146,7 +146,7 @@ function ThemeSwitcherDemo() {
         p(6), rounded(lgRadius), shadow(lgShadow),
         bg(theme === 'dark' ? '#1e293b' : '#ffffff'),
         border('1px'), borderColor(theme === 'dark' ? '#334155' : '#e2e8f0'),
-        flexCol(), gap(3),
+        flex(), flexCol(), gap(3),
       )}>
         <h4 className={cx(
           text(lg), font(bold),
@@ -181,11 +181,11 @@ function MultiPropertyDemo() {
   )
 
   return (
-    <div className={cx(flexCol(), gap(4))}>
+    <div className={cx(flex(), flexCol(), gap(4))}>
       <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Multi-Property Dynamic
       </h3>
-      <div className={cx(flexCol(), gap(2))}>
+      <div className={cx(flex(), flexCol(), gap(2))}>
         <label className={cx(text(base), textColor('#475569'))}>
           Size: {size}px
           <input type="range" min="40" max="200" value={size}
@@ -213,11 +213,11 @@ function MultiPropertyDemo() {
 // --- Filters Demo ---
 function FiltersDemo() {
   return (
-    <div className={cx(flexCol(), gap(4))}>
+    <div className={cx(flex(), flexCol(), gap(4))}>
       <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Filters
       </h3>
-      <div className={cx(flexRow(), gap(4), flexWrap())}>
+      <div className={cx(flex(), flexRow(), gap(4), flexWrap())}>
         {[
           ['Blur', blur('8px'), bg(indigo[200])],
           ['Grayscale', grayscale('100%'), bg(emerald[400])],
@@ -242,11 +242,11 @@ function FiltersDemo() {
 // --- Transitions Demo ---
 function TransitionsDemo() {
   return (
-    <div className={cx(flexCol(), gap(4))}>
+    <div className={cx(flex(), flexCol(), gap(4))}>
       <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Transitions
       </h3>
-      <div className={cx(flexRow(), gap(3))}>
+      <div className={cx(flex(), flexRow(), gap(3))}>
         <button className={cx(
           px(5), py(2.5), rounded(lgRadius),
           bg('#e2e8f0'), textColor('#475569'),
@@ -265,11 +265,11 @@ function TransitionsDemo() {
 // --- Gradients Demo ---
 function GradientsDemo() {
   return (
-    <div className={cx(flexCol(), gap(4))}>
+    <div className={cx(flex(), flexCol(), gap(4))}>
       <h3 className={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Gradients
       </h3>
-      <div className={cx(flexRow(), gap(4), flexWrap())}>
+      <div className={cx(flex(), flexRow(), gap(4), flexWrap())}>
         {[
           ['Sunset', rose[500], amber[400], '#fde68a'],
           ['Ocean', blue[500], cyan[400], '#99f6e4'],
@@ -299,7 +299,7 @@ export function App() {
   return (
     <div className={cx(
       css({ 'max-width': '800px', margin: '0 auto' }),
-      p(8), flexCol(), gap(10),
+      p(8), flex(), flexCol(), gap(10),
     )}>
       <h1 className={cx(text(_2xl), font(bold), textColor('#0f172a'))}>
         typewritingclass — React Demo

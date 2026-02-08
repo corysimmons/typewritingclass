@@ -112,8 +112,8 @@ export const bordersData: ComparisonCategory = {
       examples: [
         {
           label: 'divide-y',
-          twcCode: 'cx(flexCol(), divideY("1px"), divideColor("#818cf8"))',
-          twcElement: React.createElement('div', { className: cx(flexCol(), divideY('1px'), divideColor('#818cf8')) },
+          twcCode: 'cx(flex(), flexCol(), divideY("1px"), divideColor("#818cf8"))',
+          twcElement: React.createElement('div', { className: cx(flex(), flexCol(), divideY('1px'), divideColor('#818cf8')) },
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'Item 1'),
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'Item 2'),
             React.createElement('div', { className: cx(p(3), text(xs)) }, 'Item 3'),

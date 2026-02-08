@@ -53,41 +53,41 @@ export function flex(): StyleRule {
 }
 
 /**
- * Sets the element to `display: flex` with `flex-direction: column`.
+ * Sets `flex-direction: column` on a flex container.
  *
- * Takes no arguments and produces a column-oriented flex container.
+ * Takes no arguments. Use with `flex()` to create a column-oriented flex container.
  *
- * @returns A {@link StyleRule} that sets `display: flex` and `flex-direction: column`.
+ * @returns A {@link StyleRule} that sets `flex-direction: column`.
  *
  * @example
  * ```ts
- * import { cx, flexCol } from 'typewritingclass'
+ * import { cx, flex, flexCol } from 'typewritingclass'
  *
- * cx(flexCol())
+ * cx(flex(), flexCol())
  * // CSS: display: flex; flex-direction: column;
  * ```
  */
 export function flexCol(): StyleRule {
-  return createRule({ display: 'flex', 'flex-direction': 'column' })
+  return createRule({ 'flex-direction': 'column' })
 }
 
 /**
- * Sets the element to `display: flex` with `flex-direction: row`.
+ * Sets `flex-direction: row` on a flex container.
  *
- * Takes no arguments and produces a row-oriented flex container.
+ * Takes no arguments. Use with `flex()` to create a row-oriented flex container.
  *
- * @returns A {@link StyleRule} that sets `display: flex` and `flex-direction: row`.
+ * @returns A {@link StyleRule} that sets `flex-direction: row`.
  *
  * @example
  * ```ts
- * import { cx, flexRow } from 'typewritingclass'
+ * import { cx, flex, flexRow } from 'typewritingclass'
  *
- * cx(flexRow())
+ * cx(flex(), flexRow())
  * // CSS: display: flex; flex-direction: row;
  * ```
  */
 export function flexRow(): StyleRule {
-  return createRule({ display: 'flex', 'flex-direction': 'row' })
+  return createRule({ 'flex-direction': 'row' })
 }
 
 /**
@@ -1033,11 +1033,11 @@ export function flexBasis(value: number | string | DynamicValue): StyleRule {
 }
 
 export function flexRowReverse(): StyleRule {
-  return createRule({ display: 'flex', 'flex-direction': 'row-reverse' })
+  return createRule({ 'flex-direction': 'row-reverse' })
 }
 
 export function flexColReverse(): StyleRule {
-  return createRule({ display: 'flex', 'flex-direction': 'column-reverse' })
+  return createRule({ 'flex-direction': 'column-reverse' })
 }
 
 export function flexWrapReverse(): StyleRule {

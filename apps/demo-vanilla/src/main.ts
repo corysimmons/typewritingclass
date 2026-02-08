@@ -47,7 +47,7 @@ const inkLight = '#e8e4de'
 
 // ─── Root ──────────────────────────────────────────────────
 app.className = cx(
-  flexCol(),
+  flex(), flexCol(),
   minH('100vh'),
   css({ 'font-family': sans, background: cream, '-webkit-font-smoothing': 'antialiased' }),
   textColor(slate[800]),
@@ -58,7 +58,7 @@ app.className = cx(
 const hero = document.createElement('section')
 hero.className = cx(
   relative(),
-  flexCol(),
+  flex(), flexCol(),
   items('center'),
   justify('center'),
   px(6),
@@ -177,7 +177,7 @@ function createDivider() {
 const showcase = document.createElement('section')
 showcase.id = 'showcase'
 showcase.className = cx(
-  flexCol(), gap(20),
+  flex(), flexCol(), gap(20),
   px(6), py(20),
   maxW('72rem'),
   css({ margin: '0 auto' }),
@@ -189,7 +189,7 @@ app.appendChild(showcase)
 // ─── Section helper ────────────────────────────────────────
 function section(label: string, heading: string, children: HTMLElement[]) {
   const el = document.createElement('div')
-  el.className = cx(flexCol(), gap(8))
+  el.className = cx(flex(), flexCol(), gap(8))
 
   const labelEl = document.createElement('span')
   labelEl.className = cx(
@@ -209,7 +209,7 @@ function section(label: string, heading: string, children: HTMLElement[]) {
   headingEl.textContent = heading
 
   const headerGroup = document.createElement('div')
-  headerGroup.className = cx(flexCol(), gap(2))
+  headerGroup.className = cx(flex(), flexCol(), gap(2))
   headerGroup.append(labelEl, headingEl)
 
   el.appendChild(headerGroup)
@@ -298,7 +298,7 @@ const cardData = [
 for (const { icon, title: t, desc } of cardData) {
   const card = document.createElement('div')
   card.className = cx(
-    flexCol(), gap(4), p(6),
+    flex(), flexCol(), gap(4), p(6),
     bg(white),
     border('1px'), borderColor(slate[200]),
     rounded(_2xlRadius),
@@ -345,7 +345,7 @@ showcase.appendChild(section('02', 'Cards', [cardGrid]))
 // ─── 3. Typography ─────────────────────────────────────────
 const typoDemo = document.createElement('div')
 typoDemo.className = cx(
-  flexCol(), gap(6), p(8),
+  flex(), flexCol(), gap(6), p(8),
   bg(white), border('1px'), borderColor(slate[200]),
   rounded(_2xlRadius),
   when(dark)(bg(slate[900]), borderColor(slate[700])),
@@ -388,7 +388,7 @@ showcase.appendChild(section('03', 'Typography', [typoDemo]))
 
 // ─── 4. Color Palette ──────────────────────────────────────
 const paletteWrap = document.createElement('div')
-paletteWrap.className = cx(flexCol(), gap(4))
+paletteWrap.className = cx(flex(), flexCol(), gap(4))
 
 const palettes: [string, typeof slate][] = [
   ['slate', slate], ['indigo', indigo], ['emerald', emerald],
@@ -432,7 +432,7 @@ showcase.appendChild(section('04', 'Colors', [paletteWrap]))
 
 // ─── 5. Spacing Scale ──────────────────────────────────────
 const spacingDemo = document.createElement('div')
-spacingDemo.className = cx(flexCol(), gap(3))
+spacingDemo.className = cx(flex(), flexCol(), gap(3))
 
 const spacingValues = [0.5, 1, 2, 3, 4, 6, 8, 12, 16, 24] as const
 for (const val of spacingValues) {
@@ -465,7 +465,7 @@ showcase.appendChild(section('05', 'Spacing', [spacingDemo]))
 
 // ─── 6. Interactive States ─────────────────────────────────
 const statesDemo = document.createElement('div')
-statesDemo.className = cx(flexCol(), gap(4))
+statesDemo.className = cx(flex(), flexCol(), gap(4))
 
 const stateExamples = [
   { label: 'Hover me', styles: [bg(slate[100]), when(hover)(bg(indigo[100]), textColor(indigo[700]))] },
@@ -514,7 +514,7 @@ showcase.appendChild(section('07', 'Responsive', [responsiveDemo]))
 // ─── 8. Code Example ──────────────────────────────────────
 const codeSection = document.createElement('div')
 codeSection.id = 'code'
-codeSection.className = cx(flexCol(), gap(4))
+codeSection.className = cx(flex(), flexCol(), gap(4))
 
 const codeBlock = document.createElement('pre')
 codeBlock.className = cx(
@@ -650,7 +650,7 @@ showcase.appendChild(section('12', 'Gradients', [gradientsDemo]))
 
 // ─── 13. Before & After ──────────────────────────────────
 const pseudoDemo = document.createElement('div')
-pseudoDemo.className = cx(flexCol(), gap(6))
+pseudoDemo.className = cx(flex(), flexCol(), gap(6))
 
 const quotedText = document.createElement('blockquote')
 quotedText.className = cx(

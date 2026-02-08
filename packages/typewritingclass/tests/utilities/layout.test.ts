@@ -28,11 +28,11 @@ describe('layout utilities', () => {
   })
 
   it('flexCol sets flex column', () => {
-    expect(flexCol().declarations).toEqual({ display: 'flex', 'flex-direction': 'column' })
+    expect(flexCol().declarations).toEqual({ 'flex-direction': 'column' })
   })
 
   it('flexRow sets flex row', () => {
-    expect(flexRow().declarations).toEqual({ display: 'flex', 'flex-direction': 'row' })
+    expect(flexRow().declarations).toEqual({ 'flex-direction': 'row' })
   })
 
   it('flexWrap sets flex-wrap', () => {
@@ -261,11 +261,11 @@ describe('layout utilities', () => {
   })
 
   it('flexRowReverse sets flex row-reverse', () => {
-    expect(flexRowReverse().declarations).toEqual({ display: 'flex', 'flex-direction': 'row-reverse' })
+    expect(flexRowReverse().declarations).toEqual({ 'flex-direction': 'row-reverse' })
   })
 
   it('flexColReverse sets flex column-reverse', () => {
-    expect(flexColReverse().declarations).toEqual({ display: 'flex', 'flex-direction': 'column-reverse' })
+    expect(flexColReverse().declarations).toEqual({ 'flex-direction': 'column-reverse' })
   })
 
   it('flexWrapReverse sets flex-wrap: wrap-reverse', () => {

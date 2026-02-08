@@ -1,5 +1,5 @@
 import React from 'react'
-import { cx, flexCol, gap, mb, text, font, textColor, maxW } from 'typewritingclass'
+import { cx, flex, flexCol, gap, mb, text, font, textColor, maxW } from 'typewritingclass'
 import { _2xl, lg as lgText, base } from 'typewritingclass/theme/typography'
 import { bold, semibold } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from '../data/types.ts'
@@ -9,7 +9,7 @@ export function ComparisonPage({ category }: { category: ComparisonCategory }) {
   const totalExamples = category.sections.reduce((sum, s) => sum + s.examples.length, 0)
 
   return (
-    <div className={cx(flexCol(), gap(6), maxW('960px'))}>
+    <div className={cx(flex(), flexCol(), gap(6), maxW('960px'))}>
       <div>
         <h1 className={cx(text(_2xl), font(bold), textColor('#0f172a'), mb(2))}>
           {category.title}

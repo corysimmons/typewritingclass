@@ -5,7 +5,7 @@ import { md as mdShadow } from 'typewritingclass/theme/shadows'
 
 const app = document.getElementById('app')!
 const container = document.createElement('div')
-container.className = cx(flexCol(), gap(6), p(8))
+container.className = cx(flex(), flexCol(), gap(6), p(8))
 
 // Override test: later utility wins
 // bg(red) then bg(blue) → should be blue
@@ -25,7 +25,7 @@ card.className = cx(
   rounded(lgRadius),
   shadow(mdShadow),
   p(6),
-  flexCol(),
+  flex(), flexCol(),
   gap(3),
   border('1px'),
   borderColor('#e5e7eb'),

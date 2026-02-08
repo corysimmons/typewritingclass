@@ -1,10 +1,10 @@
-import { cx, flexCol, gap, p, text, font, textColor, textAlign, tracking, leading } from 'typewritingclass'
+import { cx, flex, flexCol, gap, p, text, font, textColor, textAlign, tracking, leading } from 'typewritingclass'
 import { xs, sm, base, lg, xl, _2xl, _3xl, _4xl } from 'typewritingclass/theme/typography'
 import * as typo from 'typewritingclass/theme/typography'
 
 const app = document.getElementById('app')!
 const container = document.createElement('div')
-container.className = cx(flexCol(), gap(2), p(8))
+container.className = cx(flex(), flexCol(), gap(2), p(8))
 
 const sizes = [
   { name: 'xs', token: xs },
@@ -26,7 +26,7 @@ for (const { name, token } of sizes) {
 
 // Weight demo
 const weightRow = document.createElement('div')
-weightRow.className = cx(flexCol(), gap(1))
+weightRow.className = cx(flex(), flexCol(), gap(1))
 const weights = [
   { name: 'thin', val: typo.thin },
   { name: 'light', val: typo.light },

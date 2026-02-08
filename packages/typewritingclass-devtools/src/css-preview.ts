@@ -371,8 +371,8 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
 
   // Layout — flexbox
   flex: () => ({ display: 'flex' }),
-  flexCol: () => ({ display: 'flex', 'flex-direction': 'column' }),
-  flexRow: () => ({ display: 'flex', 'flex-direction': 'row' }),
+  flexCol: () => ({ 'flex-direction': 'column' }),
+  flexRow: () => ({ 'flex-direction': 'row' }),
   flexWrap: () => ({ 'flex-wrap': 'wrap' }),
   inlineFlex: () => ({ display: 'inline-flex' }),
 

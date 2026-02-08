@@ -53,11 +53,11 @@ function ColorPickerDemo() {
   )
 
   return (
-    <div class={cx(flexCol(), gap(4))}>
+    <div class={cx(flex(), flexCol(), gap(4))}>
       <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Color Picker with dynamic()
       </h3>
-      <div class={cx(flexRow(), gap(4), items('center'))}>
+      <div class={cx(flex(), flexRow(), gap(4), items('center'))}>
         <input
           type="color"
           value={color()}
@@ -85,7 +85,7 @@ function ProgressBarDemo() {
   )
 
   return (
-    <div class={cx(flexCol(), gap(4))}>
+    <div class={cx(flex(), flexCol(), gap(4))}>
       <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Dynamic Progress Bar
       </h3>
@@ -115,11 +115,11 @@ function ThemeSwitcherDemo() {
   }
 
   return (
-    <div class={cx(flexCol(), gap(4))}>
+    <div class={cx(flex(), flexCol(), gap(4))}>
       <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Theme Switcher
       </h3>
-      <div class={cx(flexRow(), gap(3))}>
+      <div class={cx(flex(), flexRow(), gap(3))}>
         <button
           onClick={() => switchTheme('light')}
           class={cx(
@@ -147,7 +147,7 @@ function ThemeSwitcherDemo() {
         p(6), rounded(lgRadius), shadow(lgShadow),
         bg(theme() === 'dark' ? '#1e293b' : '#ffffff'),
         border('1px'), borderColor(theme() === 'dark' ? '#334155' : '#e2e8f0'),
-        flexCol(), gap(3),
+        flex(), flexCol(), gap(3),
       )}>
         <h4 class={cx(
           text(lg), font(bold),
@@ -182,11 +182,11 @@ function MultiPropertyDemo() {
   )
 
   return (
-    <div class={cx(flexCol(), gap(4))}>
+    <div class={cx(flex(), flexCol(), gap(4))}>
       <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Multi-Property Dynamic
       </h3>
-      <div class={cx(flexCol(), gap(2))}>
+      <div class={cx(flex(), flexCol(), gap(2))}>
         <label class={cx(text(base), textColor('#475569'))}>
           Size: {size()}px
           <input type="range" min="40" max="200" value={size()}
@@ -221,11 +221,11 @@ function FiltersDemo() {
   ]
 
   return (
-    <div class={cx(flexCol(), gap(4))}>
+    <div class={cx(flex(), flexCol(), gap(4))}>
       <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Filters
       </h3>
-      <div class={cx(flexRow(), gap(4), flexWrap())}>
+      <div class={cx(flex(), flexRow(), gap(4), flexWrap())}>
         {filterExamples.map(({ label, filter, bgColor }) => (
           <div class={cx(
             filter, bg(bgColor),
@@ -245,11 +245,11 @@ function FiltersDemo() {
 // --- Transitions Demo ---
 function TransitionsDemo() {
   return (
-    <div class={cx(flexCol(), gap(4))}>
+    <div class={cx(flex(), flexCol(), gap(4))}>
       <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Transitions
       </h3>
-      <div class={cx(flexRow(), gap(3))}>
+      <div class={cx(flex(), flexRow(), gap(3))}>
         <button class={cx(
           px(5), py(2.5), rounded(lgRadius),
           bg('#e2e8f0'), textColor('#475569'),
@@ -274,11 +274,11 @@ function GradientsDemo() {
   ]
 
   return (
-    <div class={cx(flexCol(), gap(4))}>
+    <div class={cx(flex(), flexCol(), gap(4))}>
       <h3 class={cx(text(lg), font(semibold), textColor('#1e293b'))}>
         Gradients
       </h3>
-      <div class={cx(flexRow(), gap(4), flexWrap())}>
+      <div class={cx(flex(), flexRow(), gap(4), flexWrap())}>
         {gradients.map(({ label, from, via, to }) => (
           <div class={cx(
             px(6), py(4),
@@ -304,7 +304,7 @@ export function App() {
   return (
     <div class={cx(
       css({ 'max-width': '800px', margin: '0 auto' }),
-      p(8), flexCol(), gap(10),
+      p(8), flex(), flexCol(), gap(10),
     )}>
       <h1 class={cx(text(_2xl), font(bold), textColor('#0f172a'))}>
         typewritingclass — Solid Demo

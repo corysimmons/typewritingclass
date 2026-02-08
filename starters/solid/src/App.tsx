@@ -14,7 +14,7 @@ import { md as mdShadow } from 'typewritingclass/theme/shadows'
 export function App() {
   return (
     <div class={cx(
-      flexCol(), gap(8), p(8),
+      flex(), flexCol(), gap(8), p(8),
       items('center'), justify('center'),
       minH('100vh'),
     )}>
@@ -27,7 +27,7 @@ export function App() {
         bg(white),
         rounded(lgRadius),
         shadow(mdShadow),
-        flexCol(), gap(4), items('center'),
+        flex(), flexCol(), gap(4), items('center'),
         css({ transition: 'all 200ms ease' }),
         when(hover)(shadow('0 20px 25px -5px rgb(0 0 0 / 0.1)'), bg(blue[50])),
       )}>
@@ -62,7 +62,7 @@ export function App() {
       </button>
 
       {/* Filter demo */}
-      <div class={cx(flexRow(), gap(4))}>
+      <div class={cx(flex(), flexRow(), gap(4))}>
         <div class={cx(
           bg(emerald[400]),
           p(4), rounded(lgRadius),

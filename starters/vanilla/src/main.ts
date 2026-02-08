@@ -16,7 +16,7 @@ const app = document.getElementById('app')!
 
 // Root layout
 app.className = cx(
-  flexCol(), gap(8), p(8),
+  flex(), flexCol(), gap(8), p(8),
   items('center'), justify('center'),
   minH('100vh'),
 )
@@ -34,7 +34,7 @@ card.className = cx(
   bg(white),
   rounded(lgRadius),
   shadow(mdShadow),
-  flexCol(), gap(4), items('center'),
+  flex(), flexCol(), gap(4), items('center'),
   css({ transition: 'all 200ms ease' }),
   when(hover)(shadow('0 20px 25px -5px rgb(0 0 0 / 0.1)'), bg(blue[50])),
 )
@@ -76,7 +76,7 @@ app.appendChild(gradBtn)
 
 // Filter demo
 const filterRow = document.createElement('div')
-filterRow.className = cx(flexRow(), gap(4))
+filterRow.className = cx(flex(), flexRow(), gap(4))
 
 const normalBox = document.createElement('div')
 normalBox.textContent = 'Normal'

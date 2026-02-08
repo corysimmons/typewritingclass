@@ -1,4 +1,4 @@
-import { cx, p, bg, textColor, text, font, rounded, shadow, flexCol, gap } from 'typewritingclass'
+import { cx, p, bg, textColor, text, font, rounded, shadow, flex, flexCol, gap } from 'typewritingclass'
 import { createTheme, injectTheme, setTheme } from 'typewritingclass'
 import { base, lg, bold, semibold } from 'typewritingclass/theme/typography'
 import { lg as lgRadius } from 'typewritingclass/theme/borders'
@@ -19,7 +19,7 @@ setTheme('custom')
 
 const app = document.getElementById('app')!
 const container = document.createElement('div')
-container.className = cx(flexCol(), gap(6), p(8))
+container.className = cx(flex(), flexCol(), gap(6), p(8))
 
 // Use the theme vars in a card
 const card = document.createElement('div')
@@ -28,7 +28,7 @@ card.className = cx(
   rounded(lgRadius),
   shadow(lgShadow),
   p(6),
-  flexCol(),
+  flex(), flexCol(),
   gap(3),
 )
 
