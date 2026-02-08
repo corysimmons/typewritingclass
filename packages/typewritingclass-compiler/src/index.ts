@@ -1,4 +1,5 @@
 import type { Plugin } from 'vite'
+import MagicString from 'magic-string'
 import { createRequire } from 'module'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -80,19 +81,31 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
           )
         }
 
-        // Inject virtual CSS import so styles are included in the bundle
-        let transformed = result.code
-        if (!transformed.includes(VIRTUAL_CSS_ID)) {
-          transformed = `import '${VIRTUAL_CSS_ID}';\n${transformed}`
+        // Use MagicString for source map generation
+        const s = new MagicString(code)
+
+        // If the native transform changed the code, overwrite the content
+        if (result.code !== code) {
+          s.overwrite(0, code.length, result.code)
         }
 
-        return { code: transformed, map: null }
+        // Inject virtual CSS import so styles are included in the bundle
+        if (!result.code.includes(VIRTUAL_CSS_ID)) {
+          s.prepend(`import '${VIRTUAL_CSS_ID}';\n`)
+        }
+
+        return {
+          code: s.toString(),
+          map: s.generateMap({ source: id, includeContent: true }),
+        }
       } catch {
         // If Rust transform fails, fall back to just injecting the runtime
         if (!code.includes('typewritingclass/inject')) {
+          const s = new MagicString(code)
+          s.prepend(`import 'typewritingclass/inject';\n`)
           return {
-            code: `import 'typewritingclass/inject';\n${code}`,
-            map: null,
+            code: s.toString(),
+            map: s.generateMap({ source: id, includeContent: true }),
           }
         }
       }
@@ -116,7 +129,20 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
       allRules.push(...rules)
     }
     if (allRules.length === 0) return ''
-    return native.generateCss(JSON.stringify(allRules))
+
+    let css = native.generateCss(JSON.stringify(allRules))
+
+    // Append source mapping comments referencing the original TS/TSX files
+    // so devtools can trace CSS rules back to their source files
+    const sourceFiles = [...fileRules.keys()]
+    if (sourceFiles.length > 0) {
+      css += '\n'
+      for (const file of sourceFiles) {
+        css += `\n/* sourceMappingURL=${file} */`
+      }
+    }
+
+    return css
   }
 }
 

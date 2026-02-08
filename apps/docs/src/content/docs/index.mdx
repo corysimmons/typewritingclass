@@ -1,0 +1,75 @@
+---
+title: typewritingclass
+description: CSS-in-TS. Composable. Compiled. Correct.
+template: splash
+hero:
+  tagline: CSS utilities are TypeScript functions. Two functions to learn. Zero runtime by default.
+  actions:
+    - text: Get Started
+      link: /getting-started/installation/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/anthropics/typewritingclass
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Why typewritingclass?
+
+<CardGrid>
+  <Card title="TypeScript-native" icon="seti:typescript">
+    Utilities are functions, not string conventions. Full autocomplete, type checking, and refactoring support out of the box.
+  </Card>
+  <Card title="Two functions" icon="puzzle">
+    `cx()` to compose, `when()` to modify. That's the entire API surface. Everything else is just utilities and modifiers slotting into these two shapes.
+  </Card>
+  <Card title="Zero runtime" icon="rocket">
+    The compiler extracts all static styles at build time. No runtime CSS generation, no style injection, no FOUC. Just plain CSS files.
+  </Card>
+  <Card title="Dynamic when needed" icon="random">
+    Wrap runtime values with `dynamic()` and use `dcx()` — the compiler emits CSS custom properties and a tiny runtime handles the rest.
+  </Card>
+</CardGrid>
+
+## Quick taste
+
+```ts
+import { cx, p, bg, rounded, when, hover, md } from 'typewritingclass'
+import { blue } from 'typewritingclass/theme/colors'
+import { lg } from 'typewritingclass/theme/shadows'
+
+const className = cx(
+  p(4),
+  bg(blue[500]),
+  rounded('lg'),
+  when(hover)(bg(blue[600])),
+  when(md)(p(8)),
+)
+```
+
+The compiler extracts this into static CSS at build time:
+
+```css
+@layer l0 { ._a1b2c { padding: 1rem; } }
+@layer l1 { ._d3e4f { background-color: #3b82f6; } }
+@layer l2 { ._g5h6i { border-radius: 0.5rem; } }
+@layer l3 { ._j7k8l:hover { background-color: #2563eb; } }
+@layer l4 { @media (min-width: 768px) { ._m9n0o { padding: 2rem; } } }
+```
+
+## The plugin model
+
+Every utility and modifier follows the same two type signatures. Custom plugins slot in identically to built-ins — no registration, no configuration, just import and use.
+
+```ts
+// A utility: takes a value, returns a StyleRule
+type Utility = (value: any) => StyleRule
+
+// A modifier: takes a StyleRule, returns a StyleRule
+type Modifier = (rule: StyleRule) => StyleRule
+```
+
+This means your custom `glow()` utility composes with the built-in `when(hover)` exactly the same way `bg()` does.

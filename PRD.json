@@ -582,6 +582,10 @@
     "phase_3": {
       "name": "DX Polish + Ecosystem",
       "tasks": [
+        "Comprehensive JSDoc documentation with rich examples on every exported type, function, and interface — hover-friendly descriptions showing CSS output, usage patterns, and edge cases",
+        "Branded/nominal types for CSS units — prevent passing a color where a size is expected, catch impossible combinations at compile time",
+        "cx() conflict detection — warn on conflicting properties in strict mode",
+        "layer() function for explicit user-defined layer control",
         "Source map generation from class names to TS call sites",
         "VS Code extension for inline CSS preview on hover",
         "esbuild plugin (in addition to Vite)",
@@ -592,6 +596,7 @@
         "Plugin authoring guide with utility, modifier, and composite plugin cookbook examples",
         "Set up demo-solid app",
         "CI pipeline: visual regression tests on all PRs across Chromium, Firefox, WebKit",
+        "Additional visual tests: state modifiers (hover, focus, disabled), dark mode, responsive breakpoints, multi-viewport",
         "Starter templates for React, Solid, Svelte, vanilla"
       ]
     }

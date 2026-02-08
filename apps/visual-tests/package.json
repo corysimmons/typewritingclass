@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "playwright test",
-    "test:update": "playwright test --update-snapshots"
+    "build": "vite build",
+    "test": "vite build && playwright test",
+    "test:update": "vite build && playwright test --update-snapshots"
   },
   "dependencies": {
     "typewritingclass": "workspace:*",

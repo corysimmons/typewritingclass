@@ -1,0 +1,18 @@
+{
+  "name": "twc-starter-vanilla",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "typewritingclass": "^0.1.0"
+  },
+  "devDependencies": {
+    "typewritingclass-compiler": "^0.1.0",
+    "vite": "^6.0.0",
+    "typescript": "^5.7.3"
+  }
+}

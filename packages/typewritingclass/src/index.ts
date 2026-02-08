@@ -4,9 +4,15 @@ export { dcx } from './dcx.ts'
 export { when } from './when.ts'
 export { css } from './css.ts'
 export { dynamic, isDynamic } from './dynamic.ts'
+export { layer } from './layer.ts'
+export { generateCSS } from './registry.ts'
 
 // Types
 export type { StyleRule, Utility, Modifier, DynamicResult } from './types.ts'
+export type {
+  Brand, CSSColor, CSSLength, CSSShadow, CSSFontWeight,
+  ColorInput, SpacingInput, SizeInput, RadiusInput, ShadowInput,
+} from './types.ts'
 export type { DynamicValue } from './dynamic.ts'
 
 // Theme creation & switching

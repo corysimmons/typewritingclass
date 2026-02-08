@@ -1,0 +1,47 @@
+{
+  "name": "typewritingclass-devtools",
+  "displayName": "typewritingclass CSS Preview",
+  "description": "Inline CSS preview for typewritingclass utilities",
+  "version": "0.1.0",
+  "publisher": "typewritingclass",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "typewritingclass CSS Preview",
+      "properties": {
+        "typewritingclass.enableHoverPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable inline CSS preview on hover for typewritingclass utility calls."
+        },
+        "typewritingclass.showPropertyNames": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show CSS property names in hover previews."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.7.3"
+  }
+}

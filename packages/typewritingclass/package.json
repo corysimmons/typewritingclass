@@ -46,7 +46,8 @@
   },
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "bench": "tsx benchmarks/bench.ts"
   },
   "devDependencies": {
     "vitest": "^3.0.4",
