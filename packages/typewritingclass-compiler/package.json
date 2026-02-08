@@ -8,6 +8,7 @@
       "default": "./src/index.ts"
     }
   },
+  "files": ["src"],
   "scripts": {
     "build:native": "napi build --release",
     "build:native:debug": "napi build"

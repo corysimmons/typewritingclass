@@ -50,8 +50,13 @@
     "./runtime": {
       "types": "./src/runtime.ts",
       "default": "./src/runtime.ts"
+    },
+    "./rule": {
+      "types": "./src/rule.ts",
+      "default": "./src/rule.ts"
     }
   },
+  "files": ["src"],
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",

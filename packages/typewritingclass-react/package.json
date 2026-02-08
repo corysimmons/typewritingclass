@@ -12,6 +12,7 @@
       "default": "./src/server.ts"
     }
   },
+  "files": ["src"],
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest"

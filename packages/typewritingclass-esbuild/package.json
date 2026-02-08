@@ -8,6 +8,7 @@
       "default": "./src/index.ts"
     }
   },
+  "files": ["src"],
   "peerDependencies": {
     "esbuild": ">=0.17.0"
   },
