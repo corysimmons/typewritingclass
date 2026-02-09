@@ -14,6 +14,8 @@ pub struct ThemeData {
     pub text_sizes: HashMap<String, (String, String)>,
     /// font weight tokens: name -> CSS weight value
     pub font_weights: HashMap<String, String>,
+    /// font family tokens: name -> CSS font-family value
+    pub font_families: HashMap<String, String>,
     /// border radius tokens: name -> CSS value
     pub radii: HashMap<String, String>,
     /// shadow tokens: name -> CSS value
@@ -59,6 +61,11 @@ impl ThemeData {
     /// Resolve a font weight token to CSS value
     pub fn resolve_font_weight(&self, name: &str) -> Option<&str> {
         self.font_weights.get(name).map(|s| s.as_str())
+    }
+
+    /// Resolve a font family token to CSS value
+    pub fn resolve_font_family(&self, name: &str) -> Option<&str> {
+        self.font_families.get(name).map(|s| s.as_str())
     }
 
     /// Resolve a border radius token

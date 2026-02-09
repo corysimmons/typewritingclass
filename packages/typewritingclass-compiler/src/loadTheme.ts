@@ -71,6 +71,15 @@ export async function loadTheme(): Promise<ThemeInput> {
     }
   }
 
+  // Font families
+  const fontFamiliesObj = (typographyModule as Record<string, any>).fontFamilies
+  const fontFamilies: Record<string, string> = {}
+  if (fontFamiliesObj && typeof fontFamiliesObj === 'object') {
+    for (const [key, val] of Object.entries(fontFamiliesObj)) {
+      fontFamilies[key] = val as string
+    }
+  }
+
   // Border radii
   const radiusNames = ['none', 'sm', 'DEFAULT', 'md', 'lg', 'xl', '_2xl', '_3xl', 'full']
   const radii: Record<string, string> = {}
@@ -107,6 +116,7 @@ export async function loadTheme(): Promise<ThemeInput> {
     spacing: JSON.stringify(spacing),
     textSizes: JSON.stringify(textSizes),
     fontWeights: JSON.stringify(fontWeights),
+    fontFamilies: JSON.stringify(fontFamilies),
     radii: JSON.stringify(radii),
     shadows: JSON.stringify(shadows),
     sizes: JSON.stringify(sizes),

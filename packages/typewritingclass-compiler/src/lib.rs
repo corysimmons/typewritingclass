@@ -22,6 +22,8 @@ pub struct ThemeInput {
     pub text_sizes: String,
     /// JSON: { "thin": "100", "light": "300", ... }
     pub font_weights: String,
+    /// JSON: { "sans": "ui-sans-serif, system-ui, ...", ... }
+    pub font_families: String,
     /// JSON: { "none": "0px", "sm": "0.125rem", "DEFAULT": "0.25rem", ... }
     pub radii: String,
     /// JSON: { "sm": "0 1px 2px ...", "DEFAULT": "0 1px 3px ...", ... }
@@ -77,6 +79,8 @@ fn parse_theme(input: &ThemeInput) -> theme::ThemeData {
         .collect();
     let font_weights: HashMap<String, String> =
         serde_json::from_str(&input.font_weights).unwrap_or_default();
+    let font_families: HashMap<String, String> =
+        serde_json::from_str(&input.font_families).unwrap_or_default();
     let radii: HashMap<String, String> =
         serde_json::from_str(&input.radii).unwrap_or_default();
     let shadows: HashMap<String, String> =
@@ -90,6 +94,7 @@ fn parse_theme(input: &ThemeInput) -> theme::ThemeData {
         spacing,
         text_sizes,
         font_weights,
+        font_families,
         radii,
         shadows,
         sizes,

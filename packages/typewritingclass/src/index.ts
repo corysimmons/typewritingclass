@@ -17,6 +17,9 @@ export type {
 } from './types.ts'
 export type { DynamicValue } from './dynamic.ts'
 
+// Plugins
+export { googleFonts } from './plugins/googleFonts.ts'
+
 // Theme creation & switching
 export { createTheme } from './theme/createTheme.ts'
 export type { ThemeConfig, ThemeResult, ThemeVars } from './theme/createTheme.ts'

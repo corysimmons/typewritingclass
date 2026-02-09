@@ -27,6 +27,8 @@ export interface ThemeInput {
   textSizes: string
   /** JSON: { "thin": "100", "light": "300", ... } */
   fontWeights: string
+  /** JSON: { "sans": "ui-sans-serif, system-ui, ...", ... } */
+  fontFamilies: string
   /** JSON: { "none": "0px", "sm": "0.125rem", "DEFAULT": "0.25rem", ... } */
   radii: string
   /** JSON: { "sm": "0 1px 2px ...", "DEFAULT": "0 1px 3px ...", ... } */

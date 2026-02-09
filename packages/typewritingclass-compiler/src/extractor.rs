@@ -59,7 +59,7 @@ pub struct TransformResult {
 const UTILITY_NAMES: &[&str] = &[
     "p", "px", "py", "pt", "pr", "pb", "pl", "m", "mx", "my", "mt", "mr", "mb", "ml", "gap",
     "gapX", "gapY", "bg", "textColor", "borderColor", "text", "font", "tracking", "leading",
-    "textAlign", "flex", "flexCol", "flexRow", "flexWrap", "inlineFlex", "grid", "gridCols",
+    "textAlign", "fontFamily", "flex", "flexCol", "flexRow", "flexWrap", "inlineFlex", "grid", "gridCols",
     "gridRows", "w", "h", "size", "minW", "minH", "maxW", "maxH", "display", "items", "justify",
     "self", "overflow", "overflowX", "overflowY", "relative", "absolute", "fixed", "sticky",
     "top", "right", "bottom", "left", "inset", "z", "rounded", "roundedT", "roundedB", "roundedL",

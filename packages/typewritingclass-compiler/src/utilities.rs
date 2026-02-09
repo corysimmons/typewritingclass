@@ -185,6 +185,11 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
             let v = args.first()?.as_str()?;
             Some(StyleRule::new(vec![("text-align", v)]))
         }
+        "fontFamily" => {
+            let v = args.first()?.as_str()?;
+            let resolved = theme.resolve_font_family(v).unwrap_or(v);
+            Some(StyleRule::new(vec![("font-family", resolved)]))
+        }
 
         // --- Layout (zero-arg) ---
         "flex" if args.is_empty() => Some(StyleRule::new(vec![("display", "flex")])),
