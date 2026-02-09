@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { register, generateCSS, clearRegistry, getRegistry } from '../src/registry.ts'
+import { register, generateCSS, clearRegistry, getRegistry, onChange } from '../src/registry.ts'
 import { createRule } from '../src/rule.ts'
 
 describe('registry', () => {
@@ -62,5 +62,29 @@ describe('registry', () => {
 
   it('returns empty string for empty registry', () => {
     expect(generateCSS()).toBe('')
+  })
+
+  it('onChange listener is called when a rule is registered', () => {
+    let callCount = 0
+    onChange(() => { callCount++ })
+    const rule = createRule({ color: 'red' })
+    register('_onChange1', rule, 0)
+    expect(callCount).toBe(1)
+  })
+
+  it('onChange returns an unsubscribe function that removes the listener', () => {
+    let callCount = 0
+    const unsubscribe = onChange(() => { callCount++ })
+    const rule1 = createRule({ color: 'red' })
+    register('_unsub1', rule1, 0)
+    expect(callCount).toBe(1)
+
+    // Unsubscribe
+    unsubscribe()
+
+    // Register another rule — listener should NOT fire again
+    const rule2 = createRule({ color: 'blue' })
+    register('_unsub2', rule2, 1)
+    expect(callCount).toBe(1)
   })
 })

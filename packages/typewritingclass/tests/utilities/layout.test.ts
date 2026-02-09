@@ -9,7 +9,7 @@ import {
   top, right, bottom, left, inset,
   z,
   aspectRatio, columns, breakAfter, breakBefore, breakInside,
-  boxSizing, float_, clear_, isolate, isolationAuto,
+  boxDecorationBreak, boxSizing, float_, clear_, isolate, isolationAuto,
   objectFit, objectPosition, overscrollBehavior,
   static_, insetX, insetY, start, end,
   visible, invisible, collapse_,
@@ -20,7 +20,9 @@ import {
   gridFlow, autoCols, autoRows,
   justifyItems, justifySelf, alignContent, placeContent, placeItems, placeSelf,
   container,
+  overscrollX, overscrollY,
 } from '../../src/utilities/layout.ts'
+import { dynamic } from '../../src/dynamic.ts'
 
 describe('layout utilities', () => {
   it('flex sets display: flex', () => {
@@ -378,5 +380,56 @@ describe('layout utilities', () => {
 
   it('container sets width: 100%', () => {
     expect(container().declarations).toEqual({ width: '100%' })
+  })
+
+  it('overscrollX sets overscroll-behavior-x', () => {
+    expect(overscrollX('contain').declarations).toEqual({ 'overscroll-behavior-x': 'contain' })
+  })
+
+  it('overscrollY sets overscroll-behavior-y', () => {
+    expect(overscrollY('contain').declarations).toEqual({ 'overscroll-behavior-y': 'contain' })
+  })
+
+  it('overscrollY with auto value', () => {
+    expect(overscrollY('auto').declarations).toEqual({ 'overscroll-behavior-y': 'auto' })
+  })
+
+  it('order with dynamic value produces CSS variable binding', () => {
+    const d = dynamic(3)
+    const rule = order(d)
+    expect(rule.declarations.order).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+    expect(Object.keys(rule.dynamicBindings!)).toHaveLength(1)
+  })
+
+  it('boxDecorationBreak sets box-decoration-break', () => {
+    expect(boxDecorationBreak('clone').declarations).toEqual({ 'box-decoration-break': 'clone' })
+  })
+
+  it('z with static value sets z-index', () => {
+    expect(z(10).declarations).toEqual({ 'z-index': '10' })
+  })
+
+  it('z with dynamic value produces CSS variable binding', () => {
+    const d = dynamic(5)
+    const rule = z(d)
+    expect(rule.declarations['z-index']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('insetX with dynamic value produces CSS variable for left and right', () => {
+    const d = dynamic('10px')
+    const rule = insetX(d)
+    expect(rule.declarations.left).toContain('var(')
+    expect(rule.declarations.right).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('size with dynamic value produces CSS variable for width and height', () => {
+    const d = dynamic('50px')
+    const rule = size(d)
+    expect(rule.declarations.width).toContain('var(')
+    expect(rule.declarations.height).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
   })
 })

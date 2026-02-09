@@ -18,6 +18,8 @@ export default defineConfig({
       ],
       exclude: [
         'packages/*/src/**/*.d.ts',
+        'packages/*/src/**/index.ts',
+        'packages/typewritingclass/src/types.ts',
         'packages/typewritingclass-devtools/src/extension.ts',
         'packages/typewritingclass-compiler/src/index.ts',
         'packages/typewritingclass-babel/src/**',

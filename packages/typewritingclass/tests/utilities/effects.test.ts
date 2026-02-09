@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { shadow, opacity, backdrop, shadowColor, mixBlendMode, bgBlendMode } from '../../src/utilities/effects.ts'
+import { dynamic } from '../../src/dynamic.ts'
 
 describe('effects utilities', () => {
   it('shadow uses default value', () => {
@@ -34,5 +35,43 @@ describe('effects utilities', () => {
 
   it('bgBlendMode sets background-blend-mode', () => {
     expect(bgBlendMode('overlay').declarations).toEqual({ 'background-blend-mode': 'overlay' })
+  })
+
+  it('shadow() with dynamic value', () => {
+    const d = dynamic('0 4px 6px rgba(0,0,0,0.1)')
+    const rule = shadow(d)
+    expect(rule.declarations['box-shadow']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('opacity() with dynamic value', () => {
+    const d = dynamic(0.5)
+    const rule = opacity(d)
+    expect(rule.declarations.opacity).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdrop() with dynamic value', () => {
+    const d = dynamic('blur(8px)')
+    const rule = backdrop(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('shadowColor() with dynamic value', () => {
+    const d = dynamic('#000')
+    const rule = shadowColor(d)
+    expect(rule.declarations['--twc-shadow-color']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('mixBlendMode() sets mix-blend-mode', () => {
+    const rule = mixBlendMode('multiply')
+    expect(rule.declarations['mix-blend-mode']).toBe('multiply')
+  })
+
+  it('bgBlendMode() sets background-blend-mode', () => {
+    const rule = bgBlendMode('screen')
+    expect(rule.declarations['background-blend-mode']).toBe('screen')
   })
 })

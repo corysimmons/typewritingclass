@@ -4,6 +4,7 @@ import {
   backdropBlur, backdropBrightness, backdropContrast, backdropGrayscale, backdropHueRotate,
   backdropInvert, backdropOpacity, backdropSaturate, backdropSepia,
 } from '../../src/utilities/filters.ts'
+import { dynamic } from '../../src/dynamic.ts'
 
 describe('filter utilities', () => {
   it('blur uses default 8px', () => {
@@ -89,5 +90,111 @@ describe('backdrop filter utilities', () => {
   it('all return valid StyleRules', () => {
     expect(blur()._tag).toBe('StyleRule')
     expect(backdropBlur()._tag).toBe('StyleRule')
+  })
+
+  it('brightness() with dynamic value', () => {
+    const d = dynamic('150%')
+    const rule = brightness(d)
+    expect(rule.declarations.filter).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('contrast() with dynamic value', () => {
+    const d = dynamic('200%')
+    const rule = contrast(d)
+    expect(rule.declarations.filter).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('hueRotate() with dynamic value', () => {
+    const d = dynamic('90deg')
+    const rule = hueRotate(d)
+    expect(rule.declarations.filter).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('saturate() with dynamic value', () => {
+    const d = dynamic('200%')
+    const rule = saturate(d)
+    expect(rule.declarations.filter).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('dropShadow() with dynamic value', () => {
+    const d = dynamic('0 4px 6px rgba(0,0,0,0.1)')
+    const rule = dropShadow(d)
+    expect(rule.declarations.filter).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropBlur() with dynamic value', () => {
+    const d = dynamic('8px')
+    const rule = backdropBlur(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropBrightness() with dynamic value', () => {
+    const d = dynamic('120%')
+    const rule = backdropBrightness(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropContrast() with dynamic value', () => {
+    const d = dynamic('150%')
+    const rule = backdropContrast(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropGrayscale() with dynamic value', () => {
+    const d = dynamic('100%')
+    const rule = backdropGrayscale(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropHueRotate() with dynamic value', () => {
+    const d = dynamic('45deg')
+    const rule = backdropHueRotate(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropInvert() with dynamic value', () => {
+    const d = dynamic('100%')
+    const rule = backdropInvert(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropOpacity() with dynamic value', () => {
+    const d = dynamic('50%')
+    const rule = backdropOpacity(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropSaturate() with dynamic value', () => {
+    const d = dynamic('180%')
+    const rule = backdropSaturate(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('backdropSepia() with dynamic value', () => {
+    const d = dynamic('100%')
+    const rule = backdropSepia(d)
+    expect(rule.declarations['backdrop-filter']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('blur() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic('12px')
+    const rule = blur(d)
+    expect(rule.declarations.filter).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+    expect(Object.values(rule.dynamicBindings!)[0]).toBe('12px')
   })
 })

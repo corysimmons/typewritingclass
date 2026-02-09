@@ -3,6 +3,7 @@ import {
   transition, transitionAll, transitionColors, transitionOpacity, transitionShadow, transitionTransform, transitionNone,
   duration, ease, delay, animate,
 } from '../../src/utilities/transitions.ts'
+import { dynamic } from '../../src/dynamic.ts'
 
 describe('transition utilities', () => {
   it('transition sets default properties', () => {
@@ -65,5 +66,33 @@ describe('transition utilities', () => {
     expect(transition()._tag).toBe('StyleRule')
     expect(duration(150)._tag).toBe('StyleRule')
     expect(animate('none')._tag).toBe('StyleRule')
+  })
+
+  it('duration() with dynamic value', () => {
+    const d = dynamic('200ms')
+    const rule = duration(d)
+    expect(rule.declarations['transition-duration']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('ease() with dynamic value', () => {
+    const d = dynamic('ease-in-out')
+    const rule = ease(d)
+    expect(rule.declarations['transition-timing-function']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('delay() with dynamic value', () => {
+    const d = dynamic('150ms')
+    const rule = delay(d)
+    expect(rule.declarations['transition-delay']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('animate() with dynamic value', () => {
+    const d = dynamic('spin 1s linear infinite')
+    const rule = animate(d)
+    expect(rule.declarations.animation).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
   })
 })

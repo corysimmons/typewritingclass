@@ -3,6 +3,7 @@ import { tw } from '../src/tw.ts'
 import { isTwChain } from '../src/tw.ts'
 import { _resetLayer } from '../src/cx.ts'
 import { clearRegistry, generateCSS } from '../src/registry.ts'
+import { p, m } from '../src/utilities/spacing.ts'
 
 describe('tw proxy', () => {
   beforeEach(() => {
@@ -277,6 +278,69 @@ describe('tw proxy', () => {
       expect(a).not.toBe(b)
       // base should still resolve to just flex + flexCol
       expect(base.toString().split(' ')).toHaveLength(2)
+    })
+  })
+
+  describe('tw edge cases', () => {
+    it('unknown property returns raw class name', () => {
+      const result = tw.someUnknownClass.toString()
+      expect(result).toContain('someUnknownClass')
+    })
+
+    it('unknown property chains with utilities', () => {
+      const result = tw.myCustomClass.p(4).toString()
+      expect(result).toContain('myCustomClass')
+      const classes = result.split(' ')
+      expect(classes).toHaveLength(2)
+    })
+
+    it('tw called as function with StyleRule args merges rules', () => {
+      const result = (tw as any)(p(4), m(2))
+      expect(isTwChain(result)).toBe(true)
+      const str = result.toString()
+      expect(str.split(' ').length).toBeGreaterThanOrEqual(2)
+      const css = generateCSS()
+      expect(css).toContain('padding: 1rem')
+      expect(css).toContain('margin: 0.5rem')
+    })
+
+    it('tw called as function with TwChain arg extracts rules', () => {
+      const chain = tw.p(4).m(2)
+      const result = (tw as any)(chain)
+      expect(isTwChain(result)).toBe(true)
+      const str = result.toString()
+      expect(str.split(' ').length).toBeGreaterThanOrEqual(2)
+    })
+
+    it('tw called as function with mixed args', () => {
+      const chain = tw.p(4)
+      const result = (tw as any)(chain, m(2))
+      expect(isTwChain(result)).toBe(true)
+      const str = result.toString()
+      expect(str.split(' ').length).toBeGreaterThanOrEqual(2)
+    })
+
+    it('modifier with no TwChain arg falls back', () => {
+      // Call hover as a function with no TwChain arguments (e.g., non-chain args)
+      // This hits line 859: the fallback return
+      const result = (tw as any).hover()
+      expect(isTwChain(result)).toBe(true)
+    })
+
+    it('modifier with multiple TwChain args collects all rules', () => {
+      // hover(tw.bg('red'), tw.p(4)) — multiple TwChain args
+      // First arg is TwChain so it takes early return at line 841-844
+      const result = (tw as any).hover(tw.bg('red'), tw.p(4))
+      expect(isTwChain(result)).toBe(true)
+      const css = result.toString()
+      expect(css).toBeTruthy()
+    })
+
+    it('modifier with non-TwChain first arg and TwChain later args', () => {
+      // First arg is a plain StyleRule (not TwChain), second is TwChain
+      // This covers lines 848-857 (the allChildRules collection loop)
+      const result = (tw as any).hover(p(4), tw.bg('red'))
+      expect(isTwChain(result)).toBe(true)
     })
   })
 })

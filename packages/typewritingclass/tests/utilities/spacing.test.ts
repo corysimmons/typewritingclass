@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { p, px, py, pt, pr, pb, pl, m, mx, my, mt, mr, mb, ml, gap, gapX, gapY, ps, pe, ms, me, spaceX, spaceY, spaceXReverse, spaceYReverse } from '../../src/utilities/spacing.ts'
+import { dynamic } from '../../src/dynamic.ts'
 
 describe('spacing utilities', () => {
   it('p resolves numeric values from spacing scale', () => {
@@ -126,5 +127,60 @@ describe('spacing utilities', () => {
     const result = spaceYReverse()
     expect(result.declarations).toEqual({ '--twc-space-y-reverse': '1' })
     expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
+  })
+
+  it('p() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic(16)
+    const rule = p(d)
+    expect(rule.declarations.padding).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+    expect(Object.values(rule.dynamicBindings!)[0]).toBe('16')
+  })
+
+  it('m() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic(8)
+    const rule = m(d)
+    expect(rule.declarations.margin).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('mx() with dynamic value produces CSS variable binding for both sides', () => {
+    const d = dynamic(8)
+    const rule = mx(d)
+    expect(rule.declarations['margin-left']).toContain('var(')
+    expect(rule.declarations['margin-right']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('px() with dynamic value produces CSS variable binding for both sides', () => {
+    const d = dynamic(4)
+    const rule = px(d)
+    expect(rule.declarations['padding-left']).toContain('var(')
+    expect(rule.declarations['padding-right']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('gap() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic(4)
+    const rule = gap(d)
+    expect(rule.declarations.gap).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('pt() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic(2)
+    const rule = pt(d)
+    expect(rule.declarations['padding-top']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('spacing with non-scale number falls back to value * 0.25rem', () => {
+    // 13 is not in the spacing scale, so resolveSpacing falls back to 13 * 0.25 = 3.25rem
+    expect(p(13).declarations).toEqual({ padding: '3.25rem' })
+  })
+
+  it('spacing with another non-scale number', () => {
+    // 15 is not in the spacing scale either
+    expect(m(15).declarations).toEqual({ margin: '3.75rem' })
   })
 })

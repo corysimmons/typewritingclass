@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { text, font, tracking, leading, textAlign, fontFamily, antialiased, subpixelAntialiased, italic, notItalic, normalNums, ordinal, slashedZero, liningNums, oldstyleNums, proportionalNums, tabularNums, diagonalFractions, stackedFractions, lineClamp, listStyleImage, listStylePosition, listStyleType, textDecoration, textDecorationColor, textDecorationStyle, textDecorationThickness, textUnderlineOffset, textTransform, textOverflow, textWrap, textIndent, verticalAlign, whitespace, wordBreak, hyphens, content_, truncate } from '../../src/utilities/typography.ts'
+import { dynamic } from '../../src/dynamic.ts'
 
 describe('typography utilities', () => {
   it('text with TextSize token sets font-size and line-height', () => {
@@ -131,5 +132,173 @@ describe('typography utilities', () => {
       'text-overflow': 'ellipsis',
       'white-space': 'nowrap',
     })
+  })
+
+  it('text() with dynamic value', () => {
+    const d = dynamic('1.5rem')
+    const rule = text(d)
+    expect(rule.declarations['font-size']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('font() with dynamic value', () => {
+    const d = dynamic('700')
+    const rule = font(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('tracking() with dynamic value', () => {
+    const d = dynamic('0.05em')
+    const rule = tracking(d)
+    expect(rule.declarations['letter-spacing']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('leading() with dynamic value', () => {
+    const d = dynamic('2rem')
+    const rule = leading(d)
+    expect(rule.declarations['line-height']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('fontFamily() with dynamic value', () => {
+    const d = dynamic('Inter, sans-serif')
+    const rule = fontFamily(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('lineClamp() sets overflow properties', () => {
+    const rule = lineClamp(3)
+    expect(rule.declarations.overflow).toBe('hidden')
+    expect(rule.declarations.display).toBe('-webkit-box')
+    expect(rule.declarations['-webkit-line-clamp']).toBe('3')
+    expect(rule.declarations['-webkit-box-orient']).toBe('vertical')
+  })
+
+  it('listStyleImage() sets list-style-image', () => {
+    const rule = listStyleImage('url(bullet.png)')
+    expect(rule.declarations['list-style-image']).toBe('url(bullet.png)')
+  })
+
+  it('listStylePosition() sets list-style-position', () => {
+    const rule = listStylePosition('inside')
+    expect(rule.declarations['list-style-position']).toBe('inside')
+  })
+
+  it('listStyleType() sets list-style-type', () => {
+    const rule = listStyleType('disc')
+    expect(rule.declarations['list-style-type']).toBe('disc')
+  })
+
+  it('textDecoration() sets text-decoration', () => {
+    const rule = textDecoration('underline')
+    expect(rule.declarations['text-decoration-line']).toBe('underline')
+  })
+
+  it('textDecorationColor() with dynamic value', () => {
+    const d = dynamic('#ff0000')
+    const rule = textDecorationColor(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('textDecorationStyle() sets style', () => {
+    const rule = textDecorationStyle('wavy')
+    expect(rule.declarations['text-decoration-style']).toBe('wavy')
+  })
+
+  it('textDecorationThickness() with dynamic value', () => {
+    const d = dynamic('2px')
+    const rule = textDecorationThickness(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('textUnderlineOffset() with dynamic value', () => {
+    const d = dynamic('4px')
+    const rule = textUnderlineOffset(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('textTransform() sets text-transform', () => {
+    const rule = textTransform('uppercase')
+    expect(rule.declarations['text-transform']).toBe('uppercase')
+  })
+
+  it('textOverflow() sets text-overflow', () => {
+    const rule = textOverflow('ellipsis')
+    expect(rule.declarations['text-overflow']).toBe('ellipsis')
+  })
+
+  it('textWrap() sets text-wrap', () => {
+    const rule = textWrap('balance')
+    expect(rule.declarations['text-wrap']).toBe('balance')
+  })
+
+  it('textIndent() with dynamic value', () => {
+    const d = dynamic('2rem')
+    const rule = textIndent(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('verticalAlign() sets vertical-align', () => {
+    const rule = verticalAlign('middle')
+    expect(rule.declarations['vertical-align']).toBe('middle')
+  })
+
+  it('whitespace() sets white-space', () => {
+    const rule = whitespace('nowrap')
+    expect(rule.declarations['white-space']).toBe('nowrap')
+  })
+
+  it('wordBreak() sets word-break', () => {
+    const rule = wordBreak('break-all')
+    expect(rule.declarations['word-break']).toBe('break-all')
+  })
+
+  it('hyphens() sets hyphens', () => {
+    const rule = hyphens('auto')
+    expect(rule.declarations.hyphens).toBe('auto')
+  })
+
+  it('content_() sets content', () => {
+    const rule = content_('""')
+    expect(rule.declarations.content).toBe('""')
+  })
+
+  it('textDecorationThickness() with static value sets text-decoration-thickness', () => {
+    const rule = textDecorationThickness('2px')
+    expect(rule.declarations['text-decoration-thickness']).toBe('2px')
+    expect(rule.dynamicBindings).toBeUndefined()
+  })
+
+  it('textDecorationThickness() with auto value', () => {
+    const rule = textDecorationThickness('auto')
+    expect(rule.declarations['text-decoration-thickness']).toBe('auto')
+  })
+
+  it('textUnderlineOffset() with static value sets text-underline-offset', () => {
+    const rule = textUnderlineOffset('4px')
+    expect(rule.declarations['text-underline-offset']).toBe('4px')
+    expect(rule.dynamicBindings).toBeUndefined()
+  })
+
+  it('textUnderlineOffset() with auto value', () => {
+    const rule = textUnderlineOffset('auto')
+    expect(rule.declarations['text-underline-offset']).toBe('auto')
+  })
+
+  it('diagonalFractions sets font-variant-numeric', () => {
+    expect(diagonalFractions().declarations).toEqual({ 'font-variant-numeric': 'diagonal-fractions' })
+  })
+
+  it('stackedFractions sets font-variant-numeric', () => {
+    expect(stackedFractions().declarations).toEqual({ 'font-variant-numeric': 'stacked-fractions' })
+  })
+
+  it('oldstyleNums sets font-variant-numeric', () => {
+    expect(oldstyleNums().declarations).toEqual({ 'font-variant-numeric': 'oldstyle-nums' })
+  })
+
+  it('proportionalNums sets font-variant-numeric', () => {
+    expect(proportionalNums().declarations).toEqual({ 'font-variant-numeric': 'proportional-nums' })
   })
 })

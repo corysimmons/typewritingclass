@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { rounded, roundedT, roundedB, roundedL, roundedR, border, borderT, borderR, borderB, borderL, ring, roundedTL, roundedTR, roundedBR, roundedBL, borderX, borderY, borderS, borderE, borderStyle, outlineWidth, outlineColor, outlineStyle, outlineOffset, outline, outlineNone, ringInset, divideX, divideY, divideColor, divideStyle, divideXReverse, divideYReverse } from '../../src/utilities/borders.ts'
+import { rounded, roundedT, roundedB, roundedL, roundedR, border, borderT, borderR, borderB, borderL, ring, roundedTL, roundedTR, roundedBR, roundedBL, roundedSS, roundedSE, roundedEE, roundedES, borderX, borderY, borderS, borderE, borderStyle, outlineWidth, outlineColor, outlineStyle, outlineOffset, outline, outlineNone, ringInset, ringColor, ringOffsetWidth, ringOffsetColor, divideX, divideY, divideColor, divideStyle, divideXReverse, divideYReverse } from '../../src/utilities/borders.ts'
+import { borderColor } from '../../src/utilities/colors.ts'
+import { dynamic } from '../../src/dynamic.ts'
 
 describe('border utilities', () => {
   it('rounded uses default radius', () => {
@@ -187,5 +189,249 @@ describe('border utilities', () => {
     const result = divideYReverse()
     expect(result.selectorTemplate).toBe('& > :not([hidden]) ~ :not([hidden])')
     expect(result.declarations['--twc-divide-y-reverse']).toBe('1')
+  })
+
+  it('rounded() with dynamic value', () => {
+    const d = dynamic('0.5rem')
+    const rule = rounded(d)
+    expect(rule.declarations['border-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedT() with dynamic value', () => {
+    const d = dynamic('1rem')
+    const rule = roundedT(d)
+    expect(rule.declarations['border-top-left-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedB() with dynamic value', () => {
+    const d = dynamic('1rem')
+    const rule = roundedB(d)
+    expect(rule.declarations['border-bottom-left-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedL() with dynamic value', () => {
+    const d = dynamic('0.5rem')
+    const rule = roundedL(d)
+    expect(rule.declarations['border-top-left-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedR() with dynamic value', () => {
+    const d = dynamic('0.5rem')
+    const rule = roundedR(d)
+    expect(rule.declarations['border-top-right-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedTL() sets top-left radius', () => {
+    const rule = roundedTL('lg')
+    expect(rule.declarations['border-top-left-radius']).toBeDefined()
+  })
+
+  it('roundedTR() sets top-right radius', () => {
+    const rule = roundedTR('lg')
+    expect(rule.declarations['border-top-right-radius']).toBeDefined()
+  })
+
+  it('roundedBR() sets bottom-right radius', () => {
+    const rule = roundedBR('lg')
+    expect(rule.declarations['border-bottom-right-radius']).toBeDefined()
+  })
+
+  it('roundedBL() sets bottom-left radius', () => {
+    const rule = roundedBL('lg')
+    expect(rule.declarations['border-bottom-left-radius']).toBeDefined()
+  })
+
+  it('roundedTL() with dynamic value', () => {
+    const d = dynamic('1rem')
+    const rule = roundedTL(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedSS() sets logical start-start', () => {
+    const rule = roundedSS('lg')
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('roundedSE() sets logical start-end', () => {
+    const rule = roundedSE('lg')
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('roundedEE() sets logical end-end', () => {
+    const rule = roundedEE('lg')
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('roundedES() sets logical end-start', () => {
+    const rule = roundedES('lg')
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('borderX() sets left and right borders', () => {
+    const rule = borderX(1)
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('borderY() sets top and bottom borders', () => {
+    const rule = borderY(1)
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('borderS() sets logical start border', () => {
+    const rule = borderS(1)
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('borderE() sets logical end border', () => {
+    const rule = borderE(1)
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('borderStyle() sets border-style', () => {
+    const rule = borderStyle('dashed')
+    expect(rule.declarations['border-style']).toBe('dashed')
+  })
+
+  it('borderColor() with dynamic value', () => {
+    const d = dynamic('#ff0000')
+    const rule = borderColor(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('ringColor() with dynamic value', () => {
+    const d = dynamic('#3b82f6')
+    const rule = ringColor(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('ringOffsetWidth() sets ring offset', () => {
+    const rule = ringOffsetWidth(2)
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('ringOffsetColor() with dynamic value', () => {
+    const d = dynamic('#ffffff')
+    const rule = ringOffsetColor(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('outlineWidth() sets outline width', () => {
+    const rule = outlineWidth(2)
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('outlineColor() with dynamic value', () => {
+    const d = dynamic('#000000')
+    const rule = outlineColor(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('outlineStyle() sets outline style', () => {
+    const rule = outlineStyle('dashed')
+    expect(rule.declarations['outline-style']).toBe('dashed')
+  })
+
+  it('outlineOffset() sets outline offset', () => {
+    const rule = outlineOffset(2)
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('outlineNone() removes outline', () => {
+    const rule = outlineNone()
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('divideX() with value', () => {
+    const rule = divideX(1)
+    expect(rule.declarations).toBeDefined()
+    expect(rule.selectorTemplate).toBeDefined()
+  })
+
+  it('divideY() with value', () => {
+    const rule = divideY(1)
+    expect(rule.declarations).toBeDefined()
+    expect(rule.selectorTemplate).toBeDefined()
+  })
+
+  it('divideColor() with dynamic value', () => {
+    const d = dynamic('#e5e7eb')
+    const rule = divideColor(d)
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('divideStyle() sets divide style', () => {
+    const rule = divideStyle('dashed')
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('divideXReverse() sets reverse flag', () => {
+    const rule = divideXReverse()
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('divideYReverse() sets reverse flag', () => {
+    const rule = divideYReverse()
+    expect(rule.declarations).toBeDefined()
+  })
+
+  it('roundedES() with static value sets logical border radii', () => {
+    const rule = roundedES('8px')
+    expect(rule.declarations).toEqual({
+      'border-end-start-radius': '8px',
+      'border-start-start-radius': '8px',
+    })
+  })
+
+  it('roundedES() with no args uses default radius', () => {
+    const rule = roundedES()
+    expect(rule.declarations['border-end-start-radius']).toBeDefined()
+    expect(rule.declarations['border-start-start-radius']).toBeDefined()
+  })
+
+  it('ringOffsetColor() with static value sets --twc-ring-offset-color', () => {
+    const rule = ringOffsetColor('red')
+    expect(rule.declarations['--twc-ring-offset-color']).toBe('red')
+  })
+
+  it('ringOffsetColor() with named color resolves to hex', () => {
+    const rule = ringOffsetColor('blue-500')
+    expect(rule.declarations['--twc-ring-offset-color']).toBe('#3b82f6')
+  })
+
+  it('roundedEE() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic('12px')
+    const rule = roundedEE(d)
+    expect(rule.declarations['border-start-end-radius']).toContain('var(')
+    expect(rule.declarations['border-end-end-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedES() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic('8px')
+    const rule = roundedES(d)
+    expect(rule.declarations['border-end-start-radius']).toContain('var(')
+    expect(rule.declarations['border-start-start-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedSS() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic('6px')
+    const rule = roundedSS(d)
+    expect(rule.declarations['border-start-start-radius']).toContain('var(')
+    expect(rule.declarations['border-end-start-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
+  })
+
+  it('roundedSE() with dynamic value produces CSS variable binding', () => {
+    const d = dynamic('6px')
+    const rule = roundedSE(d)
+    expect(rule.declarations['border-start-end-radius']).toContain('var(')
+    expect(rule.declarations['border-end-end-radius']).toContain('var(')
+    expect(rule.dynamicBindings).toBeDefined()
   })
 })

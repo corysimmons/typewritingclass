@@ -58,4 +58,48 @@ describe('layer()', () => {
     expect(result.selectors).toEqual([':hover'])
     expect(result.mediaQueries).toEqual(['(min-width: 768px)'])
   })
+
+  it('merges dynamicBindings when combining multiple rules', () => {
+    const ruleA = {
+      _tag: 'StyleRule' as const,
+      declarations: { color: 'var(--twc-d0)' },
+      selectors: [] as string[],
+      mediaQueries: [] as string[],
+      dynamicBindings: { '--twc-d0': '#ff0000' },
+    }
+    const ruleB = {
+      _tag: 'StyleRule' as const,
+      declarations: { padding: 'var(--twc-d1)' },
+      selectors: [] as string[],
+      mediaQueries: [] as string[],
+      dynamicBindings: { '--twc-d1': '1rem' },
+    }
+    const result = layer(20)(ruleA, ruleB)
+    expect(result.declarations).toEqual({
+      color: 'var(--twc-d0)',
+      padding: 'var(--twc-d1)',
+    })
+    expect(result.dynamicBindings).toEqual({
+      '--twc-d0': '#ff0000',
+      '--twc-d1': '1rem',
+    })
+  })
+
+  it('multiple rules without dynamicBindings omits the field', () => {
+    const ruleA = {
+      _tag: 'StyleRule' as const,
+      declarations: { color: 'red' },
+      selectors: [] as string[],
+      mediaQueries: [] as string[],
+    }
+    const ruleB = {
+      _tag: 'StyleRule' as const,
+      declarations: { padding: '1rem' },
+      selectors: [] as string[],
+      mediaQueries: [] as string[],
+    }
+    const result = layer(15)(ruleA, ruleB)
+    expect(result.declarations).toEqual({ color: 'red', padding: '1rem' })
+    expect(result.dynamicBindings).toBeUndefined()
+  })
 })

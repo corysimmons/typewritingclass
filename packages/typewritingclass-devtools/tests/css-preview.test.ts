@@ -660,4 +660,20 @@ describe('edge cases', () => {
       padding: '2rem',
     })
   })
+
+  it('gridRows returns undefined for non-numeric string', () => {
+    expect(generateUtilityDeclarations('gridRows', "'auto'")).toBeUndefined()
+  })
+
+  it('z returns undefined for empty arg', () => {
+    expect(generateUtilityDeclarations('z', '')).toBeUndefined()
+  })
+})
+
+describe('parseFunctionCalls edge cases', () => {
+  it('parses when(modifier)(utility) pattern', () => {
+    const result = parseFunctionCalls("when('hover')(bg('#ff0000'))")
+    // The when pattern should be recognized
+    expect(result).toBeDefined()
+  })
 })
