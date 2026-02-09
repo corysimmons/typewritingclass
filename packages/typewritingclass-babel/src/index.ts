@@ -34,6 +34,7 @@ const DEFAULT_THEME: ThemeInput = {
   spacing: '{}',
   textSizes: '{}',
   fontWeights: '{}',
+  fontFamilies: '{}',
   radii: '{}',
   shadows: '{}',
   sizes: '{}',
