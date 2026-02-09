@@ -17,7 +17,7 @@ const title = tw.textColor('slate-900').groupHover.textColor('blue-600')
 const icon = tw.opacity(0.5).groupHover.opacity(1)
 ```
 
-**Available:** `groupHover`, `groupFocus`, `groupActive`, `groupFocusVisible`, `groupFocusWithin`, `groupDisabled`, `groupChecked`, `groupEmpty`, `groupFirst`, `groupLast`, `groupOdd`, `groupEven`
+**Available:** `groupHover`, `groupFocus`, `groupActive`, `groupFocusVisible`, `groupFocusWithin`, `groupDisabled`, `groupChecked`, `groupEmpty`, `groupFirst`, `groupLast`, `groupOdd`, `groupEven`, `groupOpen`, `groupVisited`, `groupHas`
 
 ## Peer modifiers
 
@@ -29,4 +29,4 @@ const errorMsg = tw.display('none').textColor('red-500').peerInvalid.display('bl
 const label = tw.textColor('slate-600').peerFocus.textColor('blue-600')
 ```
 
-**Available:** `peerHover`, `peerFocus`, `peerActive`, `peerFocusVisible`, `peerDisabled`, `peerChecked`, `peerInvalid`, `peerRequired`, `peerPlaceholderShown`
+**Available:** `peerHover`, `peerFocus`, `peerActive`, `peerFocusVisible`, `peerDisabled`, `peerChecked`, `peerInvalid`, `peerRequired`, `peerPlaceholderShown`, `peerFocusWithin`, `peerEmpty`, `peerFirst`, `peerLast`, `peerOdd`, `peerEven`, `peerOpen`, `peerVisited`, `peerHas`

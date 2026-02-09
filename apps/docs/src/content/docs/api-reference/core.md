@@ -233,7 +233,9 @@ interface StyleRule {
   declarations: Record<string, string>
   selectors: string[]
   mediaQueries: string[]
+  supportsQueries: string[]
   dynamicBindings?: Record<string, string>
+  selectorTemplate?: string
 }
 
 interface DynamicValue<T = string | number> {

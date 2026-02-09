@@ -18,8 +18,7 @@ Requires `@babel/core` 7.x as a peer dependency.
   "plugins": [
     ["typewritingclass-babel", {
       "outputFile": "twc.css",
-      "strict": true,
-      "theme": {}
+      "strict": true
     }]
   ]
 }
@@ -31,7 +30,6 @@ Requires `@babel/core` 7.x as a peer dependency.
 |---|---|---|---|
 | `outputFile` | `string` | `"twc.css"` | Path for the generated CSS file |
 | `strict` | `boolean` | `true` | Error on dynamic values not wrapped with `dynamic()` |
-| `theme` | `ThemeInput` | `{}` | Custom theme configuration |
 
 ## How it works
 

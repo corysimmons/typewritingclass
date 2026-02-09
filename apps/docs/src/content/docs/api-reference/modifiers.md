@@ -64,6 +64,18 @@ Mobile-first `min-width` approach:
 | `xl` | 1280px | `@media (min-width: 1280px)` |
 | `_2xl` | 1536px | `@media (min-width: 1536px)` |
 
+### Max-width breakpoints
+
+Desktop-first `max-width` approach:
+
+| Modifier | Breakpoint | Media query |
+|---|---|---|
+| `maxSm` | 640px | `@media (max-width: 639px)` |
+| `maxMd` | 768px | `@media (max-width: 767px)` |
+| `maxLg` | 1024px | `@media (max-width: 1023px)` |
+| `maxXl` | 1280px | `@media (max-width: 1279px)` |
+| `max2xl` | 1536px | `@media (max-width: 1535px)` |
+
 ```ts
 // tw syntax -- progressive enhancement
 tw.flexCol.gap(4).p(4)

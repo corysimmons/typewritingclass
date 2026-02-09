@@ -34,7 +34,6 @@ import 'virtual:twc.css'
 ```ts
 twcPlugin({
   strict: true,  // Error on unwrapped dynamic values (default: true)
-  theme: {},     // Custom theme configuration
 })
 ```
 

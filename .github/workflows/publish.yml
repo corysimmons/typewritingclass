@@ -1,0 +1,109 @@
+name: Publish to npm
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/*/package.json'
+
+permissions:
+  id-token: write    # Required for npm trusted publishing (OIDC)
+  contents: read
+
+jobs:
+  publish:
+    name: Detect version bumps & publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit to detect changes
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust target directory
+        uses: actions/cache@v4
+        with:
+          path: packages/typewritingclass-compiler/target
+          key: rust-target-${{ runner.os }}-${{ hashFiles('packages/typewritingclass-compiler/Cargo.lock') }}
+          restore-keys: |
+            rust-target-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Rust compiler
+        run: pnpm --filter typewritingclass-compiler build:native
+
+      - name: Detect version changes and publish
+        run: |
+          set -e
+
+          # Packages to check (order matters: dependencies first)
+          PACKAGES=(
+            "packages/typewritingclass"
+            "packages/typewritingclass-compiler"
+            "packages/typewritingclass-react"
+            "packages/typewritingclass-babel"
+            "packages/typewritingclass-esbuild"
+            "packages/typewritingclass-next"
+          )
+
+          PUBLISHED=()
+
+          for pkg_dir in "${PACKAGES[@]}"; do
+            pkg_json="$pkg_dir/package.json"
+
+            # Check if package.json was modified in this push
+            if ! git diff HEAD~1 HEAD --name-only | grep -q "^$pkg_json$"; then
+              continue
+            fi
+
+            # Get current and previous versions
+            CURRENT_VERSION=$(node -p "require('./$pkg_json').version")
+            PREVIOUS_VERSION=$(git show HEAD~1:"$pkg_json" 2>/dev/null | node -p "JSON.parse(require('fs').readFileSync('/dev/stdin','utf8')).version" 2>/dev/null || echo "")
+
+            if [ -z "$PREVIOUS_VERSION" ] || [ "$CURRENT_VERSION" = "$PREVIOUS_VERSION" ]; then
+              continue
+            fi
+
+            PKG_NAME=$(node -p "require('./$pkg_json').name")
+            PRIVATE=$(node -p "require('./$pkg_json').private || false")
+
+            if [ "$PRIVATE" = "true" ]; then
+              continue
+            fi
+
+            echo "Publishing $PKG_NAME@$CURRENT_VERSION (was $PREVIOUS_VERSION)"
+            cd "$pkg_dir"
+            npm publish --access public
+            cd "$GITHUB_WORKSPACE"
+            PUBLISHED+=("$PKG_NAME@$CURRENT_VERSION")
+          done
+
+          if [ ${#PUBLISHED[@]} -eq 0 ]; then
+            echo "No packages to publish."
+          else
+            echo "Published:"
+            for p in "${PUBLISHED[@]}"; do
+              echo "  - $p"
+            done
+          fi

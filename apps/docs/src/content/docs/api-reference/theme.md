@@ -132,7 +132,9 @@ if (saved) {
 | `typewritingclass/theme/shadows` | `sm`, `DEFAULT`, `md`, `lg`, `xl`, `_2xl`, `inner`, `none` |
 | `typewritingclass/theme/borders` | `none`, `sm`, `DEFAULT`, `md`, `lg`, `xl`, `_2xl`, `_3xl`, `full` |
 | `typewritingclass/theme/sizes` | `full`, `screen`, `screenH`, `min`, `max`, `fit`, `auto` |
-| `typewritingclass/theme/spacing` | `spacingScale`, `resolveSpacing` |
+| `typewritingclass/theme/animations` | Animation keyframe presets |
+| `typewritingclass/theme/filters` | Filter presets |
+| `typewritingclass/theme` | All theme token exports (barrel) |
 
 Most tokens are accessible via string lookups on `tw` without importing:
 

@@ -98,10 +98,10 @@ const theme = createTheme({
 ### Dynamic values
 
 ```ts
-import { dynamic } from 'typewritingclass/runtime'
+import { dcx, bg, p, dynamic } from 'typewritingclass'
 
-// Returns { className, style } for runtime CSS custom properties
-const result = dynamic(bg(userColor))
+// Wrap a runtime value with dynamic(), then compose via dcx()
+const { className, style } = dcx(p(4), bg(dynamic(userColor)))
 ```
 
 ### Raw CSS escape hatch
@@ -122,8 +122,10 @@ cx(p(4), css({ transition: 'all 200ms ease' }))
 | `typewritingclass/theme/typography` | Font sizes, weights, line heights |
 | `typewritingclass/theme/shadows` | Shadow presets |
 | `typewritingclass/theme/borders` | Border radius tokens |
-| `typewritingclass/theme/spacing` | Spacing scale |
 | `typewritingclass/theme/sizes` | Named sizes |
+| `typewritingclass/theme/animations` | Animation keyframe presets |
+| `typewritingclass/theme/filters` | Filter presets |
 | `typewritingclass/theme/createTheme` | `createTheme()` |
-| `typewritingclass/inject` | `injectTheme()`, `setTheme()` |
-| `typewritingclass/runtime` | `dynamic()`, `isDynamic()` |
+| `typewritingclass/inject` | Runtime style injection (auto-initializing side-effect import) |
+| `typewritingclass/runtime` | `__twcDynamic()` (internal compiler helper) |
+| `typewritingclass/rule` | `createRule()`, `createDynamicRule()`, `wrapWithSelector()`, `wrapWithMediaQuery()` |

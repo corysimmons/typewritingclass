@@ -14,7 +14,7 @@ import { tw } from 'typewritingclass'
 
 tw.p(4).md.p(8).lg.p(12)
 tw.grid(1).md.grid(2).lg.grid(3)
-tw.text(sm).md.text(lg)
+tw.text('sm').md.text('lg')
 ```
 
 For multiple responsive utilities, use function syntax:

@@ -31,15 +31,12 @@ import 'virtual:twc.css'
 ```ts
 twcPlugin({
   strict: true,  // Error on dynamic values not wrapped with dynamic() (default: true)
-  theme: {       // Custom theme input
-    colors: { brand: { 500: '#6366f1' } },
-  },
 })
 ```
 
 ## How it works
 
-1. **Static analysis** — the Rust extractor scans TS/JS files for `cx()`, `when()`, and utility calls
+1. **Static analysis** — the Rust extractor scans TS/JS files for `tw`, `cx()`, `when()`, and utility calls
 2. **CSS generation** — extracted rules are compiled into deterministic class names and CSS declarations
 3. **Code transform** — utility call sites are replaced with the generated class name strings
 4. **Virtual module** — `virtual:twc.css` aggregates all extracted CSS, respecting `@layer` ordering

@@ -74,7 +74,7 @@ tw.bg('white').rounded('lg').p(6).shadow('md')
 ### Value-less utilities as properties
 
 ```ts
-tw.flex.flexCol.itemsCenter
+tw.flex.flexCol.items('center')
 ```
 
 ### Modifiers
@@ -124,6 +124,7 @@ cx(p(4), bg('blue-500'), textColor('white'), rounded('lg'), when(hover)(bg('blue
 | [`typewritingclass-react`](packages/typewritingclass-react) | React hook (`useStyle`) for composing styles in components |
 | [`typewritingclass-babel`](packages/typewritingclass-babel) | Babel plugin for CSS extraction in non-Vite builds |
 | [`typewritingclass-esbuild`](packages/typewritingclass-esbuild) | esbuild plugin for CSS extraction |
+| [`typewritingclass-next`](packages/typewritingclass-next) | Next.js integration (SSR styles, build-time extraction) |
 | [`typewritingclass-devtools`](packages/typewritingclass-devtools) | VS Code extension with inline CSS preview on hover |
 
 ## Apps
@@ -134,6 +135,8 @@ cx(p(4), bg('blue-500'), textColor('white'), rounded('lg'), when(hover)(bg('blue
 | [`demo-react`](apps/demo-react) | Interactive React demo showcasing all features |
 | [`demo-solid`](apps/demo-solid) | Solid.js demo |
 | [`demo-vanilla`](apps/demo-vanilla) | Vanilla TypeScript demo |
+| [`demo-next`](apps/demo-next) | Next.js demo |
+| [`comparison`](apps/comparison) | Performance and feature comparison |
 | [`visual-tests`](apps/visual-tests) | Playwright visual regression test suite |
 
 ## Starters
@@ -145,6 +148,7 @@ Minimal project templates to get started quickly:
 | [`starters/react`](starters/react) | React + Vite + Typewriting Class |
 | [`starters/solid`](starters/solid) | Solid.js + Vite + Typewriting Class |
 | [`starters/vanilla`](starters/vanilla) | Vanilla TypeScript + Vite + Typewriting Class |
+| [`starters/next`](starters/next) | Next.js + Typewriting Class |
 
 ## Development
 

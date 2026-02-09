@@ -36,8 +36,10 @@ md(p(8))              // adds @media (min-width: 768px)
 | `createDynamicRule(declarations, bindings)` | Create a `StyleRule` with dynamic CSS custom property bindings |
 | `wrapWithSelector(rule, selector)` | Copy the rule with a CSS selector appended |
 | `wrapWithMediaQuery(rule, query)` | Copy the rule wrapped in a media query |
+| `wrapWithSelectorTemplate(rule, template)` | Copy the rule with a complex selector pattern (`&` = generated class) |
+| `wrapWithSupportsQuery(rule, query)` | Copy the rule wrapped in an `@supports` query |
 
-These four functions are all you need to build any utility or modifier.
+These functions are all you need to build any utility or modifier.
 
 ## No registration needed
 

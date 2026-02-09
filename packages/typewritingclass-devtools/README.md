@@ -5,7 +5,10 @@ VS Code extension that provides inline CSS preview for Typewriting Class utility
 ## Features
 
 - **Hover preview** — hover over any utility call (e.g. `p(4)`, `bg(blue[500])`) to see the generated CSS
+- **`tw` chain preview** — hover over `tw.bg('blue-500').p(4)` chains to see all generated CSS
 - **Composition support** — previews `cx(...)` compositions and `when(...)` modifier chains
+- **SVG preview** — hover over color utilities to see a color swatch
+- **Value-less property preview** — hover over properties like `flex`, `relative` to see their CSS output
 - **Configurable** — toggle preview on/off and control property name display
 
 ## Settings
