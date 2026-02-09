@@ -20,7 +20,6 @@ export interface TwcPluginOptions {
 
 const VIRTUAL_CSS_ID = 'virtual:twc.css'
 const RESOLVED_VIRTUAL_CSS_ID = '\0' + VIRTUAL_CSS_ID
-const CLIENT_CSS_PATH = '/@id/__x00__' + VIRTUAL_CSS_ID
 
 export default function twcPlugin(options?: TwcPluginOptions): Plugin {
   const strict = options?.strict ?? true
@@ -59,6 +58,39 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
       }
     },
 
+    async handleHotUpdate(ctx) {
+      const { file, read, server, modules } = ctx
+      if (!file.match(/\.[jt]sx?$/) || file.includes('node_modules')) return
+      const code = await read()
+      if (!code.includes('typewritingclass')) return
+
+      // Assign stable layer offset
+      if (!fileLayerOffsets.has(file)) {
+        fileLayerOffsets.set(file, nextFileLayer)
+        nextFileLayer += 1000
+      }
+      const layerOffset = fileLayerOffsets.get(file)!
+
+      try {
+        // Pre-extract rules so fileRules is fresh BEFORE modules are re-loaded.
+        // This eliminates the race condition where the CSS module could be
+        // fetched before the component's transform hook updates fileRules.
+        const result = native.transform(code, file, layerOffset, themeInput, strict)
+        fileRules.set(file, result.rules.map((r) => r.cssText))
+      } catch {
+        // Extraction failed — transform hook will handle it
+      }
+
+      // Invalidate the virtual CSS module and include it in the HMR update
+      // so Vite sends both the component and CSS updates to the client.
+      const cssMod = server.moduleGraph.getModuleById(RESOLVED_VIRTUAL_CSS_ID)
+      if (cssMod) {
+        server.moduleGraph.invalidateModule(cssMod)
+        return [...modules, cssMod]
+      }
+      return modules
+    },
+
     transform(code, id) {
       if (!id.match(/\.[jt]sx?$/) || id.includes('node_modules')) return
       if (!code.includes('typewritingclass')) return
@@ -69,7 +101,7 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
       if (devServer) {
         if (!fileLayerOffsets.has(id)) {
           fileLayerOffsets.set(id, nextFileLayer)
-          nextFileLayer += 1000 // plenty of room per file
+          nextFileLayer += 1000
         }
         layerOffset = fileLayerOffsets.get(id)!
       } else {
@@ -102,25 +134,6 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
 
         if (!result.code.includes(VIRTUAL_CSS_ID)) {
           s.prepend(`import '${VIRTUAL_CSS_ID}';\n`)
-        }
-
-        // In dev mode, after updating rules, invalidate the CSS module and
-        // tell the client to re-fetch it. This runs AFTER fileRules is
-        // updated, so the CSS will be fresh when the client requests it.
-        if (devServer && result.rules.length > 0) {
-          const mod = devServer.moduleGraph.getModuleById(RESOLVED_VIRTUAL_CSS_ID)
-          if (mod) {
-            devServer.moduleGraph.invalidateModule(mod)
-          }
-          devServer.hot.send({
-            type: 'update',
-            updates: [{
-              type: 'css-update',
-              timestamp: Date.now(),
-              path: CLIENT_CSS_PATH,
-              acceptedPath: CLIENT_CSS_PATH,
-            }],
-          })
         }
 
         return {
