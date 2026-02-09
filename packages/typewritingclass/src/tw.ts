@@ -286,13 +286,20 @@ export function isTwChain(value: unknown): value is TwChain {
 // ---------------------------------------------------------------------------
 
 /** @internal A utility that accepts arguments and returns a chain. Also chainable without calling (for optional-arg utilities like `shadow`). */
-type TwUtility = ((...args: any[]) => TwChain) & TwChain
+/**
+ * A TwChain that is also assignable to `string`, so it can be used directly
+ * in `className={tw.p(4)}` without wrapping in a template literal.
+ * At runtime, the Proxy's `toString()` is called when string coercion occurs.
+ */
+export type TwChainString = TwChain & string
+
+type TwUtility = ((...args: any[]) => TwChainString) & TwChainString
 
 /** @internal A modifier usable as a property (`tw.hover.bg(…)`) or function (`tw.hover(tw.bg(…))`). */
-type TwModifier = TwChain & ((...chains: TwChain[]) => TwChain)
+type TwModifier = TwChainString & ((...chains: (TwChain | string)[]) => TwChainString)
 
 /** @internal A parameterized modifier that requires arguments before it becomes a modifier. */
-type TwParamModifier = (...args: any[]) => TwChain
+type TwParamModifier = (...args: any[]) => TwChainString
 
 // ---------------------------------------------------------------------------
 // TwChain type
@@ -323,7 +330,7 @@ export interface TwChain {
   /** Resolves the chain to a class name string */
   readonly className: string
   /** Allow the chain to be called as a function */
-  (...args: any[]): TwChain
+  (...args: any[]): TwChainString
 
   // ---- Utilities (take arguments) — keep in sync with UTILS ----
 
@@ -576,70 +583,70 @@ export interface TwChain {
   // ---- Value-less utilities (no arguments) — keep in sync with VALUELESS ----
 
   // Layout
-  readonly flex: TwChain
-  readonly flexCol: TwChain
-  readonly flexRow: TwChain
-  readonly flexWrap: TwChain
-  readonly inlineFlex: TwChain
-  readonly relative: TwChain
-  readonly absolute: TwChain
-  readonly fixed: TwChain
-  readonly sticky: TwChain
-  readonly static: TwChain
-  readonly visible: TwChain
-  readonly invisible: TwChain
-  readonly collapse: TwChain
-  readonly isolate: TwChain
-  readonly isolationAuto: TwChain
-  readonly container: TwChain
-  readonly flexRowReverse: TwChain
-  readonly flexColReverse: TwChain
-  readonly flexWrapReverse: TwChain
-  readonly flexNowrap: TwChain
-  readonly flex1: TwChain
-  readonly flexAuto: TwChain
-  readonly flexInitial: TwChain
-  readonly flexNone: TwChain
+  readonly flex: TwChainString
+  readonly flexCol: TwChainString
+  readonly flexRow: TwChainString
+  readonly flexWrap: TwChainString
+  readonly inlineFlex: TwChainString
+  readonly relative: TwChainString
+  readonly absolute: TwChainString
+  readonly fixed: TwChainString
+  readonly sticky: TwChainString
+  readonly static: TwChainString
+  readonly visible: TwChainString
+  readonly invisible: TwChainString
+  readonly collapse: TwChainString
+  readonly isolate: TwChainString
+  readonly isolationAuto: TwChainString
+  readonly container: TwChainString
+  readonly flexRowReverse: TwChainString
+  readonly flexColReverse: TwChainString
+  readonly flexWrapReverse: TwChainString
+  readonly flexNowrap: TwChainString
+  readonly flex1: TwChainString
+  readonly flexAuto: TwChainString
+  readonly flexInitial: TwChainString
+  readonly flexNone: TwChainString
   // Typography
-  readonly antialiased: TwChain
-  readonly subpixelAntialiased: TwChain
-  readonly italic: TwChain
-  readonly notItalic: TwChain
-  readonly truncate: TwChain
-  readonly normalNums: TwChain
-  readonly ordinal: TwChain
-  readonly slashedZero: TwChain
-  readonly liningNums: TwChain
-  readonly oldstyleNums: TwChain
-  readonly proportionalNums: TwChain
-  readonly tabularNums: TwChain
-  readonly diagonalFractions: TwChain
-  readonly stackedFractions: TwChain
+  readonly antialiased: TwChainString
+  readonly subpixelAntialiased: TwChainString
+  readonly italic: TwChainString
+  readonly notItalic: TwChainString
+  readonly truncate: TwChainString
+  readonly normalNums: TwChainString
+  readonly ordinal: TwChainString
+  readonly slashedZero: TwChainString
+  readonly liningNums: TwChainString
+  readonly oldstyleNums: TwChainString
+  readonly proportionalNums: TwChainString
+  readonly tabularNums: TwChainString
+  readonly diagonalFractions: TwChainString
+  readonly stackedFractions: TwChainString
   // Borders
-  readonly ringInset: TwChain
-  readonly outlineNone: TwChain
-  readonly borderCollapse: TwChain
-  readonly borderSeparate: TwChain
-  readonly spaceXReverse: TwChain
-  readonly spaceYReverse: TwChain
-  readonly divideXReverse: TwChain
-  readonly divideYReverse: TwChain
+  readonly ringInset: TwChainString
+  readonly outlineNone: TwChainString
+  readonly borderCollapse: TwChainString
+  readonly borderSeparate: TwChainString
+  readonly spaceXReverse: TwChainString
+  readonly spaceYReverse: TwChainString
+  readonly divideXReverse: TwChainString
+  readonly divideYReverse: TwChainString
   // Transforms
-  readonly transformGpu: TwChain
-  readonly transformNone: TwChain
+  readonly transformGpu: TwChainString
+  readonly transformNone: TwChainString
   // Transitions
-  readonly transitionAll: TwChain
-  readonly transitionColors: TwChain
-  readonly transitionOpacity: TwChain
-  readonly transitionShadow: TwChain
-  readonly transitionTransform: TwChain
-  readonly transitionNone: TwChain
+  readonly transitionAll: TwChainString
+  readonly transitionColors: TwChainString
+  readonly transitionOpacity: TwChainString
+  readonly transitionShadow: TwChainString
+  readonly transitionTransform: TwChainString
+  readonly transitionNone: TwChainString
   // Accessibility
-  readonly srOnly: TwChain
-  readonly notSrOnly: TwChain
+  readonly srOnly: TwChainString
+  readonly notSrOnly: TwChainString
   // Raw class names
-  readonly group: TwChain
-  readonly peer: TwChain
+  readonly group: TwChainString
+  readonly peer: TwChainString
 
   // ---- Simple modifiers (no arguments) — keep in sync with MODS ----
 
@@ -957,4 +964,4 @@ function createChain(rules: (StyleRule | string)[], pendingMods: Modifier[]): Tw
  * const classes = tw.p(4).bg('blue-500').value
  * ```
  */
-export const tw: TwChain = createChain([], [])
+export const tw: TwChainString = createChain([], []) as TwChainString

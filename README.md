@@ -60,7 +60,7 @@ Start styling:
 import { tw } from 'typewritingclass'
 
 document.getElementById('app')!.className =
-  `${tw.flex.gap(4).p(8).bg('white').rounded('lg')}`
+  tw.flex.gap(4).p(8).bg('white').rounded('lg')
 ```
 
 ## The `tw` API
@@ -92,7 +92,7 @@ tw.hover(tw.bg('blue-500').textColor('white'))
 ### Use in JSX
 
 ```tsx
-<div className={`${tw.p(4).bg('blue-500')}`} />
+<div className={tw.p(4).bg('blue-500')} />
 ```
 
 ### Composable and immutable

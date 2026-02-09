@@ -73,11 +73,11 @@ import { tw } from 'typewritingclass'
 
 export default function Home() {
   return (
-    <div className={`${tw.flex.flexCol.gap(8).p(8).items('center')}`}>
-      <h1 className={`${tw.text('2xl').font('700').textColor('slate-900')}`}>
+    <div className={tw.flex.flexCol.gap(8).p(8).items('center')}>
+      <h1 className={tw.text('2xl').font('700').textColor('slate-900')}>
         Hello from Next.js
       </h1>
-      <div className={`${tw.p(6).bg('white').rounded('lg').shadow('md').hover.shadow('lg')}`}>
+      <div className={tw.p(6).bg('white').rounded('lg').shadow('md').hover.shadow('lg')}>
         Hover this card
       </div>
     </div>

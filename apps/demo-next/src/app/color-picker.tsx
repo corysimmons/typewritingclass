@@ -22,19 +22,19 @@ export function ColorPickerDemo() {
   )
 
   return (
-    <section className={`${tw.flex.flexCol.gap(4)}`}>
-      <h2 className={`${tw.text('lg').font('600').textColor('#1e293b')}`}>
+    <section className={tw.flex.flexCol.gap(4)}>
+      <h2 className={tw.text('lg').font('600').textColor('#1e293b')}>
         Client Component — Dynamic Color Picker
       </h2>
-      <p className={`${tw.text('base').textColor('#64748b')}`}>
+      <p className={tw.text('base').textColor('#64748b')}>
         This component uses useStyle() with dynamic() for runtime color changes.
       </p>
-      <div className={`${tw.flex.flexRow.gap(4).items('center')}`}>
+      <div className={tw.flex.flexRow.gap(4).items('center')}>
         <input
           type="color"
           value={color}
           onChange={(e) => setColor(e.target.value)}
-          className={`${tw.w('3rem').h('3rem').rounded('lg')(css({ cursor: 'pointer' }))}`}
+          className={tw.w('3rem').h('3rem').rounded('lg')(css({ cursor: 'pointer' }))}
         />
         <div {...boxProps}>{color}</div>
       </div>

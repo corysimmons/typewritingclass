@@ -4,52 +4,52 @@ import { lg } from 'typewritingclass/theme/typography'
 
 export function App() {
   return (
-    <div className={`${tw.flex.flexCol.gap(8).p(8).items('center').justify('center').minH('100vh')}`}>
-      <h1 className={`${tw.text(lg).font('700').textColor('slate-900')}`}>
+    <div className={tw.flex.flexCol.gap(8).p(8).items('center').justify('center').minH('100vh')}>
+      <h1 className={tw.text(lg).font('700').textColor('slate-900')}>
         Typewriting Class + React
       </h1>
 
-      <div className={`${tw
+      <div className={tw
         .p(6).bg('white').rounded('lg').shadow('md')
         .flex.flexCol.gap(4).items('center')
         .transitionAll.duration(200)
         .hover(tw.shadow('0 20px 25px -5px rgb(0 0 0 / 0.1)').bg('blue-50'))
-      }`}>
-        <p className={`${tw.textColor('slate-700')}`}>
+      }>
+        <p className={tw.textColor('slate-700')}>
           Hover this card to see the effect.
         </p>
-        <span className={`${tw
+        <span className={tw
           .p(2).bg('blue-500').textColor('white').rounded('lg').font('700')
-        }`}>
+        }>
           Styled with Typewriting Class
         </span>
       </div>
 
       {/* Gradient button with transition */}
-      <button className={`${tw
+      <button className={tw
         .px(6).py(3).rounded('lg')
         .bgGradient('to right').gradientFrom('indigo-500').gradientTo('purple-600')
         .textColor('white').font('600')
         .transitionAll.duration(200)
         .cursor('pointer').border(0).text('1rem')
         .hover(tw.opacity(0.9).shadow('0 10px 15px -3px rgb(0 0 0 / 0.2)'))
-      }`}>
+      }>
         Gradient Button
       </button>
 
       {/* Filter demo */}
-      <div className={`${tw.flex.flexRow.gap(4)}`}>
-        <div className={`${tw
+      <div className={tw.flex.flexRow.gap(4)}>
+        <div className={tw
           .bg('emerald-400').p(4).rounded('lg')
           .textColor('white').font('700').text('0.875rem')
-        }`}>
+        }>
           Normal
         </div>
-        <div className={`${tw
+        <div className={tw
           .bg('emerald-400').blur('2px')
           .p(4).rounded('lg')
           .textColor('white').font('700').text('0.875rem')
-        }`}>
+        }>
           Blurred
         </div>
       </div>

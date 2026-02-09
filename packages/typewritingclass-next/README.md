@@ -40,7 +40,7 @@ Use `tw` directly -- no hooks, no client boundary:
 import { tw } from 'typewritingclass'
 
 export default function Home() {
-  return <h1 className={`${tw.text('2xl').font('700').textColor('slate-900')}`}>Hello</h1>
+  return <h1 className={tw.text('2xl').font('700').textColor('slate-900')}>Hello</h1>
 }
 ```
 

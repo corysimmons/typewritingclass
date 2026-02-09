@@ -3,7 +3,7 @@ import { tw } from 'typewritingclass'
 import { xs } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
 
-const cell = `${tw.border.borderColor('indigo-400').p(2)}`
+const cell = tw.border.borderColor('indigo-400').p(2)
 const twCell = 'tw-border tw-border-indigo-400 tw-p-2'
 
 export const tablesData: ComparisonCategory = {
@@ -16,7 +16,7 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'border-collapse',
           twcCode: 'borderCollapse()',
-          twcElement: React.createElement('table', { className: `${tw.borderCollapse.w("full").text(xs)}` },
+          twcElement: React.createElement('table', { className: tw.borderCollapse.w("full").text(xs) },
             React.createElement('thead', null,
               React.createElement('tr', null,
                 React.createElement('th', { className: `${cell} ${tw.bg('indigo-100')}` }, 'Name'),
@@ -57,7 +57,7 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'border-separate',
           twcCode: 'borderSeparate()',
-          twcElement: React.createElement('table', { className: `${tw.borderSeparate.w("full").text(xs)}` },
+          twcElement: React.createElement('table', { className: tw.borderSeparate.w("full").text(xs) },
             React.createElement('thead', null,
               React.createElement('tr', null,
                 React.createElement('th', { className: `${cell} ${tw.bg('indigo-100')}` }, 'Name'),
@@ -103,15 +103,15 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'border-spacing-2',
           twcCode: 'borderSeparate(), borderSpacing(2)',
-          twcElement: React.createElement('table', { className: `${tw.borderSeparate.borderSpacing(2).w("full").text(xs)}` },
+          twcElement: React.createElement('table', { className: tw.borderSeparate.borderSpacing(2).w("full").text(xs) },
             React.createElement('tbody', null,
               React.createElement('tr', null,
-                React.createElement('td', { className: `${tw.bg('indigo-400').p(2).textColor('white').rounded}` }, '1'),
-                React.createElement('td', { className: `${tw.bg('indigo-400').p(2).textColor('white').rounded}` }, '2'),
+                React.createElement('td', { className: tw.bg('indigo-400').p(2).textColor('white').rounded }, '1'),
+                React.createElement('td', { className: tw.bg('indigo-400').p(2).textColor('white').rounded }, '2'),
               ),
               React.createElement('tr', null,
-                React.createElement('td', { className: `${tw.bg('indigo-400').p(2).textColor('white').rounded}` }, '3'),
-                React.createElement('td', { className: `${tw.bg('indigo-400').p(2).textColor('white').rounded}` }, '4'),
+                React.createElement('td', { className: tw.bg('indigo-400').p(2).textColor('white').rounded }, '3'),
+                React.createElement('td', { className: tw.bg('indigo-400').p(2).textColor('white').rounded }, '4'),
               ),
             ),
           ),
@@ -137,7 +137,7 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'table-fixed',
           twcCode: 'tableLayout("fixed")',
-          twcElement: React.createElement('table', { className: `${tw.tableLayout('fixed').borderCollapse.w("full").text(xs)}` },
+          twcElement: React.createElement('table', { className: tw.tableLayout('fixed').borderCollapse.w("full").text(xs) },
             React.createElement('thead', null,
               React.createElement('tr', null,
                 React.createElement('th', { className: `${cell} ${tw.bg('indigo-100').w("1/4")}` }, 'Short'),
@@ -175,8 +175,8 @@ export const tablesData: ComparisonCategory = {
         {
           label: 'caption-bottom',
           twcCode: 'captionSide("bottom")',
-          twcElement: React.createElement('table', { className: `${tw.captionSide('bottom').borderCollapse.w("full").text(xs)}` },
-            React.createElement('caption', { className: `${tw.p(2).textColor('slate-500')}` }, 'Table caption at bottom'),
+          twcElement: React.createElement('table', { className: tw.captionSide('bottom').borderCollapse.w("full").text(xs) },
+            React.createElement('caption', { className: tw.p(2).textColor('slate-500') }, 'Table caption at bottom'),
             React.createElement('tbody', null,
               React.createElement('tr', null,
                 React.createElement('td', { className: `${cell} ${tw.bg('indigo-100')}` }, 'Data 1'),
