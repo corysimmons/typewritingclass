@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import {
-  tw, cx, dcx, dynamic, css,
-  bg, textColor, border, borderColor,
-  w, h, rounded, shadow, flex, items, justify, font,
+  tw, cx, css, dynamic,
+  w, h, bg, textColor, font, rounded, shadow,
+  flex, items, justify,
   blur, brightness, grayscale, saturate,
   createTheme, injectTheme, setTheme,
 } from 'typewritingclass'
 import { useStyle } from 'typewritingclass-react'
 import { blue, indigo, emerald, rose, amber, cyan, violet, purple } from 'typewritingclass/theme/colors'
-import { base, lg, _2xl } from 'typewritingclass/theme/typography'
 
 // --- Theme definitions ---
 const lightTheme = createTheme({
@@ -37,6 +36,7 @@ injectTheme(darkTheme.cssText)
 function ColorPickerDemo() {
   const [color, setColor] = useState('#3b82f6')
 
+  // useStyle + dynamic() requires HOF syntax for runtime CSS variable binding
   const boxProps = useStyle(
     w('8rem'), h('8rem'),
     bg(dynamic(color)),
@@ -48,7 +48,7 @@ function ColorPickerDemo() {
 
   return (
     <div className={`${tw.flex.flexCol.gap(4)}`}>
-      <h3 className={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
+      <h3 className={`${tw.text('lg').font('600').textColor('#1e293b')}`}>
         Color Picker with dynamic()
       </h3>
       <div className={`${tw.flex.flexRow.gap(4).items('center')}`}>
@@ -56,7 +56,7 @@ function ColorPickerDemo() {
           type="color"
           value={color}
           onChange={(e) => setColor(e.target.value)}
-          className={cx(`${tw.w('3rem').h('3rem').rounded('lg')}`, css({ cursor: 'pointer' }))}
+          className={`${tw.w('3rem').h('3rem').rounded('lg')(css({ cursor: 'pointer' }))}`}
         />
         <div {...boxProps}>{color}</div>
       </div>
@@ -68,6 +68,7 @@ function ColorPickerDemo() {
 function ProgressBarDemo() {
   const [progress, setProgress] = useState(65)
 
+  // useStyle + dynamic() requires HOF syntax
   const barProps = useStyle(
     h('1.5rem'),
     w(dynamic(`${progress}%`)),
@@ -78,7 +79,7 @@ function ProgressBarDemo() {
 
   return (
     <div className={`${tw.flex.flexCol.gap(4)}`}>
-      <h3 className={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
+      <h3 className={`${tw.text('lg').font('600').textColor('#1e293b')}`}>
         Dynamic Progress Bar
       </h3>
       <input
@@ -92,7 +93,7 @@ function ProgressBarDemo() {
       <div className={`${tw.w('100%').h('1.5rem').bg('#e2e8f0').rounded('9999px')}`}>
         <div {...barProps} />
       </div>
-      <span className={`${tw.text(base).textColor('#64748b')}`}>{progress}%</span>
+      <span className={`${tw.text('base').textColor('#64748b')}`}>{progress}%</span>
     </div>
   )
 }
@@ -108,48 +109,48 @@ function ThemeSwitcherDemo() {
 
   return (
     <div className={`${tw.flex.flexCol.gap(4)}`}>
-      <h3 className={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
+      <h3 className={`${tw.text('lg').font('600').textColor('#1e293b')}`}>
         Theme Switcher
       </h3>
       <div className={`${tw.flex.flexRow.gap(3)}`}>
         <button
           onClick={() => switchTheme('light')}
-          className={cx(
-            `${tw.px(4).py(2).rounded('lg').font('500').text(base)}`,
-            bg(theme === 'light' ? blue[500] : '#e2e8f0'),
-            textColor(theme === 'light' ? '#ffffff' : '#475569'),
-            css({ cursor: 'pointer', border: 'none' }),
-          )}
+          className={`${tw
+            .px(4).py(2).rounded('lg').font('500').text('base')
+            .bg(theme === 'light' ? blue[500] : '#e2e8f0')
+            .textColor(theme === 'light' ? '#ffffff' : '#475569')
+            (css({ cursor: 'pointer', border: 'none' }))
+          }`}
         >
           Light
         </button>
         <button
           onClick={() => switchTheme('dark')}
-          className={cx(
-            `${tw.px(4).py(2).rounded('lg').font('500').text(base)}`,
-            bg(theme === 'dark' ? indigo[500] : '#e2e8f0'),
-            textColor(theme === 'dark' ? '#ffffff' : '#475569'),
-            css({ cursor: 'pointer', border: 'none' }),
-          )}
+          className={`${tw
+            .px(4).py(2).rounded('lg').font('500').text('base')
+            .bg(theme === 'dark' ? indigo[500] : '#e2e8f0')
+            .textColor(theme === 'dark' ? '#ffffff' : '#475569')
+            (css({ cursor: 'pointer', border: 'none' }))
+          }`}
         >
           Dark
         </button>
       </div>
-      <div className={cx(
-        `${tw.p(6).rounded('lg').shadow('lg').flex.flexCol.gap(3)}`,
-        bg(theme === 'dark' ? '#1e293b' : '#ffffff'),
-        border('1px'), borderColor(theme === 'dark' ? '#334155' : '#e2e8f0'),
-      )}>
-        <h4 className={cx(
-          `${tw.text(lg).font('700')}`,
-          textColor(theme === 'dark' ? '#f1f5f9' : '#0f172a'),
-        )}>
+      <div className={`${tw
+        .p(6).rounded('lg').shadow('lg').flex.flexCol.gap(3)
+        .bg(theme === 'dark' ? '#1e293b' : '#ffffff')
+        .border('1px').borderColor(theme === 'dark' ? '#334155' : '#e2e8f0')
+      }`}>
+        <h4 className={`${tw
+          .text('lg').font('700')
+          .textColor(theme === 'dark' ? '#f1f5f9' : '#0f172a')
+        }`}>
           Theme Preview
         </h4>
-        <p className={cx(
-          `${tw.text(base)}`,
-          textColor(theme === 'dark' ? '#94a3b8' : '#64748b'),
-        )}>
+        <p className={`${tw
+          .text('base')
+          .textColor(theme === 'dark' ? '#94a3b8' : '#64748b')
+        }`}>
           This card responds to the selected theme.
         </p>
       </div>
@@ -163,6 +164,7 @@ function MultiPropertyDemo() {
   const [borderRadius, setBorderRadius] = useState(8)
   const [bgColor, setBgColor] = useState(rose[500])
 
+  // useStyle + dynamic() requires HOF syntax
   const shapeProps = useStyle(
     w(dynamic(`${size}px`)),
     h(dynamic(`${size}px`)),
@@ -174,23 +176,23 @@ function MultiPropertyDemo() {
 
   return (
     <div className={`${tw.flex.flexCol.gap(4)}`}>
-      <h3 className={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
+      <h3 className={`${tw.text('lg').font('600').textColor('#1e293b')}`}>
         Multi-Property Dynamic
       </h3>
       <div className={`${tw.flex.flexCol.gap(2)}`}>
-        <label className={`${tw.text(base).textColor('#475569')}`}>
+        <label className={`${tw.text('base').textColor('#475569')}`}>
           Size: {size}px
           <input type="range" min="40" max="200" value={size}
             onChange={(e) => setSize(Number(e.target.value))}
             className={`${tw.w('100%')}`} />
         </label>
-        <label className={`${tw.text(base).textColor('#475569')}`}>
+        <label className={`${tw.text('base').textColor('#475569')}`}>
           Border Radius: {borderRadius}px
           <input type="range" min="0" max="100" value={borderRadius}
             onChange={(e) => setBorderRadius(Number(e.target.value))}
             className={`${tw.w('100%')}`} />
         </label>
-        <label className={`${tw.text(base).textColor('#475569')}`}>
+        <label className={`${tw.text('base').textColor('#475569')}`}>
           Color:
           <input type="color" value={bgColor}
             onChange={(e) => setBgColor(e.target.value)}
@@ -206,24 +208,24 @@ function MultiPropertyDemo() {
 function FiltersDemo() {
   return (
     <div className={`${tw.flex.flexCol.gap(4)}`}>
-      <h3 className={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
+      <h3 className={`${tw.text('lg').font('600').textColor('#1e293b')}`}>
         Filters
       </h3>
       <div className={`${tw.flex.flexRow.gap(4).flexWrap}`}>
         {[
-          ['Blur', blur('8px'), bg(indigo[200])],
-          ['Grayscale', grayscale('100%'), bg(emerald[400])],
-          ['Bright', brightness('150%'), bg(amber[400])],
-          ['Saturate', saturate('200%'), bg(rose[400])],
-        ].map(([label, filter, bgColor]) => (
-          <div key={label as string} className={cx(
-            filter as any, bgColor as any,
+          { label: 'Blur', filter: blur('8px'), bgColor: indigo[200] },
+          { label: 'Grayscale', filter: grayscale('100%'), bgColor: emerald[400] },
+          { label: 'Bright', filter: brightness('150%'), bgColor: amber[400] },
+          { label: 'Saturate', filter: saturate('200%'), bgColor: rose[400] },
+        ].map(({ label, filter, bgColor }) => (
+          <div key={label} className={cx(
+            filter, bg(bgColor),
             `${tw.w('5rem').h('5rem').rounded('lg')
               .flex.items('center').justify('center')
               .textColor('#ffffff')}`,
             css({ 'font-size': '0.75rem' }),
           )}>
-            {label as string}
+            {label}
           </div>
         ))}
       </div>
@@ -235,7 +237,7 @@ function FiltersDemo() {
 function TransitionsDemo() {
   return (
     <div className={`${tw.flex.flexCol.gap(4)}`}>
-      <h3 className={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
+      <h3 className={`${tw.text('lg').font('600').textColor('#1e293b')}`}>
         Transitions
       </h3>
       <div className={`${tw.flex.flexRow.gap(3)}`}>
@@ -245,7 +247,8 @@ function TransitionsDemo() {
             .font('500')
             .transitionColors.duration(300)
             .hover(tw.bg('indigo-500').textColor('#ffffff'))
-        } ${cx(css({ border: 'none', cursor: 'pointer', 'font-size': '0.875rem' }))}`}>
+            (css({ border: 'none', cursor: 'pointer', 'font-size': '0.875rem' }))
+        }`}>
           Hover me (300ms)
         </button>
       </div>
@@ -257,26 +260,23 @@ function TransitionsDemo() {
 function GradientsDemo() {
   return (
     <div className={`${tw.flex.flexCol.gap(4)}`}>
-      <h3 className={`${tw.text(lg).font('600').textColor('#1e293b')}`}>
+      <h3 className={`${tw.text('lg').font('600').textColor('#1e293b')}`}>
         Gradients
       </h3>
       <div className={`${tw.flex.flexRow.gap(4).flexWrap}`}>
         {[
-          ['Sunset', rose[500], amber[400], '#fde68a'],
-          ['Ocean', blue[500], cyan[400], '#99f6e4'],
-          ['Twilight', purple[500], violet[400], indigo[300]],
-        ].map(([label, from, via, to]) => (
-          <div key={label as string} className={cx(
-            `${tw.px(6).py(4).rounded('lg')
-              .bgGradient('to right')
-              .gradientFrom(from as string)
-              .gradientVia(via as string)
-              .gradientTo(to as string)
-              .textColor('#ffffff')
-              .font('600')}`,
-            css({ 'min-width': '8rem', 'text-align': 'center' }),
-          )}>
-            {label as string}
+          { label: 'Sunset', from: rose[500], via: amber[400], to: '#fde68a' },
+          { label: 'Ocean', from: blue[500], via: cyan[400], to: '#99f6e4' },
+          { label: 'Twilight', from: purple[500], via: violet[400], to: indigo[300] },
+        ].map(({ label, from, via, to }) => (
+          <div key={label} className={`${tw
+            .px(6).py(4).rounded('lg')
+            .bgGradient('to right')
+            .gradientFrom(from).gradientVia(via).gradientTo(to)
+            .textColor('#ffffff').font('600')
+            (css({ 'min-width': '8rem', 'text-align': 'center' }))
+          }`}>
+            {label}
           </div>
         ))}
       </div>
@@ -287,12 +287,12 @@ function GradientsDemo() {
 // --- App ---
 export function App() {
   return (
-    <div className={`${tw.p(8).flex.flexCol.gap(10)} ${cx(css({ 'max-width': '800px', margin: '0 auto' }))}`}>
+    <div className={`${tw(css({ 'max-width': '800px', margin: '0 auto' })).p(8).flex.flexCol.gap(10)}`}>
       <img src="/logo.svg" alt="Typewriting Class" style={{ width: '240px' }} />
-      <h1 className={`${tw.text(_2xl).font('700').textColor('#0f172a')}`}>
+      <h1 className={`${tw.text('2xl').font('700').textColor('#0f172a')}`}>
         Typewriting Class — React Demo
       </h1>
-      <p className={`${tw.text(base).textColor('#64748b')}`}>
+      <p className={`${tw.text('base').textColor('#64748b')}`}>
         Phase 3: Filters, transforms, transitions, gradients + all Phase 2 features
       </p>
 

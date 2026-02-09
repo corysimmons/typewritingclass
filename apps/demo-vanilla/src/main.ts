@@ -1,15 +1,9 @@
 import {
-  cx, when, css,
-  w,
-  bg, textColor, borderColor,
-  text,
-  size,
-  rounded,
-  ring,
-  opacity,
+  cx, css,
+  w, bg, textColor,
+  text, size, rounded,
   blur, brightness, grayscale, saturate,
   scale, rotate, translateX, translateY, skewX,
-  hover, focus, active, disabled, dark,
   tw,
   gradientFrom, gradientVia, gradientTo,
 } from 'typewritingclass'
@@ -20,7 +14,6 @@ import {
   sky, cyan, teal, blue,
   rose, pink, white, transparent,
 } from 'typewritingclass/theme/colors'
-import { xs, sm as smText, base, lg as lgText, xl as xlText, _3xl, _5xl, _6xl } from 'typewritingclass/theme/typography'
 
 const app = document.getElementById('app')!
 
@@ -202,43 +195,49 @@ btnRow.className = `${tw.flex.flexWrap.gap(3).items('center')}`
 
 btnRow.append(
   btn('Primary',
-    bg(slate[900]), textColor(white),
-    when(hover)(bg(indigo[600])),
-    when(active)(bg(indigo[700])),
-    when(focus)(ring('2px', indigo[400])),
-    when(dark)(bg(white), textColor(slate[900])),
-    when(dark, hover)(bg(indigo[300])),
+    `${tw.bg(slate[900]).textColor(white)
+      .hover.bg(indigo[600])
+      .active.bg(indigo[700])
+      .focus(tw.ring('2px', indigo[400]))
+      .dark(tw.bg(white).textColor(slate[900]))
+      .dark.hover.bg(indigo[300])
+    }`,
   ),
   btn('Secondary',
-    bg(slate[100]), textColor(slate[700]),
-    when(hover)(bg(slate[200])),
-    when(active)(bg(slate[300])),
-    when(dark)(bg(slate[800]), textColor(slate[300])),
-    when(dark, hover)(bg(slate[700])),
+    `${tw.bg(slate[100]).textColor(slate[700])
+      .hover.bg(slate[200])
+      .active.bg(slate[300])
+      .dark(tw.bg(slate[800]).textColor(slate[300]))
+      .dark.hover.bg(slate[700])
+    }`,
   ),
   btn('Accent',
-    bg(indigo[600]), textColor(white),
-    when(hover)(bg(indigo[500])),
-    when(active)(bg(indigo[700])),
-    when(focus)(ring('2px', indigo[300])),
+    `${tw.bg(indigo[600]).textColor(white)
+      .hover.bg(indigo[500])
+      .active.bg(indigo[700])
+      .focus(tw.ring('2px', indigo[300]))
+    }`,
   ),
   btn('Ghost',
-    bg(transparent), textColor(slate[600]),
-    css({ border: `1px solid ${slate[300]}` }),
-    when(hover)(bg(slate[50]), borderColor(slate[400])),
-    when(dark)(textColor(slate[400]), css({ 'border-color': slate[600] })),
-    when(dark, hover)(bg(slate[800])),
+    `${tw.bg(transparent).textColor(slate[600])
+      (css({ border: `1px solid ${slate[300]}` }))
+      .hover(tw.bg(slate[50]).borderColor(slate[400]))
+      .dark(tw.textColor(slate[400])(css({ 'border-color': slate[600] })))
+      .dark.hover.bg(slate[800])
+    }`,
   ),
   btn('Danger',
-    bg(red[600]), textColor(white),
-    when(hover)(bg(red[500])),
-    when(active)(bg(red[700])),
-    when(focus)(ring('2px', red[300])),
+    `${tw.bg(red[600]).textColor(white)
+      .hover.bg(red[500])
+      .active.bg(red[700])
+      .focus(tw.ring('2px', red[300]))
+    }`,
   ),
   (() => {
     const b = btn('Disabled',
-      bg(slate[100]), textColor(slate[400]),
-      when(disabled)(opacity(0.5)),
+      `${tw.bg(slate[100]).textColor(slate[400])
+        .disabled.opacity(0.5)
+      }`,
     )
     b.disabled = true
     return b
@@ -254,7 +253,7 @@ cardGrid.className = `${tw.grid(1).gap(6).md.gridCols(3)}`
 const cardData = [
   { icon: '/', title: 'Static Extraction', desc: 'The Rust compiler parses your cx() calls at build time. No runtime overhead for static styles.' },
   { icon: '{}', title: 'Type-Safe Tokens', desc: 'Theme values are TypeScript objects. Autocomplete guides every color, spacing, and typography choice.' },
-  { icon: '~', title: 'Composable API', desc: 'Stack utilities with cx(), apply modifiers with when(). Later values override earlier — predictable cascade.' },
+  { icon: '~', title: 'Composable API', desc: 'Chain utilities with tw, compose with cx(). Later values override earlier — predictable cascade.' },
 ]
 
 for (const { icon, title: t, desc } of cardData) {
@@ -306,12 +305,12 @@ typoDemo.className = `${tw.flex.flexCol.gap(6).p(8)
   .dark(tw.bg('slate-900').borderColor('slate-700'))
 }`
 
-const typoSamples: [string, typeof _5xl, string][] = [
-  ['Display', _5xl, serif],
-  ['Heading', _3xl, sans],
-  ['Subhead', xlText, sans],
-  ['Body', base, sans],
-  ['Caption', xs, mono],
+const typoSamples: [string, string, string][] = [
+  ['Display', '5xl', serif],
+  ['Heading', '3xl', sans],
+  ['Subhead', 'xl', sans],
+  ['Body', 'base', sans],
+  ['Caption', 'xs', mono],
 ]
 
 for (const [label, sz, family] of typoSamples) {
@@ -330,7 +329,7 @@ for (const [label, sz, family] of typoSamples) {
     text(sz),
     css({ 'font-family': family }),
     textColor(slate[800]),
-    when(dark)(textColor(slate[200])),
+    `${tw.dark.textColor('slate-200')}`,
   )
   textEl.textContent = family === serif ? 'The art of the written word' : family === mono ? 'const style = cx(p(4), bg(white))' : 'The quick brown fox jumps over the lazy dog'
 
@@ -374,7 +373,7 @@ for (const [name, scale] of palettes) {
       bg(scale[shade]),
       rounded('md'),
       css({ transition: 'transform 150ms ease' }),
-      when(hover)(css({ transform: 'scale(1.15)' })),
+      `${tw.hover(tw(css({ transform: 'scale(1.15)' })))}`,
     )
     swatch.title = `${name}-${shade}`
     swatches.appendChild(swatch)
@@ -404,11 +403,10 @@ for (const val of spacingValues) {
 
   const bar = document.createElement('div')
   bar.className = cx(
-    tw.h(2).rounded('full'),
+    tw.h(2).rounded('full').dark.bg(indigo[500]),
     w(val),
     bg(indigo[400]),
     css({ transition: 'width 300ms ease' }),
-    when(dark)(bg(indigo[500])),
   )
 
   row.append(label, bar)
@@ -422,19 +420,19 @@ const statesDemo = document.createElement('div')
 statesDemo.className = `${tw.flex.flexCol.gap(4)}`
 
 const stateExamples = [
-  { label: 'Hover me', styles: [bg(slate[100]), when(hover)(bg(indigo[100]), textColor(indigo[700]))] },
-  { label: 'Focus me', styles: [bg(slate[100]), css({ outline: 'none' }), when(focus)(ring('2px', indigo[400]), bg(indigo[50]))] },
-  { label: 'Press me', styles: [bg(slate[100]), when(active)(bg(slate[300]), css({ transform: 'scale(0.97)' }))] },
+  { label: 'Hover me', styles: `${tw.bg(slate[100]).hover(tw.bg(indigo[100]).textColor(indigo[700]))}` },
+  { label: 'Focus me', styles: `${tw.bg(slate[100])(css({ outline: 'none' })).focus(tw.ring('2px', indigo[400]).bg(indigo[50]))}` },
+  { label: 'Press me', styles: `${tw.bg(slate[100]).active(tw.bg(slate[300])(css({ transform: 'scale(0.97)' })))}` },
 ]
 
 for (const { label, styles } of stateExamples) {
   const el = document.createElement('button')
   el.textContent = label
   el.className = cx(
-    tw.px(5).py(3).rounded('lg').textAlign('left').textColor('slate-700'),
+    tw.px(5).py(3).rounded('lg').textAlign('left').textColor('slate-700')
+      .dark(tw.bg(slate[800]).textColor(slate[300])),
     css({ 'font-family': mono, 'font-size': '0.875rem', border: 'none', transition: 'all 150ms ease', cursor: 'pointer' }),
-    when(dark)(bg(slate[800]), textColor(slate[300])),
-    ...styles,
+    styles,
   )
   statesDemo.appendChild(el)
 }
@@ -469,21 +467,19 @@ codeBlock.className = `${tw.p(6).rounded('2xl')
   (css({ 'font-family': mono, 'font-size': '0.8rem', 'line-height': '1.7', 'overflow-x': 'auto', 'white-space': 'pre' }))
   .dark(tw.bg('slate-950').border('1px').borderColor('slate-700'))
 }`
-codeBlock.textContent = `import { cx, when, bg, p, rounded, shadow, textColor, hover } from 'typewritingclass'
-import { blue, white } from 'typewritingclass/theme/colors'
+codeBlock.textContent = `import { tw } from 'typewritingclass'
 
-const card = cx(
-  bg(white),
-  p(6),
-  rounded('0.75rem'),
-  shadow(),
-  when(hover)(
-    bg(blue[50]),
-    shadow('0 10px 15px -3px rgb(0 0 0 / 0.1)'),
-  ),
-)
+const card = tw
+  .bg('white')
+  .p(6)
+  .rounded('0.75rem')
+  .shadow()
+  .hover(tw
+    .bg('blue-50')
+    .shadow('0 10px 15px -3px rgb(0 0 0 / 0.1)')
+  )
 
-document.getElementById('card')!.className = card`
+document.getElementById('card')!.className = \`\${card}\``
 
 showcase.appendChild(section('08', 'Usage', [codeBlock]))
 
