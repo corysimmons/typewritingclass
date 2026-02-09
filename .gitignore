@@ -5,6 +5,7 @@ dist
 .vite
 test-results
 playwright-report
+coverage
 target
 *.node
 .astro

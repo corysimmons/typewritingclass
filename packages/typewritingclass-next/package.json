@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass-next",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "repository": {
     "type": "git",
@@ -34,7 +34,9 @@
   "types": "./dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "peerDependencies": {
     "next": "^13 || ^14 || ^15",

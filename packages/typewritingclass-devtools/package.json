@@ -2,7 +2,7 @@
   "name": "typewritingclass-devtools",
   "displayName": "typewritingclass CSS Preview",
   "description": "Inline CSS preview for typewritingclass utilities",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "corysimmons",
   "license": "MIT",
   "engines": {
@@ -38,7 +38,9 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "package": "vsce package"
+    "package": "vsce package",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@types/vscode": "^1.85.0",

@@ -52,11 +52,8 @@ jobs:
           pnpm --filter typewritingclass-esbuild build
           pnpm --filter typewritingclass-next build
 
-      - name: Run core tests
-        run: pnpm --filter typewritingclass test
-
-      - name: Run React tests
-        run: pnpm --filter typewritingclass-react test
+      - name: Run all unit tests with coverage
+        run: pnpm test:coverage
 
       - name: Build demo-vanilla app
         run: pnpm --filter demo-vanilla build

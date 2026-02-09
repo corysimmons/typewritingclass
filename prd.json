@@ -1,0 +1,143 @@
+{
+  "title": "Comprehensive Unit Test Suite for typewritingclass",
+  "version": "1.0.0",
+  "date": "2026-02-09",
+  "overview": "Add a bulletproof unit test suite across all 7 packages in the typewritingclass monorepo, with coverage reporting and CI integration.",
+
+  "test_framework": {
+    "runner": "vitest",
+    "version": "^3.0.4",
+    "rationale": "Already used in the project. Fastest TS-native test runner. Vite-powered HMR for watch mode. Native ESM support. Built-in coverage via v8.",
+    "coverage_provider": "@vitest/coverage-v8",
+    "coverage_rationale": "v8 is faster than istanbul, uses V8's built-in code coverage — zero instrumentation overhead."
+  },
+
+  "current_state": {
+    "tested_packages": [
+      {
+        "package": "typewritingclass",
+        "test_files": 36,
+        "coverage": "comprehensive — utilities, modifiers, theme, core API"
+      },
+      {
+        "package": "typewritingclass-react",
+        "test_files": 1,
+        "coverage": "partial — useStyle hook only, server functions untested"
+      }
+    ],
+    "untested_packages": [
+      "typewritingclass-compiler (TypeScript wrapper + loadTheme)",
+      "typewritingclass-babel",
+      "typewritingclass-esbuild",
+      "typewritingclass-next",
+      "typewritingclass-devtools"
+    ]
+  },
+
+  "implementation_plan": {
+    "phase_1_infrastructure": {
+      "description": "Set up monorepo-wide test infrastructure with coverage",
+      "tasks": [
+        "Install @vitest/coverage-v8 as root devDependency",
+        "Create vitest.workspace.ts at repo root to orchestrate all packages",
+        "Add vitest.config.ts to every package that needs tests",
+        "Add root-level test scripts: test, test:coverage, test:watch",
+        "Configure coverage thresholds and reporters (text, lcov, json-summary)"
+      ]
+    },
+
+    "phase_2_react_server": {
+      "description": "Complete typewritingclass-react test coverage",
+      "new_tests": [
+        "server.test.ts — getStyleSheet() returns CSS string from registry",
+        "server.test.ts — getStyleTag() wraps CSS in <style data-twc> tag",
+        "server.test.ts — getStyleTag() returns empty style tag when no rules",
+        "server.test.ts — getStyleSheet() returns empty string when no rules"
+      ]
+    },
+
+    "phase_3_devtools": {
+      "description": "Test the css-preview.ts module (762 lines of pure, testable functions)",
+      "new_tests": [
+        "css-preview.test.ts — generateUtilityDeclarations for ALL spacing utilities (p, px, py, pt, pr, pb, pl, m, mx, my, mt, mr, mb, ml, gap, gapX, gapY)",
+        "css-preview.test.ts — generateUtilityDeclarations for color utilities (bg, textColor, borderColor)",
+        "css-preview.test.ts — generateUtilityDeclarations for typography (text, font, tracking, leading, textAlign)",
+        "css-preview.test.ts — generateUtilityDeclarations for layout (flex, flexCol, grid, gridCols, w, h, display, items, justify, overflow, z)",
+        "css-preview.test.ts — generateUtilityDeclarations for borders (rounded variants, border variants, ring)",
+        "css-preview.test.ts — generateUtilityDeclarations for effects (shadow, opacity)",
+        "css-preview.test.ts — generateUtilityDeclarations for interactivity (cursor, select, pointerEvents)",
+        "css-preview.test.ts — generateUtilityPreview returns formatted CSS string",
+        "css-preview.test.ts — generateCxDeclarations composes multiple utilities",
+        "css-preview.test.ts — generateCxPreview formats combined output",
+        "css-preview.test.ts — generateWhenDeclarations extracts utility declarations",
+        "css-preview.test.ts — generateWhenPreview wraps in selectors and media queries",
+        "css-preview.test.ts — parseFunctionCalls parses all patterns",
+        "css-preview.test.ts — isKnownUtility and isKnownModifier correctness",
+        "css-preview.test.ts — getKnownUtilities and getKnownModifiers return lists",
+        "css-preview.test.ts — edge cases: empty args, unknown utilities, color resolution"
+      ]
+    },
+
+    "phase_4_next_plugin": {
+      "description": "Test typewritingclass-next withTwc and TWCStyles",
+      "new_tests": [
+        "plugin.test.ts — withTwc returns valid Next.js config",
+        "plugin.test.ts — withTwc preserves user's existing config",
+        "plugin.test.ts — withTwc.webpack adds babel-loader rule",
+        "plugin.test.ts — withTwc.webpack calls user's webpack function",
+        "plugin.test.ts — withTwc uses default options when none provided",
+        "plugin.test.ts — withTwc passes custom options to babel plugin",
+        "TWCStyles.test.tsx — renders <style data-twc> element",
+        "TWCStyles.test.tsx — includes CSS from getStyleSheet"
+      ]
+    },
+
+    "phase_5_compiler_esbuild": {
+      "description": "Test TypeScript helpers in compiler and esbuild packages",
+      "new_tests": [
+        "loadTheme.test.ts — loads all color scales from typewritingclass",
+        "loadTheme.test.ts — loads named colors (white, black, transparent, currentColor)",
+        "loadTheme.test.ts — loads spacing scale",
+        "loadTheme.test.ts — loads text sizes and font weights",
+        "loadTheme.test.ts — loads font families",
+        "loadTheme.test.ts — loads border radii and shadows",
+        "loadTheme.test.ts — loads sizes",
+        "loadTheme.test.ts — returns correct ThemeInput shape with all JSON-serialized fields",
+        "esbuild-helpers.test.ts — getLoader returns correct loader for .ts, .tsx, .js, .jsx",
+        "esbuild-helpers.test.ts — escapeRegex escapes all special characters"
+      ]
+    },
+
+    "phase_6_ci_integration": {
+      "description": "Integrate testing and coverage into CI pipeline",
+      "tasks": [
+        "Update .github/workflows/ci.yml to run monorepo-wide tests with coverage",
+        "Add coverage summary output to CI logs",
+        "Ensure all packages' test scripts are consistent"
+      ]
+    }
+  },
+
+  "coverage_config": {
+    "reporters": ["text", "text-summary", "lcov", "json-summary"],
+    "include": ["packages/*/src/**/*.{ts,tsx}"],
+    "exclude": [
+      "packages/*/src/**/*.d.ts",
+      "packages/typewritingclass-devtools/src/extension.ts",
+      "packages/typewritingclass-compiler/src/*.rs"
+    ],
+    "thresholds": {
+      "lines": 60,
+      "functions": 60,
+      "branches": 50,
+      "statements": 60
+    }
+  },
+
+  "expected_outcome": {
+    "total_test_files": "50+",
+    "packages_with_tests": "6 of 7 (devtools extension.ts excluded — requires VSCode runtime)",
+    "coverage_target": "60%+ lines across testable packages, growing over time",
+    "ci_integration": "Coverage runs on every PR and push to main"
+  }
+}
