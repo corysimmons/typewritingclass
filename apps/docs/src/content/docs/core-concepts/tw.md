@@ -73,6 +73,10 @@ tw.p(4).bg('blue-500').value
 tw.p(4).bg('blue-500').className
 ```
 
+:::note
+In Next.js Server Components (or any RSC context), always use `.value` to resolve the chain to a plain string. RSC serialization cannot handle Proxy objects, so `className={tw.flex.value}` is required instead of `className={tw.flex}`.
+:::
+
 ## Immutable chains
 
 Every access returns a new chain:

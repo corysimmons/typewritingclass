@@ -66,24 +66,28 @@ export function TWCInject() {
 
 ## Server Components
 
-Use `tw` directly -- no hooks, no client boundary:
+Use `tw` directly — no hooks, no client boundary. Use `.value` to resolve the chain to a plain string, since React Server Components cannot serialize Proxy objects:
 
 ```tsx
 import { tw } from 'typewritingclass'
 
 export default function Home() {
   return (
-    <div className={tw.flex.flexCol.gap(8).p(8).items('center')}>
-      <h1 className={tw.text('2xl').font('700').textColor('slate-900')}>
+    <div className={tw.flex.flexCol.gap(8).p(8).items('center').value}>
+      <h1 className={tw.text('2xl').font('700').textColor('slate-900').value}>
         Hello from Next.js
       </h1>
-      <div className={tw.p(6).bg('white').rounded('lg').shadow('md').hover.shadow('lg')}>
+      <div className={tw.p(6).bg('white').rounded('lg').shadow('md').hover.shadow('lg').value}>
         Hover this card
       </div>
     </div>
   )
 }
 ```
+
+:::caution
+In Server Components, always end `tw` chains with `.value` (or `.toString()`). The `tw` chain is a Proxy object — it coerces to a string automatically in client-side React, but RSC serialization requires a plain string.
+:::
 
 ## Client Components
 
