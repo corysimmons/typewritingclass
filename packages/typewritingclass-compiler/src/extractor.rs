@@ -21,6 +21,8 @@ enum Binding {
     Modifier(String),
     /// cx() core function
     Cx,
+    /// tw chain entry point
+    Tw,
     /// when() core function
     When,
     /// css() escape hatch
@@ -109,12 +111,13 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
         };
     }
 
-    // Check if there's a cx binding
+    // Check if there are cx or tw bindings
     let has_cx = bindings.values().any(|b| matches!(b, Binding::Cx));
+    let has_tw = bindings.values().any(|b| matches!(b, Binding::Tw));
     let has_dynamic_import = bindings.values().any(|b| matches!(b, Binding::Dynamic));
 
-    if !has_cx {
-        // No cx() usage, just prepend inject import
+    if !has_cx && !has_tw {
+        // No cx() or tw usage, just prepend inject import
         let code = prepend_inject(source);
         return TransformResult {
             code,
@@ -125,47 +128,87 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
         };
     }
 
-    // Phase 2: Find cx() calls and try to extract them
+    // Phase 2: Find cx() calls and tw chains, try to extract them
     let mut layer = layer_offset;
     let mut css_rules = vec![];
     let mut replacements: Vec<(u32, u32, String)> = vec![];
     let mut has_dynamic = false;
     let mut diagnostics: Vec<DiagnosticInfo> = vec![];
     let mut dyn_counter = DynCounter::new();
+    // Track spans that have been captured by tw chains to avoid processing sub-expressions
+    let mut tw_captured_spans: Vec<(u32, u32)> = vec![];
 
     visit_expressions(program, &mut |expr| {
-        if let Expression::CallExpression(call) = expr {
-            if is_cx_call(call, &bindings) {
-                match try_extract_cx(call, &bindings, &mut layer, theme, &mut dyn_counter) {
-                    Some(ExtractedCx::Static(class_str, rules)) => {
-                        let span = call.span;
-                        replacements.push((span.start, span.end, format!("'{}'", class_str)));
-                        css_rules.extend(rules);
+        let expr_span = get_expr_span(expr);
+
+        // Skip sub-expressions already captured by a tw chain
+        if let Some((start, end)) = expr_span {
+            if tw_captured_spans.iter().any(|(s, e)| start >= *s && end <= *e) {
+                return;
+            }
+        }
+
+        // Try tw chain extraction
+        if has_tw {
+            if let Some(steps) = flatten_tw_chain(expr, &bindings) {
+                if !steps.is_empty() {
+                    if let Some((start, end)) = expr_span {
+                        match process_tw_steps(&steps, &bindings, theme, &mut dyn_counter) {
+                            Some(tw_rules) if !tw_rules.is_empty() => {
+                                let mut class_names = vec![];
+                                for rule in tw_rules {
+                                    let l = layer;
+                                    layer += 1;
+                                    let class_name = hash::generate_hash(&rule, l);
+                                    let css_text = css::render_rule(&class_name, &rule);
+                                    class_names.push(class_name.clone());
+                                    css_rules.push((class_name, css_text, l));
+                                }
+                                let class_str = class_names.join(" ");
+                                replacements.push((start, end, format!("'{}'", class_str)));
+                                tw_captured_spans.push((start, end));
+                                return;
+                            }
+                            _ => {}
+                        }
                     }
-                    Some(ExtractedCx::Dynamic(class_str, rules, dyn_bindings)) => {
-                        has_dynamic = true;
-                        let span = call.span;
-                        // Build the bindings object literal
-                        let bindings_obj = format_bindings_object(&dyn_bindings);
-                        replacements.push((
-                            span.start,
-                            span.end,
-                            format!("__twcDynamic('{}', {})", class_str, bindings_obj),
-                        ));
-                        css_rules.extend(rules);
-                    }
-                    None => {
-                        // Could not statically extract
-                        if strict && !has_dynamic_import {
+                }
+            }
+        }
+
+        // Try cx() call extraction
+        if has_cx {
+            if let Expression::CallExpression(call) = expr {
+                if is_cx_call(call, &bindings) {
+                    match try_extract_cx(call, &bindings, &mut layer, theme, &mut dyn_counter) {
+                        Some(ExtractedCx::Static(class_str, rules)) => {
                             let span = call.span;
-                            diagnostics.push(DiagnosticInfo {
-                                message: format!(
-                                    "cx() call could not be statically evaluated. Wrap runtime values with dynamic() or disable strict mode."
-                                ),
-                                line: span.start,
-                                column: 0,
-                                severity: "error".to_string(),
-                            });
+                            replacements.push((span.start, span.end, format!("'{}'", class_str)));
+                            css_rules.extend(rules);
+                        }
+                        Some(ExtractedCx::Dynamic(class_str, rules, dyn_bindings)) => {
+                            has_dynamic = true;
+                            let span = call.span;
+                            let bindings_obj = format_bindings_object(&dyn_bindings);
+                            replacements.push((
+                                span.start,
+                                span.end,
+                                format!("__twcDynamic('{}', {})", class_str, bindings_obj),
+                            ));
+                            css_rules.extend(rules);
+                        }
+                        None => {
+                            if strict && !has_dynamic_import {
+                                let span = call.span;
+                                diagnostics.push(DiagnosticInfo {
+                                    message: format!(
+                                        "cx() call could not be statically evaluated. Wrap runtime values with dynamic() or disable strict mode."
+                                    ),
+                                    line: span.start,
+                                    column: 0,
+                                    severity: "error".to_string(),
+                                });
+                            }
                         }
                     }
                 }
@@ -182,17 +225,15 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
 
     // Phase 4: Inject appropriate imports
     if has_dynamic {
-        // Import runtime helper for dynamic values
         if !code.contains("typewritingclass/runtime") {
             code = format!("import {{ __twcDynamic }} from 'typewritingclass/runtime';\n{}", code);
         }
     }
 
-    if !has_dynamic && replacements.len() == count_cx_calls(program, &bindings) {
-        // All cx() calls were statically extracted and no dynamic — no runtime needed
-        // Just ensure virtual CSS import is there (handled by plugin)
+    let total_extractable = count_cx_calls(program, &bindings) + tw_captured_spans.len();
+    if !has_dynamic && replacements.len() == total_extractable {
+        // All calls were statically extracted — no runtime needed
     } else {
-        // Some cx() calls need runtime fallback
         code = prepend_inject(&code);
     }
 
@@ -288,6 +329,9 @@ fn resolve_import(source: &str, name: &str, theme: &ThemeData) -> Option<Binding
             // Core API
             if name == "cx" {
                 return Some(Binding::Cx);
+            }
+            if name == "tw" {
+                return Some(Binding::Tw);
             }
             if name == "when" {
                 return Some(Binding::When);
@@ -753,6 +797,131 @@ fn resolve_namespace_member(source: &str, member: &str, theme: &ThemeData) -> Op
     }
 }
 
+/// Get the span (start, end) of an expression
+fn get_expr_span(expr: &Expression) -> Option<(u32, u32)> {
+    use oxc_span::GetSpan;
+    let span = expr.span();
+    Some((span.start, span.end))
+}
+
+// ─── tw chain support ────────────────────────────────────────────────────────
+
+/// A single step in a tw chain (e.g., tw.hover.p(6).bg('blue-500'))
+enum TwStep<'a> {
+    /// Property access: .hover, .flex, .absolute
+    Property(String),
+    /// Method call: .p(6), .bg('blue-500')
+    MethodCall(String, &'a oxc_allocator::Vec<'a, Argument<'a>>),
+}
+
+/// Try to flatten an expression into a sequence of tw chain steps.
+/// Returns None if the expression is not a tw chain.
+/// Returns Some(vec![]) if the expression is just the bare `tw` identifier.
+fn flatten_tw_chain<'a>(
+    expr: &'a Expression<'a>,
+    bindings: &HashMap<String, Binding>,
+) -> Option<Vec<TwStep<'a>>> {
+    let mut steps = Vec::new();
+    flatten_tw_chain_inner(expr, bindings, &mut steps)?;
+    Some(steps)
+}
+
+fn flatten_tw_chain_inner<'a>(
+    expr: &'a Expression<'a>,
+    bindings: &HashMap<String, Binding>,
+    steps: &mut Vec<TwStep<'a>>,
+) -> Option<()> {
+    match expr {
+        // Base case: tw identifier
+        Expression::Identifier(id) => {
+            if matches!(bindings.get(id.name.as_str()), Some(Binding::Tw)) {
+                Some(())
+            } else {
+                None
+            }
+        }
+        // .method(args) — CallExpression whose callee is a StaticMemberExpression
+        Expression::CallExpression(call) => {
+            if let Expression::StaticMemberExpression(member) = &call.callee {
+                flatten_tw_chain_inner(&member.object, bindings, steps)?;
+                let name = member.property.name.as_str().to_string();
+                steps.push(TwStep::MethodCall(name, &call.arguments));
+                Some(())
+            } else {
+                None
+            }
+        }
+        // .property — StaticMemberExpression (not a call)
+        Expression::StaticMemberExpression(member) => {
+            flatten_tw_chain_inner(&member.object, bindings, steps)?;
+            let name = member.property.name.as_str().to_string();
+            steps.push(TwStep::Property(name));
+            Some(())
+        }
+        _ => None,
+    }
+}
+
+/// Process flattened tw chain steps into a list of StyleRules.
+/// Handles modifiers (property accesses like .hover) that apply to the next utility.
+fn process_tw_steps(
+    steps: &[TwStep],
+    bindings: &HashMap<String, Binding>,
+    theme: &ThemeData,
+    dyn_counter: &mut DynCounter,
+) -> Option<Vec<StyleRule>> {
+    let mut rules: Vec<StyleRule> = Vec::new();
+    let mut pending_mods: Vec<String> = Vec::new();
+
+    for step in steps {
+        match step {
+            TwStep::Property(name) => {
+                if modifiers::is_modifier(name) {
+                    // Modifier — accumulate to apply to next utility
+                    pending_mods.push(name.clone());
+                } else if UTILITY_NAMES.contains(&name.as_str()) {
+                    // Valueless utility (like flex, absolute, relative, etc.)
+                    if let Some(mut rule) = utilities::evaluate(name, &[], theme) {
+                        // Apply pending modifiers (right-to-left, matching TS reduceRight)
+                        for mod_name in pending_mods.iter().rev() {
+                            rule = modifiers::apply(mod_name, rule)?;
+                        }
+                        pending_mods.clear();
+                        rules.push(rule);
+                    }
+                    // If evaluate returns None for a valueless utility, just skip it
+                }
+                // Unknown properties are ignored (could be raw class names in full runtime,
+                // but we can't handle those at compile time)
+            }
+            TwStep::MethodCall(name, args) => {
+                if UTILITY_NAMES.contains(&name.as_str()) {
+                    let values = evaluate_call_args(args, bindings, theme, dyn_counter)?;
+                    if let Some(mut rule) = utilities::evaluate(name, &values, theme) {
+                        // Apply pending modifiers
+                        for mod_name in pending_mods.iter().rev() {
+                            rule = modifiers::apply(mod_name, rule)?;
+                        }
+                        pending_mods.clear();
+                        rules.push(rule);
+                    } else {
+                        return None;
+                    }
+                } else if modifiers::is_modifier(name) {
+                    // Modifier used as method call (e.g., tw.hover(...))
+                    // In the runtime, hover(chain) extracts rules from the child chain.
+                    // At compile time with no args, just add to pending mods.
+                    pending_mods.push(name.clone());
+                } else {
+                    return None;
+                }
+            }
+        }
+    }
+
+    Some(rules)
+}
+
 /// Visit all expressions in a program (simple recursive walker)
 fn visit_expressions<'a>(program: &'a Program, visitor: &mut dyn FnMut(&'a Expression<'a>)) {
     for stmt in &program.body {
@@ -892,6 +1061,59 @@ fn visit_expr<'a>(expr: &'a Expression<'a>, visitor: &mut dyn FnMut(&'a Expressi
         }
         Expression::ParenthesizedExpression(paren) => {
             visit_expr(&paren.expression, visitor);
+        }
+        Expression::JSXElement(jsx) => {
+            visit_jsx_element(jsx, visitor);
+        }
+        Expression::JSXFragment(fragment) => {
+            for child in &fragment.children {
+                visit_jsx_child(child, visitor);
+            }
+        }
+        _ => {}
+    }
+}
+
+fn visit_jsx_element<'a>(
+    jsx: &'a JSXElement<'a>,
+    visitor: &mut dyn FnMut(&'a Expression<'a>),
+) {
+    // Visit attribute values
+    for attr in &jsx.opening_element.attributes {
+        if let JSXAttributeItem::Attribute(attr) = attr {
+            if let Some(value) = &attr.value {
+                if let JSXAttributeValue::ExpressionContainer(container) = value {
+                    if let Some(expr) = container.expression.as_expression() {
+                        visit_expr(expr, visitor);
+                    }
+                }
+            }
+        }
+        if let JSXAttributeItem::SpreadAttribute(spread) = attr {
+            visit_expr(&spread.argument, visitor);
+        }
+    }
+    // Visit children
+    for child in &jsx.children {
+        visit_jsx_child(child, visitor);
+    }
+}
+
+fn visit_jsx_child<'a>(
+    child: &'a JSXChild<'a>,
+    visitor: &mut dyn FnMut(&'a Expression<'a>),
+) {
+    match child {
+        JSXChild::Element(el) => visit_jsx_element(el, visitor),
+        JSXChild::ExpressionContainer(container) => {
+            if let Some(expr) = container.expression.as_expression() {
+                visit_expr(expr, visitor);
+            }
+        }
+        JSXChild::Fragment(fragment) => {
+            for c in &fragment.children {
+                visit_jsx_child(c, visitor);
+            }
         }
         _ => {}
     }

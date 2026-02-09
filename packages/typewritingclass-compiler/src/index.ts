@@ -1,4 +1,4 @@
-import type { Plugin } from 'vite'
+import type { Plugin, ViteDevServer } from 'vite'
 import MagicString from 'magic-string'
 import { createRequire } from 'module'
 import { resolve, dirname } from 'path'
@@ -28,9 +28,14 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
   let layer = 0
   // file path -> extracted CSS rules (css text strings ordered by layer)
   const fileRules = new Map<string, string[]>()
+  let devServer: ViteDevServer | null = null
 
   return {
     name: 'typewritingclass',
+
+    configureServer(server) {
+      devServer = server
+    },
 
     async buildStart() {
       // Load theme data from the typewritingclass package at build time.
@@ -46,6 +51,9 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
 
     load(id) {
       if (id === RESOLVED_VIRTUAL_CSS_ID) {
+        // In production builds, the virtual module is loaded before all files
+        // are transformed (Rollup processes imports in order). Return current
+        // CSS — it may be empty on first load. generateBundle will fix it.
         return generateAllCss()
       }
     },
@@ -80,6 +88,15 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
             id,
             result.rules.map((r) => r.cssText),
           )
+
+          // In dev mode, invalidate the virtual CSS module so it reloads
+          // with the newly collected rules
+          if (devServer) {
+            const mod = devServer.moduleGraph.getModuleById(RESOLVED_VIRTUAL_CSS_ID)
+            if (mod) {
+              devServer.moduleGraph.invalidateModule(mod)
+            }
+          }
         }
 
         // Use MagicString for source map generation
@@ -112,6 +129,29 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
       }
     },
 
+    // Production builds: inject CSS into the output after all files are
+    // transformed. This fixes the timing issue where virtual:twc.css is
+    // loaded by Rollup before component files have been processed.
+    generateBundle(_, bundle) {
+      const css = generateAllCss()
+      if (!css) return
+
+      for (const chunk of Object.values(bundle)) {
+        if (chunk.type === 'asset' && chunk.fileName.endsWith('.css')) {
+          const existing = typeof chunk.source === 'string' ? chunk.source : ''
+          chunk.source = existing ? existing + '\n' + css : css
+          return
+        }
+      }
+
+      // No existing CSS asset — emit one
+      this.emitFile({
+        type: 'asset',
+        fileName: 'assets/twc.css',
+        source: css,
+      })
+    },
+
     handleHotUpdate({ file, server }) {
       if (file.match(/\.[jt]sx?$/) && fileRules.has(file)) {
         // Invalidate the virtual CSS module so it regenerates
@@ -131,19 +171,7 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
     }
     if (allRules.length === 0) return ''
 
-    let css = native.generateCss(JSON.stringify(allRules))
-
-    // Append source mapping comments referencing the original TS/TSX files
-    // so devtools can trace CSS rules back to their source files
-    const sourceFiles = [...fileRules.keys()]
-    if (sourceFiles.length > 0) {
-      css += '\n'
-      for (const file of sourceFiles) {
-        css += `\n/* sourceMappingURL=${file} */`
-      }
-    }
-
-    return css
+    return native.generateCss(JSON.stringify(allRules))
   }
 }
 

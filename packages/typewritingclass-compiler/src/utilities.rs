@@ -44,6 +44,59 @@ fn resolve_size(val: &Value, theme: &ThemeData) -> Option<String> {
     resolve_spacing(val, theme)
 }
 
+/// Try to resolve a color string through the theme.
+/// Handles: "blue-500" -> "#3b82f6", "white" -> "#ffffff", "#ff0000" -> "#ff0000"
+fn resolve_color_value(val: &str, theme: &ThemeData) -> String {
+    // Try named color first (white, black, transparent, etc.)
+    if let Some(hex) = theme.resolve_named_color(val) {
+        return hex.to_string();
+    }
+    // Try color-shade format (e.g. "blue-500")
+    if let Some(dash_pos) = val.rfind('-') {
+        let color_name = &val[..dash_pos];
+        let shade = &val[dash_pos + 1..];
+        if let Some(hex) = theme.resolve_color(color_name, shade) {
+            return hex.to_string();
+        }
+    }
+    // Passthrough (raw CSS value like "#ff0000" or "red")
+    val.to_string()
+}
+
+/// Try to resolve a border-radius string through the theme.
+/// Handles: "lg" -> "0.5rem", "full" -> "9999px", "4px" -> "4px"
+fn resolve_radius_value(val: &str, theme: &ThemeData) -> String {
+    if let Some(css_val) = theme.resolve_radius(val) {
+        return css_val.to_string();
+    }
+    val.to_string()
+}
+
+/// Try to resolve a shadow string through the theme.
+/// Handles: "md" -> "0 4px 6px ...", "none" -> "0 0 #0000"
+fn resolve_shadow_value(val: &str, theme: &ThemeData) -> String {
+    if let Some(css_val) = theme.resolve_shadow(val) {
+        return css_val.to_string();
+    }
+    val.to_string()
+}
+
+/// Create a color property rule, resolving color tokens through the theme
+fn color_prop_rule(prop: &str, val: &Value, theme: &ThemeData) -> Option<StyleRule> {
+    match val {
+        Value::Dynamic(id, expr) => {
+            let var_ref = format!("var({})", id);
+            Some(StyleRule::new(vec![(prop, &var_ref)])
+                .with_dynamic_binding(id, expr))
+        }
+        Value::Str(s) => {
+            let resolved = resolve_color_value(s, theme);
+            Some(StyleRule::new(vec![(prop, &resolved)]))
+        }
+        _ => None,
+    }
+}
+
 /// Create a simple single-property rule, handling dynamic values
 fn single_prop_rule(prop: &str, val: &Value, _theme: &ThemeData) -> Option<StyleRule> {
     match val {
@@ -118,10 +171,10 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
         "gapX" => spacing_prop_rule("column-gap", args.first()?, theme),
         "gapY" => spacing_prop_rule("row-gap", args.first()?, theme),
 
-        // --- Colors ---
-        "bg" => single_prop_rule("background-color", args.first()?, theme),
-        "textColor" => single_prop_rule("color", args.first()?, theme),
-        "borderColor" => single_prop_rule("border-color", args.first()?, theme),
+        // --- Colors (resolve theme tokens like "blue-500" → "#3b82f6") ---
+        "bg" => color_prop_rule("background-color", args.first()?, theme),
+        "textColor" => color_prop_rule("color", args.first()?, theme),
+        "borderColor" => color_prop_rule("border-color", args.first()?, theme),
 
         // --- Typography ---
         "text" => single_prop_rule("font-size", args.first()?, theme),
@@ -241,10 +294,11 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
                         Some(StyleRule::new(vec![("border-radius", &var_ref)])
                             .with_dynamic_binding(id, expr))
                     }
-                    _ => {
-                        let v = args.first()?.as_str()?.to_string();
+                    Value::Str(s) => {
+                        let v = resolve_radius_value(s, theme);
                         Some(StyleRule::new(vec![("border-radius", &v)]))
                     }
+                    _ => None,
                 }
             }
         }
@@ -252,7 +306,8 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
             let v = if args.is_empty() {
                 theme.default_radius.clone()
             } else {
-                args.first()?.as_str()?.to_string()
+                let s = args.first()?.as_str()?;
+                resolve_radius_value(s, theme)
             };
             Some(StyleRule::new(vec![
                 ("border-top-left-radius", &v),
@@ -263,7 +318,8 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
             let v = if args.is_empty() {
                 theme.default_radius.clone()
             } else {
-                args.first()?.as_str()?.to_string()
+                let s = args.first()?.as_str()?;
+                resolve_radius_value(s, theme)
             };
             Some(StyleRule::new(vec![
                 ("border-bottom-left-radius", &v),
@@ -274,7 +330,8 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
             let v = if args.is_empty() {
                 theme.default_radius.clone()
             } else {
-                args.first()?.as_str()?.to_string()
+                let s = args.first()?.as_str()?;
+                resolve_radius_value(s, theme)
             };
             Some(StyleRule::new(vec![
                 ("border-top-left-radius", &v),
@@ -285,7 +342,8 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
             let v = if args.is_empty() {
                 theme.default_radius.clone()
             } else {
-                args.first()?.as_str()?.to_string()
+                let s = args.first()?.as_str()?;
+                resolve_radius_value(s, theme)
             };
             Some(StyleRule::new(vec![
                 ("border-top-right-radius", &v),
@@ -337,10 +395,11 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
                         Some(StyleRule::new(vec![("box-shadow", &var_ref)])
                             .with_dynamic_binding(id, expr))
                     }
-                    _ => {
-                        let v = args.first()?.as_str()?.to_string();
+                    Value::Str(s) => {
+                        let v = resolve_shadow_value(s, theme);
                         Some(StyleRule::new(vec![("box-shadow", &v)]))
                     }
+                    _ => None,
                 }
             }
         }
