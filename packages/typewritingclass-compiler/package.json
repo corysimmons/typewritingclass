@@ -14,7 +14,7 @@
     "build:native:debug": "napi build"
   },
   "napi": {
-    "name": "typewritingclass-compiler-native",
+    "name": "index",
     "triples": {}
   },
   "peerDependencies": {
