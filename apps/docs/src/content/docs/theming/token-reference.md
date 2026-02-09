@@ -43,6 +43,14 @@ Each unit = `0.25rem`. Key values:
 
 Font weights: `thin` (100), `extralight` (200), `light` (300), `normal` (400), `medium` (500), `semibold` (600), `bold` (700), `extrabold` (800)
 
+### Font Families
+
+| Token | Stack |
+|-------|-------|
+| `sans` | `ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"` |
+| `serif` | `ui-serif, Georgia, Cambria, "Times New Roman", Times, serif` |
+| `mono` | `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace` |
+
 ## Shadows
 
 | Token | Description |

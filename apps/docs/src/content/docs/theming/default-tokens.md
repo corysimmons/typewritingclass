@@ -51,6 +51,23 @@ tw.font('700')       // font-weight: 700
 tw.font('semibold')  // font-weight: 600
 ```
 
+Font families have three built-in Tailwind stacks:
+
+```ts
+tw.fontFamily('sans')   // system sans-serif stack
+tw.fontFamily('serif')  // system serif stack
+tw.fontFamily('mono')   // system monospace stack
+```
+
+For Google Fonts, use the built-in `googleFonts` plugin:
+
+```ts
+import { tw, googleFonts } from 'typewritingclass'
+
+tw.fontFamily(googleFonts('Inter'))
+tw.fontFamily(googleFonts('Roboto', { weights: [400, 700] }))
+```
+
 ## Shadows, borders, sizes
 
 ```ts

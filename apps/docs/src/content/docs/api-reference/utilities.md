@@ -80,6 +80,7 @@ tw.bg('transparent')       // background-color: transparent
 |---|---|---|
 | `text(size)` | `font-size` + `line-height` | Requires `TextSize` import for preset sizes |
 | `font(weight)` | `font-weight` | Accepts `'bold'`, `'semibold'`, `'700'`, etc. |
+| `fontFamily(value)` | `font-family` | `'sans'`, `'serif'`, `'mono'`, or any font name |
 | `tracking(value)` | `letter-spacing` | |
 | `leading(value)` | `line-height` | |
 | `textAlign(value)` | `text-align` | |
@@ -93,6 +94,41 @@ tw.font('semibold')      // font-weight: 600
 tw.tracking('-0.025em')  // letter-spacing: -0.025em
 tw.textAlign('center')   // text-align: center
 ```
+
+### Font families
+
+`fontFamily()` ships with Tailwind's default font stacks built in:
+
+```ts
+tw.fontFamily('sans')   // ui-sans-serif, system-ui, sans-serif, ...
+tw.fontFamily('serif')  // ui-serif, Georgia, Cambria, "Times New Roman", ...
+tw.fontFamily('mono')   // ui-monospace, SFMono-Regular, Menlo, Monaco, ...
+```
+
+You can also pass any CSS font family string directly:
+
+```ts
+tw.fontFamily('Georgia, serif')
+```
+
+### Google Fonts
+
+The built-in `googleFonts` plugin loads a Google Font and returns the family name for use with `fontFamily()`. It automatically injects the `<link>` tag in the browser.
+
+```ts
+import { tw, googleFonts } from 'typewritingclass'
+
+// Basic usage
+tw.fontFamily(googleFonts('Inter'))
+
+// With specific weights
+tw.fontFamily(googleFonts('Roboto', { weights: [400, 500, 700] }))
+
+// With display strategy
+tw.fontFamily(googleFonts('Fira Code', { display: 'block' }))
+```
+
+Each font is only loaded once, even if `googleFonts()` is called multiple times with the same family name.
 
 ---
 
