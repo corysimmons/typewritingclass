@@ -1,6 +1,5 @@
 import React from 'react'
 import { tw } from 'typewritingclass'
-import { xs as xsText } from 'typewritingclass/theme/typography'
 
 export function CodeBlock({ code }: { code: string }) {
   return (
@@ -9,7 +8,7 @@ export function CodeBlock({ code }: { code: string }) {
       .rounded('md')
       .bg('#1e293b')
       .textColor('#e2e8f0')
-      .text(xsText)
+      .text('xs')
       .fontFamily("'JetBrains Mono', monospace").overflowX('auto').overflowY('hidden').whitespace('nowrap')
     }>
       <code>{code}</code>

@@ -1,6 +1,5 @@
 import 'virtual:twc.css'
 import { tw } from 'typewritingclass'
-import { lg } from 'typewritingclass/theme/typography'
 
 const app = document.getElementById('app')!
 
@@ -9,7 +8,7 @@ app.className = tw.flex.flexCol.gap(8).p(8).items('center').justify('center').mi
 
 // Heading
 const heading = document.createElement('h1')
-heading.className = tw.text(lg).font('700').textColor('slate-900')
+heading.className = tw.text('lg').font('700').textColor('slate-900')
 heading.textContent = 'Typewriting Class + Vanilla TS'
 app.appendChild(heading)
 

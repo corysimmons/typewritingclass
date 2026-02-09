@@ -1,8 +1,5 @@
 import { cx, p, bg, textColor, text, font, rounded, shadow, flex, flexCol, gap } from 'typewritingclass'
 import { createTheme, injectTheme, setTheme } from 'typewritingclass'
-import { base, lg, bold, semibold } from 'typewritingclass/theme/typography'
-import { lg as lgRadius } from 'typewritingclass/theme/borders'
-import { lg as lgShadow } from 'typewritingclass/theme/shadows'
 
 // Create and inject a custom theme
 const customTheme = createTheme({
@@ -25,28 +22,28 @@ container.className = cx(flex(), flexCol(), gap(6), p(8))
 const card = document.createElement('div')
 card.className = cx(
   bg(customTheme.vars.colors.surface[50]),
-  rounded(lgRadius),
-  shadow(lgShadow),
+  rounded('lg'),
+  shadow('lg'),
   p(6),
   flex(), flexCol(),
   gap(3),
 )
 
 const title = document.createElement('h3')
-title.className = cx(text(lg), font(bold), textColor(customTheme.vars.colors.text[900]))
+title.className = cx(text('lg'), font('bold'), textColor(customTheme.vars.colors.text[900]))
 title.textContent = 'Custom Theme Card'
 
 const body = document.createElement('p')
-body.className = cx(text(base), textColor(customTheme.vars.colors.text[500]))
+body.className = cx(text('base'), textColor(customTheme.vars.colors.text[500]))
 body.textContent = 'This card uses custom theme variables via createTheme()'
 
 const badge = document.createElement('span')
 badge.className = cx(
   bg(customTheme.vars.colors.primary[500]),
   textColor('#ffffff'),
-  text(base),
-  font(semibold),
-  rounded(lgRadius),
+  text('base'),
+  font('semibold'),
+  rounded('lg'),
   p(2),
 )
 badge.textContent = 'Custom Theme Active'

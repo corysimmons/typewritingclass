@@ -1,7 +1,5 @@
 import React from 'react'
 import { tw } from 'typewritingclass'
-import { _2xl } from 'typewritingclass/theme/typography'
-import { bold } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
 
 // Shared data URI SVGs used as background-image
@@ -129,7 +127,7 @@ export const backgroundsData: ComparisonCategory = {
         {
           label: 'bg-clip-text (gradient text)',
           twcCode: 'bgClip("text"), bgGradient("to right"), gradientFrom("blue-500"), gradientTo("violet-500"), textColor("transparent")',
-          twcElement: React.createElement('span', { className: tw.bgClip('text').text(_2xl).font(bold).bgGradient('to right').gradientFrom('blue-500').gradientTo('violet-500').textColor('transparent') }, 'Gradient Text'),
+          twcElement: React.createElement('span', { className: tw.bgClip('text').text('2xl').font('bold').bgGradient('to right').gradientFrom('blue-500').gradientTo('violet-500').textColor('transparent') }, 'Gradient Text'),
           tailwindCode: 'bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-violet-500',
           tailwindElement: React.createElement('span', { className: 'tw-bg-clip-text tw-text-transparent tw-bg-gradient-to-r tw-from-blue-500 tw-to-violet-500 tw-text-2xl tw-font-bold' }, 'Gradient Text'),
         },

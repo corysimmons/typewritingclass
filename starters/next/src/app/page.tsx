@@ -1,10 +1,9 @@
 import { tw } from 'typewritingclass'
-import { lg } from 'typewritingclass/theme/typography'
 
 export default function Home() {
   return (
     <div className={tw.flex.flexCol.gap(8).p(8).items('center').justify('center').minH('100vh')}>
-      <h1 className={tw.text(lg).font('700').textColor('slate-900')}>
+      <h1 className={tw.text('lg').font('700').textColor('slate-900')}>
         Typewriting Class + Next.js
       </h1>
 

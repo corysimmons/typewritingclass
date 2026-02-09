@@ -34,18 +34,13 @@ tw.bg('#ff6347')            // raw hex
 ## Typography
 
 ```ts
-import { lg } from 'typewritingclass/theme/typography'
-
-tw.text(lg)               // font-size + line-height preset
+tw.text('lg')             // font-size + line-height preset
+tw.text('2xl')            // font-size: 1.5rem; line-height: 2rem
 tw.font('700')            // font-weight: 700
 tw.tracking('-0.025em')   // letter-spacing
 tw.leading('1.5')         // line-height
 tw.textAlign('center')    // text-align
 ```
-
-:::note
-`text()` requires a `TextSize` import from `typewritingclass/theme/typography` for preset sizes.
-:::
 
 ## Layout
 

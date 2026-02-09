@@ -7,13 +7,12 @@ import {
   createTheme, injectTheme, setTheme,
 } from 'typewritingclass'
 import { useStyle } from 'typewritingclass-react'
-import { blue, indigo, emerald, rose, amber, cyan, violet, purple } from 'typewritingclass/theme/colors'
 
 // --- Theme definitions ---
 const lightTheme = createTheme({
   name: 'light',
   colors: {
-    primary: { 500: blue[500], 600: blue[600] },
+    primary: { 500: '#3b82f6', 600: '#2563eb' },
     surface: { 50: '#ffffff', 100: '#f8fafc' },
     text: { 900: '#0f172a', 500: '#64748b' },
   },
@@ -22,7 +21,7 @@ const lightTheme = createTheme({
 const darkTheme = createTheme({
   name: 'dark',
   colors: {
-    primary: { 500: indigo[400], 600: indigo[500] },
+    primary: { 500: '#818cf8', 600: '#6366f1' },
     surface: { 50: '#1e293b', 100: '#0f172a' },
     text: { 900: '#f1f5f9', 500: '#94a3b8' },
   },
@@ -72,7 +71,7 @@ function ProgressBarDemo() {
   const barProps = useStyle(
     h('1.5rem'),
     w(dynamic(`${progress}%`)),
-    bg(emerald[500]),
+    bg('emerald-500'),
     rounded('9999px'),
     css`transition: width 0.3s ease`,
   )
@@ -117,7 +116,7 @@ function ThemeSwitcherDemo() {
           onClick={() => switchTheme('light')}
           className={tw
             .px(4).py(2).rounded('lg').font('500').text('base')
-            .bg(theme === 'light' ? blue[500] : '#e2e8f0')
+            .bg(theme === 'light' ? '#3b82f6' : '#e2e8f0')
             .textColor(theme === 'light' ? '#ffffff' : '#475569')
             (css({ cursor: 'pointer', border: 'none' }))
           }
@@ -128,7 +127,7 @@ function ThemeSwitcherDemo() {
           onClick={() => switchTheme('dark')}
           className={tw
             .px(4).py(2).rounded('lg').font('500').text('base')
-            .bg(theme === 'dark' ? indigo[500] : '#e2e8f0')
+            .bg(theme === 'dark' ? '#6366f1' : '#e2e8f0')
             .textColor(theme === 'dark' ? '#ffffff' : '#475569')
             (css({ cursor: 'pointer', border: 'none' }))
           }
@@ -162,7 +161,7 @@ function ThemeSwitcherDemo() {
 function MultiPropertyDemo() {
   const [size, setSize] = useState(100)
   const [borderRadius, setBorderRadius] = useState(8)
-  const [bgColor, setBgColor] = useState(rose[500])
+  const [bgColor, setBgColor] = useState('#f43f5e')
 
   // useStyle + dynamic() requires HOF syntax
   const shapeProps = useStyle(
@@ -213,10 +212,10 @@ function FiltersDemo() {
       </h3>
       <div className={tw.flex.flexRow.gap(4).flexWrap}>
         {[
-          { label: 'Blur', filter: blur('8px'), bgColor: indigo[200] },
-          { label: 'Grayscale', filter: grayscale('100%'), bgColor: emerald[400] },
-          { label: 'Bright', filter: brightness('150%'), bgColor: amber[400] },
-          { label: 'Saturate', filter: saturate('200%'), bgColor: rose[400] },
+          { label: 'Blur', filter: blur('8px'), bgColor: 'indigo-200' },
+          { label: 'Grayscale', filter: grayscale('100%'), bgColor: 'emerald-400' },
+          { label: 'Bright', filter: brightness('150%'), bgColor: 'amber-400' },
+          { label: 'Saturate', filter: saturate('200%'), bgColor: 'rose-400' },
         ].map(({ label, filter, bgColor }) => (
           <div key={label} className={cx(
             filter, bg(bgColor),
@@ -265,9 +264,9 @@ function GradientsDemo() {
       </h3>
       <div className={tw.flex.flexRow.gap(4).flexWrap}>
         {[
-          { label: 'Sunset', from: rose[500], via: amber[400], to: '#fde68a' },
-          { label: 'Ocean', from: blue[500], via: cyan[400], to: '#99f6e4' },
-          { label: 'Twilight', from: purple[500], via: violet[400], to: indigo[300] },
+          { label: 'Sunset', from: 'rose-500', via: 'amber-400', to: '#fde68a' },
+          { label: 'Ocean', from: 'blue-500', via: 'cyan-400', to: '#99f6e4' },
+          { label: 'Twilight', from: 'purple-500', via: 'violet-400', to: 'indigo-300' },
         ].map(({ label, from, via, to }) => (
           <div key={label} className={tw
             .px(6).py(4).rounded('lg')

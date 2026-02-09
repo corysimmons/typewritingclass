@@ -1,6 +1,5 @@
 import React from 'react'
 import { tw } from 'typewritingclass'
-import { xs } from 'typewritingclass/theme/typography'
 import type { ComparisonCategory } from './types.ts'
 
 export const layoutData: ComparisonCategory = {
@@ -114,7 +113,7 @@ export const layoutData: ComparisonCategory = {
           label: 'relative',
           twcCode: 'relative()',
           twcElement: React.createElement('div', { className: tw.relative.bg('indigo-200').p(4).h(16) },
-            React.createElement('div', { className: tw.absolute.top(0).right(0).bg('indigo-400').p(1).textColor('white').text(xs) }, 'abs'),
+            React.createElement('div', { className: tw.absolute.top(0).right(0).bg('indigo-400').p(1).textColor('white').text('xs') }, 'abs'),
             'relative parent',
           ),
           tailwindCode: 'relative',
@@ -172,7 +171,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'overflow-auto',
           twcCode: 'overflow("auto")',
-          twcElement: React.createElement('div', { className: tw.overflow('auto').w(32).h(12).bg('indigo-200').p(2).text(xs) }, 'This is a long text that can be scrolled with overflow auto applied'),
+          twcElement: React.createElement('div', { className: tw.overflow('auto').w(32).h(12).bg('indigo-200').p(2).text('xs') }, 'This is a long text that can be scrolled with overflow auto applied'),
           tailwindCode: 'overflow-auto',
           tailwindElement: React.createElement('div', { className: 'tw-overflow-auto tw-w-32 tw-h-12 tw-bg-indigo-200 tw-p-2 tw-text-xs' }, 'This is a long text that can be scrolled with overflow auto applied'),
         },
@@ -185,8 +184,8 @@ export const layoutData: ComparisonCategory = {
           label: 'z-10 / z-20 stacking',
           twcCode: 'z(10), z(20)',
           twcElement: React.createElement('div', { className: tw.relative.h(16) },
-            React.createElement('div', { className: tw.absolute.z(10).bg('indigo-400').p(2).w(16).h(12).rounded.textColor('white').text(xs).left(0) }, 'z-10'),
-            React.createElement('div', { className: tw.absolute.z(20).bg('indigo-500').p(2).w(16).h(12).rounded.textColor('white').text(xs).left(8).top(2) }, 'z-20'),
+            React.createElement('div', { className: tw.absolute.z(10).bg('indigo-400').p(2).w(16).h(12).rounded.textColor('white').text('xs').left(0) }, 'z-10'),
+            React.createElement('div', { className: tw.absolute.z(20).bg('indigo-500').p(2).w(16).h(12).rounded.textColor('white').text('xs').left(8).top(2) }, 'z-20'),
           ),
           tailwindCode: 'z-10, z-20',
           tailwindElement: React.createElement('div', { className: 'tw-relative tw-h-16' },
@@ -222,7 +221,7 @@ export const layoutData: ComparisonCategory = {
           label: 'object-cover',
           twcCode: 'objectFit("cover")',
           twcElement: React.createElement('div', { className: tw.w(32).h(16).bg('indigo-100').rounded.overflow('hidden') },
-            React.createElement('div', { className: tw.objectFit('cover').w("full").h("full").bg('indigo-400').textColor('white').flex.items('center').justify('center').text(xs) }, 'cover'),
+            React.createElement('div', { className: tw.objectFit('cover').w("full").h("full").bg('indigo-400').textColor('white').flex.items('center').justify('center').text('xs') }, 'cover'),
           ),
           tailwindCode: 'object-cover',
           tailwindElement: React.createElement('div', { className: 'tw-w-32 tw-h-16 tw-bg-indigo-100 tw-rounded tw-overflow-hidden' },
@@ -233,7 +232,7 @@ export const layoutData: ComparisonCategory = {
           label: 'object-contain',
           twcCode: 'objectFit("contain")',
           twcElement: React.createElement('div', { className: tw.w(32).h(16).bg('indigo-100').rounded.overflow('hidden') },
-            React.createElement('div', { className: tw.objectFit('contain').w("full").h("full").bg('indigo-400').textColor('white').flex.items('center').justify('center').text(xs) }, 'contain'),
+            React.createElement('div', { className: tw.objectFit('contain').w("full").h("full").bg('indigo-400').textColor('white').flex.items('center').justify('center').text('xs') }, 'contain'),
           ),
           tailwindCode: 'object-contain',
           tailwindElement: React.createElement('div', { className: 'tw-w-32 tw-h-16 tw-bg-indigo-100 tw-rounded tw-overflow-hidden' },
@@ -249,8 +248,8 @@ export const layoutData: ComparisonCategory = {
           label: 'float-right',
           twcCode: 'float_("right")',
           twcElement: React.createElement('div', { className: tw.bg('indigo-100').p(2).overflow('hidden') },
-            React.createElement('div', { className: tw.float('right').bg('indigo-400').p(2).textColor('white').text(xs) }, 'float right'),
-            React.createElement('span', { className: tw.text(xs) }, 'Text wraps around the floated element on the left side.'),
+            React.createElement('div', { className: tw.float('right').bg('indigo-400').p(2).textColor('white').text('xs') }, 'float right'),
+            React.createElement('span', { className: tw.text('xs') }, 'Text wraps around the floated element on the left side.'),
           ),
           tailwindCode: 'float-right',
           tailwindElement: React.createElement('div', { className: 'tw-bg-indigo-100 tw-p-2 tw-overflow-hidden' },
@@ -266,7 +265,7 @@ export const layoutData: ComparisonCategory = {
         {
           label: 'box-border',
           twcCode: 'boxSizing("border-box")',
-          twcElement: React.createElement('div', { className: tw.boxSizing('border-box').w(32).p(4).border(2).borderColor('indigo-400').bg('indigo-200').text(xs) }, 'border-box'),
+          twcElement: React.createElement('div', { className: tw.boxSizing('border-box').w(32).p(4).border(2).borderColor('indigo-400').bg('indigo-200').text('xs') }, 'border-box'),
           tailwindCode: 'box-border',
           tailwindElement: React.createElement('div', { className: 'tw-box-border tw-w-32 tw-p-4 tw-border-2 tw-border-indigo-400 tw-bg-indigo-200 tw-text-xs' }, 'border-box'),
         },

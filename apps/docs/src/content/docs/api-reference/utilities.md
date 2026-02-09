@@ -78,7 +78,7 @@ tw.bg('transparent')       // background-color: transparent
 
 | Utility | CSS Property | Notes |
 |---|---|---|
-| `text(size)` | `font-size` + `line-height` | Requires `TextSize` import for preset sizes |
+| `text(size)` | `font-size` + `line-height` | Accepts string lookups like `'lg'`, `'2xl'` |
 | `font(weight)` | `font-weight` | Accepts `'bold'`, `'semibold'`, `'700'`, etc. |
 | `fontFamily(value)` | `font-family` | `'sans'`, `'serif'`, `'mono'`, or any font name |
 | `tracking(value)` | `letter-spacing` | |
@@ -86,9 +86,8 @@ tw.bg('transparent')       // background-color: transparent
 | `textAlign(value)` | `text-align` | |
 
 ```ts
-import { lg, _2xl } from 'typewritingclass/theme/typography'
-
-tw.text(lg)              // font-size: 1.125rem; line-height: 1.75rem
+tw.text('lg')            // font-size: 1.125rem; line-height: 1.75rem
+tw.text('2xl')           // font-size: 1.5rem; line-height: 2rem
 tw.font('bold')          // font-weight: 700
 tw.font('semibold')      // font-weight: 600
 tw.tracking('-0.025em')  // letter-spacing: -0.025em

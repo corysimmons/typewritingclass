@@ -7,13 +7,6 @@ import {
   tw,
   gradientFrom, gradientVia, gradientTo,
 } from 'typewritingclass'
-import {
-  slate, indigo, violet, purple,
-  emerald, green, lime,
-  red, amber, yellow,
-  sky, cyan, teal, blue,
-  rose, pink, white, transparent,
-} from 'typewritingclass/theme/colors'
 
 const app = document.getElementById('app')!
 
@@ -29,7 +22,7 @@ const inkLight = '#e8e4de'
 app.className = tw.flex.flexCol.minH('100vh')
   .textColor('slate-800')
   (css({ 'font-family': sans, background: cream, '-webkit-font-smoothing': 'antialiased' }))
-  .dark(tw.textColor('slate-200')(css({ background: slate[950] })))
+  .dark(tw.textColor('slate-200')(css({ background: '#020617' })))
 
 
 // ─── Hero ──────────────────────────────────────────────────
@@ -46,8 +39,8 @@ const gridBg = document.createElement('div')
 gridBg.className = tw.absolute.inset(0).opacity(0.04).pointerEvents('none')
   (css({
     'background-image': `
-      linear-gradient(${slate[400]} 1px, transparent 1px),
-      linear-gradient(90deg, ${slate[400]} 1px, transparent 1px)
+      linear-gradient(#94a3b8 1px, transparent 1px),
+      linear-gradient(90deg, #94a3b8 1px, transparent 1px)
     `,
     'background-size': '60px 60px',
   }))
@@ -63,14 +56,14 @@ hero.appendChild(logo)
 // Accent line
 const accentLine = document.createElement('div')
 accentLine.className = tw.w(16).h('3px').mb(8).relative
-  (css({ background: indigo[500] }))
+  (css({ background: '#6366f1' }))
 
 hero.appendChild(accentLine)
 
 // Title
 const title = document.createElement('h1')
 title.className = tw.relative
-  .text(_6xl)
+  .text('6xl')
   .textColor('slate-900')
   .textAlign('center')
   (css({ 'font-family': serif, 'font-style': 'italic', 'letter-spacing': '-0.03em' }))
@@ -83,7 +76,7 @@ hero.appendChild(title)
 // Subtitle
 const subtitle = document.createElement('p')
 subtitle.className = tw.mt(6)
-  .text(xlText)
+  .text('xl')
   .textColor('slate-500')
   .textAlign('center')
   .maxW('36rem')
@@ -134,7 +127,7 @@ function createDivider() {
   const div = document.createElement('div')
   div.className = tw.w('100%').maxW('72rem')
     (css({ margin: '0 auto', height: '1px', background: inkLight }))
-    .dark(tw(css({ background: slate[800] })))
+    .dark(tw(css({ background: '#1e293b' })))
   
   return div
 }
@@ -162,7 +155,7 @@ function section(label: string, heading: string, children: HTMLElement[]) {
   labelEl.textContent = label
 
   const headingEl = document.createElement('h2')
-  headingEl.className = tw.text(_3xl).textColor('slate-900')
+  headingEl.className = tw.text('3xl').textColor('slate-900')
     (css({ 'font-family': serif, 'font-style': 'italic', 'letter-spacing': '-0.02em' }))
     .dark.textColor('white')
   
@@ -194,47 +187,47 @@ btnRow.className = tw.flex.flexWrap.gap(3).items('center')
 
 btnRow.append(
   btn('Primary',
-    tw.bg(slate[900]).textColor(white)
-      .hover.bg(indigo[600])
-      .active.bg(indigo[700])
-      .focus(tw.ring('2px', indigo[400]))
-      .dark(tw.bg(white).textColor(slate[900]))
-      .dark.hover.bg(indigo[300])
+    tw.bg('slate-900').textColor('#ffffff')
+      .hover.bg('indigo-600')
+      .active.bg('indigo-700')
+      .focus(tw.ring('2px', 'indigo-400'))
+      .dark(tw.bg('#ffffff').textColor('slate-900'))
+      .dark.hover.bg('indigo-300')
     ,
   ),
   btn('Secondary',
-    tw.bg(slate[100]).textColor(slate[700])
-      .hover.bg(slate[200])
-      .active.bg(slate[300])
-      .dark(tw.bg(slate[800]).textColor(slate[300]))
-      .dark.hover.bg(slate[700])
+    tw.bg('slate-100').textColor('slate-700')
+      .hover.bg('slate-200')
+      .active.bg('slate-300')
+      .dark(tw.bg('slate-800').textColor('slate-300'))
+      .dark.hover.bg('slate-700')
     ,
   ),
   btn('Accent',
-    tw.bg(indigo[600]).textColor(white)
-      .hover.bg(indigo[500])
-      .active.bg(indigo[700])
-      .focus(tw.ring('2px', indigo[300]))
+    tw.bg('indigo-600').textColor('#ffffff')
+      .hover.bg('indigo-500')
+      .active.bg('indigo-700')
+      .focus(tw.ring('2px', 'indigo-300'))
     ,
   ),
   btn('Ghost',
-    tw.bg(transparent).textColor(slate[600])
-      (css({ border: `1px solid ${slate[300]}` }))
-      .hover(tw.bg(slate[50]).borderColor(slate[400]))
-      .dark(tw.textColor(slate[400])(css({ 'border-color': slate[600] })))
-      .dark.hover.bg(slate[800])
+    tw.bg('transparent').textColor('slate-600')
+      (css({ border: '1px solid #cbd5e1' }))
+      .hover(tw.bg('slate-50').borderColor('slate-400'))
+      .dark(tw.textColor('slate-400')(css({ 'border-color': '#475569' })))
+      .dark.hover.bg('slate-800')
     ,
   ),
   btn('Danger',
-    tw.bg(red[600]).textColor(white)
-      .hover.bg(red[500])
-      .active.bg(red[700])
-      .focus(tw.ring('2px', red[300]))
+    tw.bg('red-600').textColor('#ffffff')
+      .hover.bg('red-500')
+      .active.bg('red-700')
+      .focus(tw.ring('2px', 'red-300'))
     ,
   ),
   (() => {
     const b = btn('Disabled',
-      tw.bg(slate[100]).textColor(slate[400])
+      tw.bg('slate-100').textColor('slate-400')
         .disabled.opacity(0.5)
       ,
     )
@@ -262,9 +255,9 @@ for (const { icon, title: t, desc } of cardData) {
     .border('1px').borderColor('slate-200')
     .rounded('2xl')
     (css({ transition: 'all 250ms ease' }))
-    .hover(tw.shadow('lg')(css({ transform: 'translateY(-2px)', 'border-color': indigo[200] })))
+    .hover(tw.shadow('lg')(css({ transform: 'translateY(-2px)', 'border-color': '#c7d2fe' })))
     .dark(tw.bg('slate-900').borderColor('slate-700'))
-    .dark.hover(tw(css({ 'border-color': indigo[500] })))
+    .dark.hover(tw(css({ 'border-color': '#6366f1' })))
   
 
   const iconEl = document.createElement('div')
@@ -277,14 +270,14 @@ for (const { icon, title: t, desc } of cardData) {
   iconEl.textContent = icon
 
   const titleEl = document.createElement('h3')
-  titleEl.className = tw.text(lgText).font('600')
+  titleEl.className = tw.text('lg').font('600')
     .textColor('slate-900')
     .dark.textColor('white')
   
   titleEl.textContent = t
 
   const descEl = document.createElement('p')
-  descEl.className = tw.text(smText).leading('1.6')
+  descEl.className = tw.text('sm').leading('1.6')
     .textColor('slate-500')
     .dark.textColor('slate-400')
   
@@ -327,7 +320,7 @@ for (const [label, sz, family] of typoSamples) {
   textEl.className = cx(
     text(sz),
     css({ 'font-family': family }),
-    textColor(slate[800]),
+    textColor('slate-800'),
     tw.dark.textColor('slate-200'),
   )
   textEl.textContent = family === serif ? 'The art of the written word' : family === mono ? 'const style = cx(p(4), bg(white))' : 'The quick brown fox jumps over the lazy dog'
@@ -342,12 +335,9 @@ showcase.appendChild(section('03', 'Typography', [typoDemo]))
 const paletteWrap = document.createElement('div')
 paletteWrap.className = tw.flex.flexCol.gap(4)
 
-const palettes: [string, typeof slate][] = [
-  ['slate', slate], ['indigo', indigo], ['emerald', emerald],
-  ['amber', amber], ['rose', rose], ['violet', violet],
-]
+const paletteNames = ['slate', 'indigo', 'emerald', 'amber', 'rose', 'violet']
 
-for (const [name, scale] of palettes) {
+for (const name of paletteNames) {
   const row = document.createElement('div')
   row.className = tw.flex.items('center').gap(2)
 
@@ -369,7 +359,7 @@ for (const [name, scale] of palettes) {
     const swatch = document.createElement('div')
     swatch.className = cx(
       css({ flex: '1', 'aspect-ratio': '1' }),
-      bg(scale[shade]),
+      bg(`${name}-${shade}`),
       rounded('md'),
       css({ transition: 'transform 150ms ease' }),
       tw.hover(tw(css({ transform: 'scale(1.15)' }))),
@@ -402,9 +392,9 @@ for (const val of spacingValues) {
 
   const bar = document.createElement('div')
   bar.className = cx(
-    tw.h(2).rounded('full').dark.bg(indigo[500]),
+    tw.h(2).rounded('full').dark.bg('indigo-500'),
     w(val),
-    bg(indigo[400]),
+    bg('indigo-400'),
     css({ transition: 'width 300ms ease' }),
   )
 
@@ -419,9 +409,9 @@ const statesDemo = document.createElement('div')
 statesDemo.className = tw.flex.flexCol.gap(4)
 
 const stateExamples = [
-  { label: 'Hover me', styles: tw.bg(slate[100]).hover(tw.bg(indigo[100]).textColor(indigo[700])) },
-  { label: 'Focus me', styles: tw.bg(slate[100])(css({ outline: 'none' })).focus(tw.ring('2px', indigo[400]).bg(indigo[50])) },
-  { label: 'Press me', styles: tw.bg(slate[100]).active(tw.bg(slate[300])(css({ transform: 'scale(0.97)' }))) },
+  { label: 'Hover me', styles: tw.bg('slate-100').hover(tw.bg('indigo-100').textColor('indigo-700')) },
+  { label: 'Focus me', styles: tw.bg('slate-100')(css({ outline: 'none' })).focus(tw.ring('2px', 'indigo-400').bg('indigo-50')) },
+  { label: 'Press me', styles: tw.bg('slate-100').active(tw.bg('slate-300')(css({ transform: 'scale(0.97)' }))) },
 ]
 
 for (const { label, styles } of stateExamples) {
@@ -429,7 +419,7 @@ for (const { label, styles } of stateExamples) {
   el.textContent = label
   el.className = cx(
     tw.px(5).py(3).rounded('lg').textAlign('left').textColor('slate-700')
-      .dark(tw.bg(slate[800]).textColor(slate[300])),
+      .dark(tw.bg('slate-800').textColor('slate-300')),
     css({ 'font-family': mono, 'font-size': '0.875rem', border: 'none', transition: 'all 150ms ease', cursor: 'pointer' }),
     styles,
   )
@@ -487,10 +477,10 @@ const filtersDemo = document.createElement('div')
 filtersDemo.className = tw.flex.flexWrap.gap(4)
 
 const filterExamples: [string, ...Parameters<typeof cx>][] = [
-  ['Blur', blur('8px'), bg(indigo[200]), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor(indigo[700]), css({ 'font-family': mono, 'font-size': '0.75rem' })],
-  ['Grayscale', grayscale('100%'), bg(emerald[400]), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor(white), css({ 'font-family': mono, 'font-size': '0.75rem' })],
-  ['Brightness', brightness('150%'), bg(amber[400]), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor(amber[900]), css({ 'font-family': mono, 'font-size': '0.75rem' })],
-  ['Saturate', saturate('200%'), bg(rose[400]), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor(white), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+  ['Blur', blur('8px'), bg('indigo-200'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('indigo-700'), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+  ['Grayscale', grayscale('100%'), bg('emerald-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('#ffffff'), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+  ['Brightness', brightness('150%'), bg('amber-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('amber-900'), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+  ['Saturate', saturate('200%'), bg('rose-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('#ffffff'), css({ 'font-family': mono, 'font-size': '0.75rem' })],
 ]
 
 for (const [label, ...styles] of filterExamples) {
@@ -507,10 +497,10 @@ const transformsDemo = document.createElement('div')
 transformsDemo.className = tw.flex.gap(6).items('end').flexWrap
 
 const transformExamples: [string, ...Parameters<typeof cx>][] = [
-  ['Scale 1.2', scale(120), bg(violet[200]), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor(violet[800]), css({ 'font-family': mono, 'font-size': '0.7rem', transition: 'transform 200ms ease' })],
-  ['Rotate 12\u00B0', rotate('12deg'), bg(sky[200]), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor(sky[800]), css({ 'font-family': mono, 'font-size': '0.7rem' })],
-  ['Skew X', skewX('6deg'), bg(pink[200]), ...tw.px(6).py(4).rounded('lg').flex.items('center').justify('center')._rules, textColor(pink[800]), css({ 'font-family': mono, 'font-size': '0.7rem' })],
-  ['Translate', translateX('0.5rem'), translateY('-0.25rem'), bg(teal[200]), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor(teal[800]), css({ 'font-family': mono, 'font-size': '0.7rem' })],
+  ['Scale 1.2', scale(120), bg('violet-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('violet-800'), css({ 'font-family': mono, 'font-size': '0.7rem', transition: 'transform 200ms ease' })],
+  ['Rotate 12\u00B0', rotate('12deg'), bg('sky-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('sky-800'), css({ 'font-family': mono, 'font-size': '0.7rem' })],
+  ['Skew X', skewX('6deg'), bg('pink-200'), ...tw.px(6).py(4).rounded('lg').flex.items('center').justify('center')._rules, textColor('pink-800'), css({ 'font-family': mono, 'font-size': '0.7rem' })],
+  ['Translate', translateX('0.5rem'), translateY('-0.25rem'), bg('teal-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('teal-800'), css({ 'font-family': mono, 'font-size': '0.7rem' })],
 ]
 
 for (const [label, ...styles] of transformExamples) {
@@ -559,10 +549,10 @@ const gradientsDemo = document.createElement('div')
 gradientsDemo.className = tw.flex.gap(4).flexWrap
 
 const gradientCards: [string, string, string, string][] = [
-  ['Sunset', rose[500], amber[400], yellow[300]],
-  ['Ocean', blue[600], cyan[400], teal[300]],
-  ['Forest', emerald[700], green[500], lime[400]],
-  ['Twilight', purple[700], violet[500], indigo[400]],
+  ['Sunset', 'rose-500', 'amber-400', 'yellow-300'],
+  ['Ocean', 'blue-600', 'cyan-400', 'teal-300'],
+  ['Forest', 'emerald-700', 'green-500', 'lime-400'],
+  ['Twilight', 'purple-700', 'violet-500', 'indigo-400'],
 ]
 
 for (const [label, from, via, to] of gradientCards) {
@@ -598,7 +588,7 @@ quotedText.textContent = 'CSS-in-TypeScript is not the future \u2014 it is the p
 const decorLine = document.createElement('div')
 decorLine.className = tw.relative.h('2px').rounded('full')
   (css({
-    background: `linear-gradient(to right, ${indigo[500]}, ${violet[500]}, ${rose[500]})`,
+    background: 'linear-gradient(to right, #6366f1, #8b5cf6, #f43f5e)',
   }))
 
 pseudoDemo.append(quotedText, decorLine)
