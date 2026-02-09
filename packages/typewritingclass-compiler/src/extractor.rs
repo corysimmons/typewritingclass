@@ -133,6 +133,7 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
     let mut css_rules = vec![];
     let mut replacements: Vec<(u32, u32, String)> = vec![];
     let mut has_dynamic = false;
+    let mut needs_runtime = false;
     let mut diagnostics: Vec<DiagnosticInfo> = vec![];
     let mut dyn_counter = DynCounter::new();
     // Track spans that have been captured by tw chains to avoid processing sub-expressions
@@ -153,6 +154,14 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
             if let Some(steps) = flatten_tw_chain(expr, &bindings) {
                 if !steps.is_empty() {
                     if let Some((start, end)) = expr_span {
+                        // Mark this span as captured immediately so sub-expressions
+                        // of this tw chain are never independently compiled.
+                        // Without this, a chain like tw.p(4).fontFamily(runtimeFn())
+                        // would fail full extraction, then the sub-expression
+                        // tw.p(4).fontFamily would partially compile, leaving
+                        // (runtimeFn()) dangling as a broken call.
+                        tw_captured_spans.push((start, end));
+
                         match process_tw_steps(&steps, &bindings, theme, &mut dyn_counter) {
                             Some(tw_rules) if !tw_rules.is_empty() => {
                                 let mut class_names = vec![];
@@ -166,10 +175,15 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
                                 }
                                 let class_str = class_names.join(" ");
                                 replacements.push((start, end, format!("'{}'", class_str)));
-                                tw_captured_spans.push((start, end));
                                 return;
                             }
-                            _ => {}
+                            _ => {
+                                // Chain recognized but can't be fully compiled (runtime args).
+                                // Append .toString() so the runtime Proxy coerces to a string,
+                                // which React requires for className attributes.
+                                replacements.push((end, end, ".toString()".to_string()));
+                                needs_runtime = true;
+                            }
                         }
                     }
                 }
@@ -231,7 +245,7 @@ pub fn transform(source: &str, filename: &str, layer_offset: u32, theme: &ThemeD
     }
 
     let total_extractable = count_cx_calls(program, &bindings) + tw_captured_spans.len();
-    if !has_dynamic && replacements.len() == total_extractable {
+    if !has_dynamic && !needs_runtime && replacements.len() == total_extractable {
         // All calls were statically extracted — no runtime needed
     } else {
         code = prepend_inject(&code);
