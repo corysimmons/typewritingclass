@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "repository": {
     "type": "git",
@@ -9,60 +9,142 @@
   },
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./theme/colors": {
-      "types": "./src/theme/colors.ts",
-      "default": "./src/theme/colors.ts"
+      "import": {
+        "types": "./dist/theme/colors.d.ts",
+        "default": "./dist/theme/colors.js"
+      },
+      "require": {
+        "types": "./dist/theme/colors.d.cts",
+        "default": "./dist/theme/colors.cjs"
+      }
     },
     "./theme/typography": {
-      "types": "./src/theme/typography.ts",
-      "default": "./src/theme/typography.ts"
+      "import": {
+        "types": "./dist/theme/typography.d.ts",
+        "default": "./dist/theme/typography.js"
+      },
+      "require": {
+        "types": "./dist/theme/typography.d.cts",
+        "default": "./dist/theme/typography.cjs"
+      }
     },
     "./theme/sizes": {
-      "types": "./src/theme/sizes.ts",
-      "default": "./src/theme/sizes.ts"
+      "import": {
+        "types": "./dist/theme/sizes.d.ts",
+        "default": "./dist/theme/sizes.js"
+      },
+      "require": {
+        "types": "./dist/theme/sizes.d.cts",
+        "default": "./dist/theme/sizes.cjs"
+      }
     },
     "./theme/shadows": {
-      "types": "./src/theme/shadows.ts",
-      "default": "./src/theme/shadows.ts"
+      "import": {
+        "types": "./dist/theme/shadows.d.ts",
+        "default": "./dist/theme/shadows.js"
+      },
+      "require": {
+        "types": "./dist/theme/shadows.d.cts",
+        "default": "./dist/theme/shadows.cjs"
+      }
     },
     "./theme/borders": {
-      "types": "./src/theme/borders.ts",
-      "default": "./src/theme/borders.ts"
+      "import": {
+        "types": "./dist/theme/borders.d.ts",
+        "default": "./dist/theme/borders.js"
+      },
+      "require": {
+        "types": "./dist/theme/borders.d.cts",
+        "default": "./dist/theme/borders.cjs"
+      }
     },
     "./theme/createTheme": {
-      "types": "./src/theme/createTheme.ts",
-      "default": "./src/theme/createTheme.ts"
+      "import": {
+        "types": "./dist/theme/createTheme.d.ts",
+        "default": "./dist/theme/createTheme.js"
+      },
+      "require": {
+        "types": "./dist/theme/createTheme.d.cts",
+        "default": "./dist/theme/createTheme.cjs"
+      }
     },
     "./theme/animations": {
-      "types": "./src/theme/animations.ts",
-      "default": "./src/theme/animations.ts"
+      "import": {
+        "types": "./dist/theme/animations.d.ts",
+        "default": "./dist/theme/animations.js"
+      },
+      "require": {
+        "types": "./dist/theme/animations.d.cts",
+        "default": "./dist/theme/animations.cjs"
+      }
     },
     "./theme/filters": {
-      "types": "./src/theme/filters.ts",
-      "default": "./src/theme/filters.ts"
+      "import": {
+        "types": "./dist/theme/filters.d.ts",
+        "default": "./dist/theme/filters.js"
+      },
+      "require": {
+        "types": "./dist/theme/filters.d.cts",
+        "default": "./dist/theme/filters.cjs"
+      }
     },
     "./theme": {
-      "types": "./src/theme/index.ts",
-      "default": "./src/theme/index.ts"
+      "import": {
+        "types": "./dist/theme/index.d.ts",
+        "default": "./dist/theme/index.js"
+      },
+      "require": {
+        "types": "./dist/theme/index.d.cts",
+        "default": "./dist/theme/index.cjs"
+      }
     },
     "./inject": {
-      "types": "./src/inject.ts",
-      "default": "./src/inject.ts"
+      "import": {
+        "types": "./dist/inject.d.ts",
+        "default": "./dist/inject.js"
+      },
+      "require": {
+        "types": "./dist/inject.d.cts",
+        "default": "./dist/inject.cjs"
+      }
     },
     "./runtime": {
-      "types": "./src/runtime.ts",
-      "default": "./src/runtime.ts"
+      "import": {
+        "types": "./dist/runtime.d.ts",
+        "default": "./dist/runtime.js"
+      },
+      "require": {
+        "types": "./dist/runtime.d.cts",
+        "default": "./dist/runtime.cjs"
+      }
     },
     "./rule": {
-      "types": "./src/rule.ts",
-      "default": "./src/rule.ts"
+      "import": {
+        "types": "./dist/rule.d.ts",
+        "default": "./dist/rule.js"
+      },
+      "require": {
+        "types": "./dist/rule.d.cts",
+        "default": "./dist/rule.cjs"
+      }
     }
   },
-  "files": ["src"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
+    "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest",
     "bench": "tsx benchmarks/bench.ts"

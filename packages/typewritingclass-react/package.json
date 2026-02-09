@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass-react",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "repository": {
     "type": "git",
@@ -9,16 +9,32 @@
   },
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./server": {
-      "types": "./src/server.ts",
-      "default": "./src/server.ts"
+      "import": {
+        "types": "./dist/server.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": {
+        "types": "./dist/server.d.cts",
+        "default": "./dist/server.cjs"
+      }
     }
   },
-  "files": ["src"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
+    "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest"
   },
