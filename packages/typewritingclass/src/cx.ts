@@ -65,6 +65,17 @@ export function cx(...args: (StyleRule | string)[]): string {
   if (process.env.NODE_ENV !== 'production') {
     warnConflicts(args)
   }
+  return _cxCore(args)
+}
+
+/**
+ * Core cx logic without conflict warnings.
+ * Used internally by tw chain resolution to avoid false-positive warnings
+ * when chain utilities intentionally override each other (e.g. `.transitionColors.duration(200)`).
+ *
+ * @internal
+ */
+export function _cxCore(args: (StyleRule | string)[]): string {
   return args
     .map((arg) => {
       if (typeof arg === 'string') return arg

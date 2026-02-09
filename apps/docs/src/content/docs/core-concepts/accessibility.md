@@ -34,11 +34,11 @@ cx(when(data('state="error"'))(bg('red-100')))
 
 ```ts
 // With cx()/when()
-import { cx, transition, duration, css, when, motionSafe, motionReduce } from 'typewritingclass'
+import { cx, transition, duration, transitionNone, when, motionSafe, motionReduce } from 'typewritingclass'
 
 cx(
   when(motionSafe)(transition(), duration(300)),
-  when(motionReduce)(css({ transition: 'none' })),
+  when(motionReduce)(transitionNone()),
 )
 ```
 

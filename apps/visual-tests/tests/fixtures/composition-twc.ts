@@ -1,4 +1,4 @@
-import { cx, css, flexCol, flex, gap, p, bg, textColor, text, font, rounded, shadow, w, h, items, justify, border, borderColor } from 'typewritingclass'
+import { cx, flexCol, flex, gap, p, bg, bgImage, textColor, text, font, rounded, shadow, w, h, items, justify, border, borderColor } from 'typewritingclass'
 
 const app = document.getElementById('app')!
 const container = document.createElement('div')
@@ -36,18 +36,16 @@ cardBody.textContent = 'Card body with composed styles'
 card.append(cardTitle, cardBody)
 container.appendChild(card)
 
-// css() escape hatch
+// bgImage gradient
 const customBox = document.createElement('div')
 customBox.className = cx(
   w(32), h(16),
   rounded('lg'),
   flex(), items('center'), justify('center'),
   textColor('#ffffff'), text('base'), font('bold'),
-  css({
-    'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  }),
+  bgImage('linear-gradient(135deg, #667eea 0%, #764ba2 100%)'),
 )
-customBox.textContent = 'css() gradient'
+customBox.textContent = 'bgImage gradient'
 container.appendChild(customBox)
 
 app.appendChild(container)

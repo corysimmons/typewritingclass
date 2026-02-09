@@ -2,7 +2,6 @@
 export { cx } from './cx.ts'
 export { dcx } from './dcx.ts'
 export { when } from './when.ts'
-export { css } from './css.ts'
 export { dynamic, isDynamic } from './dynamic.ts'
 export { layer } from './layer.ts'
 export { generateCSS } from './registry.ts'

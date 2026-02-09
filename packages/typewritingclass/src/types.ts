@@ -104,8 +104,8 @@ export type ShadowInput = CSSShadow | string | DynamicValueAny
 // ---------------------------------------------------------------------------
 
 /**
- * A self-contained CSS rule produced by utility functions, the {@link css}
- * helper, or modifier composition.
+ * A self-contained CSS rule produced by utility functions or modifier
+ * composition.
  *
  * `StyleRule` is the fundamental unit of the typewritingclass system. Every
  * utility (`p`, `bg`, `rounded`, ...) returns a `StyleRule`, and composing
@@ -113,7 +113,7 @@ export type ShadowInput = CSSShadow | string | DynamicValueAny
  * register CSS in the global stylesheet.
  *
  * You rarely need to construct a `StyleRule` by hand -- use the provided
- * utilities or the `css` tagged-template helper instead.
+ * utilities instead.
  *
  * @example Inspecting a rule returned by a utility
  * ```ts

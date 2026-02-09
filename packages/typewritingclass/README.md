@@ -104,14 +104,6 @@ import { dcx, bg, p, dynamic } from 'typewritingclass'
 const { className, style } = dcx(p(4), bg(dynamic(userColor)))
 ```
 
-### Raw CSS escape hatch
-
-```ts
-import { css } from 'typewritingclass'
-
-cx(p(4), css({ transition: 'all 200ms ease' }))
-```
-
 ## Exports
 
 | Path | Contents |

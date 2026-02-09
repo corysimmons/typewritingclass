@@ -22,25 +22,18 @@ describe('withTwc', () => {
     expect(typeof config.webpack).toBe('function')
   })
 
-  it('webpack adds babel-loader rule with typewritingclass-babel plugin', () => {
+  it('webpack adds custom loader rule', () => {
     const config = withTwc()
     const mockConfig = { module: { rules: [] } }
     const result = config.webpack!(mockConfig, {} as any)
     expect(result.module.rules).toHaveLength(1)
-    expect(result.module.rules[0]).toEqual({
-      test: /\.[jt]sx?$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          plugins: [
-            ['typewritingclass-babel', {
-              outputFile: '.next/twc.css',
-              strict: true,
-            }],
-          ],
-        },
-      },
+    const rule = result.module.rules[0] as any
+    expect(rule.test).toEqual(/\.[jt]sx?$/)
+    expect(rule.exclude).toEqual(/node_modules/)
+    expect(rule.use.loader).toMatch(/loader\.cjs$/)
+    expect(rule.use.options).toEqual({
+      outputFile: '.next/twc.css',
+      strict: true,
     })
   })
 
@@ -53,7 +46,7 @@ describe('withTwc', () => {
     expect(result.modified).toBe(true)
   })
 
-  it('passes custom options to babel plugin', () => {
+  it('passes custom options to loader', () => {
     const config = withTwc({}, {
       outputFile: 'dist/custom.css',
       strict: false,
@@ -61,9 +54,8 @@ describe('withTwc', () => {
     const mockConfig = { module: { rules: [] } }
     config.webpack!(mockConfig, {} as any)
     const rule = mockConfig.module.rules[0] as any
-    const babelOpts = rule.use.options.plugins[0][1]
-    expect(babelOpts.outputFile).toBe('dist/custom.css')
-    expect(babelOpts.strict).toBe(false)
+    expect(rule.use.options.outputFile).toBe('dist/custom.css')
+    expect(rule.use.options.strict).toBe(false)
   })
 
   it('uses default options when none provided', () => {
@@ -71,9 +63,8 @@ describe('withTwc', () => {
     const mockConfig = { module: { rules: [] } }
     config.webpack!(mockConfig, {} as any)
     const rule = mockConfig.module.rules[0] as any
-    const babelOpts = rule.use.options.plugins[0][1]
-    expect(babelOpts.outputFile).toBe('.next/twc.css')
-    expect(babelOpts.strict).toBe(true)
+    expect(rule.use.options.outputFile).toBe('.next/twc.css')
+    expect(rule.use.options.strict).toBe(true)
   })
 
   it('does not clobber existing webpack rules', () => {

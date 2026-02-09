@@ -43,13 +43,12 @@ function djb2(str: string): number {
  * generateHash(rule, 0) // '_h7k2m' (same input = same hash)
  * ```
  */
-export function generateHash(rule: StyleRule, layer: number): string {
+export function generateHash(rule: StyleRule, _layer?: number): string {
   const input =
     JSON.stringify(rule.declarations) +
     JSON.stringify(rule.selectors) +
     JSON.stringify(rule.mediaQueries) +
     JSON.stringify(rule.supportsQueries) +
-    String(layer) +
     (rule.selectorTemplate ?? '')
   return '_' + djb2(input).toString(36)
 }

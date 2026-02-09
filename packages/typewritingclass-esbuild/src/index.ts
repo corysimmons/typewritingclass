@@ -3,7 +3,7 @@ import type { ThemeInput, TransformOutput } from 'typewritingclass-compiler'
 import { createRequire } from 'module'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { readFile } from 'fs/promises'
+import { readFile, writeFile, mkdir } from 'fs/promises'
 import { loadTheme } from 'typewritingclass-compiler/loadTheme'
 
 // Load native addon from typewritingclass-compiler
@@ -24,6 +24,8 @@ const native: {
 
 export interface TwcEsbuildPluginOptions {
   strict?: boolean
+  /** Path to write the combined CSS output file (in addition to the virtual module). */
+  outputFile?: string
 }
 
 const VIRTUAL_CSS_ID = 'virtual:twc.css'
@@ -158,6 +160,23 @@ export default function twcEsbuildPlugin(options?: TwcEsbuildPluginOptions): Plu
           }
         },
       )
+
+      // ------------------------------------------------------------------
+      // 5. After all transforms complete, write final CSS to output file
+      //    and update the virtual CSS module with the complete stylesheet.
+      //    This ensures all extracted rules are included regardless of
+      //    module resolution order.
+      // ------------------------------------------------------------------
+      build.onEnd(async () => {
+        const outputFile = options?.outputFile
+        if (outputFile) {
+          const css = generateAllCss()
+          if (css) {
+            await mkdir(dirname(resolve(outputFile)), { recursive: true })
+            await writeFile(resolve(outputFile), css, 'utf-8')
+          }
+        }
+      })
     },
   }
 

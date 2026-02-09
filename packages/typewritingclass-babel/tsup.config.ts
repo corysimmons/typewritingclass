@@ -6,5 +6,5 @@ export default defineConfig({
   dts: true,
   shims: true,
   clean: true,
-  external: ['@babel/core', '@babel/parser', 'typewritingclass-compiler'],
+  external: ['@babel/core', '@babel/parser', 'typewritingclass-compiler', 'typewritingclass-compiler/loadTheme'],
 })

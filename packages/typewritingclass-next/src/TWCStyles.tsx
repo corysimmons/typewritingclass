@@ -1,12 +1,20 @@
 import React from 'react'
 import { getStyleSheet } from 'typewritingclass-react/server'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+
+export interface TWCStylesProps {
+  /** Path to the compiler-generated CSS file. Default: ".next/twc.css" */
+  cssFile?: string
+}
 
 /**
  * Server component that injects typewritingclass CSS into the document head.
  *
+ * Combines both compiler-extracted CSS (from the build-time Rust transform)
+ * and runtime-generated CSS (from dynamic styles resolved during SSR).
+ *
  * Place this in your root layout to ensure all styles are included during SSR.
- * This component is safe to use in React Server Components — it has no client-side
- * dependencies.
  *
  * @example app/layout.tsx
  * ```tsx
@@ -24,8 +32,19 @@ import { getStyleSheet } from 'typewritingclass-react/server'
  * }
  * ```
  */
-export function TWCStyles(): React.JSX.Element {
-  const css = getStyleSheet()
+export function TWCStyles({ cssFile }: TWCStylesProps = {}): React.JSX.Element {
+  const runtimeCss = getStyleSheet()
+
+  // Read compiler-extracted CSS if the withTwc plugin is configured
+  let compiledCss = ''
+  try {
+    const filePath = resolve(process.cwd(), cssFile || '.next/twc.css')
+    compiledCss = readFileSync(filePath, 'utf-8')
+  } catch {
+    // File doesn't exist yet (first render) or no compiler configured — that's fine
+  }
+
+  const css = [compiledCss, runtimeCss].filter(Boolean).join('\n')
   return React.createElement('style', {
     'data-twc': '',
     dangerouslySetInnerHTML: { __html: css },

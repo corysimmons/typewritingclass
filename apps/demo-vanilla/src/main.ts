@@ -1,11 +1,18 @@
 import {
-  cx, css,
+  cx,
   w, bg, textColor,
   text, size, rounded,
   blur, brightness, grayscale, saturate,
   scale, rotate, translateX, translateY, skewX,
   tw,
   gradientFrom, gradientVia, gradientTo,
+  fontFamily, antialiased, italic, tracking, leading, font,
+  transitionAll, duration, ease,
+  textDecoration, textTransform,
+  shrink, flex1, aspectRatio,
+  mx, h, borderStyle, borderColor,
+  bgImage, bgSize,
+  minW, textAlign, cursor,
 } from 'typewritingclass'
 
 const app = document.getElementById('app')!
@@ -21,8 +28,8 @@ const inkLight = '#e8e4de'
 // ─── Root ──────────────────────────────────────────────────
 app.className = tw.flex.flexCol.minH('100vh')
   .textColor('slate-800')
-  (css({ 'font-family': sans, background: cream, '-webkit-font-smoothing': 'antialiased' }))
-  .dark(tw.textColor('slate-200')(css({ background: '#020617' })))
+  (fontFamily(sans), bg(cream), antialiased())
+  .dark(tw.textColor('slate-200')(bg('#020617')))
 
 
 // ─── Hero ──────────────────────────────────────────────────
@@ -37,13 +44,10 @@ hero.className = tw.relative.flex.flexCol
 // Decorative grid lines in background
 const gridBg = document.createElement('div')
 gridBg.className = tw.absolute.inset(0).opacity(0.04).pointerEvents('none')
-  (css({
-    'background-image': `
+  (bgImage(`
       linear-gradient(#94a3b8 1px, transparent 1px),
       linear-gradient(90deg, #94a3b8 1px, transparent 1px)
-    `,
-    'background-size': '60px 60px',
-  }))
+    `), bgSize('60px 60px'))
 hero.appendChild(gridBg)
 
 // Logo
@@ -56,7 +60,7 @@ hero.appendChild(logo)
 // Accent line
 const accentLine = document.createElement('div')
 accentLine.className = tw.w(16).h('3px').mb(8).relative
-  (css({ background: '#6366f1' }))
+  (bg('#6366f1'))
 
 hero.appendChild(accentLine)
 
@@ -66,8 +70,8 @@ title.className = tw.relative
   .text('6xl')
   .textColor('slate-900')
   .textAlign('center')
-  (css({ 'font-family': serif, 'font-style': 'italic', 'letter-spacing': '-0.03em' }))
-  .md(tw(css({ 'font-size': '5rem', 'line-height': '1' })))
+  (fontFamily(serif), italic(), tracking('-0.03em'))
+  .md(tw(text('5rem'), leading('1')))
   .dark.textColor('white')
 
 title.textContent = 'Typewriting Class'
@@ -81,7 +85,7 @@ subtitle.className = tw.mt(6)
   .textAlign('center')
   .maxW('36rem')
   .leading('1.7')
-  (css({ 'font-family': mono, 'font-weight': '300' }))
+  (fontFamily(mono), font('300'))
   .dark.textColor('slate-400')
 
 subtitle.textContent = 'CSS-in-TypeScript. Static extraction. Zero runtime.'
@@ -98,7 +102,7 @@ primaryCta.className = tw.px(7).py(3)
   .bg('slate-900').textColor('white')
   .rounded('xl')
   .cursor('pointer')
-  (css({ 'font-family': mono, 'font-size': '0.875rem', 'text-decoration': 'none', 'transition': 'all 200ms ease' }))
+  (fontFamily(mono), text('0.875rem'), textDecoration('none'), transitionAll(), duration(200), ease('ease'))
   .hover.bg('indigo-600')
   .dark(tw.bg('white').textColor('slate-900'))
   .dark.hover.bg('indigo-400')
@@ -112,7 +116,7 @@ ghostCta.className = tw.px(7).py(3)
   .border('1px').borderColor('slate-300')
   .rounded('xl')
   .cursor('pointer')
-  (css({ 'font-family': mono, 'font-size': '0.875rem', 'text-decoration': 'none', 'transition': 'all 200ms ease' }))
+  (fontFamily(mono), text('0.875rem'), textDecoration('none'), transitionAll(), duration(200), ease('ease'))
   .hover(tw.bg('slate-100').borderColor('slate-400'))
   .dark(tw.textColor('slate-400').borderColor('slate-600'))
   .dark.hover.bg('slate-800')
@@ -126,9 +130,9 @@ app.appendChild(hero)
 function createDivider() {
   const div = document.createElement('div')
   div.className = tw.w('100%').maxW('72rem')
-    (css({ margin: '0 auto', height: '1px', background: inkLight }))
-    .dark(tw(css({ background: '#1e293b' })))
-  
+    (mx('auto'), h('1px'), bg(inkLight))
+    .dark(tw(bg('#1e293b')))
+
   return div
 }
 
@@ -138,7 +142,7 @@ showcase.id = 'showcase'
 showcase.className = tw.flex.flexCol.gap(20)
   .px(6).py(20)
   .maxW('72rem').w('100%')
-  (css({ margin: '0 auto' }))
+  (mx('auto'))
 
 app.appendChild(createDivider())
 app.appendChild(showcase)
@@ -150,15 +154,15 @@ function section(label: string, heading: string, children: HTMLElement[]) {
 
   const labelEl = document.createElement('span')
   labelEl.className = tw.textColor('indigo-500').font('500')
-    (css({ 'font-family': mono, 'font-size': '0.75rem', 'text-transform': 'uppercase', 'letter-spacing': '0.1em' }))
-  
+    (fontFamily(mono), text('0.75rem'), textTransform('uppercase'), tracking('0.1em'))
+
   labelEl.textContent = label
 
   const headingEl = document.createElement('h2')
   headingEl.className = tw.text('3xl').textColor('slate-900')
-    (css({ 'font-family': serif, 'font-style': 'italic', 'letter-spacing': '-0.02em' }))
+    (fontFamily(serif), italic(), tracking('-0.02em'))
     .dark.textColor('white')
-  
+
   headingEl.textContent = heading
 
   const headerGroup = document.createElement('div')
@@ -176,7 +180,7 @@ function btn(label: string, ...styles: Parameters<typeof cx>) {
   b.textContent = label
   b.className = cx(
     tw.px(5).py(2.5).rounded('lg').font('500').cursor('pointer'),
-    css({ 'font-family': sans, 'font-size': '0.875rem', 'transition': 'all 150ms ease', border: 'none' }),
+    fontFamily(sans), text('0.875rem'), transitionAll(), duration(150), ease('ease'), borderStyle('none'),
     ...styles,
   )
   return b
@@ -212,9 +216,9 @@ btnRow.append(
   ),
   btn('Ghost',
     tw.bg('transparent').textColor('slate-600')
-      (css({ border: '1px solid #cbd5e1' }))
+      .border('1px').borderStyle('solid').borderColor('#cbd5e1')
       .hover(tw.bg('slate-50').borderColor('slate-400'))
-      .dark(tw.textColor('slate-400')(css({ 'border-color': '#475569' })))
+      .dark(tw.textColor('slate-400').borderColor('#475569'))
       .dark.hover.bg('slate-800')
     ,
   ),
@@ -254,33 +258,33 @@ for (const { icon, title: t, desc } of cardData) {
     .bg('white')
     .border('1px').borderColor('slate-200')
     .rounded('2xl')
-    (css({ transition: 'all 250ms ease' }))
-    .hover(tw.shadow('lg')(css({ transform: 'translateY(-2px)', 'border-color': '#c7d2fe' })))
+    .transitionAll.duration(250).ease('ease')
+    .hover(tw.shadow('lg')(translateY('-2px'), borderColor('#c7d2fe')))
     .dark(tw.bg('slate-900').borderColor('slate-700'))
-    .dark.hover(tw(css({ 'border-color': '#6366f1' })))
-  
+    .dark.hover(tw(borderColor('#6366f1')))
+
 
   const iconEl = document.createElement('div')
   iconEl.className = tw.flex.items('center').justify('center')
     .size(10).rounded('lg')
     .bg('slate-100').textColor('indigo-600')
-    (css({ 'font-family': mono, 'font-weight': '500', 'font-size': '1.125rem' }))
+    (fontFamily(mono), font('500'), text('1.125rem'))
     .dark(tw.bg('slate-800').textColor('indigo-400'))
-  
+
   iconEl.textContent = icon
 
   const titleEl = document.createElement('h3')
   titleEl.className = tw.text('lg').font('600')
     .textColor('slate-900')
     .dark.textColor('white')
-  
+
   titleEl.textContent = t
 
   const descEl = document.createElement('p')
   descEl.className = tw.text('sm').leading('1.6')
     .textColor('slate-500')
     .dark.textColor('slate-400')
-  
+
   descEl.textContent = desc
 
   card.append(iconEl, titleEl, descEl)
@@ -312,14 +316,14 @@ for (const [label, sz, family] of typoSamples) {
   const labelEl = document.createElement('span')
   labelEl.className = cx(
     tw.w(20).textColor('slate-400'),
-    css({ 'font-family': mono, 'font-size': '0.7rem', 'text-transform': 'uppercase', 'letter-spacing': '0.08em', 'flex-shrink': '0' }),
+    fontFamily(mono), text('0.7rem'), textTransform('uppercase'), tracking('0.08em'), shrink(0),
   )
   labelEl.textContent = label
 
   const textEl = document.createElement('span')
   textEl.className = cx(
     text(sz),
-    css({ 'font-family': family }),
+    fontFamily(family),
     textColor('slate-800'),
     tw.dark.textColor('slate-200'),
   )
@@ -344,25 +348,25 @@ for (const name of paletteNames) {
   const label = document.createElement('span')
   label.className = cx(
     tw.w(16).textColor('slate-400'),
-    css({ 'font-family': mono, 'font-size': '0.7rem', 'flex-shrink': '0' }),
+    fontFamily(mono), text('0.7rem'), shrink(0),
   )
   label.textContent = name
 
   const swatches = document.createElement('div')
   swatches.className = cx(
     tw.flex.gap(1),
-    css({ flex: '1' }),
+    flex1(),
   )
 
   const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
   for (const shade of shades) {
     const swatch = document.createElement('div')
     swatch.className = cx(
-      css({ flex: '1', 'aspect-ratio': '1' }),
+      flex1(), aspectRatio('1'),
       bg(`${name}-${shade}`),
       rounded('md'),
-      css({ transition: 'transform 150ms ease' }),
-      tw.hover(tw(css({ transform: 'scale(1.15)' }))),
+      transitionAll(), duration(150), ease('ease'),
+      tw.hover(tw(scale(115))),
     )
     swatch.title = `${name}-${shade}`
     swatches.appendChild(swatch)
@@ -386,7 +390,7 @@ for (const val of spacingValues) {
   const label = document.createElement('span')
   label.className = cx(
     tw.w(10).textColor('slate-400'),
-    css({ 'font-family': mono, 'font-size': '0.7rem', 'text-align': 'right', 'flex-shrink': '0' }),
+    fontFamily(mono), text('0.7rem'), textAlign('right'), shrink(0),
   )
   label.textContent = String(val)
 
@@ -395,7 +399,7 @@ for (const val of spacingValues) {
     tw.h(2).rounded('full').dark.bg('indigo-500'),
     w(val),
     bg('indigo-400'),
-    css({ transition: 'width 300ms ease' }),
+    transitionAll(), duration(300), ease('ease'),
   )
 
   row.append(label, bar)
@@ -410,8 +414,8 @@ statesDemo.className = tw.flex.flexCol.gap(4)
 
 const stateExamples = [
   { label: 'Hover me', styles: tw.bg('slate-100').hover(tw.bg('indigo-100').textColor('indigo-700')) },
-  { label: 'Focus me', styles: tw.bg('slate-100')(css({ outline: 'none' })).focus(tw.ring('2px', 'indigo-400').bg('indigo-50')) },
-  { label: 'Press me', styles: tw.bg('slate-100').active(tw.bg('slate-300')(css({ transform: 'scale(0.97)' }))) },
+  { label: 'Focus me', styles: tw.bg('slate-100').outlineNone.focus(tw.ring('2px', 'indigo-400').bg('indigo-50')) },
+  { label: 'Press me', styles: tw.bg('slate-100').active(tw.bg('slate-300')(scale(97))) },
 ]
 
 for (const { label, styles } of stateExamples) {
@@ -420,7 +424,7 @@ for (const { label, styles } of stateExamples) {
   el.className = cx(
     tw.px(5).py(3).rounded('lg').textAlign('left').textColor('slate-700')
       .dark(tw.bg('slate-800').textColor('slate-300')),
-    css({ 'font-family': mono, 'font-size': '0.875rem', border: 'none', transition: 'all 150ms ease', cursor: 'pointer' }),
+    fontFamily(mono), text('0.875rem'), borderStyle('none'), transitionAll(), duration(150), ease('ease'), cursor('pointer'),
     styles,
   )
   statesDemo.appendChild(el)
@@ -433,7 +437,7 @@ const responsiveDemo = document.createElement('div')
 responsiveDemo.className = tw.p(6).rounded('2xl')
   .border('1px').borderColor('slate-200')
   .textAlign('center')
-  (css({ 'font-family': mono, 'font-size': '0.875rem', transition: 'all 300ms ease' }))
+  .fontFamily(mono).text('0.875rem').transitionAll.duration(300).ease('ease')
   .bg('emerald-50').textColor('emerald-700').borderColor('emerald-200')
   .sm(tw.bg('sky-50').textColor('sky-700').borderColor('sky-200'))
   .md(tw.bg('violet-50').textColor('violet-700').borderColor('violet-200'))
@@ -453,7 +457,7 @@ codeSection.className = tw.flex.flexCol.gap(4)
 const codeBlock = document.createElement('pre')
 codeBlock.className = tw.p(6).rounded('2xl')
   .bg('slate-900').textColor('slate-300')
-  (css({ 'font-family': mono, 'font-size': '0.8rem', 'line-height': '1.7', 'overflow-x': 'auto', 'white-space': 'pre' }))
+  .fontFamily(mono).text('0.8rem').leading('1.7').overflowX('auto').whitespace('pre')
   .dark(tw.bg('slate-950').border('1px').borderColor('slate-700'))
 
 codeBlock.textContent = `import { tw } from 'typewritingclass'
@@ -477,10 +481,10 @@ const filtersDemo = document.createElement('div')
 filtersDemo.className = tw.flex.flexWrap.gap(4)
 
 const filterExamples: [string, ...Parameters<typeof cx>][] = [
-  ['Blur', blur('8px'), bg('indigo-200'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('indigo-700'), css({ 'font-family': mono, 'font-size': '0.75rem' })],
-  ['Grayscale', grayscale('100%'), bg('emerald-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('#ffffff'), css({ 'font-family': mono, 'font-size': '0.75rem' })],
-  ['Brightness', brightness('150%'), bg('amber-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('amber-900'), css({ 'font-family': mono, 'font-size': '0.75rem' })],
-  ['Saturate', saturate('200%'), bg('rose-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('#ffffff'), css({ 'font-family': mono, 'font-size': '0.75rem' })],
+  ['Blur', blur('8px'), bg('indigo-200'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('indigo-700'), fontFamily(mono), text('0.75rem')],
+  ['Grayscale', grayscale('100%'), bg('emerald-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('#ffffff'), fontFamily(mono), text('0.75rem')],
+  ['Brightness', brightness('150%'), bg('amber-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('amber-900'), fontFamily(mono), text('0.75rem')],
+  ['Saturate', saturate('200%'), bg('rose-400'), size(20), rounded('xl'), ...tw.flex.items('center').justify('center')._rules, textColor('#ffffff'), fontFamily(mono), text('0.75rem')],
 ]
 
 for (const [label, ...styles] of filterExamples) {
@@ -497,10 +501,10 @@ const transformsDemo = document.createElement('div')
 transformsDemo.className = tw.flex.gap(6).items('end').flexWrap
 
 const transformExamples: [string, ...Parameters<typeof cx>][] = [
-  ['Scale 1.2', scale(120), bg('violet-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('violet-800'), css({ 'font-family': mono, 'font-size': '0.7rem', transition: 'transform 200ms ease' })],
-  ['Rotate 12\u00B0', rotate('12deg'), bg('sky-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('sky-800'), css({ 'font-family': mono, 'font-size': '0.7rem' })],
-  ['Skew X', skewX('6deg'), bg('pink-200'), ...tw.px(6).py(4).rounded('lg').flex.items('center').justify('center')._rules, textColor('pink-800'), css({ 'font-family': mono, 'font-size': '0.7rem' })],
-  ['Translate', translateX('0.5rem'), translateY('-0.25rem'), bg('teal-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('teal-800'), css({ 'font-family': mono, 'font-size': '0.7rem' })],
+  ['Scale 1.2', scale(120), bg('violet-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('violet-800'), fontFamily(mono), text('0.7rem'), transitionAll(), duration(200), ease('ease')],
+  ['Rotate 12\u00B0', rotate('12deg'), bg('sky-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('sky-800'), fontFamily(mono), text('0.7rem')],
+  ['Skew X', skewX('6deg'), bg('pink-200'), ...tw.px(6).py(4).rounded('lg').flex.items('center').justify('center')._rules, textColor('pink-800'), fontFamily(mono), text('0.7rem')],
+  ['Translate', translateX('0.5rem'), translateY('-0.25rem'), bg('teal-200'), size(16), rounded('lg'), ...tw.flex.items('center').justify('center')._rules, textColor('teal-800'), fontFamily(mono), text('0.7rem')],
 ]
 
 for (const [label, ...styles] of transformExamples) {
@@ -521,7 +525,7 @@ const transBtn = (label: string, ...extra: Parameters<typeof cx>) => {
   b.textContent = label
   b.className = cx(
     tw.px(5).py(3).rounded('lg').bg('slate-100').textColor('slate-700'),
-    css({ border: 'none', 'font-family': mono, 'font-size': '0.8rem', cursor: 'pointer' }),
+    borderStyle('none'), fontFamily(mono), text('0.8rem'), cursor('pointer'),
     ...extra,
   )
   return b
@@ -534,7 +538,7 @@ transitionsDemo.append(
   ),
   transBtn('All 500ms ease-out',
     ...tw.transitionAll.duration(500).ease('ease-out')
-      .hover(tw.bg('emerald-500').textColor('white').shadow('lg')(css({ transform: 'translateY(-2px)' })))._rules,
+      .hover(tw.bg('emerald-500').textColor('white').shadow('lg')(translateY('-2px')))._rules,
   ),
   transBtn('Delayed 200ms',
     ...tw.transitionColors.duration(300).delay(200)
@@ -563,7 +567,7 @@ for (const [label, from, via, to] of gradientCards) {
     gradientFrom(from),
     gradientVia(via),
     gradientTo(to),
-    css({ 'font-family': sans, 'font-size': '0.875rem', 'min-width': '10rem', 'text-align': 'center' }),
+    fontFamily(sans), text('0.875rem'), minW('10rem'), textAlign('center'),
   )
   el.textContent = label
   gradientsDemo.appendChild(el)
@@ -580,16 +584,14 @@ quotedText.className = tw.relative
   .pl(10).py(4)
   .textColor('slate-600')
   .borderL('4px').borderColor('indigo-400')
-  (css({ 'font-family': serif, 'font-size': '1.25rem', 'font-style': 'italic' }))
+  .fontFamily(serif).text('1.25rem').italic
   .dark.textColor('slate-300')
 
 quotedText.textContent = 'CSS-in-TypeScript is not the future \u2014 it is the present.'
 
 const decorLine = document.createElement('div')
 decorLine.className = tw.relative.h('2px').rounded('full')
-  (css({
-    background: 'linear-gradient(to right, #6366f1, #8b5cf6, #f43f5e)',
-  }))
+  (bgImage('linear-gradient(to right, #6366f1, #8b5cf6, #f43f5e)'))
 
 pseudoDemo.append(quotedText, decorLine)
 showcase.appendChild(section('13', 'Decorative Elements', [pseudoDemo]))
@@ -601,7 +603,7 @@ const footer = document.createElement('footer')
 footer.className = tw.flex.items('center').justify('center')
   .py(12).px(6)
   .textColor('slate-400')
-  (css({ 'font-family': mono, 'font-size': '0.75rem' }))
+  .fontFamily(mono).text('0.75rem')
   .dark.textColor('slate-600')
 
 footer.textContent = 'Typewriting Class — css-in-typescript'

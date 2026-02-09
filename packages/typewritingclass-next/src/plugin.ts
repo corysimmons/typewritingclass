@@ -1,4 +1,7 @@
-import type { TwcBabelPluginOptions } from 'typewritingclass-babel'
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 interface NextConfig {
   webpack?: (config: any, context: any) => any
@@ -15,8 +18,9 @@ export interface TwcNextPluginOptions {
 /**
  * Next.js plugin that integrates typewritingclass build-time CSS extraction.
  *
- * Configures webpack to run the typewritingclass Babel transform on your source
- * files, extracting static CSS at build time.
+ * Configures webpack with a custom loader that runs the native Rust compiler
+ * on source files, extracting static CSS at build time. Works alongside
+ * Next.js's SWC compiler — no Babel required.
  *
  * @example next.config.mjs
  * ```js
@@ -26,36 +30,27 @@ export interface TwcNextPluginOptions {
  *   // your next config
  * })
  * ```
- *
- * @example With options
- * ```js
- * import { withTwc } from 'typewritingclass-next/plugin'
- *
- * export default withTwc({
- *   // your next config
- * }, { strict: true })
- * ```
  */
 export function withTwc(nextConfig: NextConfig = {}, options: TwcNextPluginOptions = {}): NextConfig {
-  const babelOptions: TwcBabelPluginOptions = {
+  const loaderOptions = {
     outputFile: options.outputFile ?? '.next/twc.css',
     strict: options.strict ?? true,
   }
 
+  // Resolve loader path relative to this module (works in both source and dist)
+  const loaderPath = resolve(__dirname, 'loader.cjs')
+
   return {
     ...nextConfig,
     webpack(config: any, context: any) {
-      // Add the typewritingclass babel plugin to the webpack babel-loader
+      // Add the typewritingclass custom loader — runs the Rust compiler
+      // transform before SWC processes TypeScript/JSX
       config.module.rules.push({
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: [
-              ['typewritingclass-babel', babelOptions],
-            ],
-          },
+          loader: loaderPath,
+          options: loaderOptions,
         },
       })
 

@@ -55,16 +55,85 @@ pub struct TransformResult {
     pub diagnostics: Vec<DiagnosticInfo>,
 }
 
-/// All known utility function names exported from typewritingclass
+/// All known utility function names exported from typewritingclass.
+/// Keep in sync with packages/typewritingclass/src/index.ts exports.
 const UTILITY_NAMES: &[&str] = &[
-    "p", "px", "py", "pt", "pr", "pb", "pl", "m", "mx", "my", "mt", "mr", "mb", "ml", "gap",
-    "gapX", "gapY", "bg", "textColor", "borderColor", "text", "font", "tracking", "leading",
-    "textAlign", "fontFamily", "flex", "flexCol", "flexRow", "flexWrap", "inlineFlex", "grid", "gridCols",
-    "gridRows", "w", "h", "size", "minW", "minH", "maxW", "maxH", "display", "items", "justify",
-    "self", "overflow", "overflowX", "overflowY", "relative", "absolute", "fixed", "sticky",
-    "top", "right", "bottom", "left", "inset", "z", "rounded", "roundedT", "roundedB", "roundedL",
-    "roundedR", "border", "borderT", "borderR", "borderB", "borderL", "ring", "shadow", "opacity",
-    "backdrop", "cursor", "select", "pointerEvents",
+    // Spacing
+    "p", "px", "py", "pt", "pr", "pb", "pl",
+    "m", "mx", "my", "mt", "mr", "mb", "ml",
+    "gap", "gapX", "gapY",
+    "ps", "pe", "ms", "me",
+    "spaceX", "spaceY", "spaceXReverse", "spaceYReverse",
+    // Colors
+    "bg", "textColor", "borderColor",
+    // Typography
+    "text", "font", "tracking", "leading", "textAlign",
+    "fontFamily", "antialiased", "subpixelAntialiased",
+    "italic", "notItalic", "truncate",
+    "normalNums", "ordinal", "slashedZero", "liningNums", "oldstyleNums",
+    "proportionalNums", "tabularNums", "diagonalFractions", "stackedFractions",
+    "lineClamp", "listStyleImage", "listStylePosition", "listStyleType",
+    "textDecoration", "textDecorationColor", "textDecorationStyle", "textDecorationThickness",
+    "textUnderlineOffset", "textTransform", "textOverflow", "textWrap", "textIndent",
+    "verticalAlign", "whitespace", "wordBreak", "hyphens", "content",
+    // Layout
+    "flex", "flexCol", "flexRow", "flexWrap", "inlineFlex",
+    "grid", "gridCols", "gridRows",
+    "w", "h", "size", "minW", "minH", "maxW", "maxH",
+    "display", "items", "justify", "self",
+    "overflow", "overflowX", "overflowY",
+    "relative", "absolute", "fixed", "sticky",
+    "top", "right", "bottom", "left", "inset", "z",
+    "aspectRatio", "columns", "breakAfter", "breakBefore", "breakInside",
+    "boxDecorationBreak", "boxSizing", "float", "clear", "isolate", "isolationAuto",
+    "objectFit", "objectPosition", "overscrollBehavior", "overscrollX", "overscrollY",
+    "static", "insetX", "insetY", "start", "end",
+    "visible", "invisible", "collapse",
+    "flexBasis", "flexRowReverse", "flexColReverse", "flexWrapReverse", "flexNowrap",
+    "flex1", "flexAuto", "flexInitial", "flexNone",
+    "grow", "shrink", "order",
+    "colSpan", "colStart", "colEnd", "rowSpan", "rowStart", "rowEnd",
+    "gridFlow", "autoCols", "autoRows",
+    "justifyItems", "justifySelf", "alignContent", "placeContent", "placeItems", "placeSelf",
+    "container",
+    // Borders
+    "rounded", "roundedT", "roundedB", "roundedL", "roundedR",
+    "roundedTL", "roundedTR", "roundedBR", "roundedBL",
+    "roundedSS", "roundedSE", "roundedEE", "roundedES",
+    "border", "borderT", "borderR", "borderB", "borderL",
+    "borderX", "borderY", "borderS", "borderE", "borderStyle",
+    "ring", "ringColor", "ringOffsetWidth", "ringOffsetColor", "ringInset",
+    "outlineWidth", "outlineColor", "outlineStyle", "outlineOffset", "outline", "outlineNone",
+    "divideX", "divideY", "divideColor", "divideStyle", "divideXReverse", "divideYReverse",
+    // Effects
+    "shadow", "opacity", "backdrop", "shadowColor", "mixBlendMode", "bgBlendMode",
+    // Interactivity
+    "cursor", "select", "pointerEvents",
+    "accentColor", "appearance", "caretColor", "resize",
+    "scrollBehavior", "scrollMargin", "scrollMarginX", "scrollMarginY",
+    "scrollMarginT", "scrollMarginR", "scrollMarginB", "scrollMarginL",
+    "scrollPadding", "scrollPaddingX", "scrollPaddingY",
+    "scrollPaddingT", "scrollPaddingR", "scrollPaddingB", "scrollPaddingL",
+    "snapAlign", "snapStop", "snapType", "touchAction", "willChange",
+    // Filters
+    "blur", "brightness", "contrast", "dropShadow", "grayscale", "hueRotate", "invert", "saturate", "sepia",
+    "backdropBlur", "backdropBrightness", "backdropContrast", "backdropGrayscale", "backdropHueRotate",
+    "backdropInvert", "backdropOpacity", "backdropSaturate", "backdropSepia",
+    // Transforms
+    "scale", "scaleX", "scaleY", "rotate", "translateX", "translateY", "skewX", "skewY",
+    "transformOrigin", "transformGpu", "transformNone",
+    // Transitions
+    "transition", "transitionAll", "transitionColors", "transitionOpacity", "transitionShadow", "transitionTransform", "transitionNone",
+    "duration", "ease", "delay", "animate",
+    // Tables
+    "borderCollapse", "borderSeparate", "borderSpacing", "borderSpacingX", "borderSpacingY", "tableLayout", "captionSide",
+    // SVG
+    "fill", "stroke", "strokeWidth",
+    // Accessibility
+    "srOnly", "notSrOnly", "forcedColorAdjust",
+    // Backgrounds
+    "bgAttachment", "bgClip", "bgOrigin", "bgPosition", "bgRepeat", "bgSize", "bgImage", "bgGradient",
+    "gradientFrom", "gradientVia", "gradientTo",
 ];
 
 /// Counter for dynamic variable IDs (per-file)
@@ -902,8 +971,11 @@ fn process_tw_steps(
                         }
                         pending_mods.clear();
                         rules.push(rule);
+                    } else {
+                        // Utility is recognized but not compilable — bail to runtime
+                        // to avoid silently dropping styles.
+                        return None;
                     }
-                    // If evaluate returns None for a valueless utility, just skip it
                 }
                 // Unknown properties are ignored (could be raw class names in full runtime,
                 // but we can't handle those at compile time)
@@ -922,15 +994,22 @@ fn process_tw_steps(
                         return None;
                     }
                 } else if modifiers::is_modifier(name) {
-                    // Modifier used as method call (e.g., tw.hover(...))
-                    // In the runtime, hover(chain) extracts rules from the child chain.
-                    // At compile time with no args, just add to pending mods.
-                    pending_mods.push(name.clone());
+                    // Modifier used as method call (e.g., tw.hover(tw.bg('red')))
+                    // The child chain rules need modifier wrapping which is complex.
+                    // Bail to runtime for correct evaluation.
+                    return None;
                 } else {
                     return None;
                 }
             }
         }
+    }
+
+    // If there are pending modifiers that were never applied to a utility,
+    // the chain is malformed or uses a pattern we can't compile. Bail to
+    // runtime rather than silently losing the modifiers.
+    if !pending_mods.is_empty() {
+        return None;
     }
 
     Some(rules)
@@ -988,17 +1067,54 @@ fn visit_statement<'a>(stmt: &'a Statement<'a>, visitor: &mut dyn FnMut(&'a Expr
             visit_statement(&w.body, visitor);
         }
         Statement::ExportDefaultDeclaration(def) => {
-            if let Some(expr) = def.declaration.as_expression() {
-                visit_expr(expr, visitor);
+            match &def.declaration {
+                ExportDefaultDeclarationKind::FunctionDeclaration(func) => {
+                    if let Some(body) = &func.body {
+                        for s in &body.statements {
+                            visit_statement(s, visitor);
+                        }
+                    }
+                }
+                ExportDefaultDeclarationKind::ClassDeclaration(class) => {
+                    for elem in &class.body.body {
+                        if let ClassElement::MethodDefinition(method) = elem {
+                            if let Some(body) = &method.value.body {
+                                for s in &body.statements {
+                                    visit_statement(s, visitor);
+                                }
+                            }
+                        }
+                        if let ClassElement::PropertyDefinition(prop) = elem {
+                            if let Some(init) = &prop.value {
+                                visit_expr(init, visitor);
+                            }
+                        }
+                    }
+                }
+                _ => {
+                    if let Some(expr) = def.declaration.as_expression() {
+                        visit_expr(expr, visitor);
+                    }
+                }
             }
         }
         Statement::ExportNamedDeclaration(named) => {
-            if let Some(Declaration::VariableDeclaration(var_decl)) = &named.declaration {
-                for decl in &var_decl.declarations {
-                    if let Some(init) = &decl.init {
-                        visit_expr(init, visitor);
+            match &named.declaration {
+                Some(Declaration::VariableDeclaration(var_decl)) => {
+                    for decl in &var_decl.declarations {
+                        if let Some(init) = &decl.init {
+                            visit_expr(init, visitor);
+                        }
                     }
                 }
+                Some(Declaration::FunctionDeclaration(func)) => {
+                    if let Some(body) = &func.body {
+                        for s in &body.statements {
+                            visit_statement(s, visitor);
+                        }
+                    }
+                }
+                _ => {}
             }
         }
         Statement::FunctionDeclaration(func) => {

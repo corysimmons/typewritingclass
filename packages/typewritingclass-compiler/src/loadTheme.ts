@@ -1,4 +1,7 @@
 import type { ThemeInput } from '../index.d.ts'
+import { createRequire } from 'module'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
 
 /**
  * Load theme data from the typewritingclass package.
@@ -6,7 +9,6 @@ import type { ThemeInput } from '../index.d.ts'
  * not hardcoded in the compiler.
  */
 export async function loadTheme(): Promise<ThemeInput> {
-  // Import all theme modules from the TS package
   const [colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule] =
     await Promise.all([
       import('typewritingclass/theme/colors'),
@@ -17,6 +19,43 @@ export async function loadTheme(): Promise<ThemeInput> {
       import('typewritingclass/theme/borders'),
     ])
 
+  return buildThemeInput(colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule)
+}
+
+/**
+ * Synchronous version of loadTheme for use in contexts where async is not available
+ * (e.g., Babel plugin visitors). Uses require() to load CJS exports.
+ */
+export function loadThemeSync(): ThemeInput {
+  const req = createRequire(import.meta.url)
+
+  const colorsModule = req('typewritingclass/theme/colors')
+  const spacingModule = req('typewritingclass/theme')
+  const typographyModule = req('typewritingclass/theme/typography')
+  const sizesModule = req('typewritingclass/theme/sizes')
+  const shadowsModule = req('typewritingclass/theme/shadows')
+  const bordersModule = req('typewritingclass/theme/borders')
+
+  return buildThemeInput(colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule)
+}
+
+/** Strip JS-escape underscores from theme token names.
+ *  _2xl → 2xl (leading _ for names starting with digits)
+ *  black_ → black (trailing _ for reserved words)  */
+function normalizeTokenName(name: string): string {
+  if (name.startsWith('_') && /^\d/.test(name.slice(1))) return name.slice(1)
+  if (name.endsWith('_')) return name.slice(0, -1)
+  return name
+}
+
+function buildThemeInput(
+  colorsModule: any,
+  spacingModule: any,
+  typographyModule: any,
+  sizesModule: any,
+  shadowsModule: any,
+  bordersModule: any,
+): ThemeInput {
   // Build color scales map
   const colorScaleNames = [
     'slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber',
@@ -57,7 +96,7 @@ export async function loadTheme(): Promise<ThemeInput> {
   for (const name of textSizeNames) {
     const token = (typographyModule as Record<string, any>)[name]
     if (token && typeof token === 'object' && 'fontSize' in token) {
-      textSizes[name] = { fontSize: token.fontSize, lineHeight: token.lineHeight }
+      textSizes[normalizeTokenName(name)] = { fontSize: token.fontSize, lineHeight: token.lineHeight }
     }
   }
 
@@ -67,7 +106,7 @@ export async function loadTheme(): Promise<ThemeInput> {
   for (const name of weightNames) {
     const val = (typographyModule as Record<string, any>)[name]
     if (typeof val === 'string') {
-      fontWeights[name] = val
+      fontWeights[normalizeTokenName(name)] = val
     }
   }
 
@@ -86,7 +125,7 @@ export async function loadTheme(): Promise<ThemeInput> {
   for (const name of radiusNames) {
     const val = (bordersModule as Record<string, any>)[name]
     if (typeof val === 'string') {
-      radii[name] = val
+      radii[normalizeTokenName(name)] = val
     }
   }
 
@@ -96,7 +135,7 @@ export async function loadTheme(): Promise<ThemeInput> {
   for (const name of shadowNames) {
     const val = (shadowsModule as Record<string, any>)[name]
     if (typeof val === 'string') {
-      shadows[name] = val
+      shadows[normalizeTokenName(name)] = val
     }
   }
 

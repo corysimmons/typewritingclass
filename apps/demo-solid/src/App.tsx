@@ -1,10 +1,12 @@
 import { createSignal } from 'solid-js'
 import {
-  tw, cx, dcx, dynamic, css,
+  tw, cx, dcx, dynamic,
   w, h, bg, textColor, font, rounded, shadow,
   flex, items, justify,
   blur, brightness, grayscale, saturate,
   createTheme, injectTheme, setTheme,
+  cursor, borderStyle, transitionAll, duration, ease,
+  text, textAlign, minW, maxW, mx,
 } from 'typewritingclass'
 
 // --- Theme definitions ---
@@ -54,7 +56,7 @@ function ColorPickerDemo() {
           type="color"
           value={color()}
           onInput={(e) => setColor(e.currentTarget.value)}
-          class={tw.w('3rem').h('3rem').rounded('lg')(css({ cursor: 'pointer' }))}
+          class={cx(tw.w('3rem').h('3rem').rounded('lg'), cursor('pointer'))}
         />
         <div class={boxProps().className} style={boxProps().style}>
           {color()}
@@ -74,7 +76,7 @@ function ProgressBarDemo() {
     w(dynamic(`${progress()}%`)),
     bg('emerald-500'),
     rounded('9999px'),
-    css`transition: width 0.3s ease`,
+    transitionAll(), duration('0.3s'), ease('ease'),
   )
 
   return (
@@ -115,23 +117,23 @@ function ThemeSwitcherDemo() {
       <div class={tw.flex.flexRow.gap(3)}>
         <button
           onClick={() => switchTheme('light')}
-          class={tw
-            .px(4).py(2).rounded('lg').font('500').text('base')
-            .bg(theme() === 'light' ? '#3b82f6' : '#e2e8f0')
-            .textColor(theme() === 'light' ? '#ffffff' : '#475569')
-            (css({ cursor: 'pointer', border: 'none' }))
-          }
+          class={cx(
+            tw.px(4).py(2).rounded('lg').font('500').text('base')
+              .bg(theme() === 'light' ? '#3b82f6' : '#e2e8f0')
+              .textColor(theme() === 'light' ? '#ffffff' : '#475569'),
+            cursor('pointer'), borderStyle('none'),
+          )}
         >
           Light
         </button>
         <button
           onClick={() => switchTheme('dark')}
-          class={tw
-            .px(4).py(2).rounded('lg').font('500').text('base')
-            .bg(theme() === 'dark' ? '#6366f1' : '#e2e8f0')
-            .textColor(theme() === 'dark' ? '#ffffff' : '#475569')
-            (css({ cursor: 'pointer', border: 'none' }))
-          }
+          class={cx(
+            tw.px(4).py(2).rounded('lg').font('500').text('base')
+              .bg(theme() === 'dark' ? '#6366f1' : '#e2e8f0')
+              .textColor(theme() === 'dark' ? '#ffffff' : '#475569'),
+            cursor('pointer'), borderStyle('none'),
+          )}
         >
           Dark
         </button>
@@ -172,7 +174,7 @@ function MultiPropertyDemo() {
     bg(dynamic(bgColor())),
     rounded(dynamic(`${borderRadius()}px`)),
     shadow('md'),
-    css`transition: all 0.2s ease`,
+    transitionAll(), duration('0.2s'), ease('ease'),
   )
 
   return (
@@ -226,7 +228,7 @@ function FiltersDemo() {
             tw.w('5rem').h('5rem').rounded('lg')
               .flex.items('center').justify('center')
               .textColor('#ffffff'),
-            css({ 'font-size': '0.75rem' }),
+            text('0.75rem'),
           )}>
             {label}
           </div>
@@ -244,14 +246,14 @@ function TransitionsDemo() {
         Transitions
       </h3>
       <div class={tw.flex.flexRow.gap(3)}>
-        <button class={tw
-          .px(5).py(2.5).rounded('lg')
-          .bg('#e2e8f0').textColor('#475569')
-          .font('500')
-          .transitionColors.duration(300)
-          (css({ border: 'none', cursor: 'pointer', 'font-size': '0.875rem' }))
-          .hover(tw.bg('indigo-500').textColor('#ffffff'))
-        }>
+        <button class={cx(
+          tw.px(5).py(2.5).rounded('lg')
+            .bg('#e2e8f0').textColor('#475569')
+            .font('500')
+            .transitionColors.duration(300)
+            .hover(tw.bg('indigo-500').textColor('#ffffff')),
+          borderStyle('none'), cursor('pointer'), text('0.875rem'),
+        )}>
           Hover me (300ms)
         </button>
       </div>
@@ -274,13 +276,13 @@ function GradientsDemo() {
       </h3>
       <div class={tw.flex.flexRow.gap(4).flexWrap}>
         {gradients.map(({ label, from, via, to }) => (
-          <div class={tw
-            .px(6).py(4).rounded('lg')
-            .bgGradient('to right')
-            .gradientFrom(from).gradientVia(via).gradientTo(to)
-            .textColor('#ffffff').font('600')
-            (css({ 'min-width': '8rem', 'text-align': 'center' }))
-          }>
+          <div class={cx(
+            tw.px(6).py(4).rounded('lg')
+              .bgGradient('to right')
+              .gradientFrom(from).gradientVia(via).gradientTo(to)
+              .textColor('#ffffff').font('600'),
+            minW('8rem'), textAlign('center'),
+          )}>
             {label}
           </div>
         ))}
@@ -292,7 +294,7 @@ function GradientsDemo() {
 // --- App ---
 export function App() {
   return (
-    <div class={tw(css({ 'max-width': '800px', margin: '0 auto' })).p(8).flex.flexCol.gap(10)}>
+    <div class={cx(tw.p(8).flex.flexCol.gap(10), maxW('800px'), mx('auto'))}>
       <img src="/logo.svg" alt="Typewriting Class" style={{ width: '240px' }} />
       <h1 class={tw.text('2xl').font('700').textColor('#0f172a')}>
         Typewriting Class — Solid Demo

@@ -20,6 +20,8 @@ export interface TwcPluginOptions {
 
 const VIRTUAL_CSS_ID = 'virtual:twc.css'
 const RESOLVED_VIRTUAL_CSS_ID = '\0' + VIRTUAL_CSS_ID
+const VIRTUAL_CSS_JS_ID = 'virtual:twc-css-inject'
+const RESOLVED_VIRTUAL_CSS_JS_ID = '\0' + VIRTUAL_CSS_JS_ID
 
 export default function twcPlugin(options?: TwcPluginOptions): Plugin {
   const strict = options?.strict ?? true
@@ -34,12 +36,34 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
   // file path -> extracted CSS rules (css text strings ordered by layer)
   const fileRules = new Map<string, string[]>()
   let devServer: ViteDevServer | null = null
+  let cssInvalidateTimer: ReturnType<typeof setTimeout> | null = null
+
+  function scheduleCssUpdate() {
+    if (!devServer) return
+    if (cssInvalidateTimer) clearTimeout(cssInvalidateTimer)
+    cssInvalidateTimer = setTimeout(() => {
+      cssInvalidateTimer = null
+      if (!devServer) return
+      devServer.ws.send({
+        type: 'custom',
+        event: 'twc:css-update',
+        data: {},
+      })
+    }, 100)
+  }
 
   return {
     name: 'typewritingclass',
 
     configureServer(server) {
       devServer = server
+      // Serve current compiled CSS from an endpoint (always fresh, no caching issues)
+      server.middlewares.use('/__twc_css', (_req, res) => {
+        const css = generateAllCss()
+        res.setHeader('Content-Type', 'text/plain')
+        res.setHeader('Cache-Control', 'no-store')
+        res.end(css)
+      })
     },
 
     async buildStart() {
@@ -48,13 +72,42 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
 
     resolveId(id) {
       if (id === VIRTUAL_CSS_ID) {
+        if (devServer) {
+          // Dev mode: use JS module that injects CSS dynamically and accepts HMR updates
+          return RESOLVED_VIRTUAL_CSS_JS_ID
+        }
         return RESOLVED_VIRTUAL_CSS_ID
+      }
+      if (id === VIRTUAL_CSS_JS_ID) {
+        return RESOLVED_VIRTUAL_CSS_JS_ID
       }
     },
 
     load(id) {
       if (id === RESOLVED_VIRTUAL_CSS_ID) {
         return generateAllCss()
+      }
+      if (id === RESOLVED_VIRTUAL_CSS_JS_ID) {
+        // Dev-only JS module: fetches compiled CSS from server endpoint.
+        // Uses a fetch() instead of inline CSS to avoid stale caching.
+        return `
+const style = document.createElement('style');
+style.setAttribute('data-twc-compiled', '');
+document.head.appendChild(style);
+
+async function updateCss() {
+  const res = await fetch('/__twc_css');
+  style.textContent = await res.text();
+}
+
+// Initial load: wait briefly for all transforms to complete, then fetch CSS
+setTimeout(updateCss, 200);
+
+if (import.meta.hot) {
+  import.meta.hot.accept();
+  import.meta.hot.on('twc:css-update', () => updateCss());
+}
+`
       }
     },
 
@@ -81,13 +134,15 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
         // Extraction failed — transform hook will handle it
       }
 
-      // Invalidate the virtual CSS module and include it in the HMR update
-      // so Vite sends both the component and CSS updates to the client.
+      // In dev mode, notify the client to re-fetch compiled CSS.
+      // In prod mode, invalidate the virtual CSS module directly.
       const cssMod = server.moduleGraph.getModuleById(RESOLVED_VIRTUAL_CSS_ID)
       if (cssMod) {
         server.moduleGraph.invalidateModule(cssMod)
         return [...modules, cssMod]
       }
+      // Dev mode uses the JS inject module — notify via custom event
+      server.ws.send({ type: 'custom', event: 'twc:css-update', data: {} })
       return modules
     },
 
@@ -124,6 +179,7 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
 
         if (result.rules.length > 0) {
           fileRules.set(id, result.rules.map((r) => r.cssText))
+          scheduleCssUpdate()
         }
 
         const s = new MagicString(code)

@@ -1,5 +1,5 @@
 import type { StyleRule, Modifier } from './types.ts'
-import { cx } from './cx.ts'
+import { cx, _cxCore } from './cx.ts'
 import { when } from './when.ts'
 
 // --- Utilities ---
@@ -797,11 +797,11 @@ function createChain(rules: (StyleRule | string)[], pendingMods: Modifier[]): Tw
 
       // --- String coercion ---
       if (prop === Symbol.toPrimitive || prop === 'toString' || prop === 'valueOf' || prop === 'toJSON') {
-        return () => cx(...rules)
+        return () => _cxCore(rules)
       }
       if (prop === Symbol.toStringTag) return 'TwChain'
       if (prop === 'value' || prop === 'className') {
-        return cx(...rules)
+        return _cxCore(rules)
       }
 
       // --- Iterator support (for template literals) ---
@@ -809,7 +809,7 @@ function createChain(rules: (StyleRule | string)[], pendingMods: Modifier[]): Tw
 
       // --- Node.js inspect ---
       if (prop === 'inspect' || prop === Symbol.for('nodejs.util.inspect.custom')) {
-        return () => `TwChain(${cx(...rules)})`
+        return () => `TwChain(${_cxCore(rules)})`
       }
 
       const name = prop as string

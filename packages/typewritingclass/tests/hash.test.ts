@@ -22,9 +22,9 @@ describe('generateHash', () => {
     expect(generateHash(rule1, 0)).not.toBe(generateHash(rule2, 0))
   })
 
-  it('produces different hashes for different layers', () => {
+  it('produces the same hash regardless of layer (content-addressable)', () => {
     const rule = createRule({ color: 'red' })
-    expect(generateHash(rule, 0)).not.toBe(generateHash(rule, 1))
+    expect(generateHash(rule, 0)).toBe(generateHash(rule, 1))
   })
 
   it('accounts for selectors in hash', () => {

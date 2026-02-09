@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url'
 import { writeFileSync, mkdirSync } from 'fs'
 
 import type { ThemeInput, TransformOutput, Diagnostic } from 'typewritingclass-compiler'
+import { loadThemeSync } from 'typewritingclass-compiler/loadTheme'
 
 // Load the native addon from typewritingclass-compiler
 const require = createRequire(import.meta.url)
@@ -24,22 +25,8 @@ export interface TwcBabelPluginOptions {
   outputFile?: string
   /** Enable strict mode for the compiler. Default: true */
   strict?: boolean
-  /** Theme input to pass to the native compiler. If not provided, a default empty theme is used. */
+  /** Theme input to pass to the native compiler. If not provided, auto-loaded from typewritingclass package. */
   theme?: ThemeInput
-}
-
-const DEFAULT_THEME: ThemeInput = {
-  colors: '{}',
-  namedColors: '{}',
-  spacing: '{}',
-  textSizes: '{}',
-  fontWeights: '{}',
-  fontFamilies: '{}',
-  radii: '{}',
-  shadows: '{}',
-  sizes: '{}',
-  defaultRadius: '0.25rem',
-  defaultShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
 }
 
 /**
@@ -58,6 +45,7 @@ const DEFAULT_THEME: ThemeInput = {
 export default function twcBabelPlugin() {
   let layer = 0
   const fileRules = new Map<string, string[]>()
+  let cachedTheme: ThemeInput | null = null
 
   return {
     visitor: {
@@ -80,7 +68,12 @@ export default function twcBabelPlugin() {
         const opts = state.opts ?? {}
         const strict = opts.strict ?? true
         const outputFile = opts.outputFile ?? 'twc.css'
-        const themeInput = opts.theme ?? DEFAULT_THEME
+
+        // Load theme once: use provided theme or auto-load from typewritingclass package
+        if (!cachedTheme) {
+          cachedTheme = opts.theme ?? loadThemeSync()
+        }
+        const themeInput = cachedTheme
 
         try {
           const result = native.transform(code, filename, layer, themeInput, strict)

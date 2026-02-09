@@ -9,14 +9,16 @@ fn djb2(input: &str) -> u32 {
     hash
 }
 
-/// Generate a class name hash matching the TS `generateHash` function
-pub fn generate_hash(rule: &StyleRule, layer: u32) -> String {
+/// Generate a class name hash matching the TS `generateHash` function.
+/// Class names are content-addressable: same CSS declarations produce the same
+/// class name regardless of layer ordering.
+pub fn generate_hash(rule: &StyleRule, _layer: u32) -> String {
     // Build the same string the TS version builds:
-    // JSON.stringify(declarations) + JSON.stringify(selectors) + JSON.stringify(mediaQueries) + String(layer)
+    // JSON.stringify(declarations) + JSON.stringify(selectors) + JSON.stringify(mediaQueries) + JSON.stringify(supportsQueries) + selectorTemplate
     let decl_json = serialize_declarations(&rule.declarations);
     let sel_json = serialize_string_array(&rule.selectors);
     let mq_json = serialize_string_array(&rule.media_queries);
-    let input = format!("{}{}{}{}", decl_json, sel_json, mq_json, layer);
+    let input = format!("{}{}{}", decl_json, sel_json, mq_json);
     let h = djb2(&input);
     format!("_{}", radix_fmt(h, 36))
 }
@@ -96,8 +98,9 @@ mod tests {
     }
 
     #[test]
-    fn test_different_layers_different_hash() {
+    fn test_same_rule_different_layers_same_hash() {
+        // Class names are content-addressable — layer doesn't affect the hash
         let rule = StyleRule::new(vec![("color", "red")]);
-        assert_ne!(generate_hash(&rule, 0), generate_hash(&rule, 1));
+        assert_eq!(generate_hash(&rule, 0), generate_hash(&rule, 1));
     }
 }

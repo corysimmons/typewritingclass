@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass-next",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "type": "module",
   "repository": {
     "type": "git",
@@ -27,6 +27,16 @@
         "types": "./dist/plugin.d.cts",
         "default": "./dist/plugin.cjs"
       }
+    },
+    "./loader": {
+      "import": {
+        "types": "./dist/loader.d.ts",
+        "default": "./dist/loader.js"
+      },
+      "require": {
+        "types": "./dist/loader.d.cts",
+        "default": "./dist/loader.cjs"
+      }
     }
   },
   "main": "./dist/index.cjs",
@@ -45,7 +55,7 @@
     "typewritingclass-react": "workspace:*"
   },
   "dependencies": {
-    "typewritingclass-babel": "workspace:*"
+    "typewritingclass-compiler": "workspace:*"
   },
   "devDependencies": {
     "next": "^15.0.0",

@@ -1,6 +1,6 @@
 ---
 title: Core API
-description: Complete reference for tw, cx(), dcx(), when(), css(), dynamic(), and layer().
+description: Complete reference for tw, cx(), dcx(), when(), dynamic(), and layer().
 sidebar:
   order: 1
 ---
@@ -136,28 +136,6 @@ when(hover)(bg('blue-600'))              // :hover
 when(md)(p(8))                            // @media (min-width: 768px)
 when(hover, md)(bg('blue-700'))          // hover inside md breakpoint
 when(dark)(bg('slate-900'), textColor('white'))  // dark mode
-```
-
----
-
-## css()
-
-Escape hatch for raw CSS declarations.
-
-```ts
-// Object form
-css({ display: 'grid', 'grid-template-columns': '1fr 1fr' })
-
-// Tagged template
-css`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`
-
-// With dynamic values
-const color = dynamic('#e11d48')
-dcx(css`background-color: ${color}; padding: 1rem;`)
 ```
 
 ---
