@@ -282,6 +282,19 @@ export function isTwChain(value: unknown): value is TwChain {
 }
 
 // ---------------------------------------------------------------------------
+// TwChain type helpers
+// ---------------------------------------------------------------------------
+
+/** @internal A utility that accepts arguments and returns a chain. Also chainable without calling (for optional-arg utilities like `shadow`). */
+type TwUtility = ((...args: any[]) => TwChain) & TwChain
+
+/** @internal A modifier usable as a property (`tw.hover.bg(…)`) or function (`tw.hover(tw.bg(…))`). */
+type TwModifier = TwChain & ((...chains: TwChain[]) => TwChain)
+
+/** @internal A parameterized modifier that requires arguments before it becomes a modifier. */
+type TwParamModifier = (...args: any[]) => TwChain
+
+// ---------------------------------------------------------------------------
 // TwChain type
 // ---------------------------------------------------------------------------
 
@@ -295,6 +308,8 @@ export function isTwChain(value: unknown): value is TwChain {
  * Modifiers can be used as properties for single-utility application
  * (`tw.hover.bg('red-500')`) or as functions accepting another chain
  * for multi-utility application (`tw.hover(tw.bg('red-500').textColor('white'))`).
+ *
+ * **Keep in sync with the UTILS, VALUELESS, MODS, and PARAM_MODS lookup tables.**
  */
 export interface TwChain {
   /** @internal Accumulated style rules */
@@ -307,9 +322,445 @@ export interface TwChain {
   readonly value: string
   /** Resolves the chain to a class name string */
   readonly className: string
-  /** Allow the chain to be called as a function (for parameterized modifiers) */
+  /** Allow the chain to be called as a function */
   (...args: any[]): TwChain
-  /** Any property access returns TwChain (utilities, modifiers, value-less) */
+
+  // ---- Utilities (take arguments) — keep in sync with UTILS ----
+
+  // Spacing
+  readonly p: TwUtility
+  readonly px: TwUtility
+  readonly py: TwUtility
+  readonly pt: TwUtility
+  readonly pr: TwUtility
+  readonly pb: TwUtility
+  readonly pl: TwUtility
+  readonly m: TwUtility
+  readonly mx: TwUtility
+  readonly my: TwUtility
+  readonly mt: TwUtility
+  readonly mr: TwUtility
+  readonly mb: TwUtility
+  readonly ml: TwUtility
+  readonly gap: TwUtility
+  readonly gapX: TwUtility
+  readonly gapY: TwUtility
+  readonly ps: TwUtility
+  readonly pe: TwUtility
+  readonly ms: TwUtility
+  readonly me: TwUtility
+  readonly spaceX: TwUtility
+  readonly spaceY: TwUtility
+  // Colors
+  readonly bg: TwUtility
+  readonly textColor: TwUtility
+  readonly borderColor: TwUtility
+  // Typography
+  readonly text: TwUtility
+  readonly font: TwUtility
+  readonly tracking: TwUtility
+  readonly leading: TwUtility
+  readonly textAlign: TwUtility
+  readonly fontFamily: TwUtility
+  readonly lineClamp: TwUtility
+  readonly listStyleImage: TwUtility
+  readonly listStylePosition: TwUtility
+  readonly listStyleType: TwUtility
+  readonly textDecoration: TwUtility
+  readonly textDecorationColor: TwUtility
+  readonly textDecorationStyle: TwUtility
+  readonly textDecorationThickness: TwUtility
+  readonly textUnderlineOffset: TwUtility
+  readonly textTransform: TwUtility
+  readonly textOverflow: TwUtility
+  readonly textWrap: TwUtility
+  readonly textIndent: TwUtility
+  readonly verticalAlign: TwUtility
+  readonly whitespace: TwUtility
+  readonly wordBreak: TwUtility
+  readonly hyphens: TwUtility
+  readonly content: TwUtility
+  // Layout
+  readonly grid: TwUtility
+  readonly gridCols: TwUtility
+  readonly gridRows: TwUtility
+  readonly w: TwUtility
+  readonly h: TwUtility
+  readonly size: TwUtility
+  readonly minW: TwUtility
+  readonly minH: TwUtility
+  readonly maxW: TwUtility
+  readonly maxH: TwUtility
+  readonly display: TwUtility
+  readonly items: TwUtility
+  readonly justify: TwUtility
+  readonly self: TwUtility
+  readonly overflow: TwUtility
+  readonly overflowX: TwUtility
+  readonly overflowY: TwUtility
+  readonly top: TwUtility
+  readonly right: TwUtility
+  readonly bottom: TwUtility
+  readonly left: TwUtility
+  readonly inset: TwUtility
+  readonly z: TwUtility
+  readonly aspectRatio: TwUtility
+  readonly columns: TwUtility
+  readonly breakAfter: TwUtility
+  readonly breakBefore: TwUtility
+  readonly breakInside: TwUtility
+  readonly boxDecorationBreak: TwUtility
+  readonly boxSizing: TwUtility
+  readonly float: TwUtility
+  readonly clear: TwUtility
+  readonly objectFit: TwUtility
+  readonly objectPosition: TwUtility
+  readonly overscrollBehavior: TwUtility
+  readonly overscrollX: TwUtility
+  readonly overscrollY: TwUtility
+  readonly insetX: TwUtility
+  readonly insetY: TwUtility
+  readonly start: TwUtility
+  readonly end: TwUtility
+  readonly flexBasis: TwUtility
+  readonly grow: TwUtility
+  readonly shrink: TwUtility
+  readonly order: TwUtility
+  readonly colSpan: TwUtility
+  readonly colStart: TwUtility
+  readonly colEnd: TwUtility
+  readonly rowSpan: TwUtility
+  readonly rowStart: TwUtility
+  readonly rowEnd: TwUtility
+  readonly gridFlow: TwUtility
+  readonly autoCols: TwUtility
+  readonly autoRows: TwUtility
+  readonly justifyItems: TwUtility
+  readonly justifySelf: TwUtility
+  readonly alignContent: TwUtility
+  readonly placeContent: TwUtility
+  readonly placeItems: TwUtility
+  readonly placeSelf: TwUtility
+  // Borders
+  readonly rounded: TwUtility
+  readonly roundedT: TwUtility
+  readonly roundedB: TwUtility
+  readonly roundedL: TwUtility
+  readonly roundedR: TwUtility
+  readonly roundedTL: TwUtility
+  readonly roundedTR: TwUtility
+  readonly roundedBR: TwUtility
+  readonly roundedBL: TwUtility
+  readonly roundedSS: TwUtility
+  readonly roundedSE: TwUtility
+  readonly roundedEE: TwUtility
+  readonly roundedES: TwUtility
+  readonly border: TwUtility
+  readonly borderT: TwUtility
+  readonly borderR: TwUtility
+  readonly borderB: TwUtility
+  readonly borderL: TwUtility
+  readonly borderX: TwUtility
+  readonly borderY: TwUtility
+  readonly borderS: TwUtility
+  readonly borderE: TwUtility
+  readonly borderStyle: TwUtility
+  readonly ring: TwUtility
+  readonly ringColor: TwUtility
+  readonly ringOffsetWidth: TwUtility
+  readonly ringOffsetColor: TwUtility
+  readonly outlineWidth: TwUtility
+  readonly outlineColor: TwUtility
+  readonly outlineStyle: TwUtility
+  readonly outlineOffset: TwUtility
+  readonly outline: TwUtility
+  readonly divideX: TwUtility
+  readonly divideY: TwUtility
+  readonly divideColor: TwUtility
+  readonly divideStyle: TwUtility
+  // Effects
+  readonly shadow: TwUtility
+  readonly opacity: TwUtility
+  readonly backdrop: TwUtility
+  readonly shadowColor: TwUtility
+  readonly mixBlendMode: TwUtility
+  readonly bgBlendMode: TwUtility
+  // Interactivity
+  readonly cursor: TwUtility
+  readonly select: TwUtility
+  readonly pointerEvents: TwUtility
+  readonly accentColor: TwUtility
+  readonly appearance: TwUtility
+  readonly caretColor: TwUtility
+  readonly resize: TwUtility
+  readonly scrollBehavior: TwUtility
+  readonly scrollMargin: TwUtility
+  readonly scrollMarginX: TwUtility
+  readonly scrollMarginY: TwUtility
+  readonly scrollMarginT: TwUtility
+  readonly scrollMarginR: TwUtility
+  readonly scrollMarginB: TwUtility
+  readonly scrollMarginL: TwUtility
+  readonly scrollPadding: TwUtility
+  readonly scrollPaddingX: TwUtility
+  readonly scrollPaddingY: TwUtility
+  readonly scrollPaddingT: TwUtility
+  readonly scrollPaddingR: TwUtility
+  readonly scrollPaddingB: TwUtility
+  readonly scrollPaddingL: TwUtility
+  readonly snapAlign: TwUtility
+  readonly snapStop: TwUtility
+  readonly snapType: TwUtility
+  readonly touchAction: TwUtility
+  readonly willChange: TwUtility
+  // Filters
+  readonly blur: TwUtility
+  readonly brightness: TwUtility
+  readonly contrast: TwUtility
+  readonly dropShadow: TwUtility
+  readonly grayscale: TwUtility
+  readonly hueRotate: TwUtility
+  readonly invert: TwUtility
+  readonly saturate: TwUtility
+  readonly sepia: TwUtility
+  readonly backdropBlur: TwUtility
+  readonly backdropBrightness: TwUtility
+  readonly backdropContrast: TwUtility
+  readonly backdropGrayscale: TwUtility
+  readonly backdropHueRotate: TwUtility
+  readonly backdropInvert: TwUtility
+  readonly backdropOpacity: TwUtility
+  readonly backdropSaturate: TwUtility
+  readonly backdropSepia: TwUtility
+  // Transforms
+  readonly scale: TwUtility
+  readonly scaleX: TwUtility
+  readonly scaleY: TwUtility
+  readonly rotate: TwUtility
+  readonly translateX: TwUtility
+  readonly translateY: TwUtility
+  readonly skewX: TwUtility
+  readonly skewY: TwUtility
+  readonly transformOrigin: TwUtility
+  // Transitions
+  readonly transition: TwUtility
+  readonly duration: TwUtility
+  readonly ease: TwUtility
+  readonly delay: TwUtility
+  readonly animate: TwUtility
+  // Tables
+  readonly borderSpacing: TwUtility
+  readonly borderSpacingX: TwUtility
+  readonly borderSpacingY: TwUtility
+  readonly tableLayout: TwUtility
+  readonly captionSide: TwUtility
+  // SVG
+  readonly fill: TwUtility
+  readonly stroke: TwUtility
+  readonly strokeWidth: TwUtility
+  // Accessibility
+  readonly forcedColorAdjust: TwUtility
+  // Backgrounds
+  readonly bgAttachment: TwUtility
+  readonly bgClip: TwUtility
+  readonly bgOrigin: TwUtility
+  readonly bgPosition: TwUtility
+  readonly bgRepeat: TwUtility
+  readonly bgSize: TwUtility
+  readonly bgImage: TwUtility
+  readonly bgGradient: TwUtility
+  readonly gradientFrom: TwUtility
+  readonly gradientVia: TwUtility
+  readonly gradientTo: TwUtility
+
+  // ---- Value-less utilities (no arguments) — keep in sync with VALUELESS ----
+
+  // Layout
+  readonly flex: TwChain
+  readonly flexCol: TwChain
+  readonly flexRow: TwChain
+  readonly flexWrap: TwChain
+  readonly inlineFlex: TwChain
+  readonly relative: TwChain
+  readonly absolute: TwChain
+  readonly fixed: TwChain
+  readonly sticky: TwChain
+  readonly static: TwChain
+  readonly visible: TwChain
+  readonly invisible: TwChain
+  readonly collapse: TwChain
+  readonly isolate: TwChain
+  readonly isolationAuto: TwChain
+  readonly container: TwChain
+  readonly flexRowReverse: TwChain
+  readonly flexColReverse: TwChain
+  readonly flexWrapReverse: TwChain
+  readonly flexNowrap: TwChain
+  readonly flex1: TwChain
+  readonly flexAuto: TwChain
+  readonly flexInitial: TwChain
+  readonly flexNone: TwChain
+  // Typography
+  readonly antialiased: TwChain
+  readonly subpixelAntialiased: TwChain
+  readonly italic: TwChain
+  readonly notItalic: TwChain
+  readonly truncate: TwChain
+  readonly normalNums: TwChain
+  readonly ordinal: TwChain
+  readonly slashedZero: TwChain
+  readonly liningNums: TwChain
+  readonly oldstyleNums: TwChain
+  readonly proportionalNums: TwChain
+  readonly tabularNums: TwChain
+  readonly diagonalFractions: TwChain
+  readonly stackedFractions: TwChain
+  // Borders
+  readonly ringInset: TwChain
+  readonly outlineNone: TwChain
+  readonly borderCollapse: TwChain
+  readonly borderSeparate: TwChain
+  readonly spaceXReverse: TwChain
+  readonly spaceYReverse: TwChain
+  readonly divideXReverse: TwChain
+  readonly divideYReverse: TwChain
+  // Transforms
+  readonly transformGpu: TwChain
+  readonly transformNone: TwChain
+  // Transitions
+  readonly transitionAll: TwChain
+  readonly transitionColors: TwChain
+  readonly transitionOpacity: TwChain
+  readonly transitionShadow: TwChain
+  readonly transitionTransform: TwChain
+  readonly transitionNone: TwChain
+  // Accessibility
+  readonly srOnly: TwChain
+  readonly notSrOnly: TwChain
+  // Raw class names
+  readonly group: TwChain
+  readonly peer: TwChain
+
+  // ---- Simple modifiers (no arguments) — keep in sync with MODS ----
+
+  // Pseudo-classes
+  readonly hover: TwModifier
+  readonly focus: TwModifier
+  readonly active: TwModifier
+  readonly disabled: TwModifier
+  readonly focusVisible: TwModifier
+  readonly focusWithin: TwModifier
+  readonly firstChild: TwModifier
+  readonly lastChild: TwModifier
+  readonly visited: TwModifier
+  readonly checked: TwModifier
+  readonly indeterminate: TwModifier
+  readonly default: TwModifier
+  readonly required: TwModifier
+  readonly valid: TwModifier
+  readonly invalid: TwModifier
+  readonly inRange: TwModifier
+  readonly outOfRange: TwModifier
+  readonly placeholderShown: TwModifier
+  readonly autofill: TwModifier
+  readonly readOnly: TwModifier
+  readonly empty: TwModifier
+  readonly even: TwModifier
+  readonly odd: TwModifier
+  readonly firstOfType: TwModifier
+  readonly lastOfType: TwModifier
+  readonly onlyChild: TwModifier
+  readonly onlyOfType: TwModifier
+  readonly target: TwModifier
+  readonly open: TwModifier
+  // Responsive
+  readonly sm: TwModifier
+  readonly md: TwModifier
+  readonly lg: TwModifier
+  readonly xl: TwModifier
+  readonly _2xl: TwModifier
+  readonly maxSm: TwModifier
+  readonly maxMd: TwModifier
+  readonly maxLg: TwModifier
+  readonly maxXl: TwModifier
+  readonly max2xl: TwModifier
+  // Color scheme
+  readonly dark: TwModifier
+  // Media
+  readonly motionReduce: TwModifier
+  readonly motionSafe: TwModifier
+  readonly print: TwModifier
+  readonly portrait: TwModifier
+  readonly landscape: TwModifier
+  readonly contrastMore: TwModifier
+  readonly contrastLess: TwModifier
+  readonly forcedColors: TwModifier
+  // Pseudo-elements
+  readonly before: TwModifier
+  readonly after: TwModifier
+  readonly placeholder: TwModifier
+  readonly file: TwModifier
+  readonly marker: TwModifier
+  readonly selection: TwModifier
+  readonly firstLine: TwModifier
+  readonly firstLetter: TwModifier
+  readonly backdropEl: TwModifier
+  // ARIA
+  readonly ariaChecked: TwModifier
+  readonly ariaDisabled: TwModifier
+  readonly ariaExpanded: TwModifier
+  readonly ariaHidden: TwModifier
+  readonly ariaPressed: TwModifier
+  readonly ariaReadonly: TwModifier
+  readonly ariaRequired: TwModifier
+  readonly ariaSelected: TwModifier
+  // Group
+  readonly groupHover: TwModifier
+  readonly groupFocus: TwModifier
+  readonly groupActive: TwModifier
+  readonly groupFocusVisible: TwModifier
+  readonly groupFocusWithin: TwModifier
+  readonly groupDisabled: TwModifier
+  readonly groupChecked: TwModifier
+  readonly groupEmpty: TwModifier
+  readonly groupFirst: TwModifier
+  readonly groupLast: TwModifier
+  readonly groupOdd: TwModifier
+  readonly groupEven: TwModifier
+  readonly groupOpen: TwModifier
+  readonly groupVisited: TwModifier
+  // Peer
+  readonly peerHover: TwModifier
+  readonly peerFocus: TwModifier
+  readonly peerActive: TwModifier
+  readonly peerFocusVisible: TwModifier
+  readonly peerDisabled: TwModifier
+  readonly peerChecked: TwModifier
+  readonly peerInvalid: TwModifier
+  readonly peerRequired: TwModifier
+  readonly peerPlaceholderShown: TwModifier
+  readonly peerFocusWithin: TwModifier
+  readonly peerEmpty: TwModifier
+  readonly peerFirst: TwModifier
+  readonly peerLast: TwModifier
+  readonly peerOdd: TwModifier
+  readonly peerEven: TwModifier
+  readonly peerOpen: TwModifier
+  readonly peerVisited: TwModifier
+  // Direction
+  readonly rtl: TwModifier
+  readonly ltr: TwModifier
+
+  // ---- Parameterized modifiers — keep in sync with PARAM_MODS ----
+
+  readonly has: TwParamModifier
+  readonly aria: TwParamModifier
+  readonly data: TwParamModifier
+  readonly supports: TwParamModifier
+  readonly groupHas: TwParamModifier
+  readonly peerHas: TwParamModifier
+
+  /** Fallback: unknown properties are treated as raw class names */
   [key: string]: any
 }
 
@@ -361,16 +812,6 @@ function createChain(rules: (StyleRule | string)[], pendingMods: Modifier[]): Tw
         const paramModFn = PARAM_MODS[name]
         // Return a function that takes args and returns a new chain or modifier proxy
         return (...args: any[]) => {
-          // If first arg is a TwChain, apply as grouped modifier
-          if (args.length === 1 && isTwChain(args[0])) {
-            const childRules = args[0]._rules as (StyleRule | string)[]
-            const mod = paramModFn()  // parameterized modifiers need args...
-            // Actually parameterized mods need the real args, not ().
-            // This case doesn't apply — parameterized modifiers always need a string arg.
-            // If someone passes a TwChain as the only arg, they probably mean to use it
-            // as a modifier on a chain. But that's not how parameterized modifiers work.
-            // Fall through to normal parameterized modifier usage.
-          }
           const mod = paramModFn(...args)
           return createChain(rules, [...pendingMods, mod])
         }

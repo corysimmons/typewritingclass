@@ -3,7 +3,7 @@ import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { writeFileSync, mkdirSync } from 'fs'
 
-import type { ThemeInput, TransformOutput, Diagnostic } from 'typewritingclass-compiler/src/index.ts'
+import type { ThemeInput, TransformOutput, Diagnostic } from 'typewritingclass-compiler'
 
 // Load the native addon from typewritingclass-compiler
 const require = createRequire(import.meta.url)
@@ -54,7 +54,7 @@ const DEFAULT_THEME: ThemeInput = {
  * ]
  * ```
  */
-export default function twcBabelPlugin(): { visitor: Record<string, Function> } {
+export default function twcBabelPlugin() {
   let layer = 0
   const fileRules = new Map<string, string[]>()
 

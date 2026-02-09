@@ -224,6 +224,9 @@ importers:
 
   packages/typewritingclass-babel:
     dependencies:
+      '@babel/parser':
+        specifier: ^7.0.0
+        version: 7.29.0
       typewritingclass-compiler:
         specifier: workspace:*
         version: link:../typewritingclass-compiler

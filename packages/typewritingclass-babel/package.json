@@ -18,6 +18,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@babel/parser": "^7.0.0",
     "typewritingclass-compiler": "workspace:*"
   },
   "peerDependencies": {

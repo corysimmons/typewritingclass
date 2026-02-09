@@ -88,27 +88,27 @@ export function createDynamicRule(
  */
 export function combineRules(rules: StyleRule[]): StyleRule {
   const merged: Record<string, string> = {}
-  const selectors: string[] = []
-  const mediaQueries: string[] = []
-  const supportsQueries: string[] = []
+  const selectorSet = new Set<string>()
+  const mediaQuerySet = new Set<string>()
+  const supportsQuerySet = new Set<string>()
   let dynamicBindings: Record<string, string> | undefined
   for (const rule of rules) {
     Object.assign(merged, rule.declarations)
-    for (const s of rule.selectors) {
-      if (!selectors.includes(s)) selectors.push(s)
-    }
-    for (const mq of rule.mediaQueries) {
-      if (!mediaQueries.includes(mq)) mediaQueries.push(mq)
-    }
-    for (const sq of rule.supportsQueries) {
-      if (!supportsQueries.includes(sq)) supportsQueries.push(sq)
-    }
+    for (const s of rule.selectors) selectorSet.add(s)
+    for (const mq of rule.mediaQueries) mediaQuerySet.add(mq)
+    for (const sq of rule.supportsQueries) supportsQuerySet.add(sq)
     if (rule.dynamicBindings) {
       if (!dynamicBindings) dynamicBindings = {}
       Object.assign(dynamicBindings, rule.dynamicBindings)
     }
   }
-  const result: StyleRule = { _tag: 'StyleRule', declarations: merged, selectors, mediaQueries, supportsQueries }
+  const result: StyleRule = {
+    _tag: 'StyleRule',
+    declarations: merged,
+    selectors: [...selectorSet],
+    mediaQueries: [...mediaQuerySet],
+    supportsQueries: [...supportsQuerySet],
+  }
   if (dynamicBindings) result.dynamicBindings = dynamicBindings
   return result
 }

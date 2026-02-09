@@ -11,6 +11,10 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./loadTheme": {
+      "types": "./src/loadTheme.ts",
+      "default": "./src/loadTheme.ts"
     }
   },
   "files": ["src"],

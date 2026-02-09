@@ -8,7 +8,7 @@ interface NextConfig {
 export interface TwcNextPluginOptions {
   /** Path to write the combined CSS output file. Default: ".next/twc.css" */
   outputFile?: string
-  /** Enable strict mode for the compiler. Default: false */
+  /** Enable strict mode for the compiler. Default: true */
   strict?: boolean
 }
 
@@ -39,7 +39,7 @@ export interface TwcNextPluginOptions {
 export function withTwc(nextConfig: NextConfig = {}, options: TwcNextPluginOptions = {}): NextConfig {
   const babelOptions: TwcBabelPluginOptions = {
     outputFile: options.outputFile ?? '.next/twc.css',
-    strict: options.strict ?? false,
+    strict: options.strict ?? true,
   }
 
   return {
