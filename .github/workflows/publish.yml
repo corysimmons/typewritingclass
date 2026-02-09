@@ -94,7 +94,7 @@ jobs:
 
             echo "Publishing $PKG_NAME@$CURRENT_VERSION (was $PREVIOUS_VERSION)"
             cd "$pkg_dir"
-            npm publish --access public
+            pnpm publish --access public --no-git-checks
             cd "$GITHUB_WORKSPACE"
             PUBLISHED+=("$PKG_NAME@$CURRENT_VERSION")
           done
