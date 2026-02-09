@@ -65,6 +65,12 @@ export function dcx(...args: (StyleRule | string)[]): DynamicResult {
       classNames.push(arg)
       continue
     }
+    // TwChain proxies are typeof 'function' — coerce to string,
+    // which recursively calls cx() on the chain's internal rules.
+    if (typeof arg === 'function') {
+      classNames.push(String(arg))
+      continue
+    }
     const layerNum = (arg as any)._layer ?? nextLayer()
     const className = generateHash(arg, layerNum)
     register(className, arg, layerNum)

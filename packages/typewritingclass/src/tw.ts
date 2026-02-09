@@ -796,7 +796,7 @@ function createChain(rules: (StyleRule | string)[], pendingMods: Modifier[]): Tw
       if (prop === '_rules') return rules
 
       // --- String coercion ---
-      if (prop === Symbol.toPrimitive || prop === 'toString' || prop === 'valueOf') {
+      if (prop === Symbol.toPrimitive || prop === 'toString' || prop === 'valueOf' || prop === 'toJSON') {
         return () => cx(...rules)
       }
       if (prop === Symbol.toStringTag) return 'TwChain'
