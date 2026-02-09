@@ -20,12 +20,18 @@ export interface TwcPluginOptions {
 
 const VIRTUAL_CSS_ID = 'virtual:twc.css'
 const RESOLVED_VIRTUAL_CSS_ID = '\0' + VIRTUAL_CSS_ID
+const CLIENT_CSS_PATH = '/@id/__x00__' + VIRTUAL_CSS_ID
 
 export default function twcPlugin(options?: TwcPluginOptions): Plugin {
   const strict = options?.strict ?? true
 
   let themeInput: import('../index.d.ts').ThemeInput
-  let layer = 0
+  // In dev mode, each file gets a stable layer offset (based on insertion order)
+  // so hashes are deterministic across HMR cycles. In production, layer is
+  // accumulated across all files for proper CSS ordering.
+  let prodLayer = 0
+  const fileLayerOffsets = new Map<string, number>()
+  let nextFileLayer = 0
   // file path -> extracted CSS rules (css text strings ordered by layer)
   const fileRules = new Map<string, string[]>()
   let devServer: ViteDevServer | null = null
@@ -38,8 +44,6 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
     },
 
     async buildStart() {
-      // Load theme data from the typewritingclass package at build time.
-      // The theme is the single source of truth — values come from TS, not Rust.
       themeInput = await loadTheme()
     },
 
@@ -51,9 +55,6 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
 
     load(id) {
       if (id === RESOLVED_VIRTUAL_CSS_ID) {
-        // In production builds, the virtual module is loaded before all files
-        // are transformed (Rollup processes imports in order). Return current
-        // CSS — it may be empty on first load. generateBundle will fix it.
         return generateAllCss()
       }
     },
@@ -62,54 +63,64 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
       if (!id.match(/\.[jt]sx?$/) || id.includes('node_modules')) return
       if (!code.includes('typewritingclass')) return
 
-      try {
-        const result = native.transform(code, id, layer, themeInput, strict)
-        layer = result.nextLayer
+      // In dev mode, assign a stable layer offset per file so hashes
+      // don't change across HMR cycles. In production, accumulate layers.
+      let layerOffset: number
+      if (devServer) {
+        if (!fileLayerOffsets.has(id)) {
+          fileLayerOffsets.set(id, nextFileLayer)
+          nextFileLayer += 1000 // plenty of room per file
+        }
+        layerOffset = fileLayerOffsets.get(id)!
+      } else {
+        layerOffset = prodLayer
+      }
 
-        // Surface diagnostics as Vite warnings/errors
+      try {
+        const result = native.transform(code, id, layerOffset, themeInput, strict)
+        if (!devServer) {
+          prodLayer = result.nextLayer
+        }
+
         for (const diag of result.diagnostics) {
           if (diag.severity === 'error') {
-            this.error({
-              message: diag.message,
-              id,
-              pos: diag.line,
-            })
+            this.error({ message: diag.message, id, pos: diag.line })
           } else {
-            this.warn({
-              message: diag.message,
-              id,
-              pos: diag.line,
-            })
+            this.warn({ message: diag.message, id, pos: diag.line })
           }
         }
 
         if (result.rules.length > 0) {
-          fileRules.set(
-            id,
-            result.rules.map((r) => r.cssText),
-          )
-
-          // In dev mode, invalidate the virtual CSS module so it reloads
-          // with the newly collected rules
-          if (devServer) {
-            const mod = devServer.moduleGraph.getModuleById(RESOLVED_VIRTUAL_CSS_ID)
-            if (mod) {
-              devServer.moduleGraph.invalidateModule(mod)
-            }
-          }
+          fileRules.set(id, result.rules.map((r) => r.cssText))
         }
 
-        // Use MagicString for source map generation
         const s = new MagicString(code)
 
-        // If the native transform changed the code, overwrite the content
         if (result.code !== code) {
           s.overwrite(0, code.length, result.code)
         }
 
-        // Inject virtual CSS import so styles are included in the bundle
         if (!result.code.includes(VIRTUAL_CSS_ID)) {
           s.prepend(`import '${VIRTUAL_CSS_ID}';\n`)
+        }
+
+        // In dev mode, after updating rules, invalidate the CSS module and
+        // tell the client to re-fetch it. This runs AFTER fileRules is
+        // updated, so the CSS will be fresh when the client requests it.
+        if (devServer && result.rules.length > 0) {
+          const mod = devServer.moduleGraph.getModuleById(RESOLVED_VIRTUAL_CSS_ID)
+          if (mod) {
+            devServer.moduleGraph.invalidateModule(mod)
+          }
+          devServer.hot.send({
+            type: 'update',
+            updates: [{
+              type: 'css-update',
+              timestamp: Date.now(),
+              path: CLIENT_CSS_PATH,
+              acceptedPath: CLIENT_CSS_PATH,
+            }],
+          })
         }
 
         return {
@@ -117,7 +128,6 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
           map: s.generateMap({ source: id, includeContent: true }),
         }
       } catch {
-        // If Rust transform fails, fall back to just injecting the runtime
         if (!code.includes('typewritingclass/inject')) {
           const s = new MagicString(code)
           s.prepend(`import 'typewritingclass/inject';\n`)
@@ -129,9 +139,6 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
       }
     },
 
-    // Production builds: inject CSS into the output after all files are
-    // transformed. This fixes the timing issue where virtual:twc.css is
-    // loaded by Rollup before component files have been processed.
     generateBundle(_, bundle) {
       const css = generateAllCss()
       if (!css) return
@@ -144,23 +151,11 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
         }
       }
 
-      // No existing CSS asset — emit one
       this.emitFile({
         type: 'asset',
         fileName: 'assets/twc.css',
         source: css,
       })
-    },
-
-    handleHotUpdate({ file, server }) {
-      if (file.match(/\.[jt]sx?$/) && fileRules.has(file)) {
-        // Invalidate the virtual CSS module so it regenerates
-        const mod = server.moduleGraph.getModuleById(RESOLVED_VIRTUAL_CSS_ID)
-        if (mod) {
-          server.moduleGraph.invalidateModule(mod)
-          return [mod]
-        }
-      }
     },
   }
 
@@ -174,4 +169,3 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
     return native.generateCss(JSON.stringify(allRules))
   }
 }
-
