@@ -593,16 +593,22 @@ function formatDeclarations(decls: CSSDeclarations, indent: string = ''): string
 // ---------------------------------------------------------------------------
 
 /**
- * Generate a CSS preview string for a single utility call like `p(4)`.
- * Returns undefined if the utility is not recognized.
+ * Return raw CSS declarations for a single utility call.
  */
-export function generateUtilityPreview(fnName: string, argStr: string): string | undefined {
+export function generateUtilityDeclarations(fnName: string, argStr: string): CSSDeclarations | undefined {
   const generator = utilityRegistry[fnName];
   if (!generator) {
     return undefined;
   }
+  return generator(argStr) || undefined;
+}
 
-  const decls = generator(argStr);
+/**
+ * Generate a CSS preview string for a single utility call like `p(4)`.
+ * Returns undefined if the utility is not recognized.
+ */
+export function generateUtilityPreview(fnName: string, argStr: string): string | undefined {
+  const decls = generateUtilityDeclarations(fnName, argStr);
   if (!decls) {
     return undefined;
   }
@@ -611,10 +617,9 @@ export function generateUtilityPreview(fnName: string, argStr: string): string |
 }
 
 /**
- * Generate a CSS preview for a cx() call by parsing each inner utility call
- * and composing their declarations.
+ * Return raw combined CSS declarations for a cx() call.
  */
-export function generateCxPreview(innerArgs: string): string | undefined {
+export function generateCxDeclarations(innerArgs: string): CSSDeclarations | undefined {
   const calls = parseFunctionCalls(innerArgs);
   if (calls.length === 0) {
     return undefined;
@@ -622,26 +627,43 @@ export function generateCxPreview(innerArgs: string): string | undefined {
 
   const allDecls: CSSDeclarations = {};
   for (const call of calls) {
-    const preview = generateUtilityPreview(call.name, call.args);
-    if (preview) {
-      // Parse the preview back into declarations
-      for (const line of preview.split('\n')) {
-        const colonIdx = line.indexOf(':');
-        if (colonIdx === -1) { continue; }
-        const prop = line.slice(0, colonIdx).trim();
-        const value = line.slice(colonIdx + 1).trim().replace(/;$/, '');
-        if (prop && value) {
-          allDecls[prop] = value;
-        }
-      }
+    const decls = generateUtilityDeclarations(call.name, call.args);
+    if (decls) {
+      Object.assign(allDecls, decls);
     }
   }
 
-  if (Object.keys(allDecls).length === 0) {
+  return Object.keys(allDecls).length > 0 ? allDecls : undefined;
+}
+
+/**
+ * Generate a CSS preview for a cx() call by parsing each inner utility call
+ * and composing their declarations.
+ */
+export function generateCxPreview(innerArgs: string): string | undefined {
+  const allDecls = generateCxDeclarations(innerArgs);
+  if (!allDecls) {
     return undefined;
   }
 
   return `/* cx(...) combined output */\n.className {\n${formatDeclarations(allDecls, '  ')}\n}`;
+}
+
+/**
+ * Return raw CSS declarations for the utilities inside a when() call.
+ */
+export function generateWhenDeclarations(utilityArgs: string): CSSDeclarations | undefined {
+  const calls = parseFunctionCalls(utilityArgs);
+  const allDecls: CSSDeclarations = {};
+
+  for (const call of calls) {
+    const decls = generateUtilityDeclarations(call.name, call.args);
+    if (decls) {
+      Object.assign(allDecls, decls);
+    }
+  }
+
+  return Object.keys(allDecls).length > 0 ? allDecls : undefined;
 }
 
 /**
@@ -668,26 +690,8 @@ export function generateWhenPreview(modifierArgs: string, utilityArgs: string): 
     }
   }
 
-  // Parse utility calls inside
-  const calls = parseFunctionCalls(utilityArgs);
-  const allDecls: CSSDeclarations = {};
-
-  for (const call of calls) {
-    const preview = generateUtilityPreview(call.name, call.args);
-    if (preview) {
-      for (const line of preview.split('\n')) {
-        const colonIdx = line.indexOf(':');
-        if (colonIdx === -1) { continue; }
-        const prop = line.slice(0, colonIdx).trim();
-        const value = line.slice(colonIdx + 1).trim().replace(/;$/, '');
-        if (prop && value) {
-          allDecls[prop] = value;
-        }
-      }
-    }
-  }
-
-  if (Object.keys(allDecls).length === 0) {
+  const allDecls = generateWhenDeclarations(utilityArgs);
+  if (!allDecls) {
     return undefined;
   }
 

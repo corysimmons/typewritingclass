@@ -4,8 +4,11 @@
 // to their generated CSS declarations.
 // ---------------------------------------------------------------------------
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateUtilityDeclarations = generateUtilityDeclarations;
 exports.generateUtilityPreview = generateUtilityPreview;
+exports.generateCxDeclarations = generateCxDeclarations;
 exports.generateCxPreview = generateCxPreview;
+exports.generateWhenDeclarations = generateWhenDeclarations;
 exports.generateWhenPreview = generateWhenPreview;
 exports.parseFunctionCalls = parseFunctionCalls;
 exports.isKnownUtility = isKnownUtility;
@@ -322,8 +325,8 @@ const utilityRegistry = {
     textAlign: passthrough('text-align'),
     // Layout — flexbox
     flex: () => ({ display: 'flex' }),
-    flexCol: () => ({ display: 'flex', 'flex-direction': 'column' }),
-    flexRow: () => ({ display: 'flex', 'flex-direction': 'row' }),
+    flexCol: () => ({ 'flex-direction': 'column' }),
+    flexRow: () => ({ 'flex-direction': 'row' }),
     flexWrap: () => ({ 'flex-wrap': 'wrap' }),
     inlineFlex: () => ({ display: 'inline-flex' }),
     // Layout — grid
@@ -518,51 +521,67 @@ function formatDeclarations(decls, indent = '') {
 // Public API
 // ---------------------------------------------------------------------------
 /**
- * Generate a CSS preview string for a single utility call like `p(4)`.
- * Returns undefined if the utility is not recognized.
+ * Return raw CSS declarations for a single utility call.
  */
-function generateUtilityPreview(fnName, argStr) {
+function generateUtilityDeclarations(fnName, argStr) {
     const generator = utilityRegistry[fnName];
     if (!generator) {
         return undefined;
     }
-    const decls = generator(argStr);
+    return generator(argStr) || undefined;
+}
+/**
+ * Generate a CSS preview string for a single utility call like `p(4)`.
+ * Returns undefined if the utility is not recognized.
+ */
+function generateUtilityPreview(fnName, argStr) {
+    const decls = generateUtilityDeclarations(fnName, argStr);
     if (!decls) {
         return undefined;
     }
     return formatDeclarations(decls);
 }
 /**
- * Generate a CSS preview for a cx() call by parsing each inner utility call
- * and composing their declarations.
+ * Return raw combined CSS declarations for a cx() call.
  */
-function generateCxPreview(innerArgs) {
+function generateCxDeclarations(innerArgs) {
     const calls = parseFunctionCalls(innerArgs);
     if (calls.length === 0) {
         return undefined;
     }
     const allDecls = {};
     for (const call of calls) {
-        const preview = generateUtilityPreview(call.name, call.args);
-        if (preview) {
-            // Parse the preview back into declarations
-            for (const line of preview.split('\n')) {
-                const colonIdx = line.indexOf(':');
-                if (colonIdx === -1) {
-                    continue;
-                }
-                const prop = line.slice(0, colonIdx).trim();
-                const value = line.slice(colonIdx + 1).trim().replace(/;$/, '');
-                if (prop && value) {
-                    allDecls[prop] = value;
-                }
-            }
+        const decls = generateUtilityDeclarations(call.name, call.args);
+        if (decls) {
+            Object.assign(allDecls, decls);
         }
     }
-    if (Object.keys(allDecls).length === 0) {
+    return Object.keys(allDecls).length > 0 ? allDecls : undefined;
+}
+/**
+ * Generate a CSS preview for a cx() call by parsing each inner utility call
+ * and composing their declarations.
+ */
+function generateCxPreview(innerArgs) {
+    const allDecls = generateCxDeclarations(innerArgs);
+    if (!allDecls) {
         return undefined;
     }
     return `/* cx(...) combined output */\n.className {\n${formatDeclarations(allDecls, '  ')}\n}`;
+}
+/**
+ * Return raw CSS declarations for the utilities inside a when() call.
+ */
+function generateWhenDeclarations(utilityArgs) {
+    const calls = parseFunctionCalls(utilityArgs);
+    const allDecls = {};
+    for (const call of calls) {
+        const decls = generateUtilityDeclarations(call.name, call.args);
+        if (decls) {
+            Object.assign(allDecls, decls);
+        }
+    }
+    return Object.keys(allDecls).length > 0 ? allDecls : undefined;
 }
 /**
  * Generate a CSS preview for a when() call.
@@ -586,26 +605,8 @@ function generateWhenPreview(modifierArgs, utilityArgs) {
             }
         }
     }
-    // Parse utility calls inside
-    const calls = parseFunctionCalls(utilityArgs);
-    const allDecls = {};
-    for (const call of calls) {
-        const preview = generateUtilityPreview(call.name, call.args);
-        if (preview) {
-            for (const line of preview.split('\n')) {
-                const colonIdx = line.indexOf(':');
-                if (colonIdx === -1) {
-                    continue;
-                }
-                const prop = line.slice(0, colonIdx).trim();
-                const value = line.slice(colonIdx + 1).trim().replace(/;$/, '');
-                if (prop && value) {
-                    allDecls[prop] = value;
-                }
-            }
-        }
-    }
-    if (Object.keys(allDecls).length === 0) {
+    const allDecls = generateWhenDeclarations(utilityArgs);
+    if (!allDecls) {
         return undefined;
     }
     // Build the CSS output with selectors and media queries
