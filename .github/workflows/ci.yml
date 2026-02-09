@@ -43,8 +43,14 @@ jobs:
       - name: Build Rust compiler
         run: pnpm --filter typewritingclass-compiler build:native
 
-      - name: Build packages
-        run: pnpm --filter typewritingclass build && pnpm --filter typewritingclass-react build
+      - name: Build all packages
+        run: |
+          pnpm --filter typewritingclass build
+          pnpm --filter typewritingclass-compiler build
+          pnpm --filter typewritingclass-react build
+          pnpm --filter typewritingclass-babel build
+          pnpm --filter typewritingclass-esbuild build
+          pnpm --filter typewritingclass-next build
 
       - name: Run core tests
         run: pnpm --filter typewritingclass test
