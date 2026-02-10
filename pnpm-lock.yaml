@@ -346,6 +346,115 @@ importers:
         specifier: ^3.0.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@25.2.2)(jsdom@28.0.0)(terser@5.46.0)
 
+  starters/next:
+    dependencies:
+      next:
+        specifier: ^15.0.0
+        version: 15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react:
+        specifier: ^19.0.0
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.4(react@19.2.4)
+      typewritingclass:
+        specifier: ^0.3.3
+        version: 0.3.3
+      typewritingclass-next:
+        specifier: ^0.2.2
+        version: 0.2.2(next@15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@0.3.3))(typewritingclass@0.3.3)(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0))
+      typewritingclass-react:
+        specifier: ^0.2.5
+        version: 0.2.5(react@19.2.4)(typewritingclass@0.3.3)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.10
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.13
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.2.3(@types/react@19.2.13)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      typewritingclass-compiler:
+        specifier: ^0.2.2
+        version: 0.2.2(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0))
+
+  starters/react:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.4(react@19.2.4)
+      typewritingclass:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass
+      typewritingclass-react:
+        specifier: ^0.2.5
+        version: 0.2.5(react@19.2.4)(typewritingclass@packages+typewritingclass)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.13
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.2.3(@types/react@19.2.13)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.0
+        version: 4.7.0(vite@6.4.1(@types/node@25.2.2)(terser@5.46.0))
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      typewritingclass-compiler:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass-compiler
+      vite:
+        specifier: ^6.0.0
+        version: 6.4.1(@types/node@25.2.2)(terser@5.46.0)
+
+  starters/solid:
+    dependencies:
+      solid-js:
+        specifier: ^1.9.0
+        version: 1.9.11
+      typewritingclass:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass
+    devDependencies:
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      typewritingclass-compiler:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass-compiler
+      vite:
+        specifier: ^6.0.0
+        version: 6.4.1(@types/node@25.2.2)(terser@5.46.0)
+      vite-plugin-solid:
+        specifier: ^2.10.0
+        version: 2.11.10(solid-js@1.9.11)(vite@6.4.1(@types/node@25.2.2)(terser@5.46.0))
+
+  starters/vanilla:
+    dependencies:
+      typewritingclass:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass
+    devDependencies:
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      typewritingclass-compiler:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass-compiler
+      vite:
+        specifier: ^6.0.0
+        version: 6.4.1(@types/node@25.2.2)(terser@5.46.0)
+
 packages:
 
   '@acemir/cssom@0.9.31':
@@ -2100,6 +2209,9 @@ packages:
 
   '@types/node@17.0.45':
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
+
+  '@types/node@22.19.10':
+    resolution: {integrity: sha512-tF5VOugLS/EuDlTBijk0MqABfP8UxgYazTLo3uIn3b4yJgg26QRbVYJYsDtHrjdDUIRfP70+VfhTTc+CE1yskw==}
 
   '@types/node@25.2.2':
     resolution: {integrity: sha512-BkmoP5/FhRYek5izySdkOneRyXYN35I860MFAGupTdebyE66uZaR+bXLHq8k4DirE5DwQi3NuhvRU1jqTVwUrQ==}
@@ -4145,6 +4257,34 @@ packages:
     peerDependencies:
       '@babel/runtime': ^7.23.2
 
+  typewritingclass-compiler@0.2.2:
+    resolution: {integrity: sha512-x0YcB/Rt5vFQK9+I3ealYE7zNGUp4EMIqGFwHIvQPcCLo7vduSF/I+0UqXSOqkbC+jmeQajMOltQj333ON3f7A==}
+    peerDependencies:
+      vite: '>=5.0.0'
+    peerDependenciesMeta:
+      vite:
+        optional: true
+
+  typewritingclass-next@0.2.2:
+    resolution: {integrity: sha512-pC8oSfiXF+xyQDrqybnUONxY2Gf7nBeOfudANrrVLjJe6hDWrkzKzelAOMLOfIXM7a7S3NnBlVQXEwTEoeLdpQ==}
+    peerDependencies:
+      next: ^13 || ^14 || ^15
+      react: ^18 || ^19
+      typewritingclass: 0.3.2
+      typewritingclass-react: 0.2.5
+
+  typewritingclass-react@0.2.5:
+    resolution: {integrity: sha512-z5eDPGH59/BlG8hjUipaj3eTuCOXTfJUcvopIZ6qgRHsMwINJmXwZBaD538CMmtPpOXGHhsfWTIRzld3RDkZvQ==}
+    peerDependencies:
+      react: ^18 || ^19
+      typewritingclass: 0.3.2
+
+  typewritingclass@0.3.2:
+    resolution: {integrity: sha512-zjOyCVVQHxuzOCc+B5hZgJ6nnOjljAgk16M9UGhPDgYUusB+oW2zRFi3GLWYcVlDay6OI65F8vSPql5X6OZajg==}
+
+  typewritingclass@0.3.3:
+    resolution: {integrity: sha512-OlshYskAGO+AWZMU7UnG60++buT+Hbs5ABjn2y44szkNjDl9nOYrL6AB26VMU4GloDfQ0737oTNDN/Jvn1Ojmg==}
+
   ufo@1.6.3:
     resolution: {integrity: sha512-yDJTmhydvl5lJzBmy/hyOAA0d+aqCBuwl818haVdYCRrWV84o7YyeVm4QlVHStqNrrJSTb6jKuFAVqAFsr+K3Q==}
 
@@ -4153,6 +4293,9 @@ packages:
 
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
+
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
@@ -6059,6 +6202,10 @@ snapshots:
       '@types/unist': 3.0.3
 
   '@types/node@17.0.45': {}
+
+  '@types/node@22.19.10':
+    dependencies:
+      undici-types: 6.21.0
 
   '@types/node@25.2.2':
     dependencies:
@@ -8798,11 +8945,44 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  typewritingclass-compiler@0.2.2(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)):
+    dependencies:
+      magic-string: 0.30.21
+      typewritingclass: 0.3.2
+    optionalDependencies:
+      vite: 7.3.1(@types/node@22.19.10)(terser@5.46.0)
+
+  typewritingclass-next@0.2.2(next@15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@0.3.3))(typewritingclass@0.3.3)(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)):
+    dependencies:
+      next: 15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react: 19.2.4
+      typewritingclass: 0.3.3
+      typewritingclass-compiler: 0.2.2(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0))
+      typewritingclass-react: 0.2.5(react@19.2.4)(typewritingclass@0.3.3)
+    transitivePeerDependencies:
+      - vite
+
+  typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@0.3.3):
+    dependencies:
+      react: 19.2.4
+      typewritingclass: 0.3.3
+
+  typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@packages+typewritingclass):
+    dependencies:
+      react: 19.2.4
+      typewritingclass: link:packages/typewritingclass
+
+  typewritingclass@0.3.2: {}
+
+  typewritingclass@0.3.3: {}
+
   ufo@1.6.3: {}
 
   ultrahtml@1.6.0: {}
 
   uncrypto@0.1.3: {}
+
+  undici-types@6.21.0: {}
 
   undici-types@7.16.0: {}
 
@@ -8956,6 +9136,20 @@ snapshots:
       '@types/node': 25.2.2
       fsevents: 2.3.3
       terser: 5.46.0
+
+  vite@7.3.1(@types/node@22.19.10)(terser@5.46.0):
+    dependencies:
+      esbuild: 0.27.3
+      fdir: 6.5.0(picomatch@4.0.3)
+      picomatch: 4.0.3
+      postcss: 8.5.6
+      rollup: 4.57.1
+      tinyglobby: 0.2.15
+    optionalDependencies:
+      '@types/node': 22.19.10
+      fsevents: 2.3.3
+      terser: 5.46.0
+    optional: true
 
   vite@7.3.1(@types/node@25.2.2)(terser@5.46.0):
     dependencies:

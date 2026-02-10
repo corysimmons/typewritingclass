@@ -16,6 +16,7 @@ export type { ThemeInput, TransformOutput, ExtractedRule, Diagnostic } from '../
 
 export interface TwcPluginOptions {
   strict?: boolean
+  cloak?: boolean  // default: true — set false to opt out of FOUC prevention
 }
 
 const VIRTUAL_CSS_ID = 'virtual:twc.css'
@@ -25,6 +26,7 @@ const RESOLVED_VIRTUAL_CSS_JS_ID = '\0' + VIRTUAL_CSS_JS_ID
 
 export default function twcPlugin(options?: TwcPluginOptions): Plugin {
   const strict = options?.strict ?? true
+  const cloak = options?.cloak ?? true
 
   let themeInput: import('../index.d.ts').ThemeInput
   // In dev mode, each file gets a stable layer offset (based on insertion order)
@@ -67,6 +69,28 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
       })
     },
 
+    transformIndexHtml() {
+      if (!devServer || !cloak) return
+      return [
+        {
+          tag: 'style',
+          attrs: { 'data-twc-cloak': '' },
+          children: 'html:not([data-twc-ready]){visibility:hidden}',
+          injectTo: 'head-prepend' as const,
+        },
+        {
+          tag: 'noscript',
+          children: '<style>html{visibility:visible!important}</style>',
+          injectTo: 'head-prepend' as const,
+        },
+        {
+          tag: 'script',
+          children: "setTimeout(()=>document.documentElement.setAttribute('data-twc-ready',''),3000)",
+          injectTo: 'head-prepend' as const,
+        },
+      ]
+    },
+
     async buildStart() {
       themeInput = await loadTheme()
     },
@@ -99,6 +123,7 @@ document.head.appendChild(style);
 async function updateCss() {
   const res = await fetch('/__twc_css');
   style.textContent = await res.text();
+  document.documentElement.setAttribute('data-twc-ready', '');
 }
 
 // Initial load: wait briefly for all transforms to complete, then fetch CSS
