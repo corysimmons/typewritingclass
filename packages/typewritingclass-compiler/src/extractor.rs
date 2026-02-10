@@ -693,6 +693,7 @@ fn evaluate_css_call(
             selectors: vec![],
             media_queries: vec![],
             dynamic_bindings: vec![],
+            extra_css: vec![],
         })
     } else {
         None

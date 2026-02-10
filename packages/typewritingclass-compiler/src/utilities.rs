@@ -1211,7 +1211,29 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
                     .with_dynamic_binding(id, expr))
             }
         },
-        "animate" => single_prop_rule("animation", args.first()?, theme),
+        "animate" => {
+            let val = args.first()?;
+            match val {
+                Value::Str(s) => {
+                    // Resolve animation name to full shorthand value
+                    let anim_value = theme.resolve_animation(s)
+                        .map(|v| v.to_string())
+                        .unwrap_or_else(|| s.clone());
+                    let mut rule = StyleRule::new(vec![("animation", &anim_value)]);
+                    // Attach @keyframes if available
+                    if let Some(kf) = theme.resolve_keyframes(s) {
+                        rule = rule.with_extra_css(kf.to_string());
+                    }
+                    Some(rule)
+                }
+                Value::Dynamic(id, expr) => {
+                    let var_ref = format!("var({})", id);
+                    Some(StyleRule::new(vec![("animation", &var_ref)])
+                        .with_dynamic_binding(id, expr))
+                }
+                _ => None,
+            }
+        }
 
         // --- Tables ---
         "borderCollapse" if args.is_empty() => Some(StyleRule::new(vec![("border-collapse", "collapse")])),

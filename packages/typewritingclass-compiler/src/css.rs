@@ -20,6 +20,12 @@ pub fn render_rule(class_name: &str, rule: &StyleRule) -> String {
         css = format!("@media {} {{\n{}\n}}", mq, css);
     }
 
+    // Prepend extra CSS blocks (e.g. @keyframes)
+    if !rule.extra_css.is_empty() {
+        let extra = rule.extra_css.join("\n");
+        css = format!("{}\n{}", extra, css);
+    }
+
     css
 }
 

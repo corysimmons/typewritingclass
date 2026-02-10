@@ -30,6 +30,10 @@ pub struct ThemeInput {
     pub shadows: String,
     /// JSON: { "full": "100%", "screen": "100vw", ... }
     pub sizes: String,
+    /// JSON: { "spin": "spin 1s linear infinite", ... }
+    pub animations: String,
+    /// JSON: { "spin": "@keyframes spin { ... }", ... }
+    pub keyframes: String,
     /// Default border-radius value
     pub default_radius: String,
     /// Default shadow value
@@ -87,6 +91,10 @@ fn parse_theme(input: &ThemeInput) -> theme::ThemeData {
         serde_json::from_str(&input.shadows).unwrap_or_default();
     let sizes: HashMap<String, String> =
         serde_json::from_str(&input.sizes).unwrap_or_default();
+    let animations: HashMap<String, String> =
+        serde_json::from_str(&input.animations).unwrap_or_default();
+    let keyframes: HashMap<String, String> =
+        serde_json::from_str(&input.keyframes).unwrap_or_default();
 
     theme::ThemeData {
         colors,
@@ -98,6 +106,8 @@ fn parse_theme(input: &ThemeInput) -> theme::ThemeData {
         radii,
         shadows,
         sizes,
+        animations,
+        keyframes,
         default_radius: input.default_radius.clone(),
         default_shadow: input.default_shadow.clone(),
     }

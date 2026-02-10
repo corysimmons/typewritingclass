@@ -22,6 +22,10 @@ pub struct ThemeData {
     pub shadows: HashMap<String, String>,
     /// size tokens: name -> CSS value (e.g. "full" -> "100%")
     pub sizes: HashMap<String, String>,
+    /// animation tokens: name -> full animation shorthand (e.g. "spin" -> "spin 1s linear infinite")
+    pub animations: HashMap<String, String>,
+    /// keyframes: name -> @keyframes CSS block
+    pub keyframes: HashMap<String, String>,
     /// default border radius (when rounded() called with no args)
     pub default_radius: String,
     /// default shadow (when shadow() called with no args)
@@ -81,6 +85,16 @@ impl ThemeData {
     /// Resolve a named size token
     pub fn resolve_size(&self, name: &str) -> Option<&str> {
         self.sizes.get(name).map(|s| s.as_str())
+    }
+
+    /// Resolve an animation name to the full shorthand value
+    pub fn resolve_animation(&self, name: &str) -> Option<&str> {
+        self.animations.get(name).map(|s| s.as_str())
+    }
+
+    /// Get the @keyframes CSS block for an animation name
+    pub fn resolve_keyframes(&self, name: &str) -> Option<&str> {
+        self.keyframes.get(name).map(|s| s.as_str())
     }
 }
 

@@ -5,6 +5,8 @@ pub struct StyleRule {
     pub selectors: Vec<String>,
     pub media_queries: Vec<String>,
     pub dynamic_bindings: Vec<(String, String)>,
+    /// Extra CSS blocks (e.g. @keyframes) emitted alongside this rule
+    pub extra_css: Vec<String>,
 }
 
 impl StyleRule {
@@ -17,6 +19,7 @@ impl StyleRule {
             selectors: vec![],
             media_queries: vec![],
             dynamic_bindings: vec![],
+            extra_css: vec![],
         }
     }
 
@@ -35,6 +38,11 @@ impl StyleRule {
         self
     }
 
+    pub fn with_extra_css(mut self, css: String) -> Self {
+        self.extra_css.push(css);
+        self
+    }
+
     pub fn has_dynamic(&self) -> bool {
         !self.dynamic_bindings.is_empty()
     }
@@ -44,6 +52,7 @@ impl StyleRule {
         let mut selectors = vec![];
         let mut media_queries = vec![];
         let mut dynamic_bindings = vec![];
+        let mut extra_css = vec![];
         for rule in rules {
             declarations.extend(rule.declarations.clone());
             for s in &rule.selectors {
@@ -61,12 +70,18 @@ impl StyleRule {
                     dynamic_bindings.push(db.clone());
                 }
             }
+            for ec in &rule.extra_css {
+                if !extra_css.contains(ec) {
+                    extra_css.push(ec.clone());
+                }
+            }
         }
         Self {
             declarations,
             selectors,
             media_queries,
             dynamic_bindings,
+            extra_css,
         }
     }
 }

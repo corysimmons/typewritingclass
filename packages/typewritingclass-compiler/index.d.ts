@@ -35,6 +35,10 @@ export interface ThemeInput {
   shadows: string
   /** JSON: { "full": "100%", "screen": "100vw", ... } */
   sizes: string
+  /** JSON: { "spin": "spin 1s linear infinite", ... } */
+  animations: string
+  /** JSON: { "spin": "@keyframes spin { ... }", ... } */
+  keyframes: string
   /** Default border-radius value */
   defaultRadius: string
   /** Default shadow value */

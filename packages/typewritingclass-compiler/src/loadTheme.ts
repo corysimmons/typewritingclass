@@ -9,7 +9,7 @@ import { dirname } from 'path'
  * not hardcoded in the compiler.
  */
 export async function loadTheme(): Promise<ThemeInput> {
-  const [colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule] =
+  const [colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule, animationsModule] =
     await Promise.all([
       import('typewritingclass/theme/colors'),
       import('typewritingclass/theme'),
@@ -17,9 +17,10 @@ export async function loadTheme(): Promise<ThemeInput> {
       import('typewritingclass/theme/sizes'),
       import('typewritingclass/theme/shadows'),
       import('typewritingclass/theme/borders'),
+      import('typewritingclass/theme/animations'),
     ])
 
-  return buildThemeInput(colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule)
+  return buildThemeInput(colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule, animationsModule)
 }
 
 /**
@@ -35,8 +36,9 @@ export function loadThemeSync(): ThemeInput {
   const sizesModule = req('typewritingclass/theme/sizes')
   const shadowsModule = req('typewritingclass/theme/shadows')
   const bordersModule = req('typewritingclass/theme/borders')
+  const animationsModule = req('typewritingclass/theme/animations')
 
-  return buildThemeInput(colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule)
+  return buildThemeInput(colorsModule, spacingModule, typographyModule, sizesModule, shadowsModule, bordersModule, animationsModule)
 }
 
 /** Strip JS-escape underscores from theme token names.
@@ -55,6 +57,7 @@ function buildThemeInput(
   sizesModule: any,
   shadowsModule: any,
   bordersModule: any,
+  animationsModule: any,
 ): ThemeInput {
   // Build color scales map
   const colorScaleNames = [
@@ -149,6 +152,25 @@ function buildThemeInput(
     }
   }
 
+  // Animations
+  const animationNames = ['spin', 'ping', 'pulse', 'bounce']
+  const animations: Record<string, string> = {}
+  const keyframesMap: Record<string, string> = {}
+  for (const name of animationNames) {
+    const val = (animationsModule as Record<string, any>)[name]
+    if (typeof val === 'string') {
+      animations[name] = val
+    }
+  }
+  const kfObj = (animationsModule as Record<string, any>).keyframes
+  if (kfObj && typeof kfObj === 'object') {
+    for (const [name, css] of Object.entries(kfObj)) {
+      if (typeof css === 'string') {
+        keyframesMap[name] = css
+      }
+    }
+  }
+
   return {
     colors: JSON.stringify(colors),
     namedColors: JSON.stringify(namedColors),
@@ -159,6 +181,8 @@ function buildThemeInput(
     radii: JSON.stringify(radii),
     shadows: JSON.stringify(shadows),
     sizes: JSON.stringify(sizes),
+    animations: JSON.stringify(animations),
+    keyframes: JSON.stringify(keyframesMap),
     defaultRadius: radii['DEFAULT'] ?? '0.25rem',
     defaultShadow: shadows['DEFAULT'] ?? '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
   }
