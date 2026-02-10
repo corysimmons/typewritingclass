@@ -8,10 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "typewritingclass": "^0.1.0"
+    "typewritingclass": "^0.3.2"
   },
   "devDependencies": {
-    "typewritingclass-compiler": "^0.1.0",
+    "typewritingclass-compiler": "^0.2.2",
     "vite": "^6.0.0",
     "typescript": "^5.7.3"
   }
