@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "repository": {
     "type": "git",
@@ -137,13 +137,15 @@
         "types": "./dist/rule.d.cts",
         "default": "./dist/rule.cjs"
       }
-    }
+    },
+    "./preflight.css": "./preflight.css"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "preflight.css"
   ],
   "scripts": {
     "build": "tsup",

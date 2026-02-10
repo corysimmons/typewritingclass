@@ -1,3 +1,4 @@
+import 'typewritingclass/preflight.css'
 import 'virtual:twc.css'
 import { tw } from 'typewritingclass'
 

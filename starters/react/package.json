@@ -10,7 +10,7 @@
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typewritingclass": "^0.3.2",
+    "typewritingclass": "^0.3.3",
     "typewritingclass-react": "^0.2.5"
   },
   "devDependencies": {

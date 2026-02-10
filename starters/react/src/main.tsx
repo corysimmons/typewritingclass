@@ -1,3 +1,4 @@
+import 'typewritingclass/preflight.css'
 import 'virtual:twc.css'
 import React from 'react'
 import { createRoot } from 'react-dom/client'

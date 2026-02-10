@@ -1,3 +1,4 @@
+import 'typewritingclass/preflight.css'
 import React from 'react'
 import { TWCStyles } from 'typewritingclass-next'
 import { TWCInject } from './twc-inject'
@@ -12,7 +13,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <TWCStyles />
-        <style dangerouslySetInnerHTML={{ __html: '*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: system-ui, sans-serif; background: #f8fafc; }' }} />
       </head>
       <body>
         <TWCInject />
