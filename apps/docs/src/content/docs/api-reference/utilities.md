@@ -57,7 +57,7 @@ tw.gapX(2)   // column-gap: 0.5rem
 
 ## Colors
 
-Accept raw CSS color strings or Tailwind-style string lookups like `'blue-500'`.
+Accept property-access tokens, Tailwind-style string lookups, or raw CSS color strings.
 
 | Utility | CSS Property |
 |---|---|
@@ -66,10 +66,16 @@ Accept raw CSS color strings or Tailwind-style string lookups like `'blue-500'`.
 | `borderColor(color)` | `border-color` |
 
 ```ts
-tw.bg('blue-500')          // background-color: #3b82f6
-tw.textColor('gray-900')   // color: #111827
-tw.borderColor('gray-200') // border-color: #e5e7eb
-tw.bg('transparent')       // background-color: transparent
+// Property-access tokens (recommended)
+tw.bg.blue500              // background-color: #3b82f6
+tw.textColor.gray900       // color: #111827
+tw.borderColor.gray200     // border-color: #e5e7eb
+tw.bg.blue500(50)          // with opacity: rgb(59 130 246 / 0.5)
+
+// String lookups (equivalent)
+tw.bg('blue-500')
+tw.textColor('gray-900')
+tw.bg('transparent')
 ```
 
 ---
@@ -78,20 +84,25 @@ tw.bg('transparent')       // background-color: transparent
 
 | Utility | CSS Property | Notes |
 |---|---|---|
-| `text(size)` | `font-size` + `line-height` | Accepts string lookups like `'lg'`, `'2xl'` |
-| `font(weight)` | `font-weight` | Accepts `'bold'`, `'semibold'`, `'700'`, etc. |
-| `fontFamily(value)` | `font-family` | `'sans'`, `'serif'`, `'mono'`, or any font name |
-| `tracking(value)` | `letter-spacing` | |
-| `leading(value)` | `line-height` | |
-| `textAlign(value)` | `text-align` | |
+| `text(size)` | `font-size` + `line-height` | Accepts tokens: `tw.text.lg`, `tw.text._2xl` |
+| `font(weight)` | `font-weight` | Accepts tokens: `tw.font.bold`, `tw.font.semibold` |
+| `fontFamily(value)` | `font-family` | Accepts tokens: `tw.fontFamily.sans`, `tw.fontFamily.mono` |
+| `tracking(value)` | `letter-spacing` | Accepts tokens: `tw.tracking.tight`, `tw.tracking.wide` |
+| `leading(value)` | `line-height` | Accepts tokens: `tw.leading.tight`, `tw.leading.relaxed` |
+| `textAlign(value)` | `text-align` | Accepts tokens: `tw.textAlign.center`, `tw.textAlign.right` |
 
 ```ts
-tw.text('lg')            // font-size: 1.125rem; line-height: 1.75rem
-tw.text('2xl')           // font-size: 1.5rem; line-height: 2rem
-tw.font('bold')          // font-weight: 700
-tw.font('semibold')      // font-weight: 600
-tw.tracking('-0.025em')  // letter-spacing: -0.025em
-tw.textAlign('center')   // text-align: center
+// Property-access tokens (recommended)
+tw.text.lg               // font-size: 1.125rem; line-height: 1.75rem
+tw.text._2xl             // font-size: 1.5rem; line-height: 2rem
+tw.font.bold             // font-weight: 700
+tw.font.semibold         // font-weight: 600
+tw.textAlign.center      // text-align: center
+
+// String lookups (equivalent)
+tw.text('lg')
+tw.font('bold')
+tw.tracking('-0.025em')
 ```
 
 ### Font families
@@ -145,7 +156,7 @@ Each font is only loaded once, even if `googleFonts()` is called multiple times 
 
 ```ts
 tw.flex.flexCol.gap(4)
-tw.flex.items('center').justify('space-between')
+tw.flex.items.center.justify.between
 ```
 
 ### Grid
@@ -224,9 +235,9 @@ tw.fixed.top(0).left(0).w('full')
 | `ring(width?, color?)` | `box-shadow` as focus ring (default: `3px`, `#3b82f6`) |
 
 ```ts
-tw.rounded('lg')       // border-radius: 0.5rem
-tw.rounded('full')     // border-radius: 9999px
-tw.border().borderColor('gray-200')
+tw.rounded.lg          // border-radius: 0.5rem
+tw.rounded.full        // border-radius: 9999px
+tw.border().borderColor.gray200
 tw.focusVisible.ring('2px', '#3b82f6')
 ```
 
@@ -241,8 +252,8 @@ tw.focusVisible.ring('2px', '#3b82f6')
 | `backdrop(value)` | `backdrop-filter` |
 
 ```ts
-tw.shadow('md')                   // medium shadow
-tw.shadow('lg').hover.shadow('xl')
+tw.shadow.md                      // medium shadow
+tw.shadow.lg.hover.shadow.xl
 tw.opacity(0.5)
 tw.backdrop('blur(8px)')
 ```
@@ -260,7 +271,7 @@ Shadow accepts string lookups: `'sm'`, `'md'`, `'lg'`, `'xl'`, `'2xl'`, `'inner'
 | `pointerEvents(value)` | `pointer-events` |
 
 ```ts
-tw.cursor('pointer')
+tw.cursor.pointer
 tw.select('none')
 tw.pointerEvents('none')
 ```
@@ -288,9 +299,9 @@ const { className, style } = dcx(
 
 ```ts
 const card = tw
-  .bg('white').rounded('xl').p(6).shadow('md')
-  .textColor('gray-900')
-  .hover(tw.shadow('lg').bg('gray-50'))
+  .bg.white.rounded.xl.p(6).shadow.md
+  .textColor.gray900
+  .hover(tw.shadow.lg.bg.gray50)
   .md.p(8)
 
 <div className={card}>Card content</div>

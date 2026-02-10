@@ -24,9 +24,9 @@ Layer `l2` beats `l1`, so `bg('red-500')` wins. Always.
 ## Override patterns
 
 ```ts
-const base = tw.p(4).bg('white').rounded('lg')
-const danger = tw.p(4).bg('white').rounded('lg').bg('red-50').textColor('red-900')
-// bg('red-50') overrides bg('white') because it has a higher layer
+const base = tw.p(4).bg.white.rounded.lg
+const danger = tw.p(4).bg.white.rounded.lg.bg.red50.textColor.red900
+// bg.red50 overrides bg.white because it has a higher layer
 ```
 
 ## Explicit control with layer()

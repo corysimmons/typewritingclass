@@ -35,7 +35,7 @@ tw.backdropSaturate('200%')
 const frosted = tw
   .bg('rgb(255 255 255 / 0.1)')
   .backdropBlur('16px')
-  .rounded('xl')
+  .rounded.xl
   .p(6)
   .border('1px')
   .borderColor('rgb(255 255 255 / 0.2)')

@@ -46,8 +46,8 @@ cx(p(4))
 
 ```ts
 const variants = {
-  primary: tw.bg('blue-500').textColor('white'),
-  danger: tw.bg('red-500').textColor('white'),
+  primary: tw.bg.blue500.textColor.white,
+  danger: tw.bg.red500.textColor.white,
 } as const
 
 // No error -- picking a precomputed string

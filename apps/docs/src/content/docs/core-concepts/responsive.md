@@ -14,7 +14,7 @@ import { tw } from 'typewritingclass'
 
 tw.p(4).md.p(8).lg.p(12)
 tw.grid(1).md.grid(2).lg.grid(3)
-tw.text('sm').md.text('lg')
+tw.text.sm.md.text.lg
 ```
 
 For multiple responsive utilities, use function syntax:
@@ -43,8 +43,8 @@ tw.p(4).md.p(8).dark.bg('slate-900')
 ## Responsive hiding
 
 ```ts
-tw.display('none').md.display('block')  // hidden on mobile, visible on tablet+
-tw.display('block').lg.display('none')  // visible on mobile, hidden on desktop
+tw.display.none.md.display.block  // hidden on mobile, visible on tablet+
+tw.display.block.lg.display.none  // visible on mobile, hidden on desktop
 ```
 
 ## With cx() + when()

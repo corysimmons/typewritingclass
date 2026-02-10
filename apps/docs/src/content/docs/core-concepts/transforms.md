@@ -19,7 +19,7 @@ tw.transformOrigin('center')
 ## With transitions
 
 ```ts
-const zoomCard = tw.transition().duration(200).hover.scale(105)
+const zoomCard = tw.transition.duration(200).hover.scale(105)
 ```
 
 ## Available utilities

@@ -35,17 +35,17 @@ cx(when(hover, md)(bg('blue-700')))  // stacked: hover inside md
 
 ```ts
 // tw syntax
-tw.bg('blue-500')
-  .hover.bg('blue-600')
-  .active.bg('blue-700')
+tw.bg.blue500
+  .hover.bg.blue600
+  .active.bg.blue700
   .focusVisible.ring('2px', '#3b82f6')
   .disabled.opacity(0.5)
 
 // cx syntax
 cx(
-  bg('blue-500'),
-  when(hover)(bg('blue-600')),
-  when(disabled)(opacity(0.5), cursor('not-allowed')),
+  bg.blue500,
+  when(hover)(bg.blue600),
+  when(disabled)(opacity(0.5), cursor.notAllowed),
   when(focusVisible)(ring('2px', '#3b82f6')),
 )
 ```
@@ -112,13 +112,13 @@ tw.grid(1).gap(4)
 Responds to the user's system preference. For manual theme toggling, use the [Theme API](/api-reference/theme/).
 
 ```ts
-tw.bg('white').textColor('gray-900')
-  .dark(tw.bg('slate-900').textColor('slate-100'))
+tw.bg.white.textColor.gray900
+  .dark(tw.bg.slate900.textColor.slate100)
 
 // With hover in dark mode (cx syntax):
 cx(
-  when(hover)(bg('gray-100')),
-  when(dark, hover)(bg('slate-700')),
+  when(hover)(bg.gray100),
+  when(dark, hover)(bg.slate700),
 )
 ```
 

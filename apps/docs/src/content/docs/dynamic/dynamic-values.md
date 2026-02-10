@@ -16,7 +16,7 @@ For values known only at runtime (user-selected colors, progress percentages, dr
 import { dcx, bg, p, rounded, dynamic } from 'typewritingclass'
 
 function Banner({ color }: { color: string }) {
-  const { className, style } = dcx(p(6), bg(dynamic(color)), rounded('lg'))
+  const { className, style } = dcx(p(6), bg(dynamic(color)), rounded.lg)
   return <div className={className} style={style}>Welcome!</div>
 }
 ```
@@ -42,6 +42,6 @@ function Card({ color }: { color: string }) {
 
 | Scenario | Use |
 |---|---|
-| Value known at build time (theme token, hardcoded color) | Static: `tw.bg('blue-500')` |
+| Value known at build time (theme token, hardcoded color) | Static: `tw.bg.blue500` |
 | Value from props, state, or user input | Dynamic: `dcx(bg(dynamic(color)))` |
 | Value changes frequently (animations, drag) | Dynamic: class names stay stable |

@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-All tokens are Tailwind CSS-compatible. Most can be accessed via string lookups (`tw.bg('blue-500')`) without importing.
+All tokens are Tailwind CSS-compatible. Most can be accessed via property-access tokens (`tw.bg.blue500`) or string lookups (`tw.bg('blue-500')`) without importing.
 
 ## Colors
 

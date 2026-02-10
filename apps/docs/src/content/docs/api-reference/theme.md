@@ -136,18 +136,20 @@ if (saved) {
 | `typewritingclass/theme/filters` | Filter presets |
 | `typewritingclass/theme` | All theme token exports (barrel) |
 
-Most tokens are accessible via string lookups on `tw` without importing:
+Most tokens are accessible directly on `tw` via property-access or string lookups — no imports needed:
 
 ```ts
-tw.bg('blue-500')       // no import needed
-tw.shadow('lg')          // no import needed
-tw.rounded('full')       // no import needed
-tw.font('semibold')      // no import needed
-```
+// Property-access tokens (recommended)
+tw.bg.blue500            // no import needed
+tw.shadow.lg             // no import needed
+tw.rounded.full          // no import needed
+tw.font.semibold         // no import needed
+tw.text.lg               // no import needed
 
-Text sizes still require an import:
-
-```ts
-import { lg, _2xl } from 'typewritingclass/theme/typography'
-tw.text(lg)
+// String lookups (equivalent)
+tw.bg('blue-500')
+tw.shadow('lg')
+tw.rounded('full')
+tw.font('semibold')
+tw.text('lg')
 ```

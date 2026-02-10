@@ -15,8 +15,8 @@ tw.srOnly.focus.notSrOnly  // visible on focus (skip link pattern)
 ## ARIA attribute modifiers
 
 ```ts
-tw.ariaExpanded.bg('blue-50')      // [aria-expanded="true"]
-tw.ariaChecked.bg('blue-500')      // [aria-checked="true"]
+tw.ariaExpanded.bg.blue50          // [aria-expanded="true"]
+tw.ariaChecked.bg.blue500          // [aria-checked="true"]
 tw.ariaDisabled.opacity(0.5)       // [aria-disabled="true"]
 ```
 

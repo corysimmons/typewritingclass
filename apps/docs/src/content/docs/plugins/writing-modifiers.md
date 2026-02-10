@@ -84,12 +84,12 @@ export const keyboardFocus: Modifier = (rule) =>
 All custom modifiers compose with `when()` and stack with built-in modifiers:
 
 ```ts
-tw.p(4).bg('white')
-  .hover.bg('gray-100')
+tw.p(4).bg.white
+  .hover.bg.gray100
   // Or with when():
 cx(
-  p(4), bg('white'),
-  when(hover, desktop)(bg('#f3f4f6')),
-  when(reducedMotion)(css`transition: none;`),
+  p(4), bg.white,
+  when(hover, desktop)(bg.gray100),
+  when(reducedMotion)(transitionNone()),
 )
 ```

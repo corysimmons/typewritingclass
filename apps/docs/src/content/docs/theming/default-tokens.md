@@ -35,28 +35,29 @@ tw.p(0.5) // 0.125rem
 
 ## Typography
 
-Text sizes require an import:
+Text sizes, font weights, and font families are all accessible via property-access tokens — no imports needed:
+
+```ts
+// Property-access tokens (recommended)
+tw.text.lg               // font-size: 1.125rem; line-height: 1.75rem
+tw.text._2xl             // font-size: 1.5rem; line-height: 2rem
+tw.font.bold             // font-weight: 700
+tw.font.semibold         // font-weight: 600
+tw.fontFamily.sans       // system sans-serif stack
+tw.fontFamily.serif      // system serif stack
+tw.fontFamily.mono       // system monospace stack
+
+// String lookups (equivalent)
+tw.text('lg')
+tw.font('700')
+tw.fontFamily('sans')
+```
+
+Or import tokens directly for use with `cx()`:
 
 ```ts
 import { lg, _2xl } from 'typewritingclass/theme/typography'
-
-tw.text(lg)    // font-size: 1.125rem; line-height: 1.75rem
-tw.text(_2xl)  // font-size: 1.5rem; line-height: 2rem
-```
-
-Font weights use string lookups:
-
-```ts
-tw.font('700')       // font-weight: 700
-tw.font('semibold')  // font-weight: 600
-```
-
-Font families have three built-in Tailwind stacks:
-
-```ts
-tw.fontFamily('sans')   // system sans-serif stack
-tw.fontFamily('serif')  // system serif stack
-tw.fontFamily('mono')   // system monospace stack
+tw.text(lg)
 ```
 
 For Google Fonts, use the built-in `googleFonts` plugin:

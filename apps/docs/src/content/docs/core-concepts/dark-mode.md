@@ -11,18 +11,18 @@ sidebar:
 import { tw } from 'typewritingclass'
 
 // Single utility
-tw.bg('white').dark.bg('slate-900')
-tw.textColor('slate-900').dark.textColor('slate-100')
+tw.bg.white.dark.bg.slate900
+tw.textColor.slate900.dark.textColor.slate100
 
 // Multiple dark overrides
-tw.bg('white').textColor('slate-900')
-  .dark(tw.bg('slate-900').textColor('slate-100'))
+tw.bg.white.textColor.slate900
+  .dark(tw.bg.slate900.textColor.slate100)
 ```
 
 ## Combining with other modifiers
 
 ```ts
-tw.bg('white').hover.bg('blue-50').dark.bg('slate-900').dark.hover.bg('slate-800')
+tw.bg.white.hover.bg.blue50.dark.bg.slate900.dark.hover.bg.slate800
 ```
 
 ## Full example
@@ -31,15 +31,15 @@ tw.bg('white').hover.bg('blue-50').dark.bg('slate-900').dark.hover.bg('slate-800
 import { tw } from 'typewritingclass'
 
 const card = tw
-  .p(6).bg('white').rounded('lg').shadow('sm')
-  .hover.shadow('md')
-  .dark(tw.bg('slate-800').shadow('none'))
+  .p(6).bg.white.rounded.lg.shadow.sm
+  .hover.shadow.md
+  .dark(tw.bg.slate800.shadow.none)
 
-const title = tw.textColor('slate-900').font('600')
-  .dark.textColor('white')
+const title = tw.textColor.slate900.font.semibold
+  .dark.textColor.white
 
-const body = tw.textColor('slate-600')
-  .dark.textColor('slate-400')
+const body = tw.textColor.slate600
+  .dark.textColor.slate400
 ```
 
 ## Manual theme switching
@@ -65,5 +65,5 @@ See [Custom Themes](/theming/custom-themes/) for the full API.
 ```ts
 import { cx, bg, textColor, when, dark } from 'typewritingclass'
 
-cx(bg('white'), textColor('slate-900'), when(dark)(bg('slate-900'), textColor('slate-100')))
+cx(bg.white, textColor.slate900, when(dark)(bg.slate900, textColor.slate100))
 ```

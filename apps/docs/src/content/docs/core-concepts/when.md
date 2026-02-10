@@ -14,20 +14,20 @@ Use `when()` when working with `cx()` directly.
 ```ts
 import { cx, bg, when, hover } from 'typewritingclass'
 
-cx(when(hover)(bg('blue-600')))
+cx(when(hover)(bg.blue600))
 // CSS: ._abc:hover { background-color: #2563eb; }
 ```
 
 ## Multiple rules
 
 ```ts
-cx(when(hover)(bg('blue-600'), shadow('lg'), textColor('white')))
+cx(when(hover)(bg.blue600, shadow.lg, textColor.white))
 ```
 
 ## Composing modifiers
 
 ```ts
-cx(when(dark, hover)(bg('blue-400')))
+cx(when(dark, hover)(bg.blue400))
 // dark mode + hover: both conditions must be true
 ```
 
@@ -45,5 +45,5 @@ cx(when(dark, hover)(bg('blue-400')))
 
 ```ts
 const onDarkHover = when(dark, hover)
-cx(textColor('blue-600'), onDarkHover(textColor('blue-300')))
+cx(textColor.blue600, onDarkHover(textColor.blue300))
 ```

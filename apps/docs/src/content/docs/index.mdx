@@ -55,7 +55,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components'
 ```ts
 import { tw } from 'typewritingclass'
 
-const card = tw.p(4).bg('blue-500').rounded('lg').hover.bg('blue-600').md.p(8)
+const card = tw.p(4).bg.blue500.rounded.lg.hover.bg.blue600.md.p(8)
 ```
 
 The compiler extracts this into static CSS at build time:

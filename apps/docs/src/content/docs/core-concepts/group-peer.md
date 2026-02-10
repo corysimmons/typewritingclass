@@ -12,8 +12,8 @@ Style child elements when a parent is hovered, focused, etc. The parent needs th
 ```ts
 import { tw } from 'typewritingclass'
 
-const card = tw.group.bg('slate-50').rounded('lg').p(4)
-const title = tw.textColor('slate-900').groupHover.textColor('blue-600')
+const card = tw.group.bg.slate50.rounded.lg.p(4)
+const title = tw.textColor.slate900.groupHover.textColor.blue600
 const icon = tw.opacity(0.5).groupHover.opacity(1)
 ```
 
@@ -24,9 +24,9 @@ const icon = tw.opacity(0.5).groupHover.opacity(1)
 Style elements based on a preceding sibling's state. The sibling needs the `peer` class.
 
 ```ts
-const input = tw.peer.p(3).border(1).rounded('md')
-const errorMsg = tw.display('none').textColor('red-500').peerInvalid.display('block')
-const label = tw.textColor('slate-600').peerFocus.textColor('blue-600')
+const input = tw.peer.p(3).border(1).rounded.md
+const errorMsg = tw.display.none.textColor.red500.peerInvalid.display.block
+const label = tw.textColor.slate600.peerFocus.textColor.blue600
 ```
 
 **Available:** `peerHover`, `peerFocus`, `peerActive`, `peerFocusVisible`, `peerDisabled`, `peerChecked`, `peerInvalid`, `peerRequired`, `peerPlaceholderShown`, `peerFocusWithin`, `peerEmpty`, `peerFirst`, `peerLast`, `peerOdd`, `peerEven`, `peerOpen`, `peerVisited`, `peerHas`

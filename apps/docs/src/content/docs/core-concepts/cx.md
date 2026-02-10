@@ -11,11 +11,24 @@ Most users will prefer the [tw chainable API](/core-concepts/tw/) instead. Use `
 
 ## Basic usage
 
+Standalone utilities support property-access tokens — no strings needed for design tokens:
+
 ```ts
 import { cx, p, bg, rounded } from 'typewritingclass'
 
-const className = cx(p(4), bg('blue-500'), rounded('lg'))
-// => "_a1b2c _d3e4f _g5h6i"
+// Property-access tokens (recommended)
+cx(p(4), bg.blue500, rounded.lg)
+
+// String lookups (equivalent)
+cx(p(4), bg('blue-500'), rounded('lg'))
+```
+
+## Color opacity
+
+Color utilities are callable for opacity:
+
+```ts
+cx(bg.blue500(50), rounded.lg, p(4))  // 50% opacity blue
 ```
 
 ## Override behavior
@@ -29,7 +42,7 @@ cx(p(4), p(8)) // p(8) wins -- padding: 2rem
 ## Mixing with strings
 
 ```ts
-cx('my-component', p(4), bg('white'))
+cx('my-component', p(4), bg.white)
 // => "my-component _a1b2c _d3e4f"
 ```
 
@@ -40,8 +53,8 @@ Use standard JavaScript for conditional logic:
 ```ts
 cx(
   p(4),
-  bg('white'),
-  isActive ? bg('blue-50') : '',
+  bg.white,
+  isActive ? bg.blue50 : '',
   isDisabled ? opacity(0.5) : '',
 )
 ```
@@ -53,8 +66,8 @@ import { cx, p, bg, shadow, when, hover, md } from 'typewritingclass'
 
 cx(
   p(4),
-  bg('blue-500'),
-  when(hover)(bg('blue-600'), shadow('lg')),
+  bg.blue500,
+  when(hover)(bg.blue600, shadow.lg),
   when(md)(p(8)),
 )
 ```
@@ -62,8 +75,8 @@ cx(
 ## Spreading base styles
 
 ```ts
-const cardBase = [p(4), bg('white'), rounded('lg'), shadow('sm')]
+const cardBase = [p(4), bg.white, rounded.lg, shadow.sm]
 
-const blueCard = cx(...cardBase, bg('blue-50'))
-const dangerCard = cx(...cardBase, bg('red-50'), textColor('red-900'))
+const blueCard = cx(...cardBase, bg.blue50)
+const dangerCard = cx(...cardBase, bg.red50, textColor.red900)
 ```

@@ -10,13 +10,17 @@ sidebar:
 ```ts
 import { tw } from 'typewritingclass'
 
+// Property-access tokens
+tw.bgGradient('to right').gradientFrom.blue500.gradientTo.indigo600
+
+// String lookups (equivalent)
 tw.bgGradient('to right').gradientFrom('blue-500').gradientTo('indigo-600')
 ```
 
 ## Three-stop gradient
 
 ```ts
-tw.bgGradient('to right').gradientFrom('rose-500').gradientVia('amber-400').gradientTo('yellow-300')
+tw.bgGradient('to right').gradientFrom.rose500.gradientVia.amber400.gradientTo.yellow300
 ```
 
 ## Direction

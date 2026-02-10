@@ -77,8 +77,8 @@ export function interactive(states: InteractiveStates): StyleRule[] {
 
 // Usage:
 cx(...interactive({
-  base: bg('blue-500'),
-  hover: bg('blue-600'),
+  base: bg.blue500,
+  hover: bg.blue600,
   focus: ring(2),
   disabled: opacity(0.5),
 }))
