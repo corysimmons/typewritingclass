@@ -54,6 +54,7 @@ export default function twcPlugin(options?: TwcPluginOptions): Plugin {
 
   return {
     name: 'typewritingclass',
+    enforce: 'pre' as const,
 
     configureServer(server) {
       devServer = server
