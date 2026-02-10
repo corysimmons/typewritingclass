@@ -638,6 +638,8 @@ export interface TwChain {
   readonly flexInitial: TwChainString
   readonly flexNone: TwChainString
   // Typography
+  // Override deprecated String.prototype.bold to suppress TS6385
+  readonly bold: TwChainString
   readonly antialiased: TwChainString
   readonly subpixelAntialiased: TwChainString
   readonly italic: TwChainString
