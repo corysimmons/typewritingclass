@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./typewriting_class_logo_light.svg">
-    <source media="(prefers-color-scheme: light)" srcset="./typewriting_class_logo_dark.svg">
-    <img alt="Typewriting Class" src="./typewriting_class_logo_dark.svg" width="400">
+    <source media="(prefers-color-scheme: dark)" srcset=".github/typewriting_class_logo_light.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".github/typewriting_class_logo_dark.svg">
+    <img alt="Typewriting Class" src=".github/typewriting_class_logo_dark.svg" width="400">
   </picture>
 </p>
 
