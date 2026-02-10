@@ -1,61 +1,66 @@
-import { tw, cx, bg, rounded, p } from 'typewritingclass'
+import { tw } from 'typewritingclass'
 
 export default function Home() {
   return (
-    <div className={tw.flex.flexCol.gap(8).p(8).items.center.justify.center.minH('100vh')}>
-      <h1 className={tw.text.lg.font.bold.textColor.slate900}>
+    <div className={tw.flex.flexCol.gap(8).p(8).items('center').justify('center').minH('100vh').value}>
+      <h1 className={tw.text('lg').font('700').textColor('slate-900').value}>
         Typewriting Class + Next.js
       </h1>
 
       <div className={tw
-        .p(6).bg.white.rounded.lg.shadow.md
-        .flex.flexCol.gap(4).items.center
+        .p(6).bg('white').rounded('lg').shadow('md')
+        .flex.flexCol.gap(4).items('center')
         .transitionAll.duration(200)
         .hover(tw.shadow('0 20px 25px -5px rgb(0 0 0 / 0.1)').bg('blue-50'))
+        .value
       }>
-        <p className={tw.textColor.slate700}>
+        <p className={tw.textColor('slate-700').value}>
           Hover this card to see the effect.
         </p>
         <span className={tw
-          .p(2).bg.blue500.textColor.white.rounded.lg.font.bold
+          .p(2).bg('blue-500').textColor('white').rounded('lg').font('700')
+          .value
         }>
           Styled with Typewriting Class
         </span>
       </div>
 
-      {/* Opacity demo — standalone bg with callable opacity */}
-      <div className={tw.flex.flexRow.gap(4)}>
+      {/* Opacity demo */}
+      <div className={tw.flex.flexRow.gap(4).value}>
         {[100, 75, 50, 25].map(opacity => (
-          <div key={opacity} className={cx(bg.blue500(opacity), rounded.lg, p(4))}>
-            <span className={tw.textColor.white.font.bold}>{opacity}%</span>
+          <div key={opacity} className={tw.bg(`rgb(59 130 246 / ${opacity / 100})`).rounded('lg').p(4).value}>
+            <span className={tw.textColor('white').font('700').value}>{opacity}%</span>
           </div>
         ))}
       </div>
 
       {/* Gradient button with transition */}
       <button className={tw
-        .px(6).py(3).rounded.lg
+        .px(6).py(3).rounded('lg')
         .bgGradient('to right').gradientFrom('indigo-500').gradientTo('purple-600')
-        .textColor.white.font.semibold
+        .textColor('white').font('600')
         .transitionAll.duration(200)
-        .cursor.pointer.border(0).text('1rem')
+        .cursor('pointer').border(0).text('1rem')
         .hover(tw.opacity(0.9).shadow('0 10px 15px -3px rgb(0 0 0 / 0.2)'))
+        .value
       }>
         Gradient Button
       </button>
 
       {/* Filter demo */}
-      <div className={tw.flex.flexRow.gap(4)}>
+      <div className={tw.flex.flexRow.gap(4).value}>
         <div className={tw
-          .bg.emerald400.p(4).rounded.lg
-          .textColor.white.font.bold.text.sm
+          .bg('emerald-400').p(4).rounded('lg')
+          .textColor('white').font('700').text('0.875rem')
+          .value
         }>
           Normal
         </div>
         <div className={tw
-          .bg.emerald400.blur('2px')
-          .p(4).rounded.lg
-          .textColor.white.font.bold.text.sm
+          .bg('emerald-400').blur('2px')
+          .p(4).rounded('lg')
+          .textColor('white').font('700').text('0.875rem')
+          .value
         }>
           Blurred
         </div>
