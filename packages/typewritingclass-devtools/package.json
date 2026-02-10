@@ -2,7 +2,7 @@
   "name": "typewritingclass-devtools",
   "displayName": "typewritingclass CSS Preview",
   "description": "Inline CSS preview for typewritingclass utilities",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "publisher": "corysimmons",
   "license": "MIT",
   "engines": {
