@@ -1,7 +1,7 @@
 import { createRequire } from 'module'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { writeFileSync, mkdirSync } from 'fs'
+import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'fs'
 import type { ThemeInput, TransformOutput, Diagnostic } from 'typewritingclass-compiler'
 import { loadThemeSync } from 'typewritingclass-compiler/loadTheme'
 
@@ -55,6 +55,23 @@ export default function twcLoader(this: any, source: string): string {
   // Load theme once
   if (!themeInput) {
     themeInput = loadThemeSync()
+
+    // Restore persisted rules cache so cached webpack builds still have CSS data
+    const cacheFile = resolve('.next/cache/twc/rules-cache.json')
+    if (existsSync(cacheFile)) {
+      try {
+        const cached = JSON.parse(readFileSync(cacheFile, 'utf-8'))
+        for (const [key, value] of Object.entries(cached.fileRules)) {
+          fileRules.set(key, value as string[])
+        }
+        for (const [key, value] of Object.entries(cached.fileLayers)) {
+          fileLayers.set(key, value as number)
+        }
+        nextLayer = Math.max(nextLayer, cached.nextLayer ?? 0)
+      } catch {
+        // Cache corrupted — ignore, will be rebuilt
+      }
+    }
   }
 
   // Use cached layer offset for this file (ensures stable class names across HMR)
@@ -94,6 +111,20 @@ export default function twcLoader(this: any, source: string): string {
         const outputDir = dirname(resolve(outputFile))
         mkdirSync(outputDir, { recursive: true })
         writeFileSync(resolve(outputFile), css, 'utf-8')
+
+        // Persist to cache dir (survives Next.js .next/ cleanup)
+        const cacheDir = resolve('.next/cache/twc')
+        mkdirSync(cacheDir, { recursive: true })
+        writeFileSync(resolve(cacheDir, 'compiled.css'), css, 'utf-8')
+        writeFileSync(
+          resolve(cacheDir, 'rules-cache.json'),
+          JSON.stringify({
+            fileRules: Object.fromEntries(fileRules),
+            fileLayers: Object.fromEntries(fileLayers),
+            nextLayer,
+          }),
+          'utf-8',
+        )
       }
     }
 

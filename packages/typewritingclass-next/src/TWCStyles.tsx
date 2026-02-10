@@ -41,7 +41,15 @@ export function TWCStyles({ cssFile }: TWCStylesProps = {}): React.JSX.Element {
     const filePath = resolve(process.cwd(), cssFile || '.next/twc.css')
     compiledCss = readFileSync(filePath, 'utf-8')
   } catch {
-    // File doesn't exist yet (first render) or no compiler configured — that's fine
+    // Primary file missing (Next.js may have cleaned .next/) — try cache fallback
+    try {
+      compiledCss = readFileSync(
+        resolve(process.cwd(), '.next/cache/twc/compiled.css'),
+        'utf-8',
+      )
+    } catch {
+      // No cached CSS either — that's fine
+    }
   }
 
   const css = [compiledCss, runtimeCss].filter(Boolean).join('\n')
