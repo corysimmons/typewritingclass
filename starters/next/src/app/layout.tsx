@@ -12,8 +12,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <TWCStyles />
+        <style dangerouslySetInnerHTML={{ __html: '*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: system-ui, sans-serif; background: #f8fafc; }' }} />
       </head>
-      <body style={{ margin: 0, fontFamily: 'system-ui, sans-serif' }}>
+      <body>
         <TWCInject />
         {children}
       </body>
