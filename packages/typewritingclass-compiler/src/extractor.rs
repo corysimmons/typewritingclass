@@ -995,10 +995,32 @@ fn process_tw_steps(
                         return None;
                     }
                 } else if modifiers::is_modifier(name) {
-                    // Modifier used as method call (e.g., tw.hover(tw.bg('red')))
-                    // The child chain rules need modifier wrapping which is complex.
-                    // Bail to runtime for correct evaluation.
-                    return None;
+                    // Modifier as method call: .hover(tw.bg('red').shadow('md'))
+                    // Try to process the inner tw chain argument
+                    let mut processed = None;
+                    if args.len() == 1 {
+                        if let Some(inner_expr) = args[0].as_expression() {
+                            if let Some(inner_steps) = flatten_tw_chain(inner_expr, bindings) {
+                                if let Some(inner_rules) = process_tw_steps(&inner_steps, bindings, theme, dyn_counter) {
+                                    if !inner_rules.is_empty() {
+                                        processed = Some(StyleRule::merge(&inner_rules));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if let Some(mut combined) = processed {
+                        // Apply pending modifiers first
+                        for mod_name in pending_mods.iter().rev() {
+                            combined = modifiers::apply(mod_name, combined)?;
+                        }
+                        pending_mods.clear();
+                        // Apply this modifier
+                        combined = modifiers::apply(name, combined)?;
+                        rules.push(combined);
+                    } else {
+                        return None;
+                    }
                 } else {
                     return None;
                 }

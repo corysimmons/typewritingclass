@@ -118,6 +118,15 @@ fn resolve_color_value(val: &str, theme: &ThemeData) -> String {
     val.to_string()
 }
 
+/// Resolve a border-width value from a Value (accepts both strings and numbers)
+fn resolve_border_width(val: &Value) -> Option<String> {
+    match val {
+        Value::Str(s) => Some(s.clone()),
+        Value::Num(n) => Some(format!("{}px", n)),
+        _ => None,
+    }
+}
+
 /// Try to resolve a border-radius string through the theme.
 /// Handles: "lg" -> "0.5rem", "full" -> "9999px", "4px" -> "4px"
 fn resolve_radius_value(val: &str, theme: &ThemeData) -> String {
@@ -469,30 +478,23 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
             ]))
         }
         "border" => {
-            let w = if args.is_empty() {
-                "1px".to_string()
-            } else {
-                args.first()?.as_str()?.to_string()
-            };
-            Some(StyleRule::new(vec![
-                ("border-width", &w),
-                ("border-style", "solid"),
-            ]))
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
+            Some(StyleRule::new(vec![("border-width", &w), ("border-style", "solid")]))
         }
         "borderT" => {
-            let w = if args.is_empty() { "1px".to_string() } else { args.first()?.as_str()?.to_string() };
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
             Some(StyleRule::new(vec![("border-top-width", &w), ("border-style", "solid")]))
         }
         "borderR" => {
-            let w = if args.is_empty() { "1px".to_string() } else { args.first()?.as_str()?.to_string() };
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
             Some(StyleRule::new(vec![("border-right-width", &w), ("border-style", "solid")]))
         }
         "borderB" => {
-            let w = if args.is_empty() { "1px".to_string() } else { args.first()?.as_str()?.to_string() };
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
             Some(StyleRule::new(vec![("border-bottom-width", &w), ("border-style", "solid")]))
         }
         "borderL" => {
-            let w = if args.is_empty() { "1px".to_string() } else { args.first()?.as_str()?.to_string() };
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
             Some(StyleRule::new(vec![("border-left-width", &w), ("border-style", "solid")]))
         }
         "ring" => {
@@ -860,19 +862,19 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
             ]))
         }
         "borderX" => {
-            let w = if args.is_empty() { "1px".to_string() } else { args.first()?.as_str()?.to_string() };
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
             Some(StyleRule::new(vec![("border-left-width", &w), ("border-right-width", &w), ("border-style", "solid")]))
         }
         "borderY" => {
-            let w = if args.is_empty() { "1px".to_string() } else { args.first()?.as_str()?.to_string() };
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
             Some(StyleRule::new(vec![("border-top-width", &w), ("border-bottom-width", &w), ("border-style", "solid")]))
         }
         "borderS" => {
-            let w = if args.is_empty() { "1px".to_string() } else { args.first()?.as_str()?.to_string() };
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
             Some(StyleRule::new(vec![("border-inline-start-width", &w), ("border-style", "solid")]))
         }
         "borderE" => {
-            let w = if args.is_empty() { "1px".to_string() } else { args.first()?.as_str()?.to_string() };
+            let w = if args.is_empty() { "1px".to_string() } else { resolve_border_width(args.first()?)? };
             Some(StyleRule::new(vec![("border-inline-end-width", &w), ("border-style", "solid")]))
         }
         "borderStyle" => single_prop_rule("border-style", args.first()?, theme),
