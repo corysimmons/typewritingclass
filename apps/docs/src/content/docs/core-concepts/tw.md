@@ -10,15 +10,39 @@ sidebar:
 ```ts
 import { tw } from 'typewritingclass'
 
-const card = tw.bg('slate-50').rounded('xl').p(6).shadow('md')
+const card = tw.bg.white.rounded.xl.p(6).shadow.md
+```
+
+## Property-access tokens
+
+Design tokens (colors, radius, shadows, typography, layout enums) are accessed as properties — no strings needed:
+
+```ts
+tw.bg.blue500            // background-color: #3b82f6
+tw.textColor.slate900    // color: #0f172a
+tw.rounded.lg            // border-radius: 0.5rem
+tw.shadow.md             // box-shadow
+tw.text.lg               // font-size + line-height
+tw.font.bold             // font-weight: 700
+tw.items.center          // align-items: center
+tw.justify.between       // justify-content: space-between
+tw.cursor.pointer        // cursor: pointer
+```
+
+Color tokens support opacity via callable syntax:
+
+```ts
+tw.bg.blue500(50)        // background-color: rgb(59 130 246 / 0.5)
+tw.bg.blue500(25)        // 25% opacity
 ```
 
 ## Utilities with arguments
 
+Spacing, sizing, and arbitrary CSS values use function calls:
+
 ```ts
-tw.bg('blue-500').p(4).rounded('lg').shadow('md')
-tw.textColor('slate-900').font('700')
-tw.opacity(0.5).w('100%').h(12)
+tw.p(4).gap(8).w('100%').h(12)
+tw.opacity(0.5).z(10).border(1)
 ```
 
 ## Value-less utilities
@@ -27,9 +51,18 @@ Accessed as properties instead of function calls:
 
 ```ts
 tw.flex.flexCol.gap(4)
-tw.relative.overflow('hidden')
+tw.relative.overflow.hidden
 tw.italic.truncate.antialiased
-tw.group.bg('white').rounded('lg').p(4)
+tw.group.bg.white.rounded.lg.p(4)
+```
+
+## Arbitrary values
+
+Pass any CSS value as a string argument — useful for one-off values:
+
+```ts
+tw.bg('#ff6347').rounded('0.625rem')
+tw.shadow('0 4px 12px rgba(0,0,0,0.15)')
 ```
 
 ## Single-utility modifiers (property syntax)
@@ -37,9 +70,9 @@ tw.group.bg('white').rounded('lg').p(4)
 The modifier applies to the next utility in the chain:
 
 ```ts
-tw.bg('white').hover.bg('blue-50').focus.ring(2)
+tw.bg.white.hover.bg('blue-50').focus.ring(2)
 tw.p(4).md.p(8).lg.p(12)
-tw.bg('white').dark.bg('slate-900')
+tw.bg.white.dark.bg.slate900
 tw.opacity(0.5).groupHover.opacity(1)
 ```
 
@@ -48,12 +81,12 @@ tw.opacity(0.5).groupHover.opacity(1)
 When a modifier should apply to multiple styles, call it as a function:
 
 ```ts
-tw.hover(tw.bg('blue-500').textColor('white').shadow('lg'))
+tw.hover(tw.bg.blue500.textColor.white.shadow.lg)
 
 const card = tw
-  .bg('slate-50').rounded('xl').p(6)
-  .hover(tw.bg('slate-100').shadow('lg').scale(105))
-  .focus(tw.ring(2).ringColor('blue-500'))
+  .bg.white.rounded.xl.p(6)
+  .hover(tw.bg.slate100.shadow.lg.scale(105))
+  .focus(tw.ring(2).ringColor.blue500)
 ```
 
 ## Resolving to class strings
@@ -61,16 +94,16 @@ const card = tw
 The chain resolves automatically in string contexts:
 
 ```tsx
-<div className={tw.p(4).bg('blue-500')} />
+<div className={tw.p(4).bg.blue500} />
 <div className={`${tw.p(4)} extra-class`} />
 ```
 
 Or explicitly:
 
 ```ts
-tw.p(4).bg('blue-500').toString()
-tw.p(4).bg('blue-500').value
-tw.p(4).bg('blue-500').className
+tw.p(4).bg.blue500.toString()
+tw.p(4).bg.blue500.value
+tw.p(4).bg.blue500.className
 ```
 
 :::note
@@ -95,6 +128,7 @@ Both APIs produce identical CSS. Choose based on preference:
 | | `cx` + `when` | `tw` |
 |---|---|---|
 | Imports | Many individual imports | Single `tw` import |
-| Modifiers | `when(hover)(bg(...))` | `tw.hover.bg(...)` |
+| Modifiers | `when(hover)(bg.blue600)` | `tw.hover.bg.blue600` |
 | Value-less | `cx(flex(), flexCol())` | `tw.flex.flexCol` |
+| Tokens | `cx(bg.blue500, rounded.lg)` | `tw.bg.blue500.rounded.lg` |
 | Dynamic values | `dcx(bg(dynamic(color)))` | Use `cx`/`dcx` for dynamic values |

@@ -13,13 +13,14 @@ Typewriting Class is a CSS-in-TypeScript framework where utilities are functions
 ```ts
 import { tw } from 'typewritingclass'
 
-const card = tw.bg('white').rounded('lg').p(6).shadow('md')
-const layout = tw.flex.flexCol.gap(4)
+const card = tw.bg.white.rounded.lg.p(6).shadow.md
+const layout = tw.flex.flexCol.gap(4).items.center
 ```
 
 ## Features
 
 - **TypeScript-native** — CSS utilities are functions with full type safety and autocompletion
+- **Property-access tokens** — `tw.bg.blue500`, `tw.rounded.lg`, `tw.font.bold` — no strings for design tokens
 - **Chainable `tw` API** — fluent builder syntax with zero-argument utilities as properties
 - **Zero runtime by default** — Rust-powered compiler extracts static CSS at build time
 - **Modifiers built in** — hover, responsive, dark mode via `tw.hover`, `tw.md`, `tw.dark`
@@ -33,8 +34,8 @@ const layout = tw.flex.flexCol.gap(4)
 
 ```bash
 # Install the core library and compiler
-bun add typewritingclass
-bun add -d typewritingclass-compiler
+pnpm add typewritingclass
+pnpm add -D typewritingclass-compiler
 ```
 
 Add the Vite plugin:
@@ -60,39 +61,69 @@ Start styling:
 import { tw } from 'typewritingclass'
 
 document.getElementById('app')!.className =
-  tw.flex.gap(4).p(8).bg('white').rounded('lg')
+  tw.flex.gap(4).p(8).bg.white.rounded.lg
 ```
 
 ## The `tw` API
 
+### Property-access tokens
+
+Design tokens are accessed via property names — no strings needed:
+
+```ts
+tw.bg.blue500            // background-color: #3b82f6
+tw.textColor.slate900    // color: #0f172a
+tw.rounded.lg            // border-radius: 0.5rem
+tw.shadow.md             // box-shadow: ...
+tw.text.lg               // font-size: 1.125rem; line-height: 1.75rem
+tw.font.bold             // font-weight: 700
+tw.items.center          // align-items: center
+tw.justify.between       // justify-content: space-between
+tw.cursor.pointer        // cursor: pointer
+```
+
+Color tokens support opacity via callable syntax:
+
+```ts
+tw.bg.blue500(50)        // background-color: rgb(59 130 246 / 0.5)
+```
+
 ### Chain utilities
 
 ```ts
-tw.bg('white').rounded('lg').p(6).shadow('md')
+tw.bg.white.rounded.lg.p(6).shadow.md
 ```
 
 ### Value-less utilities as properties
 
 ```ts
-tw.flex.flexCol.items('center')
+tw.flex.flexCol.items.center
+```
+
+### Arbitrary values
+
+Pass any CSS value as a string argument:
+
+```ts
+tw.bg('white').rounded('lg').p(6).shadow('md')
 ```
 
 ### Modifiers
 
 ```ts
 // Single utility
-tw.hover.bg('blue-500')
-tw.dark.bg('slate-900')
+tw.hover.bg.blue500
+tw.dark.bg.slate900
 tw.md.p(8)
 
 // Multiple utilities under one modifier
-tw.hover(tw.bg('blue-500').textColor('white'))
+tw.hover(tw.bg.blue500.textColor.white)
 ```
 
 ### Use in JSX
 
 ```tsx
-<div className={tw.p(4).bg('blue-500')} />
+<div className={tw.p(4).bg.blue500} />
 ```
 
 ### Composable and immutable
@@ -104,15 +135,20 @@ const base = tw.flex.flexCol
 const withGap = base.gap(4)  // base unchanged
 ```
 
-## Advanced: `cx()` and `when()`
+## Standalone utilities with `cx()`
 
-For dynamic values, runtime conditionals, or when you prefer a functional style:
+Utilities can be imported individually. They also support property-access tokens:
 
 ```ts
-import { cx, bg, p, textColor, rounded, when } from 'typewritingclass'
-import { hover } from 'typewritingclass'
+import { cx, bg, rounded, p, when, hover } from 'typewritingclass'
 
-cx(p(4), bg('blue-500'), textColor('white'), rounded('lg'), when(hover)(bg('blue-600')))
+cx(bg.blue500, rounded.lg, p(4))
+
+// With opacity
+cx(bg.blue500(25), rounded.lg, p(4))
+
+// With modifiers
+cx(p(4), bg.blue500, when(hover)(bg.blue600))
 ```
 
 ## Packages
@@ -126,18 +162,6 @@ cx(p(4), bg('blue-500'), textColor('white'), rounded('lg'), when(hover)(bg('blue
 | [`typewritingclass-esbuild`](packages/typewritingclass-esbuild) | esbuild plugin for CSS extraction |
 | [`typewritingclass-next`](packages/typewritingclass-next) | Next.js integration (SSR styles, build-time extraction) |
 | [`typewritingclass-devtools`](packages/typewritingclass-devtools) | VS Code extension with inline CSS preview on hover |
-
-## Apps
-
-| App | Description |
-|---|---|
-| [`docs`](apps/docs) | Documentation site built with Astro Starlight |
-| [`demo-react`](apps/demo-react) | Interactive React demo showcasing all features |
-| [`demo-solid`](apps/demo-solid) | Solid.js demo |
-| [`demo-vanilla`](apps/demo-vanilla) | Vanilla TypeScript demo |
-| [`demo-next`](apps/demo-next) | Next.js demo |
-| [`comparison`](apps/comparison) | Performance and feature comparison |
-| [`visual-tests`](apps/visual-tests) | Playwright visual regression test suite |
 
 ## Starters
 
@@ -154,19 +178,19 @@ Minimal project templates to get started quickly:
 
 ```bash
 # Install dependencies
-bun install
+pnpm install
 
-# Run the React demo
-bun --filter demo-react dev
+# Run a starter
+pnpm --filter twc-starter-react dev
 
 # Run tests
-bun --filter typewritingclass test
+pnpm --filter typewritingclass test
 
 # Run visual tests
-bun --filter visual-tests test
+pnpm --filter visual-tests test
 
 # Build docs
-bun --filter docs build
+pnpm --filter docs build
 ```
 
 ## License

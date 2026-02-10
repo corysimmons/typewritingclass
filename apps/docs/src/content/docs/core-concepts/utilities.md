@@ -22,51 +22,69 @@ tw.gap(4)      // gap: 1rem
 
 ## Colors
 
-Accept Tailwind-style string lookups or raw CSS colors:
+Use property-access tokens for design tokens, or pass raw CSS strings:
 
 ```ts
-tw.bg('blue-500')           // background-color: #3b82f6
-tw.textColor('slate-900')   // color: #0f172a
-tw.borderColor('gray-200')  // border-color: #e2e8f0
-tw.bg('#ff6347')            // raw hex
+// Property-access tokens
+tw.bg.blue500           // background-color: #3b82f6
+tw.textColor.slate900   // color: #0f172a
+tw.borderColor.gray200  // border-color: #e2e8f0
+
+// With opacity
+tw.bg.blue500(50)       // background-color: rgb(59 130 246 / 0.5)
+
+// Raw CSS values
+tw.bg('#ff6347')
 ```
 
 ## Typography
 
 ```ts
-tw.text('lg')             // font-size + line-height preset
-tw.text('2xl')            // font-size: 1.5rem; line-height: 2rem
-tw.font('700')            // font-weight: 700
-tw.tracking('-0.025em')   // letter-spacing
-tw.leading('1.5')         // line-height
-tw.textAlign('center')    // text-align
+// Property-access tokens
+tw.text.lg              // font-size + line-height preset
+tw.text.xl              // font-size: 1.25rem; line-height: 1.75rem
+tw.font.bold            // font-weight: 700
+tw.font.semibold        // font-weight: 600
+
+// Function calls for arbitrary values
+tw.text('2xl')          // font-size: 1.5rem; line-height: 2rem
+tw.font('700')          // font-weight: 700
+tw.tracking('-0.025em') // letter-spacing
+tw.leading('1.5')       // line-height
+tw.textAlign.center     // text-align: center
 ```
 
 ## Layout
 
 ```ts
-tw.flex.flexCol.items('center').justify('space-between')
+tw.flex.flexCol.items.center.justify.between
 tw.grid(3).gap(4)          // 3-column grid with 1rem gap
 tw.w('100%').h('100vh')
 tw.relative.absolute.fixed.sticky
 tw.z(10).inset(0)
-tw.display('none').overflow('hidden')
+tw.display.none.overflow.hidden
 ```
 
 ## Borders
 
 ```ts
-tw.rounded('lg')    // border-radius: 0.5rem
-tw.rounded('full')  // border-radius: 9999px
-tw.border(1)        // border-width: 1px
-tw.ring(2)          // focus ring
+// Property-access tokens
+tw.rounded.lg           // border-radius: 0.5rem
+tw.rounded.full         // border-radius: 9999px
+
+// Function calls
+tw.border(1)            // border-width: 1px
+tw.ring(2)              // focus ring
 ```
 
 ## Effects
 
 ```ts
-tw.shadow('md')     // box-shadow
-tw.shadow('lg')
+// Property-access tokens
+tw.shadow.md            // box-shadow
+tw.shadow.lg
+
+// Function calls
 tw.opacity(0.5)
 tw.backdrop('blur(8px)')
 ```
@@ -74,19 +92,39 @@ tw.backdrop('blur(8px)')
 ## Interactivity
 
 ```ts
-tw.cursor('pointer')
+// Property-access tokens
+tw.cursor.pointer
+tw.cursor.notAllowed
+
+// Function calls
 tw.select('none')
 tw.pointerEvents('none')
 ```
 
 ## Theme tokens vs raw values
 
-Most utilities accept both Tailwind-style string lookups and raw CSS:
+Most utilities accept both property-access tokens and raw CSS strings:
 
 ```ts
-// String lookups
+// Property-access tokens (recommended for design tokens)
+tw.bg.blue500.rounded.lg.shadow.md
+
+// String lookups (equivalent)
 tw.bg('blue-500').rounded('lg').shadow('md')
 
-// Raw CSS
+// Raw CSS (for one-off values)
 tw.bg('#ff6347').rounded('0.625rem').shadow('0 4px 12px rgba(0,0,0,0.15)')
+```
+
+## Standalone utilities
+
+Utilities imported individually also support property-access tokens:
+
+```ts
+import { cx, bg, rounded, shadow, p } from 'typewritingclass'
+
+cx(bg.blue500, rounded.lg, shadow.md, p(4))
+
+// With opacity
+cx(bg.blue500(25), rounded.lg, p(4))
 ```

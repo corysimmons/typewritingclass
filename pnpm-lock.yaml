@@ -36,161 +36,6 @@ importers:
         specifier: ^3.0.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@25.2.2)(jsdom@28.0.0)(terser@5.46.0)
 
-  apps/comparison:
-    dependencies:
-      react:
-        specifier: ^19.0.0
-        version: 19.2.4
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.4(react@19.2.4)
-      react-router-dom:
-        specifier: ^7.1.0
-        version: 7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      typewritingclass:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass
-      typewritingclass-compiler:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-compiler
-      typewritingclass-react:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-react
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.58.0
-        version: 1.58.2
-      '@types/pngjs':
-        specifier: ^6.0.5
-        version: 6.0.5
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.13
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.2.3(@types/react@19.2.13)
-      '@vitejs/plugin-react':
-        specifier: ^4.3.0
-        version: 4.7.0(vite@6.4.1(@types/node@25.2.2)(terser@5.46.0))
-      pixelmatch:
-        specifier: ^7.1.0
-        version: 7.1.0
-      pngjs:
-        specifier: ^7.0.0
-        version: 7.0.0
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-      vite:
-        specifier: ^6.0.0
-        version: 6.4.1(@types/node@25.2.2)(terser@5.46.0)
-
-  apps/demo-next:
-    dependencies:
-      next:
-        specifier: ^15.0.0
-        version: 15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      react:
-        specifier: ^19.0.0
-        version: 19.2.4
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.4(react@19.2.4)
-      typewritingclass:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass
-      typewritingclass-next:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-next
-      typewritingclass-react:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-react
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.13
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.2.3(@types/react@19.2.13)
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-      typewritingclass-compiler:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-compiler
-
-  apps/demo-react:
-    dependencies:
-      react:
-        specifier: ^19.0.0
-        version: 19.2.4
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.4(react@19.2.4)
-      typewritingclass:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass
-      typewritingclass-compiler:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-compiler
-      typewritingclass-react:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-react
-    devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.13
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.2.3(@types/react@19.2.13)
-      '@vitejs/plugin-react':
-        specifier: ^4.3.0
-        version: 4.7.0(vite@6.4.1(@types/node@25.2.2)(terser@5.46.0))
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-      vite:
-        specifier: ^6.0.0
-        version: 6.4.1(@types/node@25.2.2)(terser@5.46.0)
-
-  apps/demo-solid:
-    dependencies:
-      solid-js:
-        specifier: ^1.9.0
-        version: 1.9.11
-      typewritingclass:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass
-      typewritingclass-compiler:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-compiler
-    devDependencies:
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-      vite:
-        specifier: ^6.0.0
-        version: 6.4.1(@types/node@25.2.2)(terser@5.46.0)
-      vite-plugin-solid:
-        specifier: ^2.10.0
-        version: 2.11.10(solid-js@1.9.11)(vite@6.4.1(@types/node@25.2.2)(terser@5.46.0))
-
-  apps/demo-vanilla:
-    dependencies:
-      typewritingclass:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass
-      typewritingclass-compiler:
-        specifier: workspace:*
-        version: link:../../packages/typewritingclass-compiler
-    devDependencies:
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-      vite:
-        specifier: ^6.0.0
-        version: 6.4.1(@types/node@25.2.2)(terser@5.46.0)
-
   apps/docs:
     dependencies:
       '@astrojs/starlight':
@@ -358,14 +203,14 @@ importers:
         specifier: ^19.0.0
         version: 19.2.4(react@19.2.4)
       typewritingclass:
-        specifier: ^0.3.3
-        version: 0.3.3
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass
       typewritingclass-next:
-        specifier: ^0.2.2
-        version: 0.2.2(next@15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@0.3.3))(typewritingclass@0.3.3)(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0))
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass-next
       typewritingclass-react:
-        specifier: ^0.2.5
-        version: 0.2.5(react@19.2.4)(typewritingclass@0.3.3)
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass-react
     devDependencies:
       '@types/node':
         specifier: ^22.0.0
@@ -380,8 +225,8 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
       typewritingclass-compiler:
-        specifier: ^0.2.2
-        version: 0.2.2(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0))
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass-compiler
 
   starters/react:
     dependencies:
@@ -2216,9 +2061,6 @@ packages:
   '@types/node@25.2.2':
     resolution: {integrity: sha512-BkmoP5/FhRYek5izySdkOneRyXYN35I860MFAGupTdebyE66uZaR+bXLHq8k4DirE5DwQi3NuhvRU1jqTVwUrQ==}
 
-  '@types/pngjs@6.0.5':
-    resolution: {integrity: sha512-0k5eKfrA83JOZPppLtS2C7OUtyNAl2wKNxfyYl9Q5g9lPkgBl/9hNyAu6HuEH2J4XmIv2znEpkDd0SaZVxW6iQ==}
-
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
@@ -3691,10 +3533,6 @@ packages:
     resolution: {integrity: sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==}
     engines: {node: '>= 6'}
 
-  pixelmatch@7.1.0:
-    resolution: {integrity: sha512-1wrVzJ2STrpmONHKBy228LM1b84msXDUoAzVEl0R8Mz4Ce6EPr+IVtxm8+yvrqLYMHswREkjYFaMxnyGnaY3Ng==}
-    hasBin: true
-
   pkg-types@1.3.1:
     resolution: {integrity: sha512-/Jm5M4RvtBFVkKWRu2BLUTNP8/M2a+UwuAX+ae4770q1qVGtfjG+WTCupoZixokjmHiry8uI+dlY8KXYV5HVVQ==}
 
@@ -3707,10 +3545,6 @@ packages:
     resolution: {integrity: sha512-vA30H8Nvkq/cPBnNw4Q8TWz1EJyqgpuinBcHET0YVJVFldr8JDNiU9LaWAE1KqSkRYazuaBhTpB5ZzShOezQ6A==}
     engines: {node: '>=18'}
     hasBin: true
-
-  pngjs@7.0.0:
-    resolution: {integrity: sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==}
-    engines: {node: '>=14.19.0'}
 
   postcss-load-config@6.0.1:
     resolution: {integrity: sha512-oPtTM4oerL+UXmx+93ytZVN82RrlY/wPUV8IeDxFrzIjXOLF1pN+EmKPLbubvKHT2HC20xXsCAH2Z+CKV6Oz/g==}
@@ -3789,23 +3623,6 @@ packages:
   react-refresh@0.17.0:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
     engines: {node: '>=0.10.0'}
-
-  react-router-dom@7.13.0:
-    resolution: {integrity: sha512-5CO/l5Yahi2SKC6rGZ+HDEjpjkGaG/ncEP7eWFTvFxbHP8yeeI0PxTDjimtpXYlR3b3i9/WIL4VJttPrESIf2g==}
-    engines: {node: '>=20.0.0'}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-
-  react-router@7.13.0:
-    resolution: {integrity: sha512-PZgus8ETambRT17BUm/LL8lX3Of+oiLaPuVTRH3l1eLvSPpKO3AvhAEb5N7ihAFZQrYDqkvvWfFh9p0z9VsjLw==}
-    engines: {node: '>=20.0.0'}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
 
   react@19.2.4:
     resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
@@ -3946,9 +3763,6 @@ packages:
   seroval@1.5.0:
     resolution: {integrity: sha512-OE4cvmJ1uSPrKorFIH9/w/Qwuvi/IMcGbv5RKgcJ/zjA/IohDLU6SVaxFN9FwajbP7nsX0dQqMDes1whk3y+yw==}
     engines: {node: '>=10'}
-
-  set-cookie-parser@2.7.2:
-    resolution: {integrity: sha512-oeM1lpU/UvhTxw+g3cIfxXHyJRc/uidd3yK1P242gzHds0udQBYzs3y8j4gCCW+ZJ7ad0yctld8RYO+bdurlvw==}
 
   sharp@0.33.5:
     resolution: {integrity: sha512-haPVm1EkS9pgvHrQ/F3Xy+hgcuMV0Wm9vfIBSiwZ05k+xgb0PkBQpGsAA/oWdDobNaZTH5ppvHtzCFbnSEwHVw==}
@@ -4257,33 +4071,11 @@ packages:
     peerDependencies:
       '@babel/runtime': ^7.23.2
 
-  typewritingclass-compiler@0.2.2:
-    resolution: {integrity: sha512-x0YcB/Rt5vFQK9+I3ealYE7zNGUp4EMIqGFwHIvQPcCLo7vduSF/I+0UqXSOqkbC+jmeQajMOltQj333ON3f7A==}
-    peerDependencies:
-      vite: '>=5.0.0'
-    peerDependenciesMeta:
-      vite:
-        optional: true
-
-  typewritingclass-next@0.2.2:
-    resolution: {integrity: sha512-pC8oSfiXF+xyQDrqybnUONxY2Gf7nBeOfudANrrVLjJe6hDWrkzKzelAOMLOfIXM7a7S3NnBlVQXEwTEoeLdpQ==}
-    peerDependencies:
-      next: ^13 || ^14 || ^15
-      react: ^18 || ^19
-      typewritingclass: 0.3.2
-      typewritingclass-react: 0.2.5
-
   typewritingclass-react@0.2.5:
     resolution: {integrity: sha512-z5eDPGH59/BlG8hjUipaj3eTuCOXTfJUcvopIZ6qgRHsMwINJmXwZBaD538CMmtPpOXGHhsfWTIRzld3RDkZvQ==}
     peerDependencies:
       react: ^18 || ^19
       typewritingclass: 0.3.2
-
-  typewritingclass@0.3.2:
-    resolution: {integrity: sha512-zjOyCVVQHxuzOCc+B5hZgJ6nnOjljAgk16M9UGhPDgYUusB+oW2zRFi3GLWYcVlDay6OI65F8vSPql5X6OZajg==}
-
-  typewritingclass@0.3.3:
-    resolution: {integrity: sha512-OlshYskAGO+AWZMU7UnG60++buT+Hbs5ABjn2y44szkNjDl9nOYrL6AB26VMU4GloDfQ0737oTNDN/Jvn1Ojmg==}
 
   ufo@1.6.3:
     resolution: {integrity: sha512-yDJTmhydvl5lJzBmy/hyOAA0d+aqCBuwl818haVdYCRrWV84o7YyeVm4QlVHStqNrrJSTb6jKuFAVqAFsr+K3Q==}
@@ -6210,10 +6002,6 @@ snapshots:
   '@types/node@25.2.2':
     dependencies:
       undici-types: 7.16.0
-
-  '@types/pngjs@6.0.5':
-    dependencies:
-      '@types/node': 25.2.2
 
   '@types/react-dom@19.2.3(@types/react@19.2.13)':
     dependencies:
@@ -8248,10 +8036,6 @@ snapshots:
 
   pirates@4.0.7: {}
 
-  pixelmatch@7.1.0:
-    dependencies:
-      pngjs: 7.0.0
-
   pkg-types@1.3.1:
     dependencies:
       confbox: 0.1.8
@@ -8265,8 +8049,6 @@ snapshots:
       playwright-core: 1.58.2
     optionalDependencies:
       fsevents: 2.3.2
-
-  pngjs@7.0.0: {}
 
   postcss-load-config@6.0.1(postcss@8.5.6):
     dependencies:
@@ -8323,20 +8105,6 @@ snapshots:
       scheduler: 0.27.0
 
   react-refresh@0.17.0: {}
-
-  react-router-dom@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
-    dependencies:
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
-      react-router: 7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-
-  react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
-    dependencies:
-      cookie: 1.1.1
-      react: 19.2.4
-      set-cookie-parser: 2.7.2
-    optionalDependencies:
-      react-dom: 19.2.4(react@19.2.4)
 
   react@19.2.4: {}
 
@@ -8563,8 +8331,6 @@ snapshots:
       seroval: 1.5.0
 
   seroval@1.5.0: {}
-
-  set-cookie-parser@2.7.2: {}
 
   sharp@0.33.5:
     dependencies:
@@ -8945,36 +8711,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  typewritingclass-compiler@0.2.2(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)):
-    dependencies:
-      magic-string: 0.30.21
-      typewritingclass: 0.3.2
-    optionalDependencies:
-      vite: 7.3.1(@types/node@22.19.10)(terser@5.46.0)
-
-  typewritingclass-next@0.2.2(next@15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@0.3.3))(typewritingclass@0.3.3)(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)):
-    dependencies:
-      next: 15.5.12(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      react: 19.2.4
-      typewritingclass: 0.3.3
-      typewritingclass-compiler: 0.2.2(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0))
-      typewritingclass-react: 0.2.5(react@19.2.4)(typewritingclass@0.3.3)
-    transitivePeerDependencies:
-      - vite
-
-  typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@0.3.3):
-    dependencies:
-      react: 19.2.4
-      typewritingclass: 0.3.3
-
   typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@packages+typewritingclass):
     dependencies:
       react: 19.2.4
       typewritingclass: link:packages/typewritingclass
-
-  typewritingclass@0.3.2: {}
-
-  typewritingclass@0.3.3: {}
 
   ufo@1.6.3: {}
 
@@ -9136,20 +8876,6 @@ snapshots:
       '@types/node': 25.2.2
       fsevents: 2.3.3
       terser: 5.46.0
-
-  vite@7.3.1(@types/node@22.19.10)(terser@5.46.0):
-    dependencies:
-      esbuild: 0.27.3
-      fdir: 6.5.0(picomatch@4.0.3)
-      picomatch: 4.0.3
-      postcss: 8.5.6
-      rollup: 4.57.1
-      tinyglobby: 0.2.15
-    optionalDependencies:
-      '@types/node': 22.19.10
-      fsevents: 2.3.3
-      terser: 5.46.0
-    optional: true
 
   vite@7.3.1(@types/node@25.2.2)(terser@5.46.0):
     dependencies:

@@ -13,10 +13,39 @@ Proxy-based chainable style builder. The recommended way to write styles.
 import { tw } from 'typewritingclass'
 ```
 
+### Property-access tokens
+
+Design tokens are accessed as properties — no strings needed:
+
+```ts
+tw.bg.blue500            // background-color: #3b82f6
+tw.textColor.slate900    // color: #0f172a
+tw.rounded.lg            // border-radius: 0.5rem
+tw.shadow.md             // box-shadow
+tw.text.lg               // font-size + line-height
+tw.font.bold             // font-weight: 700
+tw.items.center          // align-items: center
+tw.justify.between       // justify-content: space-between
+tw.cursor.pointer        // cursor: pointer
+```
+
+Color tokens support opacity:
+
+```ts
+tw.bg.blue500(50)        // rgb(59 130 246 / 0.5)
+```
+
 ### Utilities with arguments
 
 ```ts
-tw.bg('blue-500').p(4).rounded('lg').shadow('md')
+tw.p(4).gap(8).w('100%').h(12)
+tw.opacity(0.5).border(1).z(10)
+```
+
+### Arbitrary values
+
+```ts
+tw.bg('#ff6347').rounded('0.625rem')
 ```
 
 ### Value-less utilities
@@ -30,16 +59,16 @@ tw.flex.flexCol.relative.truncate
 The modifier applies to the next utility in the chain:
 
 ```ts
-tw.hover.bg('blue-500')
+tw.hover.bg.blue500
 tw.md.p(8)
-tw.dark.bg('slate-900')
+tw.dark.bg.slate900
 ```
 
 ### Multi-utility modifiers (function syntax)
 
 ```ts
-tw.hover(tw.bg('blue-500').textColor('white').shadow('lg'))
-tw.dark(tw.bg('slate-800').textColor('slate-100'))
+tw.hover(tw.bg.blue500.textColor.white.shadow.lg)
+tw.dark(tw.bg.slate800.textColor.slate100)
 ```
 
 ### Resolution
@@ -47,7 +76,7 @@ tw.dark(tw.bg('slate-800').textColor('slate-100'))
 Resolves to a class string automatically:
 
 ```ts
-<div className={tw.p(4).bg('blue-500')} />
+<div className={tw.p(4).bg.blue500} />
 tw.p(4).toString()
 tw.p(4).value
 tw.p(4).className
@@ -84,19 +113,22 @@ Composes style rules and string class names into a single CSS class string.
 function cx(...args: (StyleRule | string)[]): string
 ```
 
-Later arguments override earlier ones via CSS layer ordering.
+Later arguments override earlier ones via CSS layer ordering. Standalone utilities support property-access tokens:
 
 ```ts
 import { cx, p, bg, rounded } from 'typewritingclass'
 
-cx(p(4), bg('blue-500'), rounded('lg'))
+cx(p(4), bg.blue500, rounded.lg)
 // => "_a1b2c _d3e4f _g5h6i"
 
+// With opacity
+cx(bg.blue500(25), rounded.lg, p(4))
+
 // Mix with plain strings
-cx('my-class', p(4), bg('white'))
+cx('my-class', p(4), bg.white)
 
 // With modifiers
-cx(p(4), when(hover)(bg('blue-600')), when(md)(p(8)))
+cx(p(4), when(hover)(bg.blue600), when(md)(p(8)))
 ```
 
 ---
@@ -132,10 +164,10 @@ function when(...modifiers: Modifier[]): (...rules: StyleRule[]) => StyleRule
 Modifiers are applied right-to-left (first modifier is innermost):
 
 ```ts
-when(hover)(bg('blue-600'))              // :hover
-when(md)(p(8))                            // @media (min-width: 768px)
-when(hover, md)(bg('blue-700'))          // hover inside md breakpoint
-when(dark)(bg('slate-900'), textColor('white'))  // dark mode
+when(hover)(bg.blue600)              // :hover
+when(md)(p(8))                        // @media (min-width: 768px)
+when(hover, md)(bg.blue700)          // hover inside md breakpoint
+when(dark)(bg.slate900, textColor.white)  // dark mode
 ```
 
 ---
@@ -176,8 +208,8 @@ function layer(priority: number): (...rules: StyleRule[]) => StyleRule
 ```
 
 ```ts
-const base = layer(0)(p(4), bg('white'))  // low priority, easily overridden
-cx(base, bg('blue-500'))                   // blue overrides white
+const base = layer(0)(p(4), bg.white)  // low priority, easily overridden
+cx(base, bg.blue500)                    // blue overrides white
 ```
 
 ---

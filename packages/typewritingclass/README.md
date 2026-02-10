@@ -5,7 +5,7 @@ Core library for the Typewriting Class CSS-in-TS framework. Provides utility fun
 ## Installation
 
 ```bash
-bun add typewritingclass
+pnpm add typewritingclass
 ```
 
 ## Usage
@@ -16,13 +16,54 @@ bun add typewritingclass
 import { tw } from 'typewritingclass'
 
 const card = tw
-  .bg('white').rounded('lg').p(6).flex.gap(4)
+  .bg.white.rounded.lg.p(6).flex.gap(4)
   .hover(tw.bg('blue-50'))
   .md.p(8)
   .dark(tw.bg('slate-800'))
 ```
 
-### Individual imports
+### Property-access tokens
+
+Design tokens are accessed via property names — no strings needed:
+
+```ts
+tw.bg.blue500            // background-color: #3b82f6
+tw.textColor.slate900    // color: #0f172a
+tw.rounded.lg            // border-radius: 0.5rem
+tw.shadow.md             // box-shadow: ...
+tw.text.lg               // font-size: 1.125rem; line-height: 1.75rem
+tw.font.bold             // font-weight: 700
+tw.items.center          // align-items: center
+tw.justify.between       // justify-content: space-between
+tw.cursor.pointer        // cursor: pointer
+```
+
+Color tokens support opacity via callable syntax:
+
+```ts
+tw.bg.blue500(50)        // background-color: rgb(59 130 246 / 0.5)
+```
+
+### Individual imports with property-access tokens
+
+```ts
+import { cx, bg, rounded, p, when, hover } from 'typewritingclass'
+
+cx(bg.blue500, rounded.lg, p(4))
+
+// With opacity
+cx(bg.blue500(25), rounded.lg, p(4))
+```
+
+### Arbitrary / custom values
+
+Pass any CSS value as a string argument:
+
+```ts
+tw.bg('white').rounded('lg').p(6).shadow('md')
+```
+
+### Individual imports (functional style)
 
 ```ts
 import { cx, p, bg, textColor, rounded, flex, gap, when } from 'typewritingclass'
@@ -43,9 +84,11 @@ const card = cx(
 ### Chainable builder
 
 - **`tw`** — proxy-based chainable API with access to all utilities and modifiers via a single import
-  - Property syntax for modifiers: `tw.hover.bg('blue-500')`
-  - Function syntax for multi-utility modifiers: `tw.hover(tw.bg('blue-500').textColor('white'))`
+  - Property-access tokens: `tw.bg.blue500`, `tw.rounded.lg`, `tw.font.bold`
+  - Property syntax for modifiers: `tw.hover.bg.blue500`
+  - Function syntax for multi-utility modifiers: `tw.hover(tw.bg.blue500.textColor.white)`
   - Value-less utilities as properties: `tw.flex.flexCol.relative`
+  - Arbitrary values: `tw.bg('custom-color').p(6)`
   - Resolves to class string via `.toString()`, `.value`, `.className`, or template literals
 
 ### Composition
