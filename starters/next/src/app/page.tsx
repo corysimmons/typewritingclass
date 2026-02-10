@@ -27,11 +27,18 @@ export default function Home() {
 
       {/* Opacity demo */}
       <div className={tw.flex.flexRow.gap(4).value}>
-        {[100, 75, 50, 25].map(opacity => (
-          <div key={opacity} className={tw.bg(`rgb(59 130 246 / ${opacity / 100})`).rounded('lg').p(4).value}>
-            <span className={tw.textColor('white').font('700').value}>{opacity}%</span>
-          </div>
-        ))}
+        <div className={tw.bg('rgb(59 130 246 / 1)').rounded('lg').p(4).value}>
+          <span className={tw.textColor('white').font('700').value}>100%</span>
+        </div>
+        <div className={tw.bg('rgb(59 130 246 / 0.75)').rounded('lg').p(4).value}>
+          <span className={tw.textColor('white').font('700').value}>75%</span>
+        </div>
+        <div className={tw.bg('rgb(59 130 246 / 0.5)').rounded('lg').p(4).value}>
+          <span className={tw.textColor('white').font('700').value}>50%</span>
+        </div>
+        <div className={tw.bg('rgb(59 130 246 / 0.25)').rounded('lg').p(4).value}>
+          <span className={tw.textColor('white').font('700').value}>25%</span>
+        </div>
       </div>
 
       {/* Gradient button with transition */}
