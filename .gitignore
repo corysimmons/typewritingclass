@@ -9,4 +9,8 @@ coverage
 target
 *.node
 .astro
+.next
+*.lock
+bun.lock
+next-env.d.ts
 .env
