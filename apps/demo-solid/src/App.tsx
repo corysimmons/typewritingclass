@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js'
+import { createSignal, createMemo } from 'solid-js'
 import {
   tw, cx, dcx, dynamic,
   w, h, bg, textColor, font, rounded, shadow,
@@ -36,15 +36,16 @@ injectTheme(darkTheme.cssText)
 function ColorPickerDemo() {
   const [color, setColor] = createSignal('#3b82f6')
 
-  // dcx() + dynamic() requires HOF syntax for runtime CSS variable binding
-  const boxProps = () => dcx(
+  // dcx() + dynamic() must use createMemo so .className and .style
+  // come from the same evaluation (each dynamic() call allocates a new var name)
+  const boxProps = createMemo(() => dcx(
     w('8rem'), h('8rem'),
     bg(dynamic(color())),
     rounded('lg'),
     shadow('md'),
     flex(), items('center'), justify('center'),
     textColor('#ffffff'), font('bold'),
-  )
+  ))
 
   return (
     <div class={tw.flex.flexCol.gap(4)}>
@@ -70,14 +71,15 @@ function ColorPickerDemo() {
 function ProgressBarDemo() {
   const [progress, setProgress] = createSignal(65)
 
-  // dcx() + dynamic() requires HOF syntax
-  const barProps = () => dcx(
+  // dcx() + dynamic() must use createMemo so .className and .style
+  // come from the same evaluation (each dynamic() call allocates a new var name)
+  const barProps = createMemo(() => dcx(
     h('1.5rem'),
     w(dynamic(`${progress()}%`)),
     bg('emerald-500'),
     rounded('9999px'),
     transitionAll(), duration('0.3s'), ease('ease'),
-  )
+  ))
 
   return (
     <div class={tw.flex.flexCol.gap(4)}>
@@ -167,15 +169,16 @@ function MultiPropertyDemo() {
   const [borderRadius, setBorderRadius] = createSignal(8)
   const [bgColor, setBgColor] = createSignal('#f43f5e')
 
-  // dcx() + dynamic() requires HOF syntax
-  const shapeProps = () => dcx(
+  // dcx() + dynamic() must use createMemo so .className and .style
+  // come from the same evaluation (each dynamic() call allocates a new var name)
+  const shapeProps = createMemo(() => dcx(
     w(dynamic(`${size()}px`)),
     h(dynamic(`${size()}px`)),
     bg(dynamic(bgColor())),
     rounded(dynamic(`${borderRadius()}px`)),
     shadow('md'),
     transitionAll(), duration('0.2s'), ease('ease'),
-  )
+  ))
 
   return (
     <div class={tw.flex.flexCol.gap(4)}>
