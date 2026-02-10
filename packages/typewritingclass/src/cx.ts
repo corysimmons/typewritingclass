@@ -100,18 +100,82 @@ export function _cxCore(args: (StyleRule | string)[]): string {
  * @internal
  */
 function warnConflicts(args: (StyleRule | string)[]): void {
+  // Track which arg index set each (context, property) pair
   const seen = new Map<string, number>()
+  // Track how many declarations the arg that first set this key had
+  const seenDeclCount = new Map<string, number>()
+  const warned = new Set<string>()
+
+  // For cross-context override detection: track all (context, index) pairs per property
+  const propContexts = new Map<string, { context: string, index: number, mediaQueries: string[] }[]>()
+
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]
     if (typeof arg === 'string' || typeof arg === 'function') continue
-    for (const prop of Object.keys(arg.declarations)) {
-      if (seen.has(prop)) {
-        console.warn(
-          `[typewritingclass] cx() conflict: "${prop}" is set by arguments at index ${seen.get(prop)} and ${i}. ` +
-          `The later value will override. If intentional, this warning can be ignored.`,
-        )
+    const context = arg.mediaQueries.join('|') + '::' + arg.selectors.join('|')
+    const declKeys = Object.keys(arg.declarations)
+    for (const prop of declKeys) {
+      const key = context + '::' + prop
+      if (seen.has(key)) {
+        // Skip shorthand+longhand refinement: if the earlier arg was a
+        // compound rule (multiple declarations) and the later arg is a
+        // single-property refinement, this is intentional narrowing
+        // (e.g. transitionAll() + duration(150)).
+        const earlierCount = seenDeclCount.get(key)!
+        if (earlierCount > 1 && declKeys.length === 1) {
+          seen.set(key, i)
+          seenDeclCount.set(key, declKeys.length)
+          continue
+        }
+
+        const msg =
+          `[typewritingclass] cx() conflict: "${prop}" is set by arguments at index ${seen.get(key)} and ${i}. ` +
+          `The later value will override. If intentional, this warning can be ignored.`
+        if (!warned.has(msg)) {
+          warned.add(msg)
+          console.warn(msg)
+        }
       }
-      seen.set(prop, i)
+      seen.set(key, i)
+      seenDeclCount.set(key, declKeys.length)
+
+      // Track for cross-context detection
+      if (!propContexts.has(prop)) propContexts.set(prop, [])
+      propContexts.get(prop)!.push({ context, index: i, mediaQueries: arg.mediaQueries })
+    }
+  }
+
+  // Detect cross-context overrides: a later rule with a non-overlapping media
+  // query silently wins over an earlier rule when both queries match at once.
+  // e.g. .sm(bg('blue')).dark(bg('green')) — dark wins over sm in dark+wide viewport.
+  for (const [prop, entries] of propContexts) {
+    for (let j = 1; j < entries.length; j++) {
+      const later = entries[j]
+      // Only check rules that have media queries (not base rules)
+      if (later.mediaQueries.length === 0) continue
+      for (let k = 0; k < j; k++) {
+        const earlier = entries[k]
+        if (earlier.context === later.context) continue // same context, already handled
+        if (earlier.mediaQueries.length === 0) continue // base→conditional is fine
+        // Two different non-empty media query contexts for the same property.
+        // Check if one is a subset of the other (nested = intentional).
+        const earlierSet = new Set(earlier.mediaQueries)
+        const laterSet = new Set(later.mediaQueries)
+        const isSubset = [...laterSet].every(q => earlierSet.has(q)) ||
+                         [...earlierSet].every(q => laterSet.has(q))
+        if (isSubset) continue // one contains the other — intentional specificity
+        // Two independent media queries for the same prop — source order hazard
+        const msg =
+          `[typewritingclass] cx() cascade hazard: "${prop}" is set by arg ${earlier.index} ` +
+          `(${earlier.mediaQueries.join(' + ')}) and arg ${later.index} ` +
+          `(${later.mediaQueries.join(' + ')}). When both queries match, arg ${later.index} ` +
+          `wins due to source order. To fix, combine them: ` +
+          `.sm(tw.dark(...)) instead of separate .sm(...).dark(...).`
+        if (!warned.has(msg)) {
+          warned.add(msg)
+          console.warn(msg)
+        }
+      }
     }
   }
 }

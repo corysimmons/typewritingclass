@@ -439,13 +439,30 @@ responsiveDemo.className = tw.p(6).rounded('2xl')
   .textAlign('center')
   .fontFamily(mono).text('0.875rem').transitionAll.duration(300).ease('ease')
   .bg('emerald-50').textColor('emerald-700').borderColor('emerald-200')
-  .sm(tw.bg('sky-50').textColor('sky-700').borderColor('sky-200'))
-  .md(tw.bg('violet-50').textColor('violet-700').borderColor('violet-200'))
-  .lg(tw.bg('amber-50').textColor('amber-700').borderColor('amber-200'))
-  .xl(tw.bg('rose-50').textColor('rose-700').borderColor('rose-200'))
   .dark(tw.bg('emerald-950').textColor('emerald-300').borderColor('emerald-800'))
+  .sm(tw.bg('sky-50').textColor('sky-700').borderColor('sky-200'))
+  .sm(tw.dark(tw.bg('sky-950').textColor('sky-300').borderColor('sky-800')))
+  .md(tw.bg('violet-50').textColor('violet-700').borderColor('violet-200'))
+  .md(tw.dark(tw.bg('violet-950').textColor('violet-300').borderColor('violet-800')))
+  .lg(tw.bg('amber-50').textColor('amber-700').borderColor('amber-200'))
+  .lg(tw.dark(tw.bg('amber-950').textColor('amber-300').borderColor('amber-800')))
+  .xl(tw.bg('rose-50').textColor('rose-700').borderColor('rose-200'))
+  .xl(tw.dark(tw.bg('rose-950').textColor('rose-300').borderColor('rose-800')))
 
-responsiveDemo.textContent = 'Resize your browser — this changes at sm / md / lg / xl'
+// Breakpoint indicator labels — only one visible at a time
+const bpIndicators: { label: string, chain: typeof tw }[] = [
+  { label: 'base (<640px)',    chain: tw.display('inline').sm(tw.display('none')) },
+  { label: 'sm (640–767px)',   chain: tw.display('none').sm(tw.display('inline')).md(tw.display('none')) },
+  { label: 'md (768–1023px)',  chain: tw.display('none').md(tw.display('inline')).lg(tw.display('none')) },
+  { label: 'lg (1024–1279px)', chain: tw.display('none').lg(tw.display('inline')).xl(tw.display('none')) },
+  { label: 'xl (≥1280px)',     chain: tw.display('none').xl(tw.display('inline')) },
+]
+for (const { label, chain } of bpIndicators) {
+  const span = document.createElement('span')
+  span.className = String(chain)
+  span.textContent = `Current breakpoint: ${label}`
+  responsiveDemo.appendChild(span)
+}
 
 showcase.appendChild(section('07', 'Responsive', [responsiveDemo]))
 
