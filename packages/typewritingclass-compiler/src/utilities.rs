@@ -39,9 +39,64 @@ fn resolve_spacing(val: &Value, theme: &ThemeData) -> Option<String> {
     }
 }
 
-/// Resolve a size argument (uses spacing scale for numbers, passthrough for strings)
-fn resolve_size(val: &Value, theme: &ThemeData) -> Option<String> {
-    resolve_spacing(val, theme)
+/// Resolve a size argument (uses theme sizes + fraction map for strings, spacing scale for numbers)
+fn resolve_size(val: &Value, theme: &ThemeData, prop: &str) -> Option<String> {
+    match val {
+        Value::Num(n) => theme.resolve_spacing_num(*n),
+        Value::Str(s) => {
+            // "screen" resolves to 100vw for width props, 100vh for height props
+            if s == "screen" {
+                if prop.contains("height") {
+                    return Some("100vh".to_string());
+                }
+                return Some("100vw".to_string());
+            }
+            // Check theme sizes (full, auto, min, max, fit, etc.)
+            if let Some(css_val) = theme.resolve_size(s) {
+                return Some(css_val.to_string());
+            }
+            // Check fraction values (e.g. "1/2" → "50%")
+            if let Some(css_val) = resolve_fraction(s) {
+                return Some(css_val.to_string());
+            }
+            // Passthrough (raw CSS value)
+            Some(s.clone())
+        }
+        Value::Dynamic(_, _) => None,
+    }
+}
+
+/// Resolve fraction-based size values like "1/2" → "50%"
+fn resolve_fraction(s: &str) -> Option<&'static str> {
+    match s {
+        "1/2" => Some("50%"),
+        "1/3" => Some("33.333333%"),
+        "2/3" => Some("66.666667%"),
+        "1/4" => Some("25%"),
+        "2/4" => Some("50%"),
+        "3/4" => Some("75%"),
+        "1/5" => Some("20%"),
+        "2/5" => Some("40%"),
+        "3/5" => Some("60%"),
+        "4/5" => Some("80%"),
+        "1/6" => Some("16.666667%"),
+        "2/6" => Some("33.333333%"),
+        "3/6" => Some("50%"),
+        "4/6" => Some("66.666667%"),
+        "5/6" => Some("83.333333%"),
+        "1/12" => Some("8.333333%"),
+        "2/12" => Some("16.666667%"),
+        "3/12" => Some("25%"),
+        "4/12" => Some("33.333333%"),
+        "5/12" => Some("41.666667%"),
+        "6/12" => Some("50%"),
+        "7/12" => Some("58.333333%"),
+        "8/12" => Some("66.666667%"),
+        "9/12" => Some("75%"),
+        "10/12" => Some("83.333333%"),
+        "11/12" => Some("91.666667%"),
+        _ => None,
+    }
 }
 
 /// Try to resolve a color string through the theme.
@@ -141,9 +196,36 @@ fn spacing_multi_rule(props: &[&str], val: &Value, theme: &ThemeData) -> Option<
     }
 }
 
-/// Create a size-based single-property rule
+/// Create a size-based multi-property rule (e.g. size() sets both width and height)
+fn size_multi_rule(props: &[&str], val: &Value, theme: &ThemeData) -> Option<StyleRule> {
+    match val {
+        Value::Dynamic(id, expr) => {
+            let var_ref = format!("var({})", id);
+            let decls: Vec<(&str, &str)> = props.iter().map(|p| (*p, var_ref.as_str())).collect();
+            Some(StyleRule::new(decls).with_dynamic_binding(id, expr))
+        }
+        _ => {
+            // For size(), use first prop for resolution context (doesn't matter for non-"screen" values)
+            let v = resolve_size(val, theme, props.first().unwrap_or(&"width"))?;
+            let decls: Vec<(&str, &str)> = props.iter().map(|p| (*p, v.as_str())).collect();
+            Some(StyleRule::new(decls))
+        }
+    }
+}
+
+/// Create a size-based single-property rule (resolves named sizes like "full" → "100%")
 fn size_prop_rule(prop: &str, val: &Value, theme: &ThemeData) -> Option<StyleRule> {
-    spacing_prop_rule(prop, val, theme)
+    match val {
+        Value::Dynamic(id, expr) => {
+            let var_ref = format!("var({})", id);
+            Some(StyleRule::new(vec![(prop, &var_ref)])
+                .with_dynamic_binding(id, expr))
+        }
+        _ => {
+            let v = resolve_size(val, theme, prop)?;
+            Some(StyleRule::new(vec![(prop, &v)]))
+        }
+    }
 }
 
 /// Evaluate a utility function call to a StyleRule.
@@ -264,7 +346,7 @@ pub fn evaluate(name: &str, args: &[Value], theme: &ThemeData) -> Option<StyleRu
         }
         "w" => size_prop_rule("width", args.first()?, theme),
         "h" => size_prop_rule("height", args.first()?, theme),
-        "size" => spacing_multi_rule(&["width", "height"], args.first()?, theme),
+        "size" => size_multi_rule(&["width", "height"], args.first()?, theme),
         "minW" => size_prop_rule("min-width", args.first()?, theme),
         "minH" => size_prop_rule("min-height", args.first()?, theme),
         "maxW" => size_prop_rule("max-width", args.first()?, theme),
