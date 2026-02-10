@@ -8,6 +8,7 @@ playwright-report
 coverage
 target
 *.node
+packages/typewritingclass-compiler/index.js
 .astro
 .next
 *.lock
