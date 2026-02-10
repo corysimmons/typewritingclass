@@ -100,6 +100,111 @@ export type RadiusInput = CSSLength | string | DynamicValueAny
 export type ShadowInput = CSSShadow | string | DynamicValueAny
 
 // ---------------------------------------------------------------------------
+// Token type interfaces (module-augmentable)
+// ---------------------------------------------------------------------------
+
+type ColorScaleName = 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'
+type ColorShade = '50' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900' | '950'
+
+/** Union of all camelCase color token property names (e.g. `'blue500'`, `'white'`). */
+export type ColorTokenKey = `${ColorScaleName}${ColorShade}` | 'white' | 'black' | 'transparent' | 'current'
+
+export interface RadiusTokens {
+  sm: string; md: string; lg: string; xl: string
+  _2xl: string; _3xl: string; full: string; none: string
+}
+
+export interface ShadowTokens {
+  sm: string; md: string; lg: string; xl: string
+  _2xl: string; inner: string; none: string
+}
+
+export interface TextSizeTokens {
+  xs: any; sm: any; base: any; lg: any; xl: any
+  _2xl: any; _3xl: any; _4xl: any; _5xl: any
+  _6xl: any; _7xl: any; _8xl: any; _9xl: any
+}
+
+export interface FontWeightTokens {
+  thin: string; extralight: string; light: string; normal: string
+  medium: string; semibold: string; bold: string; extrabold: string
+  black: string
+}
+
+export interface TrackingTokens {
+  tighter: string; tight: string; normal: string
+  wide: string; wider: string; widest: string
+}
+
+export interface LeadingTokens {
+  none: string; tight: string; snug: string; normal: string
+  relaxed: string; loose: string
+  _3: string; _4: string; _5: string; _6: string
+  _7: string; _8: string; _9: string; _10: string
+}
+
+export interface FontFamilyTokens {
+  sans: string; serif: string; mono: string
+}
+
+export interface AlignItemsTokens {
+  center: string; start: string; end: string
+  baseline: string; stretch: string
+}
+
+export interface JustifyTokens {
+  center: string; start: string; end: string
+  between: string; around: string; evenly: string; stretch: string
+}
+
+export interface DisplayTokens {
+  block: string; inline: string; inlineBlock: string
+  flex: string; inlineFlex: string; grid: string
+  inlineGrid: string; none: string; contents: string
+  table: string; flowRoot: string
+}
+
+export interface OverflowTokens {
+  auto: string; hidden: string; visible: string
+  scroll: string; clip: string
+}
+
+export interface CursorTokens {
+  auto: string; default: string; pointer: string
+  wait: string; text: string; move: string; help: string
+  notAllowed: string; none: string; progress: string
+  cell: string; crosshair: string; grab: string; grabbing: string
+}
+
+export interface TextAlignTokens {
+  left: string; center: string; right: string
+  justify: string; start: string; end: string
+}
+
+export interface ObjectFitTokens {
+  contain: string; cover: string; fill: string
+  none: string; scaleDown: string
+}
+
+export interface SelfTokens {
+  auto: string; start: string; end: string
+  center: string; stretch: string; baseline: string
+}
+
+export interface TextWrapTokens {
+  wrap: string; nowrap: string; balance: string; pretty: string
+}
+
+export interface TextOverflowTokens {
+  ellipsis: string; clip: string
+}
+
+export interface TextTransformTokens {
+  uppercase: string; lowercase: string
+  capitalize: string; none: string
+}
+
+// ---------------------------------------------------------------------------
 // Core types
 // ---------------------------------------------------------------------------
 

@@ -81,7 +81,9 @@ export function _cxCore(args: (StyleRule | string)[]): string {
       if (typeof arg === 'string') return arg
       // TwChain proxies are typeof 'function' — coerce to string,
       // which recursively calls cx() on the chain's internal rules.
-      if (typeof arg === 'function') return String(arg)
+      // Callable StyleRule proxies (from standalone token API) are also
+      // functions but expose _tag === 'StyleRule' — treat those as rules.
+      if (typeof arg === 'function' && (arg as any)._tag !== 'StyleRule') return String(arg)
       const layerNum = (arg as any)._layer ?? nextLayer()
       const className = generateHash(arg, layerNum)
       register(className, arg, layerNum)

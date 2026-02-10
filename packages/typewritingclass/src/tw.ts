@@ -1,6 +1,14 @@
 import type { StyleRule, Modifier } from './types.ts'
+import type {
+  ColorTokenKey, RadiusTokens, ShadowTokens, TextSizeTokens, FontWeightTokens,
+  TrackingTokens, LeadingTokens, FontFamilyTokens, AlignItemsTokens, JustifyTokens,
+  DisplayTokens, OverflowTokens, CursorTokens, TextAlignTokens, ObjectFitTokens,
+  SelfTokens, TextWrapTokens, TextOverflowTokens, TextTransformTokens,
+} from './types.ts'
 import { cx, _cxCore } from './cx.ts'
 import { when } from './when.ts'
+import { UTIL_TOKENS } from './tokens.ts'
+import { resolveColorWithOpacity } from './utilities/colors.ts'
 
 // --- Utilities ---
 import {
@@ -295,6 +303,28 @@ export type TwChainString = TwChain & string
 
 type TwUtility = ((...args: any[]) => TwChainString) & TwChainString
 
+/** @internal Token-aware utility types for autocomplete */
+type TwColorUtility = TwUtility & { [K in ColorTokenKey]: TwChainString & ((opacity: number) => TwChainString) }
+type TwColorUtilityNoOpacity = TwUtility & { [K in ColorTokenKey]: TwChainString }
+type TwRadiusUtility = TwUtility & { [K in keyof RadiusTokens]: TwChainString }
+type TwShadowUtility = TwUtility & { [K in keyof ShadowTokens]: TwChainString }
+type TwTextSizeUtility = TwUtility & { [K in keyof TextSizeTokens]: TwChainString }
+type TwFontWeightUtility = TwUtility & { [K in keyof FontWeightTokens]: TwChainString }
+type TwTrackingUtility = TwUtility & { [K in keyof TrackingTokens]: TwChainString }
+type TwLeadingUtility = TwUtility & { [K in keyof LeadingTokens]: TwChainString }
+type TwFontFamilyUtility = TwUtility & { [K in keyof FontFamilyTokens]: TwChainString }
+type TwAlignItemsUtility = TwUtility & { [K in keyof AlignItemsTokens]: TwChainString }
+type TwJustifyUtility = TwUtility & { [K in keyof JustifyTokens]: TwChainString }
+type TwDisplayUtility = TwUtility & { [K in keyof DisplayTokens]: TwChainString }
+type TwOverflowUtility = TwUtility & { [K in keyof OverflowTokens]: TwChainString }
+type TwCursorUtility = TwUtility & { [K in keyof CursorTokens]: TwChainString }
+type TwTextAlignUtility = TwUtility & { [K in keyof TextAlignTokens]: TwChainString }
+type TwObjectFitUtility = TwUtility & { [K in keyof ObjectFitTokens]: TwChainString }
+type TwSelfUtility = TwUtility & { [K in keyof SelfTokens]: TwChainString }
+type TwTextWrapUtility = TwUtility & { [K in keyof TextWrapTokens]: TwChainString }
+type TwTextOverflowUtility = TwUtility & { [K in keyof TextOverflowTokens]: TwChainString }
+type TwTextTransformUtility = TwUtility & { [K in keyof TextTransformTokens]: TwChainString }
+
 /** @internal A modifier usable as a property (`tw.hover.bg(…)`) or function (`tw.hover(tw.bg(…))`). */
 type TwModifier = TwChainString & ((...chains: (TwChain | string)[]) => TwChainString)
 
@@ -358,36 +388,36 @@ export interface TwChain {
   readonly me: TwUtility
   readonly spaceX: TwUtility
   readonly spaceY: TwUtility
-  // Colors
-  readonly bg: TwUtility
-  readonly textColor: TwUtility
-  readonly borderColor: TwUtility
-  // Typography
-  readonly text: TwUtility
-  readonly font: TwUtility
-  readonly tracking: TwUtility
-  readonly leading: TwUtility
-  readonly textAlign: TwUtility
-  readonly fontFamily: TwUtility
+  // Colors (token-aware with opacity)
+  readonly bg: TwColorUtility
+  readonly textColor: TwColorUtility
+  readonly borderColor: TwColorUtility
+  // Typography (token-aware)
+  readonly text: TwTextSizeUtility
+  readonly font: TwFontWeightUtility
+  readonly tracking: TwTrackingUtility
+  readonly leading: TwLeadingUtility
+  readonly textAlign: TwTextAlignUtility
+  readonly fontFamily: TwFontFamilyUtility
   readonly lineClamp: TwUtility
   readonly listStyleImage: TwUtility
   readonly listStylePosition: TwUtility
   readonly listStyleType: TwUtility
   readonly textDecoration: TwUtility
-  readonly textDecorationColor: TwUtility
+  readonly textDecorationColor: TwColorUtility
   readonly textDecorationStyle: TwUtility
   readonly textDecorationThickness: TwUtility
   readonly textUnderlineOffset: TwUtility
-  readonly textTransform: TwUtility
-  readonly textOverflow: TwUtility
-  readonly textWrap: TwUtility
+  readonly textTransform: TwTextTransformUtility
+  readonly textOverflow: TwTextOverflowUtility
+  readonly textWrap: TwTextWrapUtility
   readonly textIndent: TwUtility
   readonly verticalAlign: TwUtility
   readonly whitespace: TwUtility
   readonly wordBreak: TwUtility
   readonly hyphens: TwUtility
   readonly content: TwUtility
-  // Layout
+  // Layout (token-aware where applicable)
   readonly grid: TwUtility
   readonly gridCols: TwUtility
   readonly gridRows: TwUtility
@@ -398,13 +428,13 @@ export interface TwChain {
   readonly minH: TwUtility
   readonly maxW: TwUtility
   readonly maxH: TwUtility
-  readonly display: TwUtility
-  readonly items: TwUtility
-  readonly justify: TwUtility
-  readonly self: TwUtility
-  readonly overflow: TwUtility
-  readonly overflowX: TwUtility
-  readonly overflowY: TwUtility
+  readonly display: TwDisplayUtility
+  readonly items: TwAlignItemsUtility
+  readonly justify: TwJustifyUtility
+  readonly self: TwSelfUtility
+  readonly overflow: TwOverflowUtility
+  readonly overflowX: TwOverflowUtility
+  readonly overflowY: TwOverflowUtility
   readonly top: TwUtility
   readonly right: TwUtility
   readonly bottom: TwUtility
@@ -420,7 +450,7 @@ export interface TwChain {
   readonly boxSizing: TwUtility
   readonly float: TwUtility
   readonly clear: TwUtility
-  readonly objectFit: TwUtility
+  readonly objectFit: TwObjectFitUtility
   readonly objectPosition: TwUtility
   readonly overscrollBehavior: TwUtility
   readonly overscrollX: TwUtility
@@ -448,20 +478,20 @@ export interface TwChain {
   readonly placeContent: TwUtility
   readonly placeItems: TwUtility
   readonly placeSelf: TwUtility
-  // Borders
-  readonly rounded: TwUtility
-  readonly roundedT: TwUtility
-  readonly roundedB: TwUtility
-  readonly roundedL: TwUtility
-  readonly roundedR: TwUtility
-  readonly roundedTL: TwUtility
-  readonly roundedTR: TwUtility
-  readonly roundedBR: TwUtility
-  readonly roundedBL: TwUtility
-  readonly roundedSS: TwUtility
-  readonly roundedSE: TwUtility
-  readonly roundedEE: TwUtility
-  readonly roundedES: TwUtility
+  // Borders (token-aware for radius)
+  readonly rounded: TwRadiusUtility
+  readonly roundedT: TwRadiusUtility
+  readonly roundedB: TwRadiusUtility
+  readonly roundedL: TwRadiusUtility
+  readonly roundedR: TwRadiusUtility
+  readonly roundedTL: TwRadiusUtility
+  readonly roundedTR: TwRadiusUtility
+  readonly roundedBR: TwRadiusUtility
+  readonly roundedBL: TwRadiusUtility
+  readonly roundedSS: TwRadiusUtility
+  readonly roundedSE: TwRadiusUtility
+  readonly roundedEE: TwRadiusUtility
+  readonly roundedES: TwRadiusUtility
   readonly border: TwUtility
   readonly borderT: TwUtility
   readonly borderR: TwUtility
@@ -473,32 +503,32 @@ export interface TwChain {
   readonly borderE: TwUtility
   readonly borderStyle: TwUtility
   readonly ring: TwUtility
-  readonly ringColor: TwUtility
+  readonly ringColor: TwColorUtility
   readonly ringOffsetWidth: TwUtility
   readonly ringOffsetColor: TwUtility
   readonly outlineWidth: TwUtility
-  readonly outlineColor: TwUtility
+  readonly outlineColor: TwColorUtility
   readonly outlineStyle: TwUtility
   readonly outlineOffset: TwUtility
   readonly outline: TwUtility
   readonly divideX: TwUtility
   readonly divideY: TwUtility
-  readonly divideColor: TwUtility
+  readonly divideColor: TwColorUtility
   readonly divideStyle: TwUtility
-  // Effects
-  readonly shadow: TwUtility
+  // Effects (token-aware for shadow)
+  readonly shadow: TwShadowUtility
   readonly opacity: TwUtility
   readonly backdrop: TwUtility
-  readonly shadowColor: TwUtility
+  readonly shadowColor: TwColorUtility
   readonly mixBlendMode: TwUtility
   readonly bgBlendMode: TwUtility
-  // Interactivity
-  readonly cursor: TwUtility
+  // Interactivity (token-aware for cursor)
+  readonly cursor: TwCursorUtility
   readonly select: TwUtility
   readonly pointerEvents: TwUtility
-  readonly accentColor: TwUtility
+  readonly accentColor: TwColorUtility
   readonly appearance: TwUtility
-  readonly caretColor: TwUtility
+  readonly caretColor: TwColorUtility
   readonly resize: TwUtility
   readonly scrollBehavior: TwUtility
   readonly scrollMargin: TwUtility
@@ -567,7 +597,7 @@ export interface TwChain {
   readonly strokeWidth: TwUtility
   // Accessibility
   readonly forcedColorAdjust: TwUtility
-  // Backgrounds
+  // Backgrounds (token-aware for gradients)
   readonly bgAttachment: TwUtility
   readonly bgClip: TwUtility
   readonly bgOrigin: TwUtility
@@ -576,9 +606,9 @@ export interface TwChain {
   readonly bgSize: TwUtility
   readonly bgImage: TwUtility
   readonly bgGradient: TwUtility
-  readonly gradientFrom: TwUtility
-  readonly gradientVia: TwUtility
-  readonly gradientTo: TwUtility
+  readonly gradientFrom: TwColorUtilityNoOpacity
+  readonly gradientVia: TwColorUtilityNoOpacity
+  readonly gradientTo: TwColorUtilityNoOpacity
 
   // ---- Value-less utilities (no arguments) — keep in sync with VALUELESS ----
 
@@ -877,11 +907,46 @@ function createChain(rules: (StyleRule | string)[], pendingMods: Modifier[]): Tw
       // --- Utilities with arguments ---
       if (name in UTILS) {
         const utilFn = UTILS[name]
+        const tokenConfig = UTIL_TOKENS[name]
         // Return a callable proxy: tw.bg('red') calls this
         return new Proxy(function () {} as any, {
           get(_t, innerProp: string | symbol) {
-            // If someone chains without calling (e.g., tw.shadow.hover)
-            // treat as calling with no args (for optional-arg utilities like shadow())
+            // Guard: symbol props (Symbol.toPrimitive, Symbol.iterator, etc.)
+            if (typeof innerProp === 'symbol') {
+              const rule = utilFn()
+              const modified = applyMods(rule, pendingMods)
+              return (createChain([...rules, modified], []) as any)[innerProp]
+            }
+
+            // Check token map for property-access resolution
+            if (tokenConfig && innerProp in tokenConfig.tokens) {
+              const tokenArg = tokenConfig.tokens[innerProp]
+
+              if (tokenConfig.supportsOpacity) {
+                // Dual proxy: chainable via get, callable for opacity via apply
+                const rule = utilFn(tokenArg)
+                const modified = applyMods(rule, pendingMods)
+                const chainWithRule = createChain([...rules, modified], [])
+                return new Proxy(function () {} as any, {
+                  get(_t2, chainProp: string | symbol) {
+                    return (chainWithRule as any)[chainProp]
+                  },
+                  apply(_t2, _this2, args) {
+                    const colorWithOpacity = resolveColorWithOpacity(tokenArg, args[0])
+                    const opacityRule = utilFn(colorWithOpacity)
+                    const modifiedOpacity = applyMods(opacityRule, pendingMods)
+                    return createChain([...rules, modifiedOpacity], [])
+                  },
+                })
+              }
+
+              // No opacity — resolve token directly
+              const rule = utilFn(tokenArg)
+              const modified = applyMods(rule, pendingMods)
+              return createChain([...rules, modified], [])
+            }
+
+            // Fall through: treat as calling with no args (for optional-arg utilities like shadow())
             const rule = utilFn()
             const modified = applyMods(rule, pendingMods)
             return (createChain([...rules, modified], []) as any)[innerProp]

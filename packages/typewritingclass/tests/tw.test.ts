@@ -4,6 +4,8 @@ import { isTwChain } from '../src/tw.ts'
 import { _resetLayer } from '../src/cx.ts'
 import { clearRegistry, generateCSS } from '../src/registry.ts'
 import { p, m } from '../src/utilities/spacing.ts'
+import { cx } from '../src/cx.ts'
+import { bg, rounded, shadow, text, font, items } from '../src/index.ts'
 
 describe('tw proxy', () => {
   beforeEach(() => {
@@ -341,6 +343,228 @@ describe('tw proxy', () => {
       // This covers lines 848-857 (the allChildRules collection loop)
       const result = (tw as any).hover(p(4), tw.bg('red'))
       expect(isTwChain(result)).toBe(true)
+    })
+  })
+
+  describe('property-access token API', () => {
+    it('tw.bg.blue500 resolves to correct color', () => {
+      tw.bg.blue500.toString()
+      const css = generateCSS()
+      expect(css).toContain('background-color: #3b82f6')
+    })
+
+    it('tw.rounded.lg resolves to correct radius', () => {
+      tw.rounded.lg.toString()
+      const css = generateCSS()
+      expect(css).toContain('border-radius: 0.5rem')
+    })
+
+    it('tw.shadow.md resolves to correct box-shadow', () => {
+      tw.shadow.md.toString()
+      const css = generateCSS()
+      expect(css).toContain('box-shadow:')
+      expect(css).toContain('4px 6px')
+    })
+
+    it('tw.bg.blue500(25) applies 25% opacity', () => {
+      tw.bg.blue500(25).toString()
+      const css = generateCSS()
+      expect(css).toContain('background-color: rgb(59 130 246 / 0.25)')
+    })
+
+    it('tw.bg.blue500.rounded.lg.shadow.md chains 3 rules', () => {
+      const result = tw.bg.blue500.rounded.lg.shadow.md.toString()
+      const classes = result.split(' ')
+      expect(classes).toHaveLength(3)
+      const css = generateCSS()
+      expect(css).toContain('background-color: #3b82f6')
+      expect(css).toContain('border-radius: 0.5rem')
+      expect(css).toContain('box-shadow:')
+    })
+
+    it('tw.hover.bg.blue500 applies hover modifier', () => {
+      tw.hover.bg.blue500.toString()
+      const css = generateCSS()
+      expect(css).toContain(':hover')
+      expect(css).toContain('background-color: #3b82f6')
+    })
+
+    it('tw.bg("blue-500") backward compat still works', () => {
+      tw.bg('blue-500').toString()
+      const css = generateCSS()
+      expect(css).toContain('background-color: #3b82f6')
+    })
+
+    it('tw.text.lg resolves to correct font-size and line-height', () => {
+      tw.text.lg.toString()
+      const css = generateCSS()
+      expect(css).toContain('font-size: 1.125rem')
+      expect(css).toContain('line-height: 1.75rem')
+    })
+
+    it('tw.font.bold resolves to font-weight 700', () => {
+      tw.font.bold.toString()
+      const css = generateCSS()
+      expect(css).toContain('font-weight: 700')
+    })
+
+    it('tw.items.center resolves to align-items: center', () => {
+      tw.items.center.toString()
+      const css = generateCSS()
+      expect(css).toContain('align-items: center')
+    })
+
+    it('tw.shadow.hover.bg("red") preserves default shadow + hover bg', () => {
+      // shadow has no token for "hover", so falls through:
+      // shadow() with no args → default shadow, then .hover → pending mod, then .bg('red')
+      tw.shadow.hover.bg('red').toString()
+      const css = generateCSS()
+      expect(css).toContain('box-shadow:')
+      expect(css).toContain(':hover')
+      expect(css).toContain('background-color: red')
+    })
+
+    it('string coercion works with token API', () => {
+      const classes = `${tw.bg.blue500}`
+      expect(classes).toMatch(/^_[a-z0-9]+$/)
+    })
+
+    it('tw.justify.between resolves correctly', () => {
+      tw.justify.between.toString()
+      const css = generateCSS()
+      expect(css).toContain('justify-content: space-between')
+    })
+
+    it('tw.textColor.slate900 resolves correctly', () => {
+      tw.textColor.slate900.toString()
+      const css = generateCSS()
+      expect(css).toContain('color: #0f172a')
+    })
+
+    it('tw.bg.white resolves correctly', () => {
+      tw.bg.white.toString()
+      const css = generateCSS()
+      expect(css).toContain('background-color: #ffffff')
+    })
+
+    it('tw.cursor.pointer resolves correctly', () => {
+      tw.cursor.pointer.toString()
+      const css = generateCSS()
+      expect(css).toContain('cursor: pointer')
+    })
+
+    it('tw.overflow.hidden resolves correctly', () => {
+      tw.overflow.hidden.toString()
+      const css = generateCSS()
+      expect(css).toContain('overflow: hidden')
+    })
+
+    it('tw.display.grid resolves correctly', () => {
+      tw.display.grid.toString()
+      const css = generateCSS()
+      expect(css).toContain('display: grid')
+    })
+
+    it('tw.self.center resolves correctly', () => {
+      tw.self.center.toString()
+      const css = generateCSS()
+      expect(css).toContain('align-self: center')
+    })
+
+    it('tw.tracking.wide resolves correctly', () => {
+      tw.tracking.wide.toString()
+      const css = generateCSS()
+      expect(css).toContain('letter-spacing: 0.025em')
+    })
+
+    it('tw.leading.tight resolves correctly', () => {
+      tw.leading.tight.toString()
+      const css = generateCSS()
+      expect(css).toContain('line-height: 1.25')
+    })
+
+    it('tw.fontFamily.mono resolves correctly', () => {
+      tw.fontFamily.mono.toString()
+      const css = generateCSS()
+      expect(css).toContain('font-family:')
+      expect(css).toContain('monospace')
+    })
+
+    it('tw.bg.blue500(0.5) fraction opacity', () => {
+      tw.bg.blue500(0.5).toString()
+      const css = generateCSS()
+      expect(css).toContain('background-color: rgb(59 130 246 / 0.5)')
+    })
+
+    it('complex chain with tokens: tw.flex.flexCol.gap(8).items.center.justify.between', () => {
+      const result = tw.flex.flexCol.gap(8).items.center.justify.between.toString()
+      const classes = result.split(' ')
+      expect(classes).toHaveLength(5)
+      const css = generateCSS()
+      expect(css).toContain('display: flex')
+      expect(css).toContain('flex-direction: column')
+      expect(css).toContain('gap: 2rem')
+      expect(css).toContain('align-items: center')
+      expect(css).toContain('justify-content: space-between')
+    })
+  })
+
+  describe('standalone proxy token API', () => {
+    it('bg.blue500 returns a StyleRule', () => {
+      const rule = bg.blue500
+      expect(rule._tag).toBe('StyleRule')
+      expect(rule.declarations['background-color']).toBe('#3b82f6')
+    })
+
+    it('bg("blue-500") backward compat', () => {
+      const rule = bg('blue-500')
+      expect(rule._tag).toBe('StyleRule')
+      expect(rule.declarations['background-color']).toBe('#3b82f6')
+    })
+
+    it('bg.blue500(25) opacity via callable', () => {
+      const rule = bg.blue500(25)
+      expect(rule._tag).toBe('StyleRule')
+      expect(rule.declarations['background-color']).toBe('rgb(59 130 246 / 0.25)')
+    })
+
+    it('rounded.lg returns correct StyleRule', () => {
+      const rule = rounded.lg
+      expect(rule._tag).toBe('StyleRule')
+      expect(rule.declarations['border-radius']).toBe('0.5rem')
+    })
+
+    it('shadow.md returns correct StyleRule', () => {
+      const rule = shadow.md
+      expect(rule._tag).toBe('StyleRule')
+      expect(rule.declarations['box-shadow']).toContain('4px 6px')
+    })
+
+    it('text.lg returns correct StyleRule', () => {
+      const rule = text.lg
+      expect(rule._tag).toBe('StyleRule')
+      expect(rule.declarations['font-size']).toBe('1.125rem')
+      expect(rule.declarations['line-height']).toBe('1.75rem')
+    })
+
+    it('font.bold returns correct StyleRule', () => {
+      const rule = font.bold
+      expect(rule._tag).toBe('StyleRule')
+      expect(rule.declarations['font-weight']).toBe('700')
+    })
+
+    it('items.center returns correct StyleRule', () => {
+      const rule = items.center
+      expect(rule._tag).toBe('StyleRule')
+      expect(rule.declarations['align-items']).toBe('center')
+    })
+
+    it('cx(bg.blue500, rounded.lg) works with standalone tokens', () => {
+      const result = cx(bg.blue500, rounded.lg)
+      expect(result).toMatch(/^_[a-z0-9]+ _[a-z0-9]+$/)
+      const css = generateCSS()
+      expect(css).toContain('background-color: #3b82f6')
+      expect(css).toContain('border-radius: 0.5rem')
     })
   })
 })

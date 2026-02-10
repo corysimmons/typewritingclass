@@ -28,6 +28,26 @@ export function resolveColor(value: string): string {
 }
 
 /**
+ * Resolves a color token key with opacity applied.
+ *
+ * Looks up the color key via {@link resolveColor}, parses 6-digit hex to RGB,
+ * and returns an `rgb(R G B / alpha)` string.
+ *
+ * @param colorKey - A color token key (e.g. `'blue-500'`) or raw color string.
+ * @param opacity - Opacity value. Values > 1 are treated as percentages (e.g. 25 → 0.25), values ≤ 1 as fractions.
+ * @returns An `rgb()` color string with alpha, or the resolved color as-is if not a 6-digit hex.
+ */
+export function resolveColorWithOpacity(colorKey: string, opacity: number): string {
+  const hex = resolveColor(colorKey)
+  if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return hex
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  const alpha = opacity > 1 ? opacity / 100 : opacity
+  return `rgb(${r} ${g} ${b} / ${alpha})`
+}
+
+/**
  * Sets the background color of an element.
  *
  * Accepts a raw CSS color string or a {@link DynamicValue} for runtime values.
