@@ -16,16 +16,14 @@
       <div class="pg-editor">
         <div class="pg-monaco"></div>
       </div>
-      <div class="pg-output">
-        <div class="pg-preview-section">
-          <span class="pg-label">Preview</span>
-          <div class="pg-preview"><div></div></div>
-        </div>
-        <div class="pg-css-section">
-          <span class="pg-label">Generated CSS</span>
-          <pre class="pg-css"><code></code></pre>
-        </div>
+      <div class="pg-preview-section">
+        <span class="pg-label">Preview</span>
+        <div class="pg-preview"><div></div></div>
       </div>
+    </div>
+    <div class="pg-css-section">
+      <span class="pg-label">Generated CSS</span>
+      <pre class="pg-css"><code></code></pre>
     </div>
     <div class="pg-error" hidden></div>
   </div>
@@ -86,29 +84,22 @@
   .pg-panels {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 340px;
+    min-height: 240px;
   }
 
   .pg-editor {
     border-right: 1px solid #1e293b;
-    min-height: 340px;
+    min-height: 240px;
   }
 
   .pg-monaco {
     height: 100%;
   }
 
-  .pg-output {
-    display: flex;
-    flex-direction: column;
-  }
-
   .pg-preview-section {
-    flex: 1;
     display: flex;
     flex-direction: column;
     padding: 0.75rem;
-    padding-bottom: 0;
   }
 
   .pg-label {
@@ -130,7 +121,6 @@
     flex: 1;
     font-family: system-ui, -apple-system, sans-serif;
     font-size: 0.875rem;
-    min-height: 120px;
     padding: 1.5rem;
   }
 
@@ -145,7 +135,7 @@
     font-size: 0.75rem;
     line-height: 1.5;
     margin: 0;
-    max-height: 120px;
+    max-height: 200px;
     overflow-y: auto;
     white-space: pre-wrap;
     word-break: break-all;
@@ -201,11 +191,11 @@
       text: 'Click me',
     },
     hover: {
-      code: 'tw\n  .p(4)\n  .bg.slate100\n  .rounded.lg\n  .transitionColors\n  .duration(200)\n  .hover.bg.blue500\n  .hover.textColor.white',
+      code: 'tw\n  .p(4)\n  .bg.slate300\n  .rounded.lg\n  .transitionColors\n  .duration(200)\n  .hover(\n    tw\n      .bg.blue500\n      .textColor.white\n  )',
       text: 'Hover over me',
     },
     compose: {
-      code: "tw\n  .p(6)\n  .bg.indigo500\n  .textColor.white\n  .rounded('2xl')\n  .shadow.xl",
+      code: "tw\n  .p(6)\n  .bg.indigo500\n  .textColor.white\n  .rounded('2rem')\n  .shadow.xl",
       text: 'Composed with the chain API',
     },
   }
@@ -219,6 +209,7 @@
 
   class TwcPlayground extends HTMLElement {
     private editor: any = null
+    private monaco: any = null
     private target: HTMLElement
     private cssCode: HTMLElement
     private errorEl: HTMLElement
@@ -244,7 +235,9 @@
     }
 
     private async initMonaco() {
-      const monaco = await loader.init()
+      this.target.textContent = presets.card.text
+      this.monaco = await loader.init()
+      const monaco = this.monaco
       const container = this.querySelector<HTMLElement>('.pg-monaco')!
 
       monaco.editor.defineTheme('twc-dark', {
@@ -358,8 +351,32 @@
         await new Promise((r) => setTimeout(r, 0))
         if (id !== this.evalId) return
 
-        const style = document.getElementById('twc')
-        this.cssCode.textContent = style?.textContent || '/* No CSS generated */'
+        // Extract only the CSS rules for the current class names
+        const classes = cls.split(/\s+/).filter(Boolean)
+        const style = document.getElementById('twc') as HTMLStyleElement | null
+        let cssText = '/* No CSS generated */'
+        if (style?.sheet) {
+          const relevant: string[] = []
+          for (const rule of style.sheet.cssRules) {
+            const text = rule.cssText
+            if (classes.some((c) => text.includes('.' + c))) {
+              relevant.push(text)
+            }
+          }
+          if (relevant.length) {
+            cssText = relevant
+              .map((r) =>
+                r
+                  .replace(/\{\s*/g, ' {\n  ')
+                  .replace(/;\s*/g, ';\n  ')
+                  .replace(/\s*\}/g, '\n}')
+              )
+              .join('\n\n')
+          }
+        }
+        const html = await this.monaco.editor.colorize(cssText, 'css', { theme: 'twc-dark' })
+        if (id !== this.evalId) return
+        this.cssCode.innerHTML = html
       } catch (err: any) {
         this.errorEl.textContent = err.message || String(err)
         this.errorEl.hidden = false
