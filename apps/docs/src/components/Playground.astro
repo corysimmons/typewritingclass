@@ -8,7 +8,7 @@
         <button class="pg-tab active" data-preset="card">Card</button>
         <button class="pg-tab" data-preset="button">Button</button>
         <button class="pg-tab" data-preset="hover">Hover</button>
-        <button class="pg-tab" data-preset="compose">Compose</button>
+        <button class="pg-tab" data-preset="gradient">Gradient</button>
       </div>
       <span class="pg-filename">playground.ts</span>
     </div>
@@ -194,9 +194,9 @@
       code: 'tw\n  .p(4)\n  .bg.slate300\n  .rounded.lg\n  .transitionColors\n  .duration(200)\n  .hover(\n    tw\n      .bg.blue500\n      .textColor.white\n  )',
       text: 'Hover over me',
     },
-    compose: {
-      code: "tw\n  .p(6)\n  .bg.indigo500\n  .textColor.white\n  .rounded('2rem')\n  .shadow.xl",
-      text: 'Composed with the chain API',
+    gradient: {
+      code: "tw\n  .p(6)\n  .bgGradient('to right')\n  .gradientFrom.blue500\n  .gradientTo.red500\n  .textColor.white\n  .rounded.xl\n  .font.bold",
+      text: 'Gradient background',
     },
   }
 
