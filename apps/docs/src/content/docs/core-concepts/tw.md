@@ -10,7 +10,11 @@ sidebar:
 ```ts
 import { tw } from 'typewritingclass'
 
-const card = tw.bg.white.rounded.xl.p(6).shadow.md
+const card = tw
+  .p(6)
+  .bg.white
+  .rounded.xl
+  .shadow.md
 ```
 
 ## Property-access tokens
@@ -53,7 +57,10 @@ Accessed as properties instead of function calls:
 tw.flex.flexCol.gap(4)
 tw.relative.overflow.hidden
 tw.italic.truncate.antialiased
-tw.group.bg.white.rounded.lg.p(4)
+tw.group
+  .bg.white
+  .rounded.lg
+  .p(4)
 ```
 
 ## Arbitrary values
@@ -81,10 +88,16 @@ tw.opacity(0.5).groupHover(tw.opacity(1))
 When a modifier should apply to multiple styles, call it as a function:
 
 ```ts
-tw.hover(tw.bg.blue500.textColor.white.shadow.lg)
+tw.hover(
+  tw.bg.blue500
+    .textColor.white
+    .shadow.lg
+)
 
 const card = tw
-  .bg.white.rounded.xl.p(6)
+  .p(6)
+  .bg.white
+  .rounded.xl
   .hover(tw.bg.slate100.shadow.lg.scale(105))
   .focus(tw.ring(2).ringColor.blue500)
 ```

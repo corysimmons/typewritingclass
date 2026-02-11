@@ -68,7 +68,11 @@ tw.bg.white.dark(tw.bg.slate900)
 For multiple utilities under one modifier, call it as a function:
 
 ```ts
-tw.hover(tw.bg.blue500.textColor.white.shadow.lg)
+tw.hover(
+  tw.bg.blue500
+    .textColor.white
+    .shadow.lg
+)
 ```
 
 ## Complete example
@@ -77,18 +81,26 @@ tw.hover(tw.bg.blue500.textColor.white.shadow.lg)
 import { tw } from 'typewritingclass'
 
 // Card container
-const card = tw
-  .group.bg.white.rounded.xl.shadow.md.p(6)
+const card = tw.group
+  .p(6)
+  .bg.white
+  .rounded.xl
+  .shadow.md
   .hover(tw.shadow.lg.scale(102))
   .dark(tw.bg.slate800)
 
 // Title responds to group hover
-const title = tw.textColor.slate900.font.bold
+const title = tw
+  .textColor.slate900
+  .font.bold
   .groupHover(tw.textColor.blue600)
   .dark(tw.textColor.white)
 
 // Responsive layout
-const container = tw.flex.flexCol.gap(4).md(tw.flex.gap(8))
+const container = tw
+  .flex.flexCol
+  .gap(4)
+  .md(tw.flex.gap(8))
 
 function Card() {
   return (

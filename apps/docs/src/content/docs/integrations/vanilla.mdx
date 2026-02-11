@@ -39,7 +39,11 @@ import 'typewritingclass/inject'
 import { tw } from 'typewritingclass'
 
 const card = document.createElement('div')
-card.className = tw.p(6).bg.blue500.textColor.white.rounded.lg
+card.className = tw
+  .p(6)
+  .bg.blue500
+  .textColor.white
+  .rounded.lg
 card.textContent = 'Hello from typewritingclass!'
 document.body.appendChild(card)
 ```

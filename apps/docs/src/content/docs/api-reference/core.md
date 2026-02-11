@@ -67,8 +67,15 @@ tw.dark(tw.bg.slate900)
 ### Multi-utility modifiers (function syntax)
 
 ```ts
-tw.hover(tw.bg.blue500.textColor.white.shadow.lg)
-tw.dark(tw.bg.slate800.textColor.slate100)
+tw.hover(
+  tw.bg.blue500
+    .textColor.white
+    .shadow.lg
+)
+tw.dark(
+  tw.bg.slate800
+    .textColor.slate100
+)
 ```
 
 ### Resolution

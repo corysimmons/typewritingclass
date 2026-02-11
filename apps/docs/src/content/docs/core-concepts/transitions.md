@@ -30,8 +30,10 @@ tw.animate('bounce 1s infinite')
 
 ```ts
 const button = tw
-  .px(5).py(2.5).rounded.lg
-  .bg.indigo500.textColor.white
+  .px(5).py(2.5)
+  .bg.indigo500
+  .textColor.white
+  .rounded.lg
   .transitionColors.duration(200)
   .hover(tw.bg.indigo600)
 ```

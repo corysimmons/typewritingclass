@@ -13,7 +13,13 @@ Recipes are plain functions that combine utilities into reusable design patterns
 import { tw } from 'typewritingclass'
 
 export function card() {
-  return tw.p(6).bg.white.rounded.lg.shadow.md.textColor.gray900.toString()
+  return tw
+    .p(6)
+    .bg.white
+    .rounded.lg
+    .shadow.md
+    .textColor.gray900
+    .toString()
 }
 
 // Usage:
@@ -28,7 +34,10 @@ import { tw } from 'typewritingclass'
 type ButtonVariant = 'primary' | 'secondary' | 'danger'
 type ButtonSize = 'sm' | 'md' | 'lg'
 
-const base = tw.rounded.lg.font.semibold.cursor.pointer
+const base = tw
+  .rounded.lg
+  .font.semibold
+  .cursor.pointer
 
 const sizes = {
   sm: tw.px(3).py(1).text.sm,
@@ -37,9 +46,19 @@ const sizes = {
 } as const
 
 const variants = {
-  primary: tw.bg.blue500.textColor.white.hover(tw.bg.blue600),
-  secondary: tw.bg.white.textColor.gray700.border().borderColor.gray300.hover(tw.bg.gray50),
-  danger: tw.bg.red500.textColor.white.hover(tw.bg.red600),
+  primary: tw
+    .bg.blue500
+    .textColor.white
+    .hover(tw.bg.blue600),
+  secondary: tw
+    .bg.white
+    .textColor.gray700
+    .border().borderColor.gray300
+    .hover(tw.bg.gray50),
+  danger: tw
+    .bg.red500
+    .textColor.white
+    .hover(tw.bg.red600),
 } as const
 
 export function button(variant: ButtonVariant = 'primary', size: ButtonSize = 'md') {
@@ -59,15 +78,32 @@ Return an object of class strings for components with multiple styled elements:
 ```ts
 export function dialog() {
   return {
-    overlay: tw.fixed.inset(0).flex.items.center.justify.center
-      .bg('black/50').toString(),
-    panel: tw.bg.white.rounded.xl.maxW('32rem').w('full')
-      .shadow.xl.toString(),
-    header: tw.px(6).py(4).borderB().borderColor.gray200
-      .textColor.gray900.font.semibold.toString(),
-    body: tw.p(6).textColor.gray700.toString(),
-    footer: tw.px(6).py(4).borderT().borderColor.gray200
-      .flex.justify.end.gap(2).toString(),
+    overlay: tw
+      .fixed.inset(0)
+      .flex.items.center.justify.center
+      .bg('black/50')
+      .toString(),
+    panel: tw
+      .bg.white
+      .rounded.xl
+      .maxW('32rem').w('full')
+      .shadow.xl
+      .toString(),
+    header: tw
+      .px(6).py(4)
+      .borderB().borderColor.gray200
+      .textColor.gray900
+      .font.semibold
+      .toString(),
+    body: tw
+      .p(6)
+      .textColor.gray700
+      .toString(),
+    footer: tw
+      .px(6).py(4)
+      .borderT().borderColor.gray200
+      .flex.justify.end.gap(2)
+      .toString(),
   }
 }
 ```

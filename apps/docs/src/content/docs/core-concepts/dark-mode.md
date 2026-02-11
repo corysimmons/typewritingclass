@@ -32,14 +32,20 @@ tw.bg.white
 import { tw } from 'typewritingclass'
 
 const card = tw
-  .p(6).bg.white.rounded.lg.shadow.sm
+  .p(6)
+  .bg.white
+  .rounded.lg
+  .shadow.sm
   .hover(tw.shadow.md)
   .dark(tw.bg.slate800.shadow.none)
 
-const title = tw.textColor.slate900.font.semibold
+const title = tw
+  .textColor.slate900
+  .font.semibold
   .dark(tw.textColor.white)
 
-const body = tw.textColor.slate600
+const body = tw
+  .textColor.slate600
   .dark(tw.textColor.slate400)
 ```
 

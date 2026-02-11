@@ -11,25 +11,32 @@ sidebar:
 import { tw } from 'typewritingclass'
 
 // Property-access tokens
-tw.bgGradient('to right').gradientFrom.blue500.gradientTo.indigo600
+tw.bgGradient.toRight
+  .gradientFrom.blue500
+  .gradientTo.indigo600
 
 // String lookups (equivalent)
-tw.bgGradient('to right').gradientFrom('blue-500').gradientTo('indigo-600')
+tw.bgGradient.toRight
+  .gradientFrom('blue-500')
+  .gradientTo('indigo-600')
 ```
 
 ## Three-stop gradient
 
 ```ts
-tw.bgGradient('to right').gradientFrom.rose500.gradientVia.amber400.gradientTo.yellow300
+tw.bgGradient.toRight
+  .gradientFrom.rose500
+  .gradientVia.amber400
+  .gradientTo.yellow300
 ```
 
 ## Direction
 
 ```ts
-tw.bgGradient('to right')
-tw.bgGradient('to bottom')
-tw.bgGradient('to bottom right')
-tw.bgGradient('135deg')
+tw.bgGradient.toRight
+tw.bgGradient.toBottom
+tw.bgGradient.toBottomRight
+tw.bgGradient('135deg')          // arbitrary angle
 ```
 
 ## Background utilities

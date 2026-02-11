@@ -299,7 +299,10 @@ const { className, style } = dcx(
 
 ```ts
 const card = tw
-  .bg.white.rounded.xl.p(6).shadow.md
+  .p(6)
+  .bg.white
+  .rounded.xl
+  .shadow.md
   .textColor.gray900
   .hover(tw.shadow.lg.bg.gray50)
   .md.p(8)
