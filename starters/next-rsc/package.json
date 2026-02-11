@@ -1,23 +1,24 @@
 {
-  "name": "twc-starter-react",
+  "name": "twc-starter-next-rsc",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
+    "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typewritingclass": "workspace:*"
+    "typewritingclass": "workspace:*",
+    "typewritingclass-next": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.3.0",
     "typewritingclass-compiler": "workspace:*",
-    "vite": "^6.0.0",
     "typescript": "^5.7.3"
   }
 }

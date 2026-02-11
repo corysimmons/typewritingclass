@@ -1,10 +1,10 @@
 import { tw } from 'typewritingclass'
 
-export function App() {
+export default function Home() {
   return (
     <div className={tw.flex.flexCol.gap(8).p(8).items.center.justify.center.minH('100vh')}>
       <h1 className={tw.text.lg.font.bold.textColor.slate900}>
-        Typewriting Class + React
+        Typewriting Class + Next.js RSC
       </h1>
 
       <div className={tw

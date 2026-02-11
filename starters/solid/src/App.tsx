@@ -1,5 +1,4 @@
-import { tw, cx, bg, rounded, p } from 'typewritingclass'
-import { For } from 'solid-js'
+import { tw } from 'typewritingclass'
 
 export function App() {
   return (
@@ -17,28 +16,21 @@ export function App() {
         <p class={tw.textColor.slate700}>
           Hover this card to see the effect.
         </p>
-        <span class={tw
-          .p(2).bg.blue500.textColor.white.rounded.lg.font.bold
-        }>
+        <span class={tw.p(2).bg.blue500.textColor.white.rounded.lg.font.bold}>
           Styled with Typewriting Class
         </span>
       </div>
 
-      {/* Opacity demo — standalone bg with callable opacity */}
       <div class={tw.flex.flexRow.gap(4)}>
-        <For each={[100, 75, 50, 25]}>
-          {(opacity) => (
-            <div class={cx(bg.blue500(opacity), rounded.lg, p(4))}>
-              <span class={tw.textColor.white.font.bold}>{opacity}%</span>
-            </div>
-          )}
-        </For>
+        <div class={tw.bg.blue500.rounded.lg.p(4).textColor.white.font.bold}>100%</div>
+        <div class={tw.bg.blue500(75).rounded.lg.p(4).textColor.white.font.bold}>75%</div>
+        <div class={tw.bg.blue500(50).rounded.lg.p(4).textColor.white.font.bold}>50%</div>
+        <div class={tw.bg.blue500(25).rounded.lg.p(4).textColor.white.font.bold}>25%</div>
       </div>
 
-      {/* Gradient button with transition */}
       <button class={tw
         .px(6).py(3).rounded.lg
-        .bgGradient('to right').gradientFrom('indigo-500').gradientTo('purple-600')
+        .bgGradient.toRight.gradientFrom('indigo-500').gradientTo('purple-600')
         .textColor.white.font.semibold
         .transitionAll.duration(200)
         .cursor.pointer.border(0).text('1rem')
@@ -47,19 +39,11 @@ export function App() {
         Gradient Button
       </button>
 
-      {/* Filter demo */}
       <div class={tw.flex.flexRow.gap(4)}>
-        <div class={tw
-          .bg.emerald400.p(4).rounded.lg
-          .textColor.white.font.bold.text.sm
-        }>
+        <div class={tw.bg.emerald400.p(4).rounded.lg.textColor.white.font.bold.text.sm}>
           Normal
         </div>
-        <div class={tw
-          .bg.emerald400.blur('2px')
-          .p(4).rounded.lg
-          .textColor.white.font.bold.text.sm
-        }>
+        <div class={tw.bg.emerald400.blur('2px').p(4).rounded.lg.textColor.white.font.bold.text.sm}>
           Blurred
         </div>
       </div>

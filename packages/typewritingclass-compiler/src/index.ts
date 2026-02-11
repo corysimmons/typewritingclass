@@ -195,14 +195,6 @@ if (import.meta.hot) {
           prodLayer = result.nextLayer
         }
 
-        for (const diag of result.diagnostics) {
-          if (diag.severity === 'error') {
-            this.error({ message: diag.message, id, pos: diag.line })
-          } else {
-            this.warn({ message: diag.message, id, pos: diag.line })
-          }
-        }
-
         if (result.rules.length > 0) {
           fileRules.set(id, result.rules.map((r) => r.cssText))
           scheduleCssUpdate()
@@ -218,10 +210,21 @@ if (import.meta.hot) {
           s.prepend(`import '${VIRTUAL_CSS_ID}';\n`)
         }
 
-        return {
+        const transformed = {
           code: s.toString(),
           map: s.generateMap({ source: id, includeContent: true }),
         }
+
+        // Emit diagnostics AFTER preparing the transformed output.
+        // this.error() throws, so we must not call it before the code is ready.
+        // Use this.warn() for all diagnostics to avoid aborting the transform,
+        // since partial compilation (compiling what we can, runtime fallback for
+        // the rest) is always preferable to discarding the entire result.
+        for (const diag of result.diagnostics) {
+          this.warn({ message: diag.message, id, pos: diag.line })
+        }
+
+        return transformed
       } catch {
         if (!code.includes('typewritingclass/inject')) {
           const s = new MagicString(code)

@@ -3,8 +3,8 @@ import React from 'react'
 import { TWCStyles } from 'typewritingclass-next'
 
 export const metadata = {
-  title: 'Typewriting Class + Next.js',
-  description: 'A starter template using typewritingclass with Next.js',
+  title: 'Typewriting Class + Next.js RSC',
+  description: 'Server Components with compile-time styles — zero client JS for styling',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
