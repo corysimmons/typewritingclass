@@ -10,31 +10,55 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ## Setup
 
 <Tabs syncKey="pkg">
-  <TabItem label="bun">
-    ```bash
-    bun add typewritingclass typewritingclass-react typewritingclass-next
-    ```
-  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass typewritingclass-react typewritingclass-next
+    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass typewritingclass-react typewritingclass-next
+    bun add -d typewritingclass-compiler
     ```
   </TabItem>
   <TabItem label="npm">
     ```bash
     npm install typewritingclass typewritingclass-react typewritingclass-next
+    npm install -D typewritingclass-compiler
     ```
   </TabItem>
 </Tabs>
 
+## Next.js config
+
+Wrap your config with `withTwc` to enable build-time CSS extraction:
+
+```js
+// next.config.mjs
+import { withTwc } from 'typewritingclass-next/plugin'
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {}
+
+export default withTwc(nextConfig)
+```
+
+Options:
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `outputFile` | `string` | `".next/twc.css"` | Path for extracted CSS |
+| `strict` | `boolean` | `false` | Error on non-static `cx()` args |
+
 ## Root layout
 
-Add `<TWCStyles />` in `<head>` for SSR styles, and a client-side `<TWCInject />` for runtime injection during development:
+Add `<TWCStyles />` in `<head>` for SSR styles:
 
 ```tsx
 // app/layout.tsx
+import 'typewritingclass/preflight.css'
 import { TWCStyles } from 'typewritingclass-next'
-import { TWCInject } from './twc-inject'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -42,31 +66,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <TWCStyles />
       </head>
-      <body>
-        <TWCInject />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
 ```
 
-```tsx
-// app/twc-inject.tsx
-'use client'
-
-import 'typewritingclass/inject'
-
-export function TWCInject() {
-  return null
-}
-```
-
-`TWCStyles` is a Server Component that renders a `<style data-twc>` tag with all registered CSS. `TWCInject` loads the runtime injector on the client so styles added after SSR are picked up.
-
 ## Server Components
 
-Use `tw` directly — no hooks, no client boundary. Use `.value` to resolve the chain to a plain string, since React Server Components cannot serialize Proxy objects:
+Use `tw` directly -- no hooks, no client boundary. Use `.value` to resolve the chain to a plain string, since React Server Components cannot serialize Proxy objects:
 
 ```tsx
 import { tw } from 'typewritingclass'
@@ -86,7 +94,7 @@ export default function Home() {
 ```
 
 :::caution
-In Server Components, always end `tw` chains with `.value` (or `.toString()`). The `tw` chain is a Proxy object — it coerces to a string automatically in client-side React, but RSC serialization requires a plain string.
+In Server Components, always end `tw` chains with `.value` (or `.toString()`). The `tw` chain is a Proxy object -- it coerces to a string automatically in client-side React, but RSC serialization requires a plain string.
 :::
 
 ## Client Components
@@ -103,28 +111,4 @@ export function Banner({ color }: { color: string }) {
   const props = useStyle(p(6), bg(dynamic(color)), rounded('lg'))
   return <div {...props}>Welcome!</div>
 }
-```
-
-## Build-time extraction (optional)
-
-For production, wrap your Next config with `withTwc` to extract CSS at build time via the Babel plugin:
-
-```js
-// next.config.mjs
-import { withTwc } from 'typewritingclass-next/plugin'
-
-export default withTwc({
-  // your Next.js config
-})
-```
-
-Options:
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `outputFile` | `string` | `".next/twc.css"` | Path for extracted CSS |
-| `strict` | `boolean` | `false` | Error on non-static `cx()` args |
-
-```js
-export default withTwc({}, { strict: true })
 ```

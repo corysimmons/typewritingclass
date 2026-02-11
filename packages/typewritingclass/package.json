@@ -16,7 +16,13 @@
   ],
   "homepage": "https://github.com/corysimmons/typewritingclass",
   "bugs": "https://github.com/corysimmons/typewritingclass/issues",
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/inject.js",
+    "./dist/inject.cjs",
+    "./dist/runtime.js",
+    "./dist/runtime.cjs",
+    "./preflight.css"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/corysimmons/typewritingclass",

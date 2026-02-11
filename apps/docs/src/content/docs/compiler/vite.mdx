@@ -12,16 +12,16 @@ The Vite plugin statically extracts styles at build time into optimized CSS with
 ## Install
 
 <Tabs syncKey="pkg">
-  <TabItem label="bun">
-    ```bash
-    bun add typewritingclass
-    bun add -d typewritingclass-compiler
-    ```
-  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass
     pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
+    bun add -d typewritingclass-compiler
     ```
   </TabItem>
   <TabItem label="npm">
@@ -47,7 +47,7 @@ export default defineConfig({
 Add your framework plugin alongside it:
 
 ```ts
-// React, Svelte, Vue — order doesn't matter
+// React, Svelte, Vue -- order doesn't matter
 plugins: [react(), twcPlugin()]
 ```
 
@@ -55,29 +55,12 @@ plugins: [react(), twcPlugin()]
 `vite-plugin-solid` uses Vite's `enforce: 'pre'` phase, the same as `twcPlugin`. When two `enforce: 'pre'` plugins run, array order determines execution order. If `solid()` runs first, it rewrites import paths before the TWC compiler can identify `typewritingclass` imports, and all `tw` chains silently skip compilation.
 
 ```ts
-// Solid — twcPlugin MUST come before solid
+// Solid -- twcPlugin MUST come before solid
 plugins: [twcPlugin(), solid()]
 ```
 
 This applies to any framework plugin that uses `enforce: 'pre'` and rewrites import specifiers.
 :::
-
-## Virtual CSS module
-
-Import once in your entry file:
-
-```ts
-// src/main.ts or src/main.tsx
-import 'virtual:twc.css'
-```
-
-If TypeScript complains, add a declaration:
-
-```ts
-// src/vite-env.d.ts
-/// <reference types="vite/client" />
-declare module 'virtual:twc.css' {}
-```
 
 ## Options
 
@@ -93,7 +76,7 @@ See [Strict Mode](/compiler/strict-mode/) for details.
 
 1. **Theme loading** -- imports theme modules and passes them to the Rust compiler.
 2. **Transform** -- for each `.ts`/`.tsx`/`.js`/`.jsx` file with `typewritingclass` imports, the Rust compiler extracts styles and replaces calls with class name strings.
-3. **CSS generation** -- `virtual:twc.css` collects all extracted rules, deduplicates, orders by layer, and returns the final CSS.
+3. **CSS injection** -- the plugin automatically injects the extracted CSS via a virtual module. No manual imports needed.
 4. **HMR** -- file changes invalidate the virtual module. The browser receives updated CSS without a full reload.
 
 ## Source maps
@@ -113,4 +96,4 @@ Generated automatically via MagicString. DevTools trace CSS rules back to the or
 
 ## Fallback
 
-If the compiler fails on a file, the original source is preserved and `typewritingclass/inject` is prepended for runtime fallback.
+If the compiler cannot statically extract a file, the original source is preserved and the runtime injector is automatically prepended as a fallback.
