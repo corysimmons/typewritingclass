@@ -77,7 +77,7 @@ Resolves to a class string via coercion, `.value`, or `.className`:
 
 ```tsx
 element.className = tw.p(4).bg.blue500       // auto-coerces
-<div className={`${tw.p(4).bg.blue500}`} />  // React: template literal
+<div className={tw.p(4).bg.blue500.value} /> // React: .value
 tw.p(4).value                                 // explicit string
 ```
 

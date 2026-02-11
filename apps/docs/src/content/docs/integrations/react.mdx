@@ -35,13 +35,13 @@ import 'typewritingclass/inject'
 
 ## Static styles
 
-React requires a string for `className`. Use a template literal to coerce `tw` chains:
+React requires a string for `className`. Use `.value` to resolve `tw` chains:
 
 ```tsx
 import { tw } from 'typewritingclass'
 
 function Card({ children }: { children: React.ReactNode }) {
-  return <div className={`${tw.p(6).bg.blue500.textColor.white.rounded.lg.hover(tw.bg.blue600)}`}>{children}</div>
+  return <div className={tw.p(6).bg.blue500.textColor.white.rounded.lg.hover(tw.bg.blue600).value}>{children}</div>
 }
 ```
 

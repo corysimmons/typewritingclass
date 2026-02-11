@@ -98,10 +98,9 @@ element.className = tw.p(4).bg.blue500
 const classes = `${tw.p(4)} extra-class`
 ```
 
-In React, use a template literal or `.value` since React requires `className` to be a string:
+In React, use `.value` since React requires `className` to be a string:
 
 ```tsx
-<div className={`${tw.p(4).bg.blue500}`} />
 <div className={tw.p(4).bg.blue500.value} />
 ```
 
