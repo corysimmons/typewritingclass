@@ -32,3 +32,9 @@
   --sl-color-accent: #3558d4;
   --sl-color-accent-high: #1F2538;
 }
+
+/* Smaller logo */
+.site-title img {
+  height: 1.5rem;
+  width: auto;
+}
