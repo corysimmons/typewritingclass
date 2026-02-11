@@ -174,6 +174,17 @@ export const textTransformTokens: Record<string, string> = {
   capitalize: 'capitalize', none: 'none',
 }
 
+export const gradientDirectionTokens: Record<string, string> = {
+  toRight: 'to right',
+  toLeft: 'to left',
+  toTop: 'to top',
+  toBottom: 'to bottom',
+  toTopRight: 'to top right',
+  toTopLeft: 'to top left',
+  toBottomRight: 'to bottom right',
+  toBottomLeft: 'to bottom left',
+}
+
 // ---------------------------------------------------------------------------
 // Token configuration type + registry
 // ---------------------------------------------------------------------------
@@ -235,4 +246,5 @@ export const UTIL_TOKENS: Record<string, TokenConfig> = {
   textWrap: { tokens: textWrapTokens },
   textOverflow: { tokens: textOverflowTokens },
   textTransform: { tokens: textTransformTokens },
+  bgGradient: { tokens: gradientDirectionTokens },
 }

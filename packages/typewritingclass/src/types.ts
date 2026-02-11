@@ -204,6 +204,17 @@ export interface TextTransformTokens {
   capitalize: string; none: string
 }
 
+export interface GradientDirectionTokens {
+  toRight: string
+  toLeft: string
+  toTop: string
+  toBottom: string
+  toTopRight: string
+  toTopLeft: string
+  toBottomRight: string
+  toBottomLeft: string
+}
+
 // ---------------------------------------------------------------------------
 // Core types
 // ---------------------------------------------------------------------------

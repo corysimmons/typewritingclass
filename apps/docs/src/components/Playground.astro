@@ -179,7 +179,7 @@
   import 'typewritingclass/inject'
   import loader from '@monaco-editor/loader'
   import twcTypes from '../../../../packages/typewritingclass/dist/index.d.ts?raw'
-  import twcDepTypes from '../../../../packages/typewritingclass/dist/types-B-eG4WLT.d.ts?raw'
+  import twcDepTypes from '../../../../packages/typewritingclass/dist/types-uXRYakpo.d.ts?raw'
 
   const presets: Record<string, { code: string; text: string }> = {
     card: {
@@ -253,8 +253,14 @@
         },
       })
 
+      monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+        target: monaco.languages.typescript.ScriptTarget.ESNext,
+        noLib: true,
+        allowNonTsExtensions: true,
+      })
+
       monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-        noSemanticValidation: false,
+        noSemanticValidation: true,
         noSyntaxValidation: false,
       })
 
@@ -291,6 +297,8 @@
         contextmenu: false,
         fixedOverflowWidgets: true,
         automaticLayout: true,
+        suggest: { showKeywords: false },
+        wordBasedSuggestions: 'off',
       })
 
       this.editor.onDidChangeModelContent(() => {

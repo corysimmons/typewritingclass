@@ -4,6 +4,7 @@ import type {
   TrackingTokens, LeadingTokens, FontFamilyTokens, AlignItemsTokens, JustifyTokens,
   DisplayTokens, OverflowTokens, CursorTokens, TextAlignTokens, ObjectFitTokens,
   SelfTokens, TextWrapTokens, TextOverflowTokens, TextTransformTokens,
+  GradientDirectionTokens,
 } from './types.ts'
 import { cx, _cxCore } from './cx.ts'
 import { when } from './when.ts'
@@ -324,6 +325,7 @@ type TwSelfUtility = TwUtility & { [K in keyof SelfTokens]: TwChainString }
 type TwTextWrapUtility = TwUtility & { [K in keyof TextWrapTokens]: TwChainString }
 type TwTextOverflowUtility = TwUtility & { [K in keyof TextOverflowTokens]: TwChainString }
 type TwTextTransformUtility = TwUtility & { [K in keyof TextTransformTokens]: TwChainString }
+type TwGradientDirectionUtility = TwUtility & { [K in keyof GradientDirectionTokens]: TwChainString }
 
 /** @internal A modifier usable as a property (`tw.hover.bg(…)`) or function (`tw.hover(tw.bg(…))`). */
 type TwModifier = TwChainString & ((...chains: (TwChain | string)[]) => TwChainString)
@@ -605,7 +607,7 @@ export interface TwChain {
   readonly bgRepeat: TwUtility
   readonly bgSize: TwUtility
   readonly bgImage: TwUtility
-  readonly bgGradient: TwUtility
+  readonly bgGradient: TwGradientDirectionUtility
   readonly gradientFrom: TwColorUtilityNoOpacity
   readonly gradientVia: TwColorUtilityNoOpacity
   readonly gradientTo: TwColorUtilityNoOpacity
