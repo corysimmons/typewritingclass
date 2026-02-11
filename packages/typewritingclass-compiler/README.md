@@ -20,6 +20,13 @@ export default defineConfig({
 })
 ```
 
+Add your framework plugin alongside it. **For Solid.js, `twcPlugin()` must come first** — `vite-plugin-solid` also uses `enforce: 'pre'` and rewrites import paths before the compiler can identify them if it runs first:
+
+```ts
+plugins: [twcPlugin(), solid()]   // Solid — order matters
+plugins: [react(), twcPlugin()]   // React — order doesn't matter
+```
+
 Then import the virtual CSS module:
 
 ```ts

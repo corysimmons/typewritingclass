@@ -19,8 +19,8 @@ bun dev
 ## What's included
 
 - React 19 + Vite 6
-- typewritingclass + typewritingclass-react
-- typewritingclass-compiler (Vite plugin, strict mode off)
+- typewritingclass
+- typewritingclass-compiler (Vite plugin)
 - TypeScript 5.7
 - Example `App.tsx` with a hover card demo
 

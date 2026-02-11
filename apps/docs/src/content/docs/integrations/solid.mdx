@@ -15,27 +15,46 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass
+    pnpm add -D typewritingclass-compiler
     ```
   </TabItem>
   <TabItem label="bun">
     ```bash
     bun add typewritingclass
+    bun add -d typewritingclass-compiler
     ```
   </TabItem>
   <TabItem label="npm">
     ```bash
     npm install typewritingclass
+    npm install -D typewritingclass-compiler
     ```
   </TabItem>
 </Tabs>
 
 ```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import solid from 'vite-plugin-solid'
+import twcPlugin from 'typewritingclass-compiler'
+
+export default defineConfig({
+  plugins: [twcPlugin(), solid()],
+})
+```
+
+:::caution[Plugin order matters]
+`twcPlugin()` **must** come before `solid()` in the plugins array. Both plugins use Vite's `enforce: 'pre'` phase, so array order determines execution order. If `solid()` runs first, it rewrites import paths (e.g. `'typewritingclass'` → `'/@fs/.../dist/index.js'`) before the TWC compiler can identify them, causing all `tw` chains to silently fall through to runtime.
+:::
+
+```ts
 // src/index.tsx
 import 'typewritingclass/preflight.css' // optional CSS reset
-import 'typewritingclass/inject'
 ```
 
 ## Static styles
+
+The compiler replaces `tw` chains with class name strings at build time — no runtime overhead:
 
 ```tsx
 import { tw } from 'typewritingclass'

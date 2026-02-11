@@ -44,11 +44,23 @@ export default defineConfig({
 })
 ```
 
-Add your framework plugin alongside it (React, Solid, Svelte, Vue, etc.):
+Add your framework plugin alongside it:
 
 ```ts
+// React, Svelte, Vue — order doesn't matter
 plugins: [react(), twcPlugin()]
 ```
+
+:::caution[Solid.js: twcPlugin must come first]
+`vite-plugin-solid` uses Vite's `enforce: 'pre'` phase, the same as `twcPlugin`. When two `enforce: 'pre'` plugins run, array order determines execution order. If `solid()` runs first, it rewrites import paths before the TWC compiler can identify `typewritingclass` imports, and all `tw` chains silently skip compilation.
+
+```ts
+// Solid — twcPlugin MUST come before solid
+plugins: [twcPlugin(), solid()]
+```
+
+This applies to any framework plugin that uses `enforce: 'pre'` and rewrites import specifiers.
+:::
 
 ## Virtual CSS module
 
