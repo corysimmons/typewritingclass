@@ -13,29 +13,47 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass
+    pnpm add -D typewritingclass-compiler
     ```
   </TabItem>
   <TabItem label="bun">
     ```bash
     bun add typewritingclass
+    bun add -D typewritingclass-compiler
     ```
   </TabItem>
   <TabItem label="npm">
     ```bash
     npm install typewritingclass
+    npm install -D typewritingclass-compiler
     ```
   </TabItem>
 </Tabs>
 
-## 2. Import
+## 2. Add the Vite plugin
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import twcPlugin from 'typewritingclass-compiler'
+
+export default defineConfig({
+  plugins: [twcPlugin()],
+})
+```
+
+The plugin handles CSS extraction and injection automatically. No manual imports needed.
+
+For other bundlers see the [esbuild plugin](/compiler/esbuild/) or [Babel plugin](/compiler/babel/) docs. For Next.js see the [Next.js integration guide](/integrations/nextjs/).
+
+## 3. Import the reset (optional)
 
 ```ts
 // src/main.ts (or main.tsx, index.tsx, etc.)
-import 'typewritingclass/preflight.css' // optional CSS reset
-import 'typewritingclass/inject'
+import 'typewritingclass/preflight.css'
 ```
 
-## 3. Style
+## 4. Style
 
 ```tsx
 import { tw } from 'typewritingclass'
@@ -46,16 +64,6 @@ function App() {
 ```
 
 Start your dev server. You should see a blue rounded box with white text.
-
-No build plugin, no config file, no generated CSS. Just install, import, and go.
-
-## Next.js
-
-Next.js requires build-time CSS extraction for SSR. See the [Next.js integration guide](/integrations/nextjs/).
-
-## Static extraction (optional)
-
-For production optimization, the compiler can extract CSS at build time for zero-runtime overhead. See the [Vite plugin](/compiler/vite/), [esbuild plugin](/compiler/esbuild/), or [Babel plugin](/compiler/babel/) docs.
 
 ## Next steps
 
