@@ -188,22 +188,24 @@
   import * as twc from 'typewritingclass'
   import 'typewritingclass/inject'
   import loader from '@monaco-editor/loader'
+  import twcTypes from '../../../../packages/typewritingclass/dist/index.d.ts?raw'
+  import twcDepTypes from '../../../../packages/typewritingclass/dist/types-B-eG4WLT.d.ts?raw'
 
   const presets: Record<string, { code: string; text: string }> = {
     card: {
-      code: 'tw.p(6).bg.white.rounded.xl.shadow.lg',
+      code: 'tw\n  .p(6)\n  .bg.white\n  .rounded.xl\n  .shadow.lg',
       text: 'A beautiful card with shadow and rounded corners.',
     },
     button: {
-      code: 'tw.px(5).py(2).bg.blue500.textColor.white.rounded.lg.font.semibold.cursor.pointer',
+      code: 'tw\n  .px(5)\n  .py(2)\n  .bg.blue500\n  .textColor.white\n  .rounded.lg\n  .font.semibold\n  .cursor.pointer',
       text: 'Click me',
     },
     hover: {
-      code: 'tw.p(4).bg.slate100.rounded.lg.transitionColors.duration(200).hover.bg.blue500.hover.textColor.white',
+      code: 'tw\n  .p(4)\n  .bg.slate100\n  .rounded.lg\n  .transitionColors\n  .duration(200)\n  .hover.bg.blue500\n  .hover.textColor.white',
       text: 'Hover over me',
     },
     compose: {
-      code: "tw.p(6).bg.indigo500.textColor.white.rounded('2xl').shadow.xl",
+      code: "tw\n  .p(6)\n  .bg.indigo500\n  .textColor.white\n  .rounded('2xl')\n  .shadow.xl",
       text: 'Composed with the chain API',
     },
   }
@@ -259,9 +261,19 @@
       })
 
       monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-        noSemanticValidation: true,
-        noSyntaxValidation: true,
+        noSemanticValidation: false,
+        noSyntaxValidation: false,
       })
+
+      // Build a single ambient declaration from the raw .d.ts files
+      const stripImportsExports = (src: string) =>
+        src.replace(/^(import|export)\s.*$/gm, '').replace(/^export \{.*\}.*$/gm, '')
+      const ambient = [
+        stripImportsExports(twcDepTypes),
+        stripImportsExports(twcTypes),
+        'declare const tw: TwChainString;',
+      ].join('\n')
+      monaco.languages.typescript.typescriptDefaults.addExtraLib(ambient, 'file:///twc.d.ts')
 
       this.editor = monaco.editor.create(container, {
         value: presets.card.code,
