@@ -200,11 +200,58 @@
     },
   }
 
-  /** Only allow tw. chains with safe characters */
+  /** Only allow tw property chains — no arbitrary JS execution */
   function isSafe(code: string): boolean {
-    const stripped = code.replace(/\s/g, '')
-    if (!stripped.startsWith('tw.')) return false
-    return /^[a-zA-Z0-9._()'",-]+$/.test(stripped)
+    const s = code.replace(/\s+/g, '')
+    let i = 0
+
+    function chain(): boolean {
+      if (s.slice(i, i + 2) !== 'tw') return false
+      i += 2
+      if (i >= s.length || s[i] !== '.') return false
+      while (i < s.length && s[i] === '.') {
+        i++
+        const start = i
+        while (i < s.length && /[a-zA-Z0-9]/.test(s[i])) i++
+        if (i === start) return false
+        if (i < s.length && s[i] === '(') {
+          i++
+          if (i < s.length && s[i] !== ')') {
+            if (!arg()) return false
+            while (i < s.length && s[i] === ',') {
+              i++
+              if (!arg()) return false
+            }
+          }
+          if (i >= s.length || s[i] !== ')') return false
+          i++
+        }
+      }
+      return true
+    }
+
+    function arg(): boolean {
+      // Number literal
+      if (i < s.length && s[i] >= '0' && s[i] <= '9') {
+        while (i < s.length && ((s[i] >= '0' && s[i] <= '9') || s[i] === '.')) i++
+        return true
+      }
+      // String literal (no escape sequences)
+      if (i < s.length && (s[i] === "'" || s[i] === '"')) {
+        const q = s[i++]
+        while (i < s.length && s[i] !== q) {
+          if (s[i] === '\\') return false
+          i++
+        }
+        if (i >= s.length) return false
+        i++
+        return true
+      }
+      // Nested tw chain
+      return chain()
+    }
+
+    return chain() && i === s.length
   }
 
   class TwcPlayground extends HTMLElement {
@@ -331,7 +378,7 @@
       }
 
       if (!isSafe(code)) {
-        this.errorEl.textContent = 'Expression must start with tw. and contain only safe characters.'
+        this.errorEl.textContent = 'Expression must be a tw.property.chain() — no arbitrary code allowed.'
         this.errorEl.hidden = false
         return
       }
