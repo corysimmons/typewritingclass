@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.37.6",
+    "@monaco-editor/loader": "^1.7.0",
     "astro": "^5.17.1",
     "sharp": "^0.33.0",
-    "starlight-docsearch-typesense": "^1.0.1"
+    "starlight-docsearch-typesense": "^1.0.1",
+    "typewritingclass": "workspace:*"
   }
 }

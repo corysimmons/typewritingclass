@@ -41,6 +41,9 @@ importers:
       '@astrojs/starlight':
         specifier: ^0.37.6
         version: 0.37.6(astro@5.17.1(@types/node@25.2.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3))
+      '@monaco-editor/loader':
+        specifier: ^1.7.0
+        version: 1.7.0
       astro:
         specifier: ^5.17.1
         version: 5.17.1(@types/node@25.2.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)
@@ -50,6 +53,9 @@ importers:
       starlight-docsearch-typesense:
         specifier: ^1.0.1
         version: 1.0.1(@algolia/client-search@5.48.0)(@astrojs/starlight@0.37.6(astro@5.17.1(@types/node@25.2.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)))(@babel/runtime@7.28.6)(algoliasearch@5.48.0)
+      typewritingclass:
+        specifier: workspace:*
+        version: link:../../packages/typewritingclass
 
   apps/visual-tests:
     dependencies:
@@ -1349,6 +1355,9 @@ packages:
 
   '@mdx-js/mdx@3.1.1':
     resolution: {integrity: sha512-f6ZO2ifpwAQIpzGWaBQT2TXxPv6z3RBzQKpVftEWN78Vl/YweF1uwussDx8ECAXVtr3Rs89fKyG9YlzUs9DyGQ==}
+
+  '@monaco-editor/loader@1.7.0':
+    resolution: {integrity: sha512-gIwR1HrJrrx+vfyOhYmCZ0/JcWqG5kbfG7+d3f/C1LXk2EvzAbHSg3MQ5lO2sMlo9izoAZ04shohfKLVT6crVA==}
 
   '@napi-rs/cli@3.5.1':
     resolution: {integrity: sha512-XBfLQRDcB3qhu6bazdMJsecWW55kR85l5/k0af9BIBELXQSsCFU0fzug7PX8eQp6vVdm7W/U3z6uP5WmITB2Gw==}
@@ -3831,6 +3840,9 @@ packages:
     peerDependencies:
       '@astrojs/starlight': '>=0.36'
 
+  state-local@1.0.7:
+    resolution: {integrity: sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==}
+
   std-env@3.10.0:
     resolution: {integrity: sha512-5GS12FdOZNliM5mAOxFRg7Ir0pWz8MdpYm6AY6VPkGpbA7ZzmbzNcBJQ0GPvvyWgcY7QAhCgf9Uy89I03faLkg==}
 
@@ -5436,6 +5448,10 @@ snapshots:
       vfile: 6.0.3
     transitivePeerDependencies:
       - supports-color
+
+  '@monaco-editor/loader@1.7.0':
+    dependencies:
+      state-local: 1.0.7
 
   '@napi-rs/cli@3.5.1(@emnapi/runtime@1.8.1)(@types/node@25.2.2)':
     dependencies:
@@ -8462,6 +8478,8 @@ snapshots:
       - debug
       - react
       - react-dom
+
+  state-local@1.0.7: {}
 
   std-env@3.10.0: {}
 

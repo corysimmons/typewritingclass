@@ -1,0 +1,359 @@
+---
+---
+
+<twc-playground class="not-content">
+  <div class="pg-container">
+    <div class="pg-topbar">
+      <div class="pg-tabs">
+        <button class="pg-tab active" data-preset="card">Card</button>
+        <button class="pg-tab" data-preset="button">Button</button>
+        <button class="pg-tab" data-preset="hover">Hover</button>
+        <button class="pg-tab" data-preset="compose">Compose</button>
+      </div>
+      <span class="pg-filename">playground.ts</span>
+    </div>
+    <div class="pg-panels">
+      <div class="pg-editor">
+        <div class="pg-monaco"></div>
+      </div>
+      <div class="pg-output">
+        <div class="pg-preview-section">
+          <span class="pg-label">Preview</span>
+          <div class="pg-preview"><div></div></div>
+        </div>
+        <div class="pg-css-section">
+          <span class="pg-label">Generated CSS</span>
+          <pre class="pg-css"><code></code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="pg-error" hidden></div>
+  </div>
+</twc-playground>
+
+<style>
+  twc-playground {
+    display: block;
+    margin: 2rem 0;
+  }
+
+  .pg-container {
+    background: #0f1219;
+    border: 1px solid #1e293b;
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .pg-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    border-bottom: 1px solid #1e293b;
+  }
+
+  .pg-tabs {
+    display: flex;
+  }
+
+  .pg-tab {
+    all: unset;
+    box-sizing: border-box;
+    border-bottom: 2px solid transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.8125rem;
+    padding: 0.625rem 0.875rem;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .pg-tab:hover {
+    color: #e2e8f0;
+  }
+
+  .pg-tab.active {
+    color: #6b8af7;
+    border-bottom-color: #6b8af7;
+  }
+
+  .pg-filename {
+    color: #475569;
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+  }
+
+  .pg-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 340px;
+  }
+
+  .pg-editor {
+    border-right: 1px solid #1e293b;
+    min-height: 340px;
+  }
+
+  .pg-monaco {
+    height: 100%;
+  }
+
+  .pg-output {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pg-preview-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    padding-bottom: 0;
+  }
+
+  .pg-label {
+    color: #475569;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.375rem;
+    text-transform: uppercase;
+  }
+
+  .pg-preview {
+    background: #f1f5f9;
+    border-radius: 0.375rem;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.875rem;
+    min-height: 120px;
+    padding: 1.5rem;
+  }
+
+  .pg-css-section {
+    border-top: 1px solid #1e293b;
+    padding: 0.75rem;
+  }
+
+  .pg-css {
+    color: #94a3b8;
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin: 0;
+    max-height: 120px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .pg-css code {
+    font-family: inherit;
+  }
+
+  .pg-error {
+    background: #451a1a;
+    border-top: 1px solid #7f1d1d;
+    color: #fca5a5;
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .pg-error[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .pg-panels {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .pg-editor {
+      border-right: none;
+      border-bottom: 1px solid #1e293b;
+      min-height: 200px;
+    }
+    .pg-monaco {
+      min-height: 200px;
+    }
+  }
+</style>
+
+<script>
+  import * as twc from 'typewritingclass'
+  import 'typewritingclass/inject'
+  import loader from '@monaco-editor/loader'
+
+  const presets: Record<string, { code: string; text: string }> = {
+    card: {
+      code: 'tw.p(6).bg.white.rounded.xl.shadow.lg',
+      text: 'A beautiful card with shadow and rounded corners.',
+    },
+    button: {
+      code: 'tw.px(5).py(2).bg.blue500.textColor.white.rounded.lg.font.semibold.cursor.pointer',
+      text: 'Click me',
+    },
+    hover: {
+      code: 'tw.p(4).bg.slate100.rounded.lg.transitionColors.duration(200).hover.bg.blue500.hover.textColor.white',
+      text: 'Hover over me',
+    },
+    compose: {
+      code: "tw.p(6).bg.indigo500.textColor.white.rounded('2xl').shadow.xl",
+      text: 'Composed with the chain API',
+    },
+  }
+
+  /** Only allow tw. chains with safe characters */
+  function isSafe(code: string): boolean {
+    const stripped = code.replace(/\s/g, '')
+    if (!stripped.startsWith('tw.')) return false
+    return /^[a-zA-Z0-9._()'",-]+$/.test(stripped)
+  }
+
+  class TwcPlayground extends HTMLElement {
+    private editor: any = null
+    private target: HTMLElement
+    private cssCode: HTMLElement
+    private errorEl: HTMLElement
+    private evalId = 0
+    private currentPresetText = 'A beautiful card with shadow and rounded corners.'
+
+    constructor() {
+      super()
+      this.target = this.querySelector('.pg-preview > div')!
+      this.cssCode = this.querySelector('.pg-css code')!
+      this.errorEl = this.querySelector('.pg-error')!
+
+      // Tab buttons
+      for (const tab of this.querySelectorAll<HTMLElement>('.pg-tab')) {
+        tab.addEventListener('click', () => {
+          this.querySelector('.pg-tab.active')?.classList.remove('active')
+          tab.classList.add('active')
+          this.loadPreset(tab.dataset.preset!)
+        })
+      }
+
+      this.initMonaco()
+    }
+
+    private async initMonaco() {
+      const monaco = await loader.init()
+      const container = this.querySelector<HTMLElement>('.pg-monaco')!
+
+      monaco.editor.defineTheme('twc-dark', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [],
+        colors: {
+          'editor.background': '#0f1219',
+          'editor.lineHighlightBackground': '#0f1219',
+          'editorLineNumber.foreground': '#475569',
+          'editorLineNumber.activeForeground': '#94a3b8',
+          'editorGutter.background': '#0f1219',
+        },
+      })
+
+      monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+        noSemanticValidation: true,
+        noSyntaxValidation: true,
+      })
+
+      this.editor = monaco.editor.create(container, {
+        value: presets.card.code,
+        language: 'typescript',
+        theme: 'twc-dark',
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+        renderLineHighlight: 'none',
+        fontSize: 13,
+        lineHeight: 21,
+        fontFamily: "ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace",
+        padding: { top: 12, bottom: 12 },
+        scrollbar: {
+          vertical: 'hidden',
+          horizontal: 'auto',
+          useShadows: false,
+        },
+        overviewRulerLanes: 0,
+        hideCursorInOverviewRuler: true,
+        overviewRulerBorder: false,
+        tabSize: 2,
+        contextmenu: false,
+        fixedOverflowWidgets: true,
+        automaticLayout: true,
+      })
+
+      this.editor.onDidChangeModelContent(() => {
+        this.run()
+      })
+
+      // Run initial preset
+      this.run()
+    }
+
+    private loadPreset(name: string) {
+      const preset = presets[name]
+      if (!preset) return
+      this.currentPresetText = preset.text
+      this.target.textContent = preset.text
+      if (this.editor) {
+        this.editor.setValue(preset.code)
+      }
+    }
+
+    private async run() {
+      if (!this.editor) return
+      const id = ++this.evalId
+      const code = this.editor.getValue().trim()
+      if (!code) {
+        this.target.className = ''
+        this.cssCode.textContent = ''
+        this.errorEl.hidden = true
+        return
+      }
+
+      if (!isSafe(code)) {
+        this.errorEl.textContent = 'Expression must start with tw. and contain only safe characters.'
+        this.errorEl.hidden = false
+        return
+      }
+
+      try {
+        const keys = Object.keys(twc)
+        const vals = keys.map((k) => (twc as any)[k])
+        const fn = new Function(...keys, 'return (' + code + ')')
+        const result = fn(...vals)
+
+        // Coerce result to class string
+        let cls: string
+        if (typeof result === 'string') {
+          cls = result
+        } else if (result && result._tag === 'StyleRule') {
+          cls = (twc as any).cx(result)
+        } else {
+          cls = String(result)
+        }
+
+        this.target.className = cls
+        this.errorEl.hidden = true
+
+        // Wait for inject to flush CSS
+        await new Promise((r) => setTimeout(r, 0))
+        if (id !== this.evalId) return
+
+        const style = document.getElementById('twc')
+        this.cssCode.textContent = style?.textContent || '/* No CSS generated */'
+      } catch (err: any) {
+        this.errorEl.textContent = err.message || String(err)
+        this.errorEl.hidden = false
+      }
+    }
+  }
+
+  customElements.define('twc-playground', TwcPlayground)
+</script>
