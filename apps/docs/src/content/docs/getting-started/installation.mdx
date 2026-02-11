@@ -1,67 +1,61 @@
 ---
 title: Installation
-description: Install Typewriting Class and set up your build tool.
+description: Install Typewriting Class and start styling.
 sidebar:
   order: 1
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-## 1. Install the packages
+## 1. Install
 
 <Tabs syncKey="pkg">
-  <TabItem label="bun">
-    ```bash
-    bun add typewritingclass
-    bun add -d typewritingclass-compiler
-    ```
-  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass
-    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
     ```
   </TabItem>
   <TabItem label="npm">
     ```bash
     npm install typewritingclass
-    npm install -D typewritingclass-compiler
     ```
   </TabItem>
 </Tabs>
 
-## 2. Add the Vite plugin
+## 2. Import
 
 ```ts
-// vite.config.ts
-import { defineConfig } from 'vite'
-import twcPlugin from 'typewritingclass-compiler'
-
-export default defineConfig({
-  plugins: [twcPlugin()],
-})
+// src/main.ts (or main.tsx, index.tsx, etc.)
+import 'typewritingclass/preflight.css' // optional CSS reset
+import 'typewritingclass/inject'
 ```
 
-For esbuild or Babel, see [esbuild](/compiler/esbuild/) or [Babel](/compiler/babel/).
-
-## 3. Import the generated CSS
-
-```ts
-// src/main.tsx
-import 'virtual:twc.css'
-```
-
-## 4. Verify
+## 3. Style
 
 ```tsx
 import { tw } from 'typewritingclass'
 
 function App() {
-  return <div className={tw.p(6).bg.blue500.textColor.white.rounded.lg}>It works!</div>
+  return <div className={`${tw.p(6).bg.blue500.textColor.white.rounded.lg}`}>It works!</div>
 }
 ```
 
 Start your dev server. You should see a blue rounded box with white text.
+
+No build plugin, no config file, no generated CSS. Just install, import, and go.
+
+## Next.js
+
+Next.js requires build-time CSS extraction for SSR. See the [Next.js integration guide](/integrations/nextjs/).
+
+## Static extraction (optional)
+
+For production optimization, the compiler can extract CSS at build time for zero-runtime overhead. See the [Vite plugin](/compiler/vite/), [esbuild plugin](/compiler/esbuild/), or [Babel plugin](/compiler/babel/) docs.
 
 ## Next steps
 

@@ -1,5 +1,5 @@
 import 'typewritingclass/preflight.css'
-import 'virtual:twc.css'
+import 'typewritingclass/inject'
 import { tw, cx, bg, rounded, p } from 'typewritingclass'
 
 const app = document.getElementById('app')!

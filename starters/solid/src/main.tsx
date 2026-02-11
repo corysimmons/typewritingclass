@@ -1,5 +1,5 @@
 import 'typewritingclass/preflight.css'
-import 'virtual:twc.css'
+import 'typewritingclass/inject'
 import { render } from 'solid-js/web'
 import { App } from './App.tsx'
 

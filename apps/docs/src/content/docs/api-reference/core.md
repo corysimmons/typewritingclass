@@ -73,13 +73,12 @@ tw.dark(tw.bg.slate800.textColor.slate100)
 
 ### Resolution
 
-Resolves to a class string automatically:
+Resolves to a class string via coercion, `.value`, or `.className`:
 
-```ts
-<div className={tw.p(4).bg.blue500} />
-tw.p(4).toString()
-tw.p(4).value
-tw.p(4).className
+```tsx
+element.className = tw.p(4).bg.blue500       // auto-coerces
+<div className={`${tw.p(4).bg.blue500}`} />  // React: template literal
+tw.p(4).value                                 // explicit string
 ```
 
 ### Immutability

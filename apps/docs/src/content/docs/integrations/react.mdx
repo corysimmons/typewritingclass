@@ -10,47 +10,38 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ## Setup
 
 <Tabs syncKey="pkg">
-  <TabItem label="bun">
-    ```bash
-    bun add typewritingclass typewritingclass-react
-    bun add -d typewritingclass-compiler
-    ```
-  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass typewritingclass-react
-    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass typewritingclass-react
     ```
   </TabItem>
   <TabItem label="npm">
     ```bash
     npm install typewritingclass typewritingclass-react
-    npm install -D typewritingclass-compiler
     ```
   </TabItem>
 </Tabs>
 
 ```ts
-// vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import twcPlugin from 'typewritingclass-compiler'
-
-export default defineConfig({ plugins: [react(), twcPlugin()] })
-```
-
-```ts
 // src/main.tsx
-import 'virtual:twc.css'
+import 'typewritingclass/preflight.css' // optional CSS reset
+import 'typewritingclass/inject'
 ```
 
 ## Static styles
+
+React requires a string for `className`. Use a template literal to coerce `tw` chains:
 
 ```tsx
 import { tw } from 'typewritingclass'
 
 function Card({ children }: { children: React.ReactNode }) {
-  return <div className={tw.p(6).bg.blue500.textColor.white.rounded.lg.hover.bg.blue600}>{children}</div>
+  return <div className={`${tw.p(6).bg.blue500.textColor.white.rounded.lg.hover.bg.blue600}`}>{children}</div>
 }
 ```
 
@@ -61,7 +52,7 @@ import { useStyle } from 'typewritingclass-react'
 import { p, bg, rounded, dynamic } from 'typewritingclass'
 
 function Banner({ color }: { color: string }) {
-  const props = useStyle(p(6), bg(dynamic(color)), rounded('lg'))
+  const props = useStyle(p(6), bg(dynamic(color)), rounded.lg)
   return <div {...props}>Welcome!</div>
 }
 ```

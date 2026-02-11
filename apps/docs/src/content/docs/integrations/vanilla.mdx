@@ -10,37 +10,27 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ## Setup
 
 <Tabs syncKey="pkg">
-  <TabItem label="bun">
-    ```bash
-    bun add typewritingclass
-    bun add -d typewritingclass-compiler
-    ```
-  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass
-    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
     ```
   </TabItem>
   <TabItem label="npm">
     ```bash
     npm install typewritingclass
-    npm install -D typewritingclass-compiler
     ```
   </TabItem>
 </Tabs>
 
 ```ts
-// vite.config.ts
-import { defineConfig } from 'vite'
-import twcPlugin from 'typewritingclass-compiler'
-
-export default defineConfig({ plugins: [twcPlugin()] })
-```
-
-```ts
 // src/main.ts
-import 'virtual:twc.css'
+import 'typewritingclass/preflight.css' // optional CSS reset
+import 'typewritingclass/inject'
 ```
 
 ## Static styles
@@ -61,7 +51,7 @@ import { dcx, p, bg, rounded, dynamic } from 'typewritingclass'
 
 function createSwatch(color: string): HTMLElement {
   const el = document.createElement('div')
-  const { className, style } = dcx(p(6), bg(dynamic(color)), rounded('lg'))
+  const { className, style } = dcx(p(6), bg(dynamic(color)), rounded.lg)
   el.className = className
   Object.assign(el.style, style)
   return el
@@ -72,12 +62,4 @@ Update dynamic values directly via CSS custom properties:
 
 ```ts
 el.style.setProperty('--twc-d0', '#ef4444')
-```
-
-## Runtime injection
-
-For development without a compiler, import the runtime injector:
-
-```ts
-import 'typewritingclass/inject'
 ```

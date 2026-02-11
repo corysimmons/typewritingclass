@@ -12,38 +12,27 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ## Setup
 
 <Tabs syncKey="pkg">
-  <TabItem label="bun">
-    ```bash
-    bun add typewritingclass
-    bun add -d typewritingclass-compiler
-    ```
-  </TabItem>
   <TabItem label="pnpm">
     ```bash
     pnpm add typewritingclass
-    pnpm add -D typewritingclass-compiler
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add typewritingclass
     ```
   </TabItem>
   <TabItem label="npm">
     ```bash
     npm install typewritingclass
-    npm install -D typewritingclass-compiler
     ```
   </TabItem>
 </Tabs>
 
 ```ts
-// vite.config.ts
-import { defineConfig } from 'vite'
-import solidPlugin from 'vite-plugin-solid'
-import twcPlugin from 'typewritingclass-compiler'
-
-export default defineConfig({ plugins: [solidPlugin(), twcPlugin()] })
-```
-
-```ts
 // src/index.tsx
-import 'virtual:twc.css'
+import 'typewritingclass/preflight.css' // optional CSS reset
+import 'typewritingclass/inject'
 ```
 
 ## Static styles
@@ -66,7 +55,7 @@ import { dcx, p, bg, rounded, dynamic } from 'typewritingclass'
 
 function ColorPicker() {
   const [color, setColor] = createSignal('#3b82f6')
-  const result = () => dcx(p(6), bg(dynamic(color())), rounded('lg'))
+  const result = () => dcx(p(6), bg(dynamic(color())), rounded.lg)
 
   return (
     <div>

@@ -91,23 +91,22 @@ const card = tw
 
 ## Resolving to class strings
 
-The chain resolves automatically in string contexts:
-
-```tsx
-<div className={tw.p(4).bg.blue500} />
-<div className={`${tw.p(4)} extra-class`} />
-```
-
-Or explicitly:
+The chain resolves automatically in string contexts (vanilla JS, Solid, etc.):
 
 ```ts
-tw.p(4).bg.blue500.toString()
-tw.p(4).bg.blue500.value
-tw.p(4).bg.blue500.className
+element.className = tw.p(4).bg.blue500
+const classes = `${tw.p(4)} extra-class`
+```
+
+In React, use a template literal or `.value` since React requires `className` to be a string:
+
+```tsx
+<div className={`${tw.p(4).bg.blue500}`} />
+<div className={tw.p(4).bg.blue500.value} />
 ```
 
 :::note
-In Next.js Server Components (or any RSC context), always use `.value` to resolve the chain to a plain string. RSC serialization cannot handle Proxy objects, so `className={tw.flex.value}` is required instead of `className={tw.flex}`.
+In Next.js Server Components, always use `.value` to resolve the chain to a plain string. RSC serialization cannot handle Proxy objects.
 :::
 
 ## Immutable chains
