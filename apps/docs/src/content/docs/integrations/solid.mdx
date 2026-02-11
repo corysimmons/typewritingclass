@@ -41,7 +41,7 @@ import 'typewritingclass/inject'
 import { tw } from 'typewritingclass'
 
 function Card(props: { children: any }) {
-  return <div class={tw.p(6).bg.blue500.textColor.white.rounded.lg.hover.bg.blue600}>{props.children}</div>
+  return <div class={tw.p(6).bg.blue500.textColor.white.rounded.lg.hover(tw.bg.blue600)}>{props.children}</div>
 }
 ```
 

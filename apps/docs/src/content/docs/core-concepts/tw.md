@@ -70,10 +70,10 @@ tw.shadow('0 4px 12px rgba(0,0,0,0.15)')
 The modifier applies to the next utility in the chain:
 
 ```ts
-tw.bg.white.hover.bg('blue-50').focus.ring(2)
+tw.bg.white.hover(tw.bg('blue-50')).focus(tw.ring(2))
 tw.p(4).md.p(8).lg.p(12)
-tw.bg.white.dark.bg.slate900
-tw.opacity(0.5).groupHover.opacity(1)
+tw.bg.white.dark(tw.bg.slate900)
+tw.opacity(0.5).groupHover(tw.opacity(1))
 ```
 
 ## Multi-utility modifiers (function syntax)
@@ -127,7 +127,7 @@ Both APIs produce identical CSS. Choose based on preference:
 | | `cx` + `when` | `tw` |
 |---|---|---|
 | Imports | Many individual imports | Single `tw` import |
-| Modifiers | `when(hover)(bg.blue600)` | `tw.hover.bg.blue600` |
+| Modifiers | `when(hover)(bg.blue600)` | `tw.hover(tw.bg.blue600)` |
 | Value-less | `cx(flex(), flexCol())` | `tw.flex.flexCol` |
 | Tokens | `cx(bg.blue500, rounded.lg)` | `tw.bg.blue500.rounded.lg` |
 | Dynamic values | `dcx(bg(dynamic(color)))` | Use `cx`/`dcx` for dynamic values |

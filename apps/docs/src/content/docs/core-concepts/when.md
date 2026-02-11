@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-`when()` is the functional modifier API. Most users will prefer the [tw chainable API](/core-concepts/tw/) where modifiers are properties (`tw.hover.bg(...)`) or functions (`tw.hover(tw.bg(...))`).
+`when()` is the functional modifier API. Most users will prefer the [tw chainable API](/core-concepts/tw/) where modifiers are functions (`tw.hover(tw.bg(...))`).
 
 Use `when()` when working with `cx()` directly.
 

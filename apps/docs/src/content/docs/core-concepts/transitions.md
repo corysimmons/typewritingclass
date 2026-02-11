@@ -12,7 +12,7 @@ Transition presets are value-less utilities — access them as properties:
 ```ts
 import { tw } from 'typewritingclass'
 
-tw.transitionColors.duration(200).hover.bg.indigo600
+tw.transitionColors.duration(200).hover(tw.bg.indigo600)
 tw.transitionAll.duration(300).ease('ease-out')
 tw.transitionOpacity.delay(150)
 ```
@@ -33,5 +33,5 @@ const button = tw
   .px(5).py(2.5).rounded.lg
   .bg.indigo500.textColor.white
   .transitionColors.duration(200)
-  .hover.bg.indigo600
+  .hover(tw.bg.indigo600)
 ```

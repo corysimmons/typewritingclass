@@ -9,7 +9,7 @@ Modifiers wrap a `StyleRule` with a pseudo-class selector or media query. Use th
 
 ```ts
 // tw chain syntax
-tw.hover.bg('blue-600')
+tw.hover(tw.bg('blue-600'))
 tw.md.p(8)
 tw.hover(tw.bg('blue-600').textColor('white'))
 
@@ -36,10 +36,10 @@ cx(when(hover, md)(bg('blue-700')))  // stacked: hover inside md
 ```ts
 // tw syntax
 tw.bg.blue500
-  .hover.bg.blue600
-  .active.bg.blue700
-  .focusVisible.ring('2px', '#3b82f6')
-  .disabled.opacity(0.5)
+  .hover(tw.bg.blue600)
+  .active(tw.bg.blue700)
+  .focusVisible(tw.ring('2px', '#3b82f6'))
+  .disabled(tw.opacity(0.5))
 
 // cx syntax
 cx(
@@ -79,9 +79,9 @@ Desktop-first `max-width` approach:
 ```ts
 // tw syntax -- progressive enhancement
 tw.flexCol.gap(4).p(4)
-  .sm.gap(6)
-  .md.flexRow
-  .lg.p(8)
+  .sm(tw.gap(6))
+  .md(tw.flexRow)
+  .lg(tw.p(8))
 
 // cx syntax
 cx(
@@ -96,9 +96,9 @@ cx(
 
 ```ts
 tw.grid(1).gap(4)
-  .sm.grid(2)
-  .md.grid(3).md.gap(6)
-  .lg.grid(4).lg.gap(8)
+  .sm(tw.grid(2))
+  .md(tw.grid(3).gap(6))
+  .lg(tw.grid(4).gap(8))
 ```
 
 ---

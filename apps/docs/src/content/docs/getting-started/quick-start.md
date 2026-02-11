@@ -60,9 +60,9 @@ tw.italic.truncate
 Access a modifier as a property and it applies to the next utility:
 
 ```ts
-tw.bg.white.hover.bg('blue-50')
+tw.bg.white.hover(tw.bg('blue-50'))
 tw.p(4).md.p(8).lg.p(12)
-tw.bg.white.dark.bg.slate900
+tw.bg.white.dark(tw.bg.slate900)
 ```
 
 For multiple utilities under one modifier, call it as a function:
@@ -80,15 +80,15 @@ import { tw } from 'typewritingclass'
 const card = tw
   .group.bg.white.rounded.xl.shadow.md.p(6)
   .hover(tw.shadow.lg.scale(102))
-  .dark.bg.slate800
+  .dark(tw.bg.slate800)
 
 // Title responds to group hover
 const title = tw.textColor.slate900.font.bold
-  .groupHover.textColor.blue600
-  .dark.textColor.white
+  .groupHover(tw.textColor.blue600)
+  .dark(tw.textColor.white)
 
 // Responsive layout
-const container = tw.flex.flexCol.gap(4).md.flex.gap(8)
+const container = tw.flex.flexCol.gap(4).md(tw.flex.gap(8))
 
 function Card() {
   return (

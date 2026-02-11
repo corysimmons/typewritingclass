@@ -85,7 +85,7 @@ All custom modifiers compose with `when()` and stack with built-in modifiers:
 
 ```ts
 tw.p(4).bg.white
-  .hover.bg.gray100
+  .hover(tw.bg.gray100)
   // Or with when():
 cx(
   p(4), bg.white,

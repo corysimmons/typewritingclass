@@ -36,8 +36,8 @@ tw.p(4).md(tw.p(8).gap(6)).lg(tw.p(12).gap(8))
 ## Combining with other modifiers
 
 ```ts
-tw.bg('white').md.hover.bg('blue-50')
-tw.p(4).md.p(8).dark.bg('slate-900')
+tw.bg('white').md(tw.hover(tw.bg('blue-50')))
+tw.p(4).md.p(8).dark(tw.bg('slate-900'))
 ```
 
 ## Responsive hiding

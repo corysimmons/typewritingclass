@@ -59,9 +59,9 @@ tw.flex.flexCol.relative.truncate
 The modifier applies to the next utility in the chain:
 
 ```ts
-tw.hover.bg.blue500
+tw.hover(tw.bg.blue500)
 tw.md.p(8)
-tw.dark.bg.slate900
+tw.dark(tw.bg.slate900)
 ```
 
 ### Multi-utility modifiers (function syntax)

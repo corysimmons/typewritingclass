@@ -44,7 +44,7 @@ import { tw } from 'typewritingclass'
 
 const { vars } = light
 
-tw.bg(vars.colors.primary[500]).hover.bg(vars.colors.primary[600])
+tw.bg(vars.colors.primary[500]).hover(tw.bg(vars.colors.primary[600]))
 // CSS: background-color: var(--twc-color-primary-500)
 ```
 

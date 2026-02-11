@@ -10,11 +10,10 @@ sidebar:
 ```ts
 import { tw } from 'typewritingclass'
 
-// Single utility
-tw.bg.white.dark.bg.slate900
-tw.textColor.slate900.dark.textColor.slate100
+tw.bg.white.dark(tw.bg.slate900)
+tw.textColor.slate900.dark(tw.textColor.slate100)
 
-// Multiple dark overrides
+// Multiple utilities in one dark() call
 tw.bg.white.textColor.slate900
   .dark(tw.bg.slate900.textColor.slate100)
 ```
@@ -22,7 +21,9 @@ tw.bg.white.textColor.slate900
 ## Combining with other modifiers
 
 ```ts
-tw.bg.white.hover.bg.blue50.dark.bg.slate900.dark.hover.bg.slate800
+tw.bg.white
+  .hover(tw.bg.blue50)
+  .dark(tw.bg.slate900.hover(tw.bg.slate800))
 ```
 
 ## Full example
@@ -32,14 +33,14 @@ import { tw } from 'typewritingclass'
 
 const card = tw
   .p(6).bg.white.rounded.lg.shadow.sm
-  .hover.shadow.md
+  .hover(tw.shadow.md)
   .dark(tw.bg.slate800.shadow.none)
 
 const title = tw.textColor.slate900.font.semibold
-  .dark.textColor.white
+  .dark(tw.textColor.white)
 
 const body = tw.textColor.slate600
-  .dark.textColor.slate400
+  .dark(tw.textColor.slate400)
 ```
 
 ## Manual theme switching

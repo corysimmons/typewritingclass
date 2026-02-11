@@ -238,7 +238,7 @@ tw.fixed.top(0).left(0).w('full')
 tw.rounded.lg          // border-radius: 0.5rem
 tw.rounded.full        // border-radius: 9999px
 tw.border().borderColor.gray200
-tw.focusVisible.ring('2px', '#3b82f6')
+tw.focusVisible(tw.ring('2px', '#3b82f6'))
 ```
 
 ---
@@ -253,7 +253,7 @@ tw.focusVisible.ring('2px', '#3b82f6')
 
 ```ts
 tw.shadow.md                      // medium shadow
-tw.shadow.lg.hover.shadow.xl
+tw.shadow.lg.hover(tw.shadow.xl)
 tw.opacity(0.5)
 tw.backdrop('blur(8px)')
 ```

@@ -9,15 +9,15 @@ sidebar:
 
 ```ts
 tw.srOnly              // visually hidden, readable by screen readers
-tw.srOnly.focus.notSrOnly  // visible on focus (skip link pattern)
+tw.srOnly.focus(tw.notSrOnly)  // visible on focus (skip link pattern)
 ```
 
 ## ARIA attribute modifiers
 
 ```ts
-tw.ariaExpanded.bg.blue50          // [aria-expanded="true"]
-tw.ariaChecked.bg.blue500          // [aria-checked="true"]
-tw.ariaDisabled.opacity(0.5)       // [aria-disabled="true"]
+tw.ariaExpanded(tw.bg.blue50)          // [aria-expanded="true"]
+tw.ariaChecked(tw.bg.blue500)          // [aria-checked="true"]
+tw.ariaDisabled(tw.opacity(0.5))       // [aria-disabled="true"]
 ```
 
 ## Data attribute modifiers

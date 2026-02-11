@@ -37,9 +37,9 @@ const sizes = {
 } as const
 
 const variants = {
-  primary: tw.bg.blue500.textColor.white.hover.bg.blue600,
-  secondary: tw.bg.white.textColor.gray700.border().borderColor.gray300.hover.bg.gray50,
-  danger: tw.bg.red500.textColor.white.hover.bg.red600,
+  primary: tw.bg.blue500.textColor.white.hover(tw.bg.blue600),
+  secondary: tw.bg.white.textColor.gray700.border().borderColor.gray300.hover(tw.bg.gray50),
+  danger: tw.bg.red500.textColor.white.hover(tw.bg.red600),
 } as const
 
 export function button(variant: ButtonVariant = 'primary', size: ButtonSize = 'md') {
