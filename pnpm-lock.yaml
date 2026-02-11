@@ -279,9 +279,6 @@ importers:
       typewritingclass:
         specifier: workspace:*
         version: link:../../packages/typewritingclass
-      typewritingclass-react:
-        specifier: ^0.2.5
-        version: 0.2.5(react@19.2.4)(typewritingclass@packages+typewritingclass)
     devDependencies:
       '@types/react':
         specifier: ^19.0.0
@@ -4116,12 +4113,6 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       '@babel/runtime': ^7.23.2
-
-  typewritingclass-react@0.2.5:
-    resolution: {integrity: sha512-z5eDPGH59/BlG8hjUipaj3eTuCOXTfJUcvopIZ6qgRHsMwINJmXwZBaD538CMmtPpOXGHhsfWTIRzld3RDkZvQ==}
-    peerDependencies:
-      react: ^18 || ^19
-      typewritingclass: 0.3.2
 
   ufo@1.6.3:
     resolution: {integrity: sha512-yDJTmhydvl5lJzBmy/hyOAA0d+aqCBuwl818haVdYCRrWV84o7YyeVm4QlVHStqNrrJSTb6jKuFAVqAFsr+K3Q==}
@@ -8762,11 +8753,6 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - debug
-
-  typewritingclass-react@0.2.5(react@19.2.4)(typewritingclass@packages+typewritingclass):
-    dependencies:
-      react: 19.2.4
-      typewritingclass: link:packages/typewritingclass
 
   ufo@1.6.3: {}
 
