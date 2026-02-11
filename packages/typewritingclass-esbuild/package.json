@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass-esbuild",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "esbuild plugin for static CSS extraction with typewritingclass",
   "license": "MIT",
   "type": "module",

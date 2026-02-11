@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass-next",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Next.js integration for typewritingclass with SSR and static extraction",
   "license": "MIT",
   "type": "module",

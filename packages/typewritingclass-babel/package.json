@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass-babel",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Babel plugin for static CSS extraction with typewritingclass",
   "license": "MIT",
   "type": "module",

@@ -1,6 +1,6 @@
 {
   "name": "typewritingclass-react",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "React bindings for typewritingclass with dynamic style support",
   "license": "MIT",
   "type": "module",
