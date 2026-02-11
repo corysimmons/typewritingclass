@@ -55,8 +55,8 @@ jobs:
       - name: Run all unit tests with coverage
         run: pnpm test:coverage
 
-      - name: Build demo-vanilla app
-        run: pnpm --filter demo-vanilla build
+      - name: Build vanilla starter
+        run: pnpm --filter twc-starter-vanilla build
 
       - name: Build docs
         run: pnpm --filter docs build

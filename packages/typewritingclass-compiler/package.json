@@ -1,7 +1,19 @@
 {
   "name": "typewritingclass-compiler",
   "version": "0.3.1",
+  "description": "Static CSS extraction compiler and Vite plugin for typewritingclass",
+  "license": "MIT",
   "type": "module",
+  "keywords": [
+    "typewritingclass",
+    "compiler",
+    "vite-plugin",
+    "css",
+    "static-extraction"
+  ],
+  "homepage": "https://github.com/corysimmons/typewritingclass",
+  "bugs": "https://github.com/corysimmons/typewritingclass/issues",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/corysimmons/typewritingclass",

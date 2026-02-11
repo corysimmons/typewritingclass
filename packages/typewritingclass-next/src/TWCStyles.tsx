@@ -48,8 +48,14 @@ export function TWCStyles({ cssFile }: TWCStylesProps = {}): React.JSX.Element {
         'utf-8',
       )
     } catch {
-      // No cached CSS either — that's fine
+      // No cached CSS either
     }
+  }
+
+  if (!compiledCss && process.env.NODE_ENV !== 'production') {
+    console.warn(
+      '[typewritingclass-next] No compiled CSS found. Make sure the withTwc plugin is configured in next.config and the project has been built.',
+    )
   }
 
   const css = [compiledCss, runtimeCss].filter(Boolean).join('\n')
