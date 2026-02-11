@@ -10,6 +10,7 @@ use crate::hash;
 use crate::modifiers;
 use crate::style_rule::StyleRule;
 use crate::theme::ThemeData;
+use crate::tokens;
 use crate::utilities::{self, Value};
 
 /// What a local name is bound to after import resolution
@@ -694,6 +695,7 @@ fn evaluate_css_call(
             media_queries: vec![],
             dynamic_bindings: vec![],
             extra_css: vec![],
+            selector_template: None,
         })
     } else {
         None
@@ -948,6 +950,7 @@ fn flatten_tw_chain_inner<'a>(
 
 /// Process flattened tw chain steps into a list of StyleRules.
 /// Handles modifiers (property accesses like .hover) that apply to the next utility.
+/// Supports token resolution: `.bg.blue500` resolves to `bg("blue-500")`.
 fn process_tw_steps(
     steps: &[TwStep],
     bindings: &HashMap<String, Binding>,
@@ -956,13 +959,68 @@ fn process_tw_steps(
 ) -> Option<Vec<StyleRule>> {
     let mut rules: Vec<StyleRule> = Vec::new();
     let mut pending_mods: Vec<String> = Vec::new();
+    let mut pending_util: Option<String> = None;
 
     for step in steps {
+        // If we have a pending utility, try to resolve the current step as a token
+        if let Some(ref util_name) = pending_util.clone() {
+            match step {
+                TwStep::Property(name) => {
+                    if let Some(token_val) = tokens::resolve_token(util_name, name, theme) {
+                        // Token resolved! Evaluate the utility with the token value
+                        let mut rule = utilities::evaluate(util_name, &[Value::Str(token_val)], theme)?;
+                        for mod_name in pending_mods.iter().rev() {
+                            rule = modifiers::apply(mod_name, rule)?;
+                        }
+                        pending_mods.clear();
+                        pending_util = None;
+                        rules.push(rule);
+                        continue;
+                    }
+                    // Not a token — flush pending util with no args, fall through
+                }
+                TwStep::MethodCall(name, args) => {
+                    if tokens::supports_opacity(util_name) {
+                        if let Some(token_val) = tokens::resolve_token(util_name, name, theme) {
+                            // Color token with opacity: .bg.blue500(50)
+                            let values = evaluate_call_args(args, bindings, theme, dyn_counter)?;
+                            if let Some(opacity) = values.first().and_then(|v| v.as_num()) {
+                                if let Some(resolved) = tokens::resolve_color_with_opacity(&token_val, opacity, theme) {
+                                    let mut rule = utilities::evaluate(util_name, &[Value::Str(resolved)], theme)?;
+                                    for mod_name in pending_mods.iter().rev() {
+                                        rule = modifiers::apply(mod_name, rule)?;
+                                    }
+                                    pending_mods.clear();
+                                    pending_util = None;
+                                    rules.push(rule);
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    // Not a token call — flush pending util, fall through
+                }
+            }
+            // Flush pending util with no args
+            let flushed_name = pending_util.take().unwrap();
+            if let Some(mut rule) = utilities::evaluate(&flushed_name, &[], theme) {
+                for mod_name in pending_mods.iter().rev() {
+                    rule = modifiers::apply(mod_name, rule)?;
+                }
+                pending_mods.clear();
+                rules.push(rule);
+            }
+            // Fall through to process current step normally
+        }
+
         match step {
             TwStep::Property(name) => {
                 if modifiers::is_modifier(name) {
                     // Modifier — accumulate to apply to next utility
                     pending_mods.push(name.clone());
+                } else if tokens::has_token_support(name) && UTILITY_NAMES.contains(&name.as_str()) {
+                    // Utility with token support — defer to see if next step is a token
+                    pending_util = Some(name.clone());
                 } else if UTILITY_NAMES.contains(&name.as_str()) {
                     // Valueless utility (like flex, absolute, relative, etc.)
                     if let Some(mut rule) = utilities::evaluate(name, &[], theme) {
@@ -977,11 +1035,18 @@ fn process_tw_steps(
                         // to avoid silently dropping styles.
                         return None;
                     }
+                } else if name == "value" || name == "className" {
+                    // Terminal accessor — no-op (compiler replaces whole expression)
+                } else {
+                    // Unknown property — bail to runtime
+                    return None;
                 }
-                // Unknown properties are ignored (could be raw class names in full runtime,
-                // but we can't handle those at compile time)
             }
             TwStep::MethodCall(name, args) => {
+                if name == "toString" && args.is_empty() {
+                    // Terminal .toString() — no-op
+                    continue;
+                }
                 if UTILITY_NAMES.contains(&name.as_str()) {
                     let values = evaluate_call_args(args, bindings, theme, dyn_counter)?;
                     if let Some(mut rule) = utilities::evaluate(name, &values, theme) {
@@ -1026,6 +1091,18 @@ fn process_tw_steps(
                 }
             }
         }
+    }
+
+    // End of steps: flush any remaining pending_util
+    if let Some(util_name) = pending_util {
+        if let Some(mut rule) = utilities::evaluate(&util_name, &[], theme) {
+            for mod_name in pending_mods.iter().rev() {
+                rule = modifiers::apply(mod_name, rule)?;
+            }
+            pending_mods.clear();
+            rules.push(rule);
+        }
+        // Don't bail if the flush fails — the utility may not support 0-arg calls
     }
 
     // If there are pending modifiers that were never applied to a utility,

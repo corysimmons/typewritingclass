@@ -18,7 +18,8 @@ pub fn generate_hash(rule: &StyleRule, _layer: u32) -> String {
     let decl_json = serialize_declarations(&rule.declarations);
     let sel_json = serialize_string_array(&rule.selectors);
     let mq_json = serialize_string_array(&rule.media_queries);
-    let input = format!("{}{}{}", decl_json, sel_json, mq_json);
+    let st = rule.selector_template.as_deref().unwrap_or("");
+    let input = format!("{}{}{}{}", decl_json, sel_json, mq_json, st);
     let h = djb2(&input);
     format!("_{}", radix_fmt(h, 36))
 }

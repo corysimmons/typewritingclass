@@ -9,10 +9,15 @@ pub fn render_rule(class_name: &str, rule: &StyleRule) -> String {
         .collect::<Vec<_>>()
         .join("\n");
 
-    let mut selector = format!(".{}", class_name);
-    for s in &rule.selectors {
-        selector.push_str(s);
-    }
+    let selector = if let Some(tmpl) = &rule.selector_template {
+        tmpl.replace("&", &format!(".{}", class_name))
+    } else {
+        let mut s = format!(".{}", class_name);
+        for sel in &rule.selectors {
+            s.push_str(sel);
+        }
+        s
+    };
 
     let mut css = format!("{} {{\n{}\n}}", selector, decls);
 

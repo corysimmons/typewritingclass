@@ -7,6 +7,9 @@ pub struct StyleRule {
     pub dynamic_bindings: Vec<(String, String)>,
     /// Extra CSS blocks (e.g. @keyframes) emitted alongside this rule
     pub extra_css: Vec<String>,
+    /// Selector template for group/peer/direction modifiers (e.g. ".group:hover &")
+    /// When set, `&` is replaced with the generated class name during CSS rendering.
+    pub selector_template: Option<String>,
 }
 
 impl StyleRule {
@@ -20,6 +23,7 @@ impl StyleRule {
             media_queries: vec![],
             dynamic_bindings: vec![],
             extra_css: vec![],
+            selector_template: None,
         }
     }
 
@@ -43,6 +47,11 @@ impl StyleRule {
         self
     }
 
+    pub fn with_selector_template(mut self, tmpl: &str) -> Self {
+        self.selector_template = Some(tmpl.to_string());
+        self
+    }
+
     pub fn has_dynamic(&self) -> bool {
         !self.dynamic_bindings.is_empty()
     }
@@ -53,6 +62,7 @@ impl StyleRule {
         let mut media_queries = vec![];
         let mut dynamic_bindings = vec![];
         let mut extra_css = vec![];
+        let mut selector_template = None;
         for rule in rules {
             declarations.extend(rule.declarations.clone());
             for s in &rule.selectors {
@@ -75,6 +85,11 @@ impl StyleRule {
                     extra_css.push(ec.clone());
                 }
             }
+            if selector_template.is_none() {
+                if let Some(ref tmpl) = rule.selector_template {
+                    selector_template = Some(tmpl.clone());
+                }
+            }
         }
         Self {
             declarations,
@@ -82,6 +97,7 @@ impl StyleRule {
             media_queries,
             dynamic_bindings,
             extra_css,
+            selector_template,
         }
     }
 }
