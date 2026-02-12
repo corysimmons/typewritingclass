@@ -1,15 +1,20 @@
 # typewritingclass-devtools
 
-VS Code extension that provides inline CSS preview for Typewriting Class utility calls.
+VS Code extension that provides inline CSS preview and color underlines for Typewriting Class chain-style utilities.
 
 ## Features
 
-- **Hover preview** — hover over any utility call (e.g. `p(4)`, `bg(blue[500])`) to see the generated CSS
-- **`tw` chain preview** — hover over `tw.bg('blue-500').p(4)` chains to see all generated CSS
-- **Composition support** — previews `cx(...)` compositions and `when(...)` modifier chains
-- **SVG preview** — hover over color utilities to see a color swatch
-- **Value-less property preview** — hover over properties like `flex`, `relative` to see their CSS output
-- **Configurable** — toggle preview on/off and control property name display
+- **Per-segment hover** — hover over any segment in a `tw` chain to see its CSS output
+  - `tw` keyword → combined CSS for the entire chain
+  - Utilities (e.g. `.bg`, `.p`) → CSS declarations for that utility + token
+  - Tokens (e.g. `.blue500`, `.lg`) → resolved CSS with color swatch for color tokens
+  - Valueless utilities (e.g. `.flex`, `.relative`) → CSS output
+  - Modifiers (e.g. `.hover`, `.md`) → selector or media query info
+  - Call segments (e.g. `.p(4)`, `.bg('blue-500')`) → CSS declarations
+- **Color underlines** — color tokens in chains get a colored underline matching their resolved color
+- **`when()` support** — hover over `when()` modifier chains for CSS preview
+- **SVG color swatch** — hover over color utilities to see a color swatch
+- **Configurable** — toggle hover preview, property names, and color underlines
 
 ## Settings
 
@@ -17,6 +22,7 @@ VS Code extension that provides inline CSS preview for Typewriting Class utility
 |---|---|---|
 | `typewritingclass.enableHoverPreview` | `true` | Enable/disable CSS preview on hover |
 | `typewritingclass.showPropertyNames` | `true` | Show CSS property names in preview |
+| `typewritingclass.enableColorUnderlines` | `true` | Enable/disable colored underlines on color tokens |
 
 ## Development
 
@@ -24,4 +30,5 @@ VS Code extension that provides inline CSS preview for Typewriting Class utility
 bun run build    # Compile TypeScript
 bun run watch    # Watch mode
 bun run package  # Create .vsix extension package
+bun run test     # Run tests
 ```

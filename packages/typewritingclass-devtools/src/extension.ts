@@ -2,12 +2,23 @@ import * as vscode from 'vscode';
 import {
   generateUtilityPreview,
   generateUtilityDeclarations,
-  generateCxPreview,
-  generateCxDeclarations,
   generateWhenPreview,
   generateWhenDeclarations,
+  resolveTokenInContext,
+  resolveColor,
   isKnownUtility,
+  modifierInfo,
 } from './css-preview';
+import {
+  MODIFIER_NAMES,
+  VALUELESS_UTILITIES,
+  TOKEN_AWARE_UTILITIES,
+  isTokenAwareUtility,
+  isTokenForUtility,
+  isColorUtility,
+  resolveColorTokenToHex,
+} from './token-maps';
+import { registerColorDecorations, disposeColorDecorations } from './color-decorations';
 
 // ---------------------------------------------------------------------------
 // Activation
@@ -23,28 +34,16 @@ export function activate(context: vscode.ExtensionContext): void {
         return undefined;
       }
 
-      // --- Try matching a full tw.chain expression ---
-      const twChainResult = tryTwChainHover(document, position);
-      if (twChainResult) {
-        return twChainResult;
+      // --- Try matching a tw chain segment ---
+      const chainResult = tryTwChainSegmentHover(document, position);
+      if (chainResult) {
+        return chainResult;
       }
 
       // --- Try matching a when(...)(...)  call ---
       const whenResult = tryWhenHover(document, position);
       if (whenResult) {
         return whenResult;
-      }
-
-      // --- Try matching a cx(...) or dcx(...) call ---
-      const cxResult = tryCxHover(document, position);
-      if (cxResult) {
-        return cxResult;
-      }
-
-      // --- Try matching a bare tw chain property like tw.flex, .flexCol ---
-      const twPropResult = tryTwPropertyHover(document, position);
-      if (twPropResult) {
-        return twPropResult;
       }
 
       // --- Try matching a single utility call like p(4), bg('#fff') ---
@@ -58,10 +57,13 @@ export function activate(context: vscode.ExtensionContext): void {
   });
 
   context.subscriptions.push(provider);
+
+  // Register color underline decorations
+  registerColorDecorations(context);
 }
 
 export function deactivate(): void {
-  // nothing to clean up
+  disposeColorDecorations();
 }
 
 // ---------------------------------------------------------------------------
@@ -72,9 +74,6 @@ function xmlEsc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 
-/**
- * Generate an SVG data URI for a color swatch.
- */
 function colorSwatchSvg(color: string): string {
   const size = 14;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">`
@@ -83,9 +82,6 @@ function colorSwatchSvg(color: string): string {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
-/**
- * Generate an SVG data URI for a styled preview box.
- */
 function styledBoxSvg(decls: Record<string, string>): string {
   const w = 120;
   const h = 32;
@@ -119,9 +115,6 @@ function parseRemOrPx(value: string | undefined, fallback: number): number {
   return num;
 }
 
-/**
- * Build markdown preview string from CSS declarations.
- */
 function buildPreviewMarkdown(decls: Record<string, string>): string {
   const keys = Object.keys(decls);
   if (keys.length === 0) return '';
@@ -129,13 +122,13 @@ function buildPreviewMarkdown(decls: Record<string, string>): string {
   const bgColor = decls['background-color'] || decls['background'];
   const textColor = decls['color'];
 
-  // ── Single color property → color swatch ──
+  // Single color property -> color swatch
   if (keys.length === 1 && (bgColor || textColor)) {
     const c = bgColor || textColor;
     return `![swatch](${colorSwatchSvg(c)}) \`${c}\``;
   }
 
-  // ── Has visual properties → styled box ──
+  // Has visual properties -> styled box
   const visualKeys = ['background-color', 'background', 'color', 'border-radius',
     'border-width', 'border-color', 'box-shadow', 'font-size', 'font-weight',
     'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width',
@@ -148,7 +141,6 @@ function buildPreviewMarkdown(decls: Record<string, string>): string {
   return '';
 }
 
-/** Create a MarkdownString with optional SVG preview + CSS code block */
 function buildHoverContent(label: string, css: string, decls?: Record<string, string>): vscode.MarkdownString {
   const md = new vscode.MarkdownString();
   md.supportHtml = true;
@@ -170,73 +162,38 @@ function buildHoverContent(label: string, css: string, decls?: Record<string, st
 }
 
 // ---------------------------------------------------------------------------
-// Full tw chain hover  —  hover "tw" to see all combined styles
+// Chain parser with position tracking + classification
 // ---------------------------------------------------------------------------
 
-interface ChainSegment {
+export interface PositionedSegment {
   name: string;
   args: string;
+  kind: 'utility' | 'valueless' | 'modifier' | 'token' | 'unknown';
+  line: number;
+  nameStart: number;   // column of first char of name
+  nameEnd: number;     // column after last char of name
+  fullEnd: number;     // after closing paren for calls
+  parentUtility?: string;  // for 'token' kind
 }
 
 /**
- * When the cursor is on `tw` at the start of a chain like
- * `tw.flex.p(4).bg('blue-500')`, parse the entire chain across
- * lines and show combined CSS output.
+ * Parse a tw.chain expression starting at `tw` with full position tracking.
+ * Returns positioned + classified segments.
  */
-function tryTwChainHover(
-  document: vscode.TextDocument,
-  position: vscode.Position,
-): vscode.Hover | undefined {
-  const wordRange = document.getWordRangeAtPosition(position);
-  if (!wordRange) return undefined;
-
-  const word = document.getText(wordRange);
-  if (word !== 'tw') return undefined;
-
-  // Must be followed by a dot on same line
-  const line = document.lineAt(position.line).text;
-  const afterTw = line.slice(wordRange.end.character);
-  if (!afterTw.startsWith('.')) return undefined;
-
-  // Parse the full chain (may span multiple lines)
-  const chain = parseTwChain(document, position.line, wordRange.start.character);
-  if (!chain || chain.segments.length === 0) return undefined;
-
-  // Generate combined CSS declarations from every segment
-  const allDecls: Record<string, string> = {};
-  for (const seg of chain.segments) {
-    const decls = generateUtilityDeclarations(seg.name, seg.args);
-    if (decls) {
-      Object.assign(allDecls, decls);
-    }
-  }
-
-  if (Object.keys(allDecls).length === 0) return undefined;
-
-  // Format as CSS rule block
-  const cssLines = Object.entries(allDecls)
-    .map(([prop, value]) => `  ${prop}: ${value};`)
-    .join('\n');
-  const css = `.className {\n${cssLines}\n}`;
-
-  const range = new vscode.Range(
-    position.line, wordRange.start.character,
-    chain.endLine, chain.endCol,
-  );
-
-  return new vscode.Hover(buildHoverContent('tw chain', css, allDecls), range);
-}
-
-/**
- * Parse a tw.chain expression starting at `tw`, consuming
- * `.identifier` and `.identifier(args)` segments across lines.
- */
-function parseTwChain(
+export function parseTwChainWithPositions(
   document: vscode.TextDocument,
   startLine: number,
   twCol: number,
-): { segments: ChainSegment[]; endLine: number; endCol: number } | undefined {
-  const segments: ChainSegment[] = [];
+): { segments: PositionedSegment[]; endLine: number; endCol: number } | undefined {
+  const rawSegments: Array<{
+    name: string;
+    args: string;
+    line: number;
+    nameStart: number;
+    nameEnd: number;
+    fullEnd: number;
+  }> = [];
+
   let lineNum = startLine;
   let pos = twCol + 2; // skip "tw"
 
@@ -244,14 +201,14 @@ function parseTwChain(
     const lineText = document.lineAt(lineNum).text;
 
     while (pos <= lineText.length) {
-      // Skip whitespace (for multi-line chains where dot is on next line)
+      // Skip whitespace
       while (pos < lineText.length && /\s/.test(lineText[pos])) {
         pos++;
       }
 
       // Expect a dot
       if (pos >= lineText.length || lineText[pos] !== '.') {
-        // Check if next line continues the chain (starts with optional whitespace + dot)
+        // Check if next line continues the chain
         if (lineNum + 1 < document.lineCount) {
           const nextLine = document.lineAt(lineNum + 1).text;
           const nextTrimmed = nextLine.trimStart();
@@ -262,7 +219,9 @@ function parseTwChain(
           }
         }
         // Chain ended
-        return segments.length > 0 ? { segments, endLine: lineNum, endCol: pos } : undefined;
+        return rawSegments.length > 0
+          ? { segments: classifySegments(rawSegments), endLine: lineNum, endCol: pos }
+          : undefined;
       }
 
       pos++; // skip dot
@@ -273,11 +232,13 @@ function parseTwChain(
         pos++;
       }
       if (pos === idStart) {
-        // No identifier after dot — chain ended
-        return segments.length > 0 ? { segments, endLine: lineNum, endCol: pos } : undefined;
+        return rawSegments.length > 0
+          ? { segments: classifySegments(rawSegments), endLine: lineNum, endCol: pos }
+          : undefined;
       }
 
       const name = lineText.slice(idStart, pos);
+      const nameEnd = pos;
 
       // Check for args: (...)
       if (pos < lineText.length && lineText[pos] === '(') {
@@ -285,24 +246,345 @@ function parseTwChain(
         if (closeIdx === -1) {
           // Unbalanced — try multi-line gather
           const args = gatherMultilineArgs(document, lineNum, pos);
-          segments.push({ name, args });
-          // Can't continue parsing reliably after multi-line args
-          return { segments, endLine: lineNum, endCol: lineText.length };
+          rawSegments.push({ name, args, line: lineNum, nameStart: idStart, nameEnd, fullEnd: lineText.length });
+          return { segments: classifySegments(rawSegments), endLine: lineNum, endCol: lineText.length };
         }
         const args = lineText.slice(pos + 1, closeIdx);
-        segments.push({ name, args });
+        rawSegments.push({ name, args, line: lineNum, nameStart: idStart, nameEnd, fullEnd: closeIdx + 1 });
         pos = closeIdx + 1;
       } else {
         // Value-less property access
-        segments.push({ name, args: '' });
+        rawSegments.push({ name, args: '', line: lineNum, nameStart: idStart, nameEnd, fullEnd: nameEnd });
       }
     }
-
-    // If we broke out of the inner loop to check next line, continue
-    // (the lineNum and pos are already updated)
   }
 
-  return segments.length > 0 ? { segments, endLine: lineNum, endCol: pos } : undefined;
+  return rawSegments.length > 0
+    ? { segments: classifySegments(rawSegments), endLine: lineNum, endCol: pos }
+    : undefined;
+}
+
+/**
+ * Classify raw segments into utility/valueless/modifier/token/unknown.
+ */
+function classifySegments(
+  rawSegments: Array<{
+    name: string;
+    args: string;
+    line: number;
+    nameStart: number;
+    nameEnd: number;
+    fullEnd: number;
+  }>,
+): PositionedSegment[] {
+  const result: PositionedSegment[] = [];
+  let lastTokenAwareUtil: string | undefined;
+
+  for (const seg of rawSegments) {
+    const { name, args, line, nameStart, nameEnd, fullEnd } = seg;
+    const hasArgs = fullEnd > nameEnd; // has parentheses
+
+    // If it's a function call with args, it's a utility
+    if (hasArgs) {
+      const kind: PositionedSegment['kind'] = isKnownUtility(name) ? 'utility' : 'unknown';
+      result.push({ name, args, kind, line, nameStart, nameEnd, fullEnd });
+      // Set lastTokenAwareUtil if this utility supports tokens
+      if (isTokenAwareUtility(name)) {
+        lastTokenAwareUtil = name;
+      } else {
+        lastTokenAwareUtil = undefined;
+      }
+      continue;
+    }
+
+    // No args — classify based on name
+
+    // Token disambiguation: if preceded by a token-aware utility, check if this name
+    // is a valid token for that utility (e.g. .bg.blue500 or .rounded.lg)
+    if (lastTokenAwareUtil && isTokenForUtility(lastTokenAwareUtil, name)) {
+      result.push({
+        name, args: '', kind: 'token', line, nameStart, nameEnd, fullEnd,
+        parentUtility: lastTokenAwareUtil,
+      });
+      lastTokenAwareUtil = undefined;
+      continue;
+    }
+
+    // Check if it's a known utility (including token-aware ones)
+    if (isKnownUtility(name)) {
+      if (isTokenAwareUtility(name)) {
+        // Token-aware utility used without args — could still be followed by a token
+        result.push({ name, args: '', kind: 'utility', line, nameStart, nameEnd, fullEnd });
+        lastTokenAwareUtil = name;
+      } else if (VALUELESS_UTILITIES.has(name)) {
+        result.push({ name, args: '', kind: 'valueless', line, nameStart, nameEnd, fullEnd });
+        lastTokenAwareUtil = undefined;
+      } else {
+        result.push({ name, args: '', kind: 'utility', line, nameStart, nameEnd, fullEnd });
+        lastTokenAwareUtil = undefined;
+      }
+      continue;
+    }
+
+    // Check if it's a modifier
+    if (MODIFIER_NAMES.has(name)) {
+      result.push({ name, args: '', kind: 'modifier', line, nameStart, nameEnd, fullEnd });
+      // Don't clear lastTokenAwareUtil — modifiers don't consume the token context
+      // Actually, in a chain like tw.hover.bg.blue500, the modifier comes before the utility,
+      // so it shouldn't affect token resolution. But in tw.bg.hover.blue500, `hover` would
+      // break the bg->token link. Follow the runtime Proxy behavior: modifiers don't clear.
+      continue;
+    }
+
+    // Check if it's a valueless utility
+    if (VALUELESS_UTILITIES.has(name)) {
+      result.push({ name, args: '', kind: 'valueless', line, nameStart, nameEnd, fullEnd });
+      lastTokenAwareUtil = undefined;
+      continue;
+    }
+
+    // Unknown
+    result.push({ name, args: '', kind: 'unknown', line, nameStart, nameEnd, fullEnd });
+    lastTokenAwareUtil = undefined;
+  }
+
+  return result;
+}
+
+// ---------------------------------------------------------------------------
+// Per-segment hover provider
+// ---------------------------------------------------------------------------
+
+function tryTwChainSegmentHover(
+  document: vscode.TextDocument,
+  position: vscode.Position,
+): vscode.Hover | undefined {
+  // Find the tw. anchor for this position
+  const line = document.lineAt(position.line).text;
+  const offset = position.character;
+
+  // Scan backwards from position to find `tw.`
+  const anchorInfo = findTwAnchor(document, position);
+  if (!anchorInfo) return undefined;
+
+  const { anchorLine, anchorCol } = anchorInfo;
+
+  // Parse the full chain
+  const chain = parseTwChainWithPositions(document, anchorLine, anchorCol);
+  if (!chain || chain.segments.length === 0) return undefined;
+
+  // Check if cursor is on the `tw` keyword itself
+  if (position.line === anchorLine && offset >= anchorCol && offset < anchorCol + 2) {
+    return buildTwAnchorHover(chain.segments, anchorLine, anchorCol, chain.endLine, chain.endCol);
+  }
+
+  // Find which segment contains the cursor
+  const seg = chain.segments.find(
+    s => s.line === position.line && offset >= s.nameStart && offset < s.fullEnd,
+  );
+  if (!seg) return undefined;
+
+  return buildSegmentHover(seg);
+}
+
+/**
+ * Find the `tw.` anchor for a position — scanning backwards on current line
+ * and checking multi-line continuations.
+ */
+function findTwAnchor(
+  document: vscode.TextDocument,
+  position: vscode.Position,
+): { anchorLine: number; anchorCol: number } | undefined {
+  // First check current line for tw.
+  const line = document.lineAt(position.line).text;
+
+  // Find all tw occurrences on this line (use \btw\b to also match tw at end of
+  // line where the chain dot continues on the next line)
+  const twPattern = /\btw\b/g;
+  let match: RegExpExecArray | null;
+  let bestMatch: { anchorLine: number; anchorCol: number } | undefined;
+
+  while ((match = twPattern.exec(line)) !== null) {
+    const twCol = match.index;
+    // Parse chain to see if it reaches the cursor position
+    const chain = parseTwChainWithPositions(document, position.line, twCol);
+    if (chain) {
+      // Check if cursor is within this chain's range
+      if (
+        (position.line > chain.endLine) ||
+        (position.line === chain.endLine && position.character > chain.endCol)
+      ) {
+        continue;
+      }
+      if (position.character >= twCol) {
+        bestMatch = { anchorLine: position.line, anchorCol: twCol };
+      }
+    }
+  }
+
+  if (bestMatch) return bestMatch;
+
+  // Check if current line is a continuation of a chain from a previous line
+  // (starts with optional whitespace + .)
+  const trimmed = line.trimStart();
+  if (trimmed.startsWith('.')) {
+    // Walk backwards to find the tw anchor
+    for (let prevLine = position.line - 1; prevLine >= 0; prevLine--) {
+      const prevText = document.lineAt(prevLine).text;
+      const prevTwPattern = /\btw\b/g;
+      let prevMatch: RegExpExecArray | null;
+
+      while ((prevMatch = prevTwPattern.exec(prevText)) !== null) {
+        const twCol = prevMatch.index;
+        const chain = parseTwChainWithPositions(document, prevLine, twCol);
+        if (chain && chain.endLine >= position.line) {
+          return { anchorLine: prevLine, anchorCol: twCol };
+        }
+      }
+
+      // If this line doesn't start with a dot and doesn't contain tw, stop searching
+      const prevTrimmed = prevText.trimStart();
+      if (!prevTrimmed.startsWith('.') && !/\btw\b/.test(prevText)) {
+        break;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Build hover for the `tw` anchor — shows combined CSS for entire chain.
+ */
+function buildTwAnchorHover(
+  segments: PositionedSegment[],
+  anchorLine: number,
+  anchorCol: number,
+  endLine: number,
+  endCol: number,
+): vscode.Hover {
+  const allDecls: Record<string, string> = {};
+
+  for (const seg of segments) {
+    let decls: Record<string, string> | undefined;
+
+    if (seg.kind === 'token' && seg.parentUtility) {
+      decls = resolveTokenInContext(seg.parentUtility, seg.name) || undefined;
+    } else if (seg.kind === 'utility' || seg.kind === 'valueless') {
+      decls = generateUtilityDeclarations(seg.name, seg.args) || undefined;
+    }
+
+    if (decls) {
+      Object.assign(allDecls, decls);
+    }
+  }
+
+  const cssLines = Object.entries(allDecls)
+    .map(([prop, value]) => `  ${prop}: ${value};`)
+    .join('\n');
+  const css = cssLines ? `.className {\n${cssLines}\n}` : '/* no CSS output */';
+
+  const range = new vscode.Range(anchorLine, anchorCol, endLine, endCol);
+  return new vscode.Hover(
+    buildHoverContent('tw chain', css, Object.keys(allDecls).length > 0 ? allDecls : undefined),
+    range,
+  );
+}
+
+/**
+ * Build hover for a specific segment.
+ */
+function buildSegmentHover(seg: PositionedSegment): vscode.Hover | undefined {
+  const range = new vscode.Range(seg.line, seg.nameStart, seg.line, seg.fullEnd);
+
+  switch (seg.kind) {
+    case 'token': {
+      if (!seg.parentUtility) return undefined;
+      const decls = resolveTokenInContext(seg.parentUtility, seg.name);
+      if (!decls) return undefined;
+
+      const cssLines = Object.entries(decls)
+        .map(([prop, value]) => `  ${prop}: ${value};`)
+        .join('\n');
+      const css = `.className {\n${cssLines}\n}`;
+      const label = `${seg.parentUtility}.${seg.name}`;
+
+      // Add color swatch for color tokens
+      if (isColorUtility(seg.parentUtility)) {
+        const hex = resolveColorTokenToHex(seg.name);
+        if (hex) {
+          const md = new vscode.MarkdownString();
+          md.supportHtml = true;
+          md.isTrusted = true;
+          md.appendMarkdown(`**typewritingclass** · \`${label}\`\n\n`);
+          md.appendMarkdown(`![swatch](${colorSwatchSvg(hex)}) \`${hex}\`\n\n`);
+          md.appendCodeblock(css, 'css');
+          return new vscode.Hover(md, range);
+        }
+      }
+
+      return new vscode.Hover(buildHoverContent(label, css, decls), range);
+    }
+
+    case 'utility': {
+      // Check if the next segment is a token for this utility
+      // (we already handle that in the token case — here just show the utility's own CSS)
+      const decls = generateUtilityDeclarations(seg.name, seg.args);
+      if (!decls || Object.keys(decls).length === 0) {
+        // Token-aware utility with no args and no token — show default behavior
+        if (isTokenAwareUtility(seg.name)) {
+          const defaultDecls = generateUtilityDeclarations(seg.name, '');
+          if (defaultDecls && Object.keys(defaultDecls).length > 0) {
+            const cssLines = Object.entries(defaultDecls)
+              .map(([prop, value]) => `  ${prop}: ${value};`)
+              .join('\n');
+            const css = `.className {\n${cssLines}\n}`;
+            const label = seg.args ? `${seg.name}(${seg.args})` : seg.name;
+            return new vscode.Hover(buildHoverContent(label, css, defaultDecls), range);
+          }
+        }
+        return undefined;
+      }
+
+      const cssLines = Object.entries(decls)
+        .map(([prop, value]) => `  ${prop}: ${value};`)
+        .join('\n');
+      const css = `.className {\n${cssLines}\n}`;
+      const label = seg.args ? `${seg.name}(${seg.args})` : seg.name;
+      return new vscode.Hover(buildHoverContent(label, css, decls), range);
+    }
+
+    case 'valueless': {
+      const decls = generateUtilityDeclarations(seg.name, '');
+      if (!decls || Object.keys(decls).length === 0) return undefined;
+
+      const cssLines = Object.entries(decls)
+        .map(([prop, value]) => `  ${prop}: ${value};`)
+        .join('\n');
+      const css = `.className {\n${cssLines}\n}`;
+      return new vscode.Hover(buildHoverContent(seg.name, css, decls), range);
+    }
+
+    case 'modifier': {
+      const info = modifierInfo[seg.name];
+      if (!info) return undefined;
+
+      const md = new vscode.MarkdownString();
+      md.supportHtml = true;
+      md.isTrusted = true;
+
+      const typeLabel = info.type === 'pseudo-element' ? 'pseudo-element'
+        : info.type === 'media' ? 'media query'
+        : 'selector';
+      md.appendMarkdown(`**typewritingclass** · \`${seg.name}\` modifier\n\n`);
+      md.appendMarkdown(`**Type:** ${typeLabel}\n\n`);
+      md.appendCodeblock(info.value, 'css');
+      return new vscode.Hover(md, range);
+    }
+
+    default:
+      return undefined;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -323,7 +605,7 @@ function tryUtilityHover(
 
   const { fnName, args, startIdx, endIdx } = callInfo;
 
-  if (fnName === 'cx' || fnName === 'dcx' || fnName === 'when') {
+  if (fnName === 'when') {
     return undefined;
   }
 
@@ -339,84 +621,6 @@ function tryUtilityHover(
   const decls = generateUtilityDeclarations(fnName, args);
   const range = new vscode.Range(position.line, startIdx, position.line, endIdx);
   return new vscode.Hover(buildHoverContent(`${fnName}(${args})`, css, decls), range);
-}
-
-// ---------------------------------------------------------------------------
-// Bare tw chain property hover  —  e.g. tw.flex, .flexCol, .relative
-// ---------------------------------------------------------------------------
-
-function tryTwPropertyHover(
-  document: vscode.TextDocument,
-  position: vscode.Position,
-): vscode.Hover | undefined {
-  const line = document.lineAt(position.line).text;
-  const wordRange = document.getWordRangeAtPosition(position);
-  if (!wordRange) {
-    return undefined;
-  }
-
-  const word = document.getText(wordRange);
-  if (!isKnownUtility(word)) {
-    return undefined;
-  }
-
-  const charBefore = wordRange.start.character > 0
-    ? line[wordRange.start.character - 1]
-    : '';
-  if (charBefore !== '.') {
-    return undefined;
-  }
-
-  const rest = line.slice(wordRange.end.character).trimStart();
-  if (rest.startsWith('(')) {
-    return undefined;
-  }
-
-  const css = generateUtilityPreview(word, '');
-  if (!css) {
-    return undefined;
-  }
-
-  const decls = generateUtilityDeclarations(word, '');
-  return new vscode.Hover(buildHoverContent(word, css, decls), wordRange);
-}
-
-// ---------------------------------------------------------------------------
-// cx(...) / dcx(...) hover
-// ---------------------------------------------------------------------------
-
-function tryCxHover(
-  document: vscode.TextDocument,
-  position: vscode.Position,
-): vscode.Hover | undefined {
-  const line = document.lineAt(position.line).text;
-  const offset = position.character;
-
-  const callInfo = findCallAtOffset(line, offset);
-  if (!callInfo) {
-    return undefined;
-  }
-
-  if (callInfo.fnName !== 'cx' && callInfo.fnName !== 'dcx') {
-    return undefined;
-  }
-
-  let fullArgs = callInfo.args;
-  if (!isBalanced(callInfo.args)) {
-    fullArgs = gatherMultilineArgs(document, position.line, callInfo.openParenIdx);
-  }
-
-  const css = generateCxPreview(fullArgs);
-  if (!css) {
-    return undefined;
-  }
-
-  const decls = generateCxDeclarations(fullArgs);
-  const range = new vscode.Range(
-    position.line, callInfo.startIdx,
-    position.line, callInfo.endIdx,
-  );
-  return new vscode.Hover(buildHoverContent(`${callInfo.fnName}(...)`, css, decls), range);
 }
 
 // ---------------------------------------------------------------------------
@@ -459,13 +663,7 @@ interface CallInfo {
   openParenIdx: number;
 }
 
-/**
- * Find a function call `identifier(...)` in the given line whose span
- * includes the character at `offset`.
- */
 function findCallAtOffset(line: string, offset: number): CallInfo | undefined {
-  // Match all function calls in the line.
-  // The regex finds word characters followed by balanced parentheses.
   const callPattern = /\b([a-zA-Z_]\w*)\s*\(/g;
   let match: RegExpExecArray | null;
 
@@ -473,10 +671,8 @@ function findCallAtOffset(line: string, offset: number): CallInfo | undefined {
     const fnName = match[1];
     const openParenIdx = match.index + match[0].length - 1;
 
-    // Find the matching closing paren
     const closeIdx = findMatchingParen(line, openParenIdx);
     if (closeIdx === -1) {
-      // Unbalanced on this line — still extract what we have
       const args = line.slice(openParenIdx + 1);
       const startIdx = match.index;
       const endIdx = line.length;
@@ -499,9 +695,6 @@ function findCallAtOffset(line: string, offset: number): CallInfo | undefined {
   return undefined;
 }
 
-/**
- * Find a `when(modifiers)(utilities)` double-call pattern at the offset.
- */
 function findWhenCallAtOffset(
   line: string,
   offset: number,
@@ -513,13 +706,11 @@ function findWhenCallAtOffset(
     const startIdx = match.index;
     const firstOpenIdx = match.index + match[0].length - 1;
 
-    // Find matching close for when(...)
     const firstCloseIdx = findMatchingParen(line, firstOpenIdx);
     if (firstCloseIdx === -1) { continue; }
 
     const modifierArgs = line.slice(firstOpenIdx + 1, firstCloseIdx);
 
-    // Now look for the second set of parens immediately after: )(...)
     const afterFirst = line.slice(firstCloseIdx + 1);
     const secondOpen = afterFirst.match(/^\s*\(/);
     if (!secondOpen) { continue; }
@@ -539,10 +730,6 @@ function findWhenCallAtOffset(
   return undefined;
 }
 
-/**
- * Find the index of the matching closing parenthesis for the opening paren
- * at `openIdx` in `text`. Returns -1 if not found (unbalanced).
- */
 function findMatchingParen(text: string, openIdx: number): number {
   let depth = 0;
   let inString: string | null = null;
@@ -575,39 +762,6 @@ function findMatchingParen(text: string, openIdx: number): number {
   return -1;
 }
 
-/**
- * Check if parentheses in a string are balanced.
- */
-function isBalanced(text: string): boolean {
-  let depth = 0;
-  let inString: string | null = null;
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-
-    if (inString) {
-      if (ch === inString && text[i - 1] !== '\\') {
-        inString = null;
-      }
-      continue;
-    }
-
-    if (ch === "'" || ch === '"' || ch === '`') {
-      inString = ch;
-      continue;
-    }
-
-    if (ch === '(') { depth++; }
-    if (ch === ')') { depth--; }
-  }
-
-  return depth === 0;
-}
-
-/**
- * For multi-line cx/dcx calls, gather text starting from the opening paren
- * across multiple lines until balanced.
- */
 function gatherMultilineArgs(
   document: vscode.TextDocument,
   startLine: number,
@@ -643,7 +797,7 @@ function gatherMultilineArgs(
         depth++;
         if (depth === 1) {
           started = true;
-          continue; // skip the opening paren itself
+          continue;
         }
       }
 
@@ -660,7 +814,7 @@ function gatherMultilineArgs(
     }
 
     if (started) {
-      result += ' '; // replace newline with space
+      result += ' ';
     }
   }
 

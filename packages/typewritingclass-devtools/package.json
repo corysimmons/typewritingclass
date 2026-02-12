@@ -1,10 +1,11 @@
 {
   "name": "typewritingclass-devtools",
-  "displayName": "typewritingclass CSS Preview",
+  "displayName": "Typewriting Class",
   "description": "Inline CSS preview for typewritingclass utilities",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "publisher": "corysimmons",
   "license": "MIT",
+  "icon": "icon.png",
   "keywords": [
     "typewritingclass",
     "vscode",
@@ -25,6 +26,10 @@
   "categories": [
     "Other"
   ],
+  "galleryBanner": {
+    "color": "#1e1e2e",
+    "theme": "dark"
+  },
   "activationEvents": [
     "onLanguage:typescript",
     "onLanguage:typescriptreact",
@@ -45,6 +50,11 @@
           "type": "boolean",
           "default": true,
           "description": "Show CSS property names in hover previews."
+        },
+        "typewritingclass.enableColorUnderlines": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable colored underlines on color tokens in tw chains."
         }
       }
     }

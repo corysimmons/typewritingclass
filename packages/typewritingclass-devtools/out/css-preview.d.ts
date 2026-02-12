@@ -1,3 +1,18 @@
+export declare const modifierInfo: Record<string, {
+    type: 'selector' | 'media' | 'pseudo-element';
+    value: string;
+}>;
+/**
+ * Attempt to resolve a color argument.
+ * Handles patterns like:
+ *   - 'blue[500]'  ->  look up in colorScales
+ *   - 'blue-500'   ->  look up in colorScales (dash-separated)
+ *   - 'white'      ->  look up in namedColors
+ *   - '#3b82f6'    ->  pass through
+ *   - 'rgb(...)'   ->  pass through
+ *   - a quoted string literal like "'red'" -> strip quotes
+ */
+export declare function resolveColor(raw: string): string | undefined;
 type CSSDeclarations = Record<string, string>;
 /**
  * Return raw CSS declarations for a single utility call.
@@ -9,14 +24,11 @@ export declare function generateUtilityDeclarations(fnName: string, argStr: stri
  */
 export declare function generateUtilityPreview(fnName: string, argStr: string): string | undefined;
 /**
- * Return raw combined CSS declarations for a cx() call.
+ * Resolve a token in the context of a utility.
+ * E.g. resolveTokenInContext('bg', 'blue500') → { 'background-color': '#3b82f6' }
+ * E.g. resolveTokenInContext('rounded', 'lg') → { 'border-radius': '0.5rem' }
  */
-export declare function generateCxDeclarations(innerArgs: string): CSSDeclarations | undefined;
-/**
- * Generate a CSS preview for a cx() call by parsing each inner utility call
- * and composing their declarations.
- */
-export declare function generateCxPreview(innerArgs: string): string | undefined;
+export declare function resolveTokenInContext(utilityName: string, tokenName: string): CSSDeclarations | undefined;
 /**
  * Return raw CSS declarations for the utilities inside a when() call.
  */

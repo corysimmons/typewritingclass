@@ -3,6 +3,8 @@
 // to their generated CSS declarations.
 // ---------------------------------------------------------------------------
 
+import { resolveTokenArg, isTokenAwareUtility, isColorUtility } from './token-maps';
+
 // ---------------------------------------------------------------------------
 // Spacing scale (mirrors packages/typewritingclass/src/theme/spacing.ts)
 // ---------------------------------------------------------------------------
@@ -92,6 +94,7 @@ const namedColors: Record<string, string> = {
   black: '#000000',
   transparent: 'transparent',
   currentColor: 'currentColor',
+  current: 'currentColor',
 };
 
 // ---------------------------------------------------------------------------
@@ -132,6 +135,50 @@ const fontWeights: Record<string, string> = {
 };
 
 // ---------------------------------------------------------------------------
+// Tracking values (letter-spacing)
+// ---------------------------------------------------------------------------
+
+const trackingValues: Record<string, string> = {
+  tighter: '-0.05em',
+  tight: '-0.025em',
+  normal: '0em',
+  wide: '0.025em',
+  wider: '0.05em',
+  widest: '0.1em',
+};
+
+// ---------------------------------------------------------------------------
+// Leading values (line-height)
+// ---------------------------------------------------------------------------
+
+const leadingValues: Record<string, string> = {
+  none: '1',
+  tight: '1.25',
+  snug: '1.375',
+  normal: '1.5',
+  relaxed: '1.625',
+  loose: '2',
+  '3': '.75rem',
+  '4': '1rem',
+  '5': '1.25rem',
+  '6': '1.5rem',
+  '7': '1.75rem',
+  '8': '2rem',
+  '9': '2.25rem',
+  '10': '2.5rem',
+};
+
+// ---------------------------------------------------------------------------
+// Font family values
+// ---------------------------------------------------------------------------
+
+const fontFamilyValues: Record<string, string> = {
+  sans: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+  serif: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
+  mono: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+};
+
+// ---------------------------------------------------------------------------
 // Shadow presets (mirrors packages/typewritingclass/src/theme/shadows.ts)
 // ---------------------------------------------------------------------------
 
@@ -163,10 +210,11 @@ const borderRadii: Record<string, string> = {
 };
 
 // ---------------------------------------------------------------------------
-// Modifier metadata (for when() preview)
+// Modifier metadata (for when() preview and modifier hover)
 // ---------------------------------------------------------------------------
 
-const modifierInfo: Record<string, { type: 'selector' | 'media'; value: string }> = {
+export const modifierInfo: Record<string, { type: 'selector' | 'media' | 'pseudo-element'; value: string }> = {
+  // Pseudo-classes
   hover: { type: 'selector', value: ':hover' },
   focus: { type: 'selector', value: ':focus' },
   active: { type: 'selector', value: ':active' },
@@ -175,12 +223,104 @@ const modifierInfo: Record<string, { type: 'selector' | 'media'; value: string }
   focusWithin: { type: 'selector', value: ':focus-within' },
   firstChild: { type: 'selector', value: ':first-child' },
   lastChild: { type: 'selector', value: ':last-child' },
+  visited: { type: 'selector', value: ':visited' },
+  checked: { type: 'selector', value: ':checked' },
+  indeterminate: { type: 'selector', value: ':indeterminate' },
+  default: { type: 'selector', value: ':default' },
+  required: { type: 'selector', value: ':required' },
+  valid: { type: 'selector', value: ':valid' },
+  invalid: { type: 'selector', value: ':invalid' },
+  inRange: { type: 'selector', value: ':in-range' },
+  outOfRange: { type: 'selector', value: ':out-of-range' },
+  placeholderShown: { type: 'selector', value: ':placeholder-shown' },
+  autofill: { type: 'selector', value: ':autofill' },
+  readOnly: { type: 'selector', value: ':read-only' },
+  empty: { type: 'selector', value: ':empty' },
+  even: { type: 'selector', value: ':nth-child(even)' },
+  odd: { type: 'selector', value: ':nth-child(odd)' },
+  firstOfType: { type: 'selector', value: ':first-of-type' },
+  lastOfType: { type: 'selector', value: ':last-of-type' },
+  onlyChild: { type: 'selector', value: ':only-child' },
+  onlyOfType: { type: 'selector', value: ':only-of-type' },
+  target: { type: 'selector', value: ':target' },
+  open: { type: 'selector', value: ':open' },
+  // Responsive
   sm: { type: 'media', value: '@media (min-width: 640px)' },
   md: { type: 'media', value: '@media (min-width: 768px)' },
   lg: { type: 'media', value: '@media (min-width: 1024px)' },
   xl: { type: 'media', value: '@media (min-width: 1280px)' },
   _2xl: { type: 'media', value: '@media (min-width: 1536px)' },
+  maxSm: { type: 'media', value: '@media (max-width: 639px)' },
+  maxMd: { type: 'media', value: '@media (max-width: 767px)' },
+  maxLg: { type: 'media', value: '@media (max-width: 1023px)' },
+  maxXl: { type: 'media', value: '@media (max-width: 1279px)' },
+  max2xl: { type: 'media', value: '@media (max-width: 1535px)' },
+  // Color scheme
   dark: { type: 'media', value: '@media (prefers-color-scheme: dark)' },
+  // Media
+  motionReduce: { type: 'media', value: '@media (prefers-reduced-motion: reduce)' },
+  motionSafe: { type: 'media', value: '@media (prefers-reduced-motion: no-preference)' },
+  print: { type: 'media', value: '@media print' },
+  portrait: { type: 'media', value: '@media (orientation: portrait)' },
+  landscape: { type: 'media', value: '@media (orientation: landscape)' },
+  contrastMore: { type: 'media', value: '@media (prefers-contrast: more)' },
+  contrastLess: { type: 'media', value: '@media (prefers-contrast: less)' },
+  forcedColors: { type: 'media', value: '@media (forced-colors: active)' },
+  // Pseudo-elements
+  before: { type: 'pseudo-element', value: '::before' },
+  after: { type: 'pseudo-element', value: '::after' },
+  placeholder: { type: 'pseudo-element', value: '::placeholder' },
+  file: { type: 'pseudo-element', value: '::file-selector-button' },
+  marker: { type: 'pseudo-element', value: '::marker' },
+  selection: { type: 'pseudo-element', value: '::selection' },
+  firstLine: { type: 'pseudo-element', value: '::first-line' },
+  firstLetter: { type: 'pseudo-element', value: '::first-letter' },
+  backdropEl: { type: 'pseudo-element', value: '::backdrop' },
+  // ARIA
+  ariaChecked: { type: 'selector', value: '[aria-checked="true"]' },
+  ariaDisabled: { type: 'selector', value: '[aria-disabled="true"]' },
+  ariaExpanded: { type: 'selector', value: '[aria-expanded="true"]' },
+  ariaHidden: { type: 'selector', value: '[aria-hidden="true"]' },
+  ariaPressed: { type: 'selector', value: '[aria-pressed="true"]' },
+  ariaReadonly: { type: 'selector', value: '[aria-readonly="true"]' },
+  ariaRequired: { type: 'selector', value: '[aria-required="true"]' },
+  ariaSelected: { type: 'selector', value: '[aria-selected="true"]' },
+  // Group
+  groupHover: { type: 'selector', value: '.group:hover &' },
+  groupFocus: { type: 'selector', value: '.group:focus &' },
+  groupActive: { type: 'selector', value: '.group:active &' },
+  groupFocusVisible: { type: 'selector', value: '.group:focus-visible &' },
+  groupFocusWithin: { type: 'selector', value: '.group:focus-within &' },
+  groupDisabled: { type: 'selector', value: '.group:disabled &' },
+  groupChecked: { type: 'selector', value: '.group:checked &' },
+  groupEmpty: { type: 'selector', value: '.group:empty &' },
+  groupFirst: { type: 'selector', value: '.group:first-child &' },
+  groupLast: { type: 'selector', value: '.group:last-child &' },
+  groupOdd: { type: 'selector', value: '.group:nth-child(odd) &' },
+  groupEven: { type: 'selector', value: '.group:nth-child(even) &' },
+  groupOpen: { type: 'selector', value: '.group:open &' },
+  groupVisited: { type: 'selector', value: '.group:visited &' },
+  // Peer
+  peerHover: { type: 'selector', value: '.peer:hover ~ &' },
+  peerFocus: { type: 'selector', value: '.peer:focus ~ &' },
+  peerActive: { type: 'selector', value: '.peer:active ~ &' },
+  peerFocusVisible: { type: 'selector', value: '.peer:focus-visible ~ &' },
+  peerDisabled: { type: 'selector', value: '.peer:disabled ~ &' },
+  peerChecked: { type: 'selector', value: '.peer:checked ~ &' },
+  peerInvalid: { type: 'selector', value: '.peer:invalid ~ &' },
+  peerRequired: { type: 'selector', value: '.peer:required ~ &' },
+  peerPlaceholderShown: { type: 'selector', value: '.peer:placeholder-shown ~ &' },
+  peerFocusWithin: { type: 'selector', value: '.peer:focus-within ~ &' },
+  peerEmpty: { type: 'selector', value: '.peer:empty ~ &' },
+  peerFirst: { type: 'selector', value: '.peer:first-child ~ &' },
+  peerLast: { type: 'selector', value: '.peer:last-child ~ &' },
+  peerOdd: { type: 'selector', value: '.peer:nth-child(odd) ~ &' },
+  peerEven: { type: 'selector', value: '.peer:nth-child(even) ~ &' },
+  peerOpen: { type: 'selector', value: '.peer:open ~ &' },
+  peerVisited: { type: 'selector', value: '.peer:visited ~ &' },
+  // Direction
+  rtl: { type: 'selector', value: '[dir="rtl"] &' },
+  ltr: { type: 'selector', value: '[dir="ltr"] &' },
 };
 
 // ---------------------------------------------------------------------------
@@ -191,18 +331,32 @@ const modifierInfo: Record<string, { type: 'selector' | 'media'; value: string }
  * Attempt to resolve a color argument.
  * Handles patterns like:
  *   - 'blue[500]'  ->  look up in colorScales
+ *   - 'blue-500'   ->  look up in colorScales (dash-separated)
  *   - 'white'      ->  look up in namedColors
  *   - '#3b82f6'    ->  pass through
  *   - 'rgb(...)'   ->  pass through
  *   - a quoted string literal like "'red'" -> strip quotes
  */
-function resolveColor(raw: string): string | undefined {
+export function resolveColor(raw: string): string | undefined {
   const stripped = stripQuotes(raw.trim());
 
   // Pattern: colorName[shade]  e.g.  blue[500]
   const bracketMatch = stripped.match(/^(\w+)\[(\d+)\]$/);
   if (bracketMatch) {
     const [, name, shade] = bracketMatch;
+    const scale = colorScales[name];
+    if (scale) {
+      const value = scale[Number(shade)];
+      if (value) {
+        return value;
+      }
+    }
+  }
+
+  // Pattern: colorName-shade  e.g.  blue-500
+  const dashMatch = stripped.match(/^([a-zA-Z]+)-(\d+)$/);
+  if (dashMatch) {
+    const [, name, shade] = dashMatch;
     const scale = colorScales[name];
     if (scale) {
       const value = scale[Number(shade)];
@@ -293,6 +447,19 @@ function passthrough(prop: string): UtilityGenerator {
   };
 }
 
+// Radius utility helper
+function radiusUtil(props: string[]): UtilityGenerator {
+  return (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    const radius = stripped ? (borderRadii[stripped] || stripped) : borderRadii['DEFAULT'];
+    const decls: CSSDeclarations = {};
+    for (const p of props) {
+      decls[p] = radius;
+    }
+    return decls;
+  };
+}
+
 // ---------------------------------------------------------------------------
 // The utility registry
 // ---------------------------------------------------------------------------
@@ -306,6 +473,8 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
   pr: spacingUtil(['padding-right']),
   pb: spacingUtil(['padding-bottom']),
   pl: spacingUtil(['padding-left']),
+  ps: spacingUtil(['padding-inline-start']),
+  pe: spacingUtil(['padding-inline-end']),
 
   // Spacing — margin
   m: spacingUtil(['margin']),
@@ -315,16 +484,23 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
   mr: spacingUtil(['margin-right']),
   mb: spacingUtil(['margin-bottom']),
   ml: spacingUtil(['margin-left']),
+  ms: spacingUtil(['margin-inline-start']),
+  me: spacingUtil(['margin-inline-end']),
 
   // Spacing — gap
   gap: spacingUtil(['gap']),
   gapX: spacingUtil(['column-gap']),
   gapY: spacingUtil(['row-gap']),
 
+  // Spacing — space between
+  spaceX: spacingUtil(['column-gap']),
+  spaceY: spacingUtil(['row-gap']),
+
   // Colors
   bg: colorUtil('background-color'),
   textColor: colorUtil('color'),
   borderColor: colorUtil('border-color'),
+  textDecorationColor: colorUtil('text-decoration-color'),
 
   // Typography
   text: (arg: string): CSSDeclarations | undefined => {
@@ -365,9 +541,57 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
     return undefined;
   },
 
-  tracking: passthrough('letter-spacing'),
-  leading: passthrough('line-height'),
+  tracking: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    const value = trackingValues[stripped] || stripped;
+    return { 'letter-spacing': value };
+  },
+
+  leading: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    const value = leadingValues[stripped] || stripped;
+    return { 'line-height': value };
+  },
+
   textAlign: passthrough('text-align'),
+
+  fontFamily: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    const value = fontFamilyValues[stripped] || stripped;
+    return { 'font-family': value };
+  },
+
+  textWrap: passthrough('text-wrap'),
+  textOverflow: (arg: string): CSSDeclarations | undefined => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    if (stripped === 'ellipsis') {
+      return { 'text-overflow': 'ellipsis', 'overflow': 'hidden', 'white-space': 'nowrap' };
+    }
+    return { 'text-overflow': stripped };
+  },
+  textTransform: passthrough('text-transform'),
+  textDecoration: passthrough('text-decoration-line'),
+  textDecorationStyle: passthrough('text-decoration-style'),
+  textDecorationThickness: passthrough('text-decoration-thickness'),
+  textUnderlineOffset: passthrough('text-underline-offset'),
+  textIndent: spacingUtil(['text-indent']),
+  verticalAlign: passthrough('vertical-align'),
+  whitespace: passthrough('white-space'),
+  wordBreak: passthrough('word-break'),
+  hyphens: passthrough('hyphens'),
+  content: passthrough('content'),
+  lineClamp: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { overflow: 'hidden', display: '-webkit-box', '-webkit-box-orient': 'vertical', '-webkit-line-clamp': stripped };
+  },
+  listStyleImage: passthrough('list-style-image'),
+  listStylePosition: passthrough('list-style-position'),
+  listStyleType: passthrough('list-style-type'),
 
   // Layout — flexbox
   flex: () => ({ display: 'flex' }),
@@ -375,6 +599,14 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
   flexRow: () => ({ 'flex-direction': 'row' }),
   flexWrap: () => ({ 'flex-wrap': 'wrap' }),
   inlineFlex: () => ({ display: 'inline-flex' }),
+  flexRowReverse: () => ({ 'flex-direction': 'row-reverse' }),
+  flexColReverse: () => ({ 'flex-direction': 'column-reverse' }),
+  flexWrapReverse: () => ({ 'flex-wrap': 'wrap-reverse' }),
+  flexNowrap: () => ({ 'flex-wrap': 'nowrap' }),
+  flex1: () => ({ flex: '1 1 0%' }),
+  flexAuto: () => ({ flex: '1 1 auto' }),
+  flexInitial: () => ({ flex: '0 1 auto' }),
+  flexNone: () => ({ flex: 'none' }),
 
   // Layout — grid
   grid: (arg: string) => {
@@ -404,6 +636,23 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
     }
     return undefined;
   },
+  gridFlow: passthrough('grid-auto-flow'),
+  autoCols: passthrough('grid-auto-columns'),
+  autoRows: passthrough('grid-auto-rows'),
+  colSpan: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'grid-column': `span ${stripped} / span ${stripped}` };
+  },
+  colStart: passthrough('grid-column-start'),
+  colEnd: passthrough('grid-column-end'),
+  rowSpan: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'grid-row': `span ${stripped} / span ${stripped}` };
+  },
+  rowStart: passthrough('grid-row-start'),
+  rowEnd: passthrough('grid-row-end'),
 
   // Layout — sizing
   w: spacingUtil(['width']),
@@ -418,6 +667,12 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
   display: passthrough('display'),
   items: passthrough('align-items'),
   justify: passthrough('justify-content'),
+  justifyItems: passthrough('justify-items'),
+  justifySelf: passthrough('justify-self'),
+  alignContent: passthrough('align-content'),
+  placeContent: passthrough('place-content'),
+  placeItems: passthrough('place-items'),
+  placeSelf: passthrough('place-self'),
   self: passthrough('align-self'),
 
   // Layout — overflow
@@ -430,12 +685,17 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
   absolute: () => ({ position: 'absolute' }),
   fixed: () => ({ position: 'fixed' }),
   sticky: () => ({ position: 'sticky' }),
+  static: () => ({ position: 'static' }),
 
   top: spacingUtil(['top']),
   right: spacingUtil(['right']),
   bottom: spacingUtil(['bottom']),
   left: spacingUtil(['left']),
   inset: spacingUtil(['inset']),
+  insetX: spacingUtil(['left', 'right']),
+  insetY: spacingUtil(['top', 'bottom']),
+  start: spacingUtil(['inset-inline-start']),
+  end: spacingUtil(['inset-inline-end']),
 
   // Layout — z-index
   z: (arg: string) => {
@@ -446,32 +706,48 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
     return undefined;
   },
 
+  // Layout — misc
+  aspectRatio: passthrough('aspect-ratio'),
+  columns: passthrough('columns'),
+  breakAfter: passthrough('break-after'),
+  breakBefore: passthrough('break-before'),
+  breakInside: passthrough('break-inside'),
+  boxDecorationBreak: passthrough('box-decoration-break'),
+  boxSizing: passthrough('box-sizing'),
+  float: passthrough('float'),
+  clear: passthrough('clear'),
+  objectFit: passthrough('object-fit'),
+  objectPosition: passthrough('object-position'),
+  overscrollBehavior: passthrough('overscroll-behavior'),
+  overscrollX: passthrough('overscroll-behavior-x'),
+  overscrollY: passthrough('overscroll-behavior-y'),
+  flexBasis: spacingUtil(['flex-basis']),
+  grow: passthrough('flex-grow'),
+  shrink: passthrough('flex-shrink'),
+  order: passthrough('order'),
+
+  // Valueless layout
+  visible: () => ({ visibility: 'visible' }),
+  invisible: () => ({ visibility: 'hidden' }),
+  collapse: () => ({ visibility: 'collapse' }),
+  isolate: () => ({ isolation: 'isolate' }),
+  isolationAuto: () => ({ isolation: 'auto' }),
+  container: () => ({ width: '100%' }),
+
   // Borders — radius
-  rounded: (arg: string) => {
-    const stripped = stripQuotes(arg.trim());
-    const radius = stripped ? (borderRadii[stripped] || stripped) : borderRadii['DEFAULT'];
-    return { 'border-radius': radius };
-  },
-  roundedT: (arg: string) => {
-    const stripped = stripQuotes(arg.trim());
-    const radius = stripped ? (borderRadii[stripped] || stripped) : borderRadii['DEFAULT'];
-    return { 'border-top-left-radius': radius, 'border-top-right-radius': radius };
-  },
-  roundedB: (arg: string) => {
-    const stripped = stripQuotes(arg.trim());
-    const radius = stripped ? (borderRadii[stripped] || stripped) : borderRadii['DEFAULT'];
-    return { 'border-bottom-left-radius': radius, 'border-bottom-right-radius': radius };
-  },
-  roundedL: (arg: string) => {
-    const stripped = stripQuotes(arg.trim());
-    const radius = stripped ? (borderRadii[stripped] || stripped) : borderRadii['DEFAULT'];
-    return { 'border-top-left-radius': radius, 'border-bottom-left-radius': radius };
-  },
-  roundedR: (arg: string) => {
-    const stripped = stripQuotes(arg.trim());
-    const radius = stripped ? (borderRadii[stripped] || stripped) : borderRadii['DEFAULT'];
-    return { 'border-top-right-radius': radius, 'border-bottom-right-radius': radius };
-  },
+  rounded: radiusUtil(['border-radius']),
+  roundedT: radiusUtil(['border-top-left-radius', 'border-top-right-radius']),
+  roundedB: radiusUtil(['border-bottom-left-radius', 'border-bottom-right-radius']),
+  roundedL: radiusUtil(['border-top-left-radius', 'border-bottom-left-radius']),
+  roundedR: radiusUtil(['border-top-right-radius', 'border-bottom-right-radius']),
+  roundedTL: radiusUtil(['border-top-left-radius']),
+  roundedTR: radiusUtil(['border-top-right-radius']),
+  roundedBR: radiusUtil(['border-bottom-right-radius']),
+  roundedBL: radiusUtil(['border-bottom-left-radius']),
+  roundedSS: radiusUtil(['border-start-start-radius']),
+  roundedSE: radiusUtil(['border-start-end-radius']),
+  roundedEE: radiusUtil(['border-end-end-radius']),
+  roundedES: radiusUtil(['border-end-start-radius']),
 
   // Borders — border width
   border: (arg: string) => {
@@ -494,6 +770,23 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
     const stripped = stripQuotes(arg.trim());
     return { 'border-left-width': stripped || '1px', 'border-style': 'solid' };
   },
+  borderX: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'border-left-width': stripped || '1px', 'border-right-width': stripped || '1px', 'border-style': 'solid' };
+  },
+  borderY: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'border-top-width': stripped || '1px', 'border-bottom-width': stripped || '1px', 'border-style': 'solid' };
+  },
+  borderS: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'border-inline-start-width': stripped || '1px', 'border-style': 'solid' };
+  },
+  borderE: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'border-inline-end-width': stripped || '1px', 'border-style': 'solid' };
+  },
+  borderStyle: passthrough('border-style'),
 
   // Borders — ring
   ring: (arg: string) => {
@@ -502,6 +795,30 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
     const color = parts[1] ? stripQuotes(parts[1].trim()) : '#3b82f6';
     return { 'box-shadow': `0 0 0 ${width} ${color}` };
   },
+  ringColor: colorUtil('--tw-ring-color'),
+  ringOffsetWidth: passthrough('--tw-ring-offset-width'),
+  ringOffsetColor: colorUtil('--tw-ring-offset-color'),
+  ringInset: () => ({ '--tw-ring-inset': 'inset' }),
+
+  // Borders — outline
+  outlineWidth: passthrough('outline-width'),
+  outlineColor: colorUtil('outline-color'),
+  outlineStyle: passthrough('outline-style'),
+  outlineOffset: passthrough('outline-offset'),
+  outline: passthrough('outline'),
+  outlineNone: () => ({ outline: '2px solid transparent', 'outline-offset': '2px' }),
+
+  // Borders — divide
+  divideX: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'border-left-width': stripped || '1px', 'border-right-width': '0' };
+  },
+  divideY: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'border-top-width': stripped || '1px', 'border-bottom-width': '0' };
+  },
+  divideColor: colorUtil('border-color'),
+  divideStyle: passthrough('border-style'),
 
   // Effects
   shadow: (arg: string) => {
@@ -509,6 +826,7 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
     const value = stripped ? (shadowPresets[stripped] || stripped) : shadowPresets['DEFAULT'];
     return { 'box-shadow': value };
   },
+  shadowColor: colorUtil('--tw-shadow-color'),
   opacity: (arg: string) => {
     const stripped = stripQuotes(arg.trim());
     if (stripped) {
@@ -517,11 +835,237 @@ const utilityRegistry: Record<string, UtilityGenerator> = {
     return undefined;
   },
   backdrop: passthrough('backdrop-filter'),
+  mixBlendMode: passthrough('mix-blend-mode'),
+  bgBlendMode: passthrough('background-blend-mode'),
 
   // Interactivity
   cursor: passthrough('cursor'),
   select: passthrough('user-select'),
   pointerEvents: passthrough('pointer-events'),
+  accentColor: colorUtil('accent-color'),
+  appearance: passthrough('appearance'),
+  caretColor: colorUtil('caret-color'),
+  resize: passthrough('resize'),
+  scrollBehavior: passthrough('scroll-behavior'),
+  scrollMargin: spacingUtil(['scroll-margin']),
+  scrollMarginX: spacingUtil(['scroll-margin-left', 'scroll-margin-right']),
+  scrollMarginY: spacingUtil(['scroll-margin-top', 'scroll-margin-bottom']),
+  scrollMarginT: spacingUtil(['scroll-margin-top']),
+  scrollMarginR: spacingUtil(['scroll-margin-right']),
+  scrollMarginB: spacingUtil(['scroll-margin-bottom']),
+  scrollMarginL: spacingUtil(['scroll-margin-left']),
+  scrollPadding: spacingUtil(['scroll-padding']),
+  scrollPaddingX: spacingUtil(['scroll-padding-left', 'scroll-padding-right']),
+  scrollPaddingY: spacingUtil(['scroll-padding-top', 'scroll-padding-bottom']),
+  scrollPaddingT: spacingUtil(['scroll-padding-top']),
+  scrollPaddingR: spacingUtil(['scroll-padding-right']),
+  scrollPaddingB: spacingUtil(['scroll-padding-bottom']),
+  scrollPaddingL: spacingUtil(['scroll-padding-left']),
+  snapAlign: passthrough('scroll-snap-align'),
+  snapStop: passthrough('scroll-snap-stop'),
+  snapType: passthrough('scroll-snap-type'),
+  touchAction: passthrough('touch-action'),
+  willChange: passthrough('will-change'),
+
+  // Filters
+  blur: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { filter: `blur(${stripped || '8px'})` };
+  },
+  brightness: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { filter: `brightness(${stripped})` };
+  },
+  contrast: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { filter: `contrast(${stripped})` };
+  },
+  dropShadow: passthrough('filter'),
+  grayscale: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { filter: `grayscale(${stripped || '100%'})` };
+  },
+  hueRotate: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { filter: `hue-rotate(${stripped})` };
+  },
+  invert: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { filter: `invert(${stripped || '100%'})` };
+  },
+  saturate: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { filter: `saturate(${stripped})` };
+  },
+  sepia: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { filter: `sepia(${stripped || '100%'})` };
+  },
+  backdropBlur: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'backdrop-filter': `blur(${stripped || '8px'})` };
+  },
+  backdropBrightness: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'backdrop-filter': `brightness(${stripped})` };
+  },
+  backdropContrast: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'backdrop-filter': `contrast(${stripped})` };
+  },
+  backdropGrayscale: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'backdrop-filter': `grayscale(${stripped || '100%'})` };
+  },
+  backdropHueRotate: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'backdrop-filter': `hue-rotate(${stripped})` };
+  },
+  backdropInvert: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'backdrop-filter': `invert(${stripped || '100%'})` };
+  },
+  backdropOpacity: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'backdrop-filter': `opacity(${stripped})` };
+  },
+  backdropSaturate: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'backdrop-filter': `saturate(${stripped})` };
+  },
+  backdropSepia: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    return { 'backdrop-filter': `sepia(${stripped || '100%'})` };
+  },
+
+  // Transforms
+  scale: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { transform: `scale(${stripped})` };
+  },
+  scaleX: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { transform: `scaleX(${stripped})` };
+  },
+  scaleY: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { transform: `scaleY(${stripped})` };
+  },
+  rotate: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { transform: `rotate(${stripped})` };
+  },
+  translateX: spacingUtil(['--tw-translate-x']),
+  translateY: spacingUtil(['--tw-translate-y']),
+  skewX: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { transform: `skewX(${stripped})` };
+  },
+  skewY: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { transform: `skewY(${stripped})` };
+  },
+  transformOrigin: passthrough('transform-origin'),
+  transformGpu: () => ({ transform: 'translateZ(0)' }),
+  transformNone: () => ({ transform: 'none' }),
+
+  // Transitions
+  transition: passthrough('transition-property'),
+  transitionAll: () => ({ 'transition-property': 'all', 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 'transition-duration': '150ms' }),
+  transitionColors: () => ({ 'transition-property': 'color, background-color, border-color, text-decoration-color, fill, stroke', 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 'transition-duration': '150ms' }),
+  transitionOpacity: () => ({ 'transition-property': 'opacity', 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 'transition-duration': '150ms' }),
+  transitionShadow: () => ({ 'transition-property': 'box-shadow', 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 'transition-duration': '150ms' }),
+  transitionTransform: () => ({ 'transition-property': 'transform', 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 'transition-duration': '150ms' }),
+  transitionNone: () => ({ 'transition-property': 'none' }),
+  duration: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'transition-duration': `${stripped}ms` };
+  },
+  ease: passthrough('transition-timing-function'),
+  delay: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'transition-delay': `${stripped}ms` };
+  },
+  animate: passthrough('animation'),
+
+  // Tables
+  borderCollapse: () => ({ 'border-collapse': 'collapse' }),
+  borderSeparate: () => ({ 'border-collapse': 'separate' }),
+  borderSpacing: spacingUtil(['border-spacing']),
+  borderSpacingX: spacingUtil(['--tw-border-spacing-x']),
+  borderSpacingY: spacingUtil(['--tw-border-spacing-y']),
+  tableLayout: passthrough('table-layout'),
+  captionSide: passthrough('caption-side'),
+
+  // SVG
+  fill: colorUtil('fill'),
+  stroke: colorUtil('stroke'),
+  strokeWidth: passthrough('stroke-width'),
+
+  // Accessibility
+  srOnly: () => ({ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', 'white-space': 'nowrap', 'border-width': '0' }),
+  notSrOnly: () => ({ position: 'static', width: 'auto', height: 'auto', padding: '0', margin: '0', overflow: 'visible', clip: 'auto', 'white-space': 'normal' }),
+  forcedColorAdjust: passthrough('forced-color-adjust'),
+
+  // Backgrounds
+  bgAttachment: passthrough('background-attachment'),
+  bgClip: passthrough('background-clip'),
+  bgOrigin: passthrough('background-origin'),
+  bgPosition: passthrough('background-position'),
+  bgRepeat: passthrough('background-repeat'),
+  bgSize: passthrough('background-size'),
+  bgImage: passthrough('background-image'),
+  bgGradient: (arg: string) => {
+    const stripped = stripQuotes(arg.trim());
+    if (!stripped) return undefined;
+    return { 'background-image': `linear-gradient(${stripped}, var(--tw-gradient-stops))` };
+  },
+  gradientFrom: colorUtil('--tw-gradient-from'),
+  gradientVia: colorUtil('--tw-gradient-via'),
+  gradientTo: colorUtil('--tw-gradient-to'),
+
+  // Typography — valueless
+  antialiased: () => ({ '-webkit-font-smoothing': 'antialiased', '-moz-osx-font-smoothing': 'grayscale' }),
+  subpixelAntialiased: () => ({ '-webkit-font-smoothing': 'auto', '-moz-osx-font-smoothing': 'auto' }),
+  italic: () => ({ 'font-style': 'italic' }),
+  notItalic: () => ({ 'font-style': 'normal' }),
+  truncate: () => ({ overflow: 'hidden', 'text-overflow': 'ellipsis', 'white-space': 'nowrap' }),
+  normalNums: () => ({ 'font-variant-numeric': 'normal' }),
+  ordinal: () => ({ 'font-variant-numeric': 'ordinal' }),
+  slashedZero: () => ({ 'font-variant-numeric': 'slashed-zero' }),
+  liningNums: () => ({ 'font-variant-numeric': 'lining-nums' }),
+  oldstyleNums: () => ({ 'font-variant-numeric': 'oldstyle-nums' }),
+  proportionalNums: () => ({ 'font-variant-numeric': 'proportional-nums' }),
+  tabularNums: () => ({ 'font-variant-numeric': 'tabular-nums' }),
+  diagonalFractions: () => ({ 'font-variant-numeric': 'diagonal-fractions' }),
+  stackedFractions: () => ({ 'font-variant-numeric': 'stacked-fractions' }),
+
+  // Layout — valueless extras
+  spaceXReverse: () => ({ '--tw-space-x-reverse': '1' }),
+  spaceYReverse: () => ({ '--tw-space-y-reverse': '1' }),
+  divideXReverse: () => ({ '--tw-divide-x-reverse': '1' }),
+  divideYReverse: () => ({ '--tw-divide-y-reverse': '1' }),
+
+  // Raw class names
+  group: () => ({}),
+  peer: () => ({}),
 };
 
 // ---------------------------------------------------------------------------
@@ -617,36 +1161,17 @@ export function generateUtilityPreview(fnName: string, argStr: string): string |
 }
 
 /**
- * Return raw combined CSS declarations for a cx() call.
+ * Resolve a token in the context of a utility.
+ * E.g. resolveTokenInContext('bg', 'blue500') → { 'background-color': '#3b82f6' }
+ * E.g. resolveTokenInContext('rounded', 'lg') → { 'border-radius': '0.5rem' }
  */
-export function generateCxDeclarations(innerArgs: string): CSSDeclarations | undefined {
-  const calls = parseFunctionCalls(innerArgs);
-  if (calls.length === 0) {
-    return undefined;
-  }
+export function resolveTokenInContext(utilityName: string, tokenName: string): CSSDeclarations | undefined {
+  if (!isTokenAwareUtility(utilityName)) return undefined;
 
-  const allDecls: CSSDeclarations = {};
-  for (const call of calls) {
-    const decls = generateUtilityDeclarations(call.name, call.args);
-    if (decls) {
-      Object.assign(allDecls, decls);
-    }
-  }
+  const argStr = resolveTokenArg(utilityName, tokenName);
+  if (argStr === undefined) return undefined;
 
-  return Object.keys(allDecls).length > 0 ? allDecls : undefined;
-}
-
-/**
- * Generate a CSS preview for a cx() call by parsing each inner utility call
- * and composing their declarations.
- */
-export function generateCxPreview(innerArgs: string): string | undefined {
-  const allDecls = generateCxDeclarations(innerArgs);
-  if (!allDecls) {
-    return undefined;
-  }
-
-  return `/* cx(...) combined output */\n.className {\n${formatDeclarations(allDecls, '  ')}\n}`;
+  return generateUtilityDeclarations(utilityName, argStr);
 }
 
 /**
@@ -721,11 +1246,6 @@ export function parseFunctionCalls(input: string): Array<{ name: string; args: s
     const match = trimmed.match(/^(\w+)\(([^]*)\)$/);
     if (match) {
       results.push({ name: match[1], args: match[2] });
-    }
-    // Also handle when(modifier)(utility) — the second-level call
-    const whenMatch = trimmed.match(/^when\(([^)]*)\)\(([^]*)\)$/);
-    if (whenMatch) {
-      // Already handled by the when-specific logic; skip here
     }
   }
 

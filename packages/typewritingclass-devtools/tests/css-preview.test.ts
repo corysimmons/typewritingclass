@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import {
   generateUtilityDeclarations,
   generateUtilityPreview,
-  generateCxDeclarations,
-  generateCxPreview,
   generateWhenDeclarations,
   generateWhenPreview,
+  resolveTokenInContext,
+  resolveColor,
   parseFunctionCalls,
   isKnownUtility,
   isKnownModifier,
@@ -123,6 +123,35 @@ describe('color utilities', () => {
 })
 
 // ---------------------------------------------------------------------------
+// resolveColor with dash-separated keys
+// ---------------------------------------------------------------------------
+describe('resolveColor', () => {
+  it('resolves dash-separated color keys like blue-500', () => {
+    expect(resolveColor('blue-500')).toBe('#3b82f6')
+    expect(resolveColor('red-600')).toBe('#dc2626')
+    expect(resolveColor('emerald-400')).toBe('#34d399')
+  })
+
+  it('resolves bracket notation like blue[500]', () => {
+    expect(resolveColor('blue[500]')).toBe('#3b82f6')
+  })
+
+  it('resolves named colors', () => {
+    expect(resolveColor('white')).toBe('#ffffff')
+    expect(resolveColor('black')).toBe('#000000')
+    expect(resolveColor('transparent')).toBe('transparent')
+  })
+
+  it('passes through hex colors', () => {
+    expect(resolveColor('#3b82f6')).toBe('#3b82f6')
+  })
+
+  it('passes through rgb colors', () => {
+    expect(resolveColor('rgb(255, 0, 0)')).toBe('rgb(255, 0, 0)')
+  })
+})
+
+// ---------------------------------------------------------------------------
 // Typography utilities
 // ---------------------------------------------------------------------------
 describe('typography utilities', () => {
@@ -161,13 +190,31 @@ describe('typography utilities', () => {
     })
   })
 
-  it('tracking() sets letter-spacing', () => {
+  it('tracking() resolves named values', () => {
+    expect(generateUtilityDeclarations('tracking', "'tighter'")).toEqual({
+      'letter-spacing': '-0.05em',
+    })
+    expect(generateUtilityDeclarations('tracking', "'wide'")).toEqual({
+      'letter-spacing': '0.025em',
+    })
+  })
+
+  it('tracking() passes through raw CSS values', () => {
     expect(generateUtilityDeclarations('tracking', "'0.05em'")).toEqual({
       'letter-spacing': '0.05em',
     })
   })
 
-  it('leading() sets line-height', () => {
+  it('leading() resolves named values', () => {
+    expect(generateUtilityDeclarations('leading', "'tight'")).toEqual({
+      'line-height': '1.25',
+    })
+    expect(generateUtilityDeclarations('leading', "'relaxed'")).toEqual({
+      'line-height': '1.625',
+    })
+  })
+
+  it('leading() passes through raw CSS values', () => {
     expect(generateUtilityDeclarations('leading', "'1.5'")).toEqual({
       'line-height': '1.5',
     })
@@ -177,6 +224,12 @@ describe('typography utilities', () => {
     expect(generateUtilityDeclarations('textAlign', "'center'")).toEqual({
       'text-align': 'center',
     })
+  })
+
+  it('fontFamily() resolves named values', () => {
+    const result = generateUtilityDeclarations('fontFamily', "'sans'")
+    expect(result).toBeDefined()
+    expect(result!['font-family']).toContain('ui-sans-serif')
   })
 })
 
@@ -211,6 +264,24 @@ describe('layout utilities', () => {
   it('inlineFlex() sets display: inline-flex', () => {
     expect(generateUtilityDeclarations('inlineFlex', '')).toEqual({
       display: 'inline-flex',
+    })
+  })
+
+  it('flexRowReverse() sets flex-direction: row-reverse', () => {
+    expect(generateUtilityDeclarations('flexRowReverse', '')).toEqual({
+      'flex-direction': 'row-reverse',
+    })
+  })
+
+  it('flex1() sets flex: 1 1 0%', () => {
+    expect(generateUtilityDeclarations('flex1', '')).toEqual({
+      flex: '1 1 0%',
+    })
+  })
+
+  it('flexNone() sets flex: none', () => {
+    expect(generateUtilityDeclarations('flexNone', '')).toEqual({
+      flex: 'none',
     })
   })
 
@@ -301,6 +372,15 @@ describe('layout utilities', () => {
     expect(generateUtilityDeclarations('z', '10')).toEqual({ 'z-index': '10' })
     expect(generateUtilityDeclarations('z', '50')).toEqual({ 'z-index': '50' })
   })
+
+  it('visible/invisible set visibility', () => {
+    expect(generateUtilityDeclarations('visible', '')).toEqual({ visibility: 'visible' })
+    expect(generateUtilityDeclarations('invisible', '')).toEqual({ visibility: 'hidden' })
+  })
+
+  it('isolate sets isolation', () => {
+    expect(generateUtilityDeclarations('isolate', '')).toEqual({ isolation: 'isolate' })
+  })
 })
 
 // ---------------------------------------------------------------------------
@@ -354,6 +434,12 @@ describe('border utilities', () => {
     expect(result).toEqual({
       'border-top-right-radius': '0.375rem',
       'border-bottom-right-radius': '0.375rem',
+    })
+  })
+
+  it('roundedTL() sets top-left corner', () => {
+    expect(generateUtilityDeclarations('roundedTL', "'lg'")).toEqual({
+      'border-top-left-radius': '0.5rem',
     })
   })
 
@@ -451,6 +537,231 @@ describe('interactivity utilities', () => {
 })
 
 // ---------------------------------------------------------------------------
+// New valueless utilities
+// ---------------------------------------------------------------------------
+describe('valueless utilities', () => {
+  it('italic() sets font-style', () => {
+    expect(generateUtilityDeclarations('italic', '')).toEqual({
+      'font-style': 'italic',
+    })
+  })
+
+  it('truncate() sets overflow + text-overflow', () => {
+    const result = generateUtilityDeclarations('truncate', '')
+    expect(result).toHaveProperty('overflow', 'hidden')
+    expect(result).toHaveProperty('text-overflow', 'ellipsis')
+    expect(result).toHaveProperty('white-space', 'nowrap')
+  })
+
+  it('srOnly() sets screen-reader-only styles', () => {
+    const result = generateUtilityDeclarations('srOnly', '')
+    expect(result).toHaveProperty('position', 'absolute')
+    expect(result).toHaveProperty('width', '1px')
+  })
+
+  it('transitionAll() sets transition properties', () => {
+    const result = generateUtilityDeclarations('transitionAll', '')
+    expect(result).toHaveProperty('transition-property', 'all')
+    expect(result).toHaveProperty('transition-duration', '150ms')
+  })
+
+  it('transformGpu() sets translateZ', () => {
+    expect(generateUtilityDeclarations('transformGpu', '')).toEqual({
+      transform: 'translateZ(0)',
+    })
+  })
+
+  it('antialiased() sets font smoothing', () => {
+    const result = generateUtilityDeclarations('antialiased', '')
+    expect(result).toHaveProperty('-webkit-font-smoothing', 'antialiased')
+  })
+
+  it('borderCollapse() sets border-collapse', () => {
+    expect(generateUtilityDeclarations('borderCollapse', '')).toEqual({
+      'border-collapse': 'collapse',
+    })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Additional color utilities
+// ---------------------------------------------------------------------------
+describe('additional color utilities', () => {
+  it('shadowColor() sets --tw-shadow-color', () => {
+    expect(generateUtilityDeclarations('shadowColor', "'red-500'")).toEqual({
+      '--tw-shadow-color': '#ef4444',
+    })
+  })
+
+  it('outlineColor() sets outline-color', () => {
+    expect(generateUtilityDeclarations('outlineColor', "'blue-500'")).toEqual({
+      'outline-color': '#3b82f6',
+    })
+  })
+
+  it('caretColor() sets caret-color', () => {
+    expect(generateUtilityDeclarations('caretColor', "'green-500'")).toEqual({
+      'caret-color': '#22c55e',
+    })
+  })
+
+  it('accentColor() sets accent-color', () => {
+    expect(generateUtilityDeclarations('accentColor', "'violet-500'")).toEqual({
+      'accent-color': '#8b5cf6',
+    })
+  })
+
+  it('textDecorationColor() sets text-decoration-color', () => {
+    expect(generateUtilityDeclarations('textDecorationColor', "'pink-400'")).toEqual({
+      'text-decoration-color': '#f472b6',
+    })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// resolveTokenInContext
+// ---------------------------------------------------------------------------
+describe('resolveTokenInContext', () => {
+  it('resolves color tokens', () => {
+    expect(resolveTokenInContext('bg', 'blue500')).toEqual({
+      'background-color': '#3b82f6',
+    })
+    expect(resolveTokenInContext('textColor', 'red600')).toEqual({
+      color: '#dc2626',
+    })
+  })
+
+  it('resolves named color tokens', () => {
+    expect(resolveTokenInContext('bg', 'white')).toEqual({
+      'background-color': '#ffffff',
+    })
+    expect(resolveTokenInContext('bg', 'black')).toEqual({
+      'background-color': '#000000',
+    })
+  })
+
+  it('resolves radius tokens', () => {
+    expect(resolveTokenInContext('rounded', 'lg')).toEqual({
+      'border-radius': '0.5rem',
+    })
+    expect(resolveTokenInContext('rounded', 'full')).toEqual({
+      'border-radius': '9999px',
+    })
+    expect(resolveTokenInContext('rounded', 'none')).toEqual({
+      'border-radius': '0px',
+    })
+  })
+
+  it('resolves text size tokens', () => {
+    const result = resolveTokenInContext('text', 'lg')
+    expect(result).toEqual({
+      'font-size': '1.125rem',
+      'line-height': '1.75rem',
+    })
+  })
+
+  it('resolves font weight tokens', () => {
+    expect(resolveTokenInContext('font', 'bold')).toEqual({
+      'font-weight': '700',
+    })
+    expect(resolveTokenInContext('font', 'semibold')).toEqual({
+      'font-weight': '600',
+    })
+  })
+
+  it('resolves shadow tokens', () => {
+    const result = resolveTokenInContext('shadow', 'lg')
+    expect(result).toHaveProperty('box-shadow')
+  })
+
+  it('resolves tracking tokens', () => {
+    expect(resolveTokenInContext('tracking', 'tighter')).toEqual({
+      'letter-spacing': '-0.05em',
+    })
+  })
+
+  it('resolves leading tokens', () => {
+    expect(resolveTokenInContext('leading', 'tight')).toEqual({
+      'line-height': '1.25',
+    })
+  })
+
+  it('resolves font family tokens', () => {
+    const result = resolveTokenInContext('fontFamily', 'sans')
+    expect(result).toBeDefined()
+    expect(result!['font-family']).toContain('ui-sans-serif')
+  })
+
+  it('resolves justify enum tokens', () => {
+    expect(resolveTokenInContext('justify', 'between')).toEqual({
+      'justify-content': 'space-between',
+    })
+    expect(resolveTokenInContext('justify', 'center')).toEqual({
+      'justify-content': 'center',
+    })
+  })
+
+  it('resolves items enum tokens', () => {
+    expect(resolveTokenInContext('items', 'center')).toEqual({
+      'align-items': 'center',
+    })
+    expect(resolveTokenInContext('items', 'start')).toEqual({
+      'align-items': 'flex-start',
+    })
+  })
+
+  it('resolves display tokens', () => {
+    expect(resolveTokenInContext('display', 'flex')).toEqual({
+      display: 'flex',
+    })
+    expect(resolveTokenInContext('display', 'none')).toEqual({
+      display: 'none',
+    })
+  })
+
+  it('resolves cursor tokens', () => {
+    expect(resolveTokenInContext('cursor', 'pointer')).toEqual({
+      cursor: 'pointer',
+    })
+  })
+
+  it('resolves textWrap tokens', () => {
+    expect(resolveTokenInContext('textWrap', 'balance')).toEqual({
+      'text-wrap': 'balance',
+    })
+  })
+
+  it('resolves textTransform tokens', () => {
+    expect(resolveTokenInContext('textTransform', 'uppercase')).toEqual({
+      'text-transform': 'uppercase',
+    })
+  })
+
+  it('resolves objectFit tokens', () => {
+    expect(resolveTokenInContext('objectFit', 'cover')).toEqual({
+      'object-fit': 'cover',
+    })
+  })
+
+  it('returns undefined for unknown utilities', () => {
+    expect(resolveTokenInContext('nonexistent', 'blue500')).toBeUndefined()
+  })
+
+  it('returns undefined for unknown tokens', () => {
+    expect(resolveTokenInContext('bg', 'nonexistent')).toBeUndefined()
+  })
+
+  it('resolves corner radius utilities', () => {
+    expect(resolveTokenInContext('roundedTL', 'lg')).toEqual({
+      'border-top-left-radius': '0.5rem',
+    })
+    expect(resolveTokenInContext('roundedBR', 'xl')).toEqual({
+      'border-bottom-right-radius': '0.75rem',
+    })
+  })
+})
+
+// ---------------------------------------------------------------------------
 // generateUtilityPreview
 // ---------------------------------------------------------------------------
 describe('generateUtilityPreview', () => {
@@ -467,33 +778,6 @@ describe('generateUtilityPreview', () => {
     const result = generateUtilityPreview('px', '4')
     expect(result).toContain('padding-left: 1rem;')
     expect(result).toContain('padding-right: 1rem;')
-  })
-})
-
-// ---------------------------------------------------------------------------
-// generateCxDeclarations / generateCxPreview
-// ---------------------------------------------------------------------------
-describe('cx preview', () => {
-  it('generateCxDeclarations composes multiple utilities', () => {
-    const result = generateCxDeclarations("p(4), bg('#ff0000')")
-    expect(result).toHaveProperty('padding', '1rem')
-    expect(result).toHaveProperty('background-color', '#ff0000')
-  })
-
-  it('generateCxDeclarations returns undefined for empty input', () => {
-    expect(generateCxDeclarations('')).toBeUndefined()
-  })
-
-  it('generateCxPreview returns formatted output', () => {
-    const result = generateCxPreview("p(4), m(2)")
-    expect(result).toContain('/* cx(...) combined output */')
-    expect(result).toContain('.className')
-    expect(result).toContain('padding: 1rem')
-    expect(result).toContain('margin: 0.5rem')
-  })
-
-  it('generateCxPreview returns undefined for no valid utilities', () => {
-    expect(generateCxPreview('unknown()')).toBeUndefined()
   })
 })
 
@@ -576,6 +860,42 @@ describe('isKnownUtility', () => {
     expect(isKnownUtility('rounded')).toBe(true)
   })
 
+  it('returns true for newly added utilities', () => {
+    expect(isKnownUtility('shadowColor')).toBe(true)
+    expect(isKnownUtility('outlineColor')).toBe(true)
+    expect(isKnownUtility('caretColor')).toBe(true)
+    expect(isKnownUtility('accentColor')).toBe(true)
+    expect(isKnownUtility('textDecorationColor')).toBe(true)
+    expect(isKnownUtility('fontFamily')).toBe(true)
+    expect(isKnownUtility('textWrap')).toBe(true)
+    expect(isKnownUtility('textOverflow')).toBe(true)
+    expect(isKnownUtility('textTransform')).toBe(true)
+    expect(isKnownUtility('objectFit')).toBe(true)
+  })
+
+  it('returns true for valueless utilities', () => {
+    expect(isKnownUtility('flexRowReverse')).toBe(true)
+    expect(isKnownUtility('flex1')).toBe(true)
+    expect(isKnownUtility('flexNone')).toBe(true)
+    expect(isKnownUtility('italic')).toBe(true)
+    expect(isKnownUtility('truncate')).toBe(true)
+    expect(isKnownUtility('antialiased')).toBe(true)
+    expect(isKnownUtility('srOnly')).toBe(true)
+    expect(isKnownUtility('transitionAll')).toBe(true)
+    expect(isKnownUtility('transformGpu')).toBe(true)
+  })
+
+  it('returns true for corner-specific radius utilities', () => {
+    expect(isKnownUtility('roundedTL')).toBe(true)
+    expect(isKnownUtility('roundedTR')).toBe(true)
+    expect(isKnownUtility('roundedBR')).toBe(true)
+    expect(isKnownUtility('roundedBL')).toBe(true)
+    expect(isKnownUtility('roundedSS')).toBe(true)
+    expect(isKnownUtility('roundedSE')).toBe(true)
+    expect(isKnownUtility('roundedEE')).toBe(true)
+    expect(isKnownUtility('roundedES')).toBe(true)
+  })
+
   it('returns false for unknown names', () => {
     expect(isKnownUtility('fakeUtility')).toBe(false)
     expect(isKnownUtility('')).toBe(false)
@@ -589,6 +909,23 @@ describe('isKnownModifier', () => {
     expect(isKnownModifier('dark')).toBe(true)
     expect(isKnownModifier('md')).toBe(true)
     expect(isKnownModifier('sm')).toBe(true)
+  })
+
+  it('returns true for expanded modifiers', () => {
+    expect(isKnownModifier('visited')).toBe(true)
+    expect(isKnownModifier('checked')).toBe(true)
+    expect(isKnownModifier('even')).toBe(true)
+    expect(isKnownModifier('odd')).toBe(true)
+    expect(isKnownModifier('before')).toBe(true)
+    expect(isKnownModifier('after')).toBe(true)
+    expect(isKnownModifier('groupHover')).toBe(true)
+    expect(isKnownModifier('peerFocus')).toBe(true)
+    expect(isKnownModifier('rtl')).toBe(true)
+    expect(isKnownModifier('ltr')).toBe(true)
+    expect(isKnownModifier('motionReduce')).toBe(true)
+    expect(isKnownModifier('ariaChecked')).toBe(true)
+    expect(isKnownModifier('maxSm')).toBe(true)
+    expect(isKnownModifier('max2xl')).toBe(true)
   })
 
   it('returns false for unknown modifiers', () => {
@@ -632,6 +969,11 @@ describe('getKnownModifiers', () => {
     expect(mods).toContain('dark')
     expect(mods).toContain('md')
   })
+
+  it('has 80+ modifiers', () => {
+    const mods = getKnownModifiers()
+    expect(mods.length).toBeGreaterThanOrEqual(80)
+  })
 })
 
 // ---------------------------------------------------------------------------
@@ -667,13 +1009,5 @@ describe('edge cases', () => {
 
   it('z returns undefined for empty arg', () => {
     expect(generateUtilityDeclarations('z', '')).toBeUndefined()
-  })
-})
-
-describe('parseFunctionCalls edge cases', () => {
-  it('parses when(modifier)(utility) pattern', () => {
-    const result = parseFunctionCalls("when('hover')(bg('#ff0000'))")
-    // The when pattern should be recognized
-    expect(result).toBeDefined()
   })
 })
