@@ -84,12 +84,12 @@
   .pg-panels {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 240px;
+    min-height: 400px;
   }
 
   .pg-editor {
     border-right: 1px solid #1e293b;
-    min-height: 240px;
+    min-height: 400px;
   }
 
   .pg-monaco {
@@ -183,7 +183,7 @@
 
   const presets: Record<string, { code: string; text: string }> = {
     card: {
-      code: 'tw\n  .p(6)\n  .bg.white\n  .rounded.xl\n  .shadow.lg',
+      code: "import { googleFonts } from 'typewritingclass'\n\ntw\n  .p(6)\n  .bg.white\n  .rounded.xl\n  .shadow.lg\n  .text.xl\n  .textWrap.balance\n  .textAlign.center\n  .fontFamily(googleFonts('Playfair Display'))\n  .transitionTransform.duration(200)\n  .hover(\n    tw.translateY('-3px').scale(1.02)\n  )",
       text: 'A beautiful card with shadow and rounded corners.',
     },
     button: {
@@ -198,6 +198,13 @@
       code: 'tw\n  .p(6)\n  .bgGradient.toRight\n  .gradientFrom.blue500\n  .gradientTo.red500\n  .textColor.white\n  .rounded.xl\n  .font.bold',
       text: 'Gradient background',
     },
+  }
+
+  const allowedFns = new Set(Object.keys(twc))
+
+  /** Strip import lines (decorative in playground) */
+  function stripImports(code: string): string {
+    return code.replace(/^import\b.*$/gm, '').trim()
   }
 
   /** Only allow tw property chains — no arbitrary JS execution */
@@ -247,8 +254,25 @@
         i++
         return true
       }
-      // Nested tw chain
-      return chain()
+      // Identifier: tw chain or allowed function call
+      const save = i
+      while (i < s.length && /[a-zA-Z0-9]/.test(s[i])) i++
+      if (i > save) {
+        const name = s.slice(save, i)
+        if (name === 'tw') { i = save; return chain() }
+        if (allowedFns.has(name) && i < s.length && s[i] === '(') {
+          i++
+          if (i < s.length && s[i] !== ')') {
+            if (!arg()) return false
+            while (i < s.length && s[i] === ',') { i++; if (!arg()) return false }
+          }
+          if (i >= s.length || s[i] !== ')') return false
+          i++
+          return true
+        }
+        i = save
+      }
+      return false
     }
 
     return chain() && i === s.length
@@ -369,14 +393,15 @@
     private async run() {
       if (!this.editor) return
       const id = ++this.evalId
-      const code = this.editor.getValue().trim()
-      if (!code) {
+      const raw = this.editor.getValue().trim()
+      if (!raw) {
         this.target.className = ''
         this.cssCode.textContent = ''
         this.errorEl.hidden = true
         return
       }
 
+      const code = stripImports(raw)
       if (!isSafe(code)) {
         this.errorEl.textContent = 'Expression must be a tw.property.chain() — no arbitrary code allowed.'
         this.errorEl.hidden = false

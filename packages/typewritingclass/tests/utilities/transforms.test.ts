@@ -3,20 +3,20 @@ import { scale, scaleX, scaleY, rotate, translateX, translateY, skewX, skewY, tr
 import { dynamic } from '../../src/dynamic.ts'
 
 describe('transform utilities', () => {
-  it('scale converts number to decimal', () => {
-    expect(scale(50).declarations).toEqual({ transform: 'scale(0.5)' })
+  it('scale passes number directly', () => {
+    expect(scale(1.02).declarations).toEqual({ transform: 'scale(1.02)' })
   })
 
-  it('scale 100 = 1', () => {
-    expect(scale(100).declarations).toEqual({ transform: 'scale(1)' })
+  it('scale 1 = identity', () => {
+    expect(scale(1).declarations).toEqual({ transform: 'scale(1)' })
   })
 
-  it('scaleX converts number to decimal', () => {
-    expect(scaleX(75).declarations).toEqual({ transform: 'scaleX(0.75)' })
+  it('scaleX passes number directly', () => {
+    expect(scaleX(0.75).declarations).toEqual({ transform: 'scaleX(0.75)' })
   })
 
-  it('scaleY converts number to decimal', () => {
-    expect(scaleY(150).declarations).toEqual({ transform: 'scaleY(1.5)' })
+  it('scaleY passes number directly', () => {
+    expect(scaleY(1.5).declarations).toEqual({ transform: 'scaleY(1.5)' })
   })
 
   it('rotate sets transform', () => {
@@ -56,7 +56,7 @@ describe('transform utilities', () => {
   })
 
   it('all return valid StyleRules', () => {
-    expect(scale(100)._tag).toBe('StyleRule')
+    expect(scale(1)._tag).toBe('StyleRule')
     expect(rotate('0deg')._tag).toBe('StyleRule')
     expect(transformOrigin('center')._tag).toBe('StyleRule')
     expect(transformGpu()._tag).toBe('StyleRule')

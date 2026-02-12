@@ -224,7 +224,7 @@ describe('tw proxy', () => {
         .bg('slate-50')
         .rounded('xl')
         .p(6)
-        .hover(tw.bg('slate-100').shadow('lg').scale(105))
+        .hover(tw.bg('slate-100').shadow('lg').scale(1.05))
         .focus(tw.ring(2).ringColor('blue-500'))
         .toString()
 

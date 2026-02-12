@@ -15,36 +15,15 @@ function transformRule(fn: string, value: string | number | DynamicValue): Style
 }
 
 export function scale(value: string | number | DynamicValue): StyleRule {
-  if (isDynamic(value)) {
-    return createDynamicRule(
-      { transform: `scale(var(${value.__id}))` },
-      { [value.__id]: String(value.__value) },
-    )
-  }
-  const v = typeof value === 'number' ? String(value / 100) : value
-  return createRule({ transform: `scale(${v})` })
+  return transformRule('scale', value)
 }
 
 export function scaleX(value: string | number | DynamicValue): StyleRule {
-  if (isDynamic(value)) {
-    return createDynamicRule(
-      { transform: `scaleX(var(${value.__id}))` },
-      { [value.__id]: String(value.__value) },
-    )
-  }
-  const v = typeof value === 'number' ? String(value / 100) : value
-  return createRule({ transform: `scaleX(${v})` })
+  return transformRule('scaleX', value)
 }
 
 export function scaleY(value: string | number | DynamicValue): StyleRule {
-  if (isDynamic(value)) {
-    return createDynamicRule(
-      { transform: `scaleY(var(${value.__id}))` },
-      { [value.__id]: String(value.__value) },
-    )
-  }
-  const v = typeof value === 'number' ? String(value / 100) : value
-  return createRule({ transform: `scaleY(${v})` })
+  return transformRule('scaleY', value)
 }
 
 export function rotate(value: string | DynamicValue): StyleRule {
