@@ -12,18 +12,15 @@ Recipes are plain functions that combine utilities into reusable design patterns
 ```ts
 import { tw } from 'typewritingclass'
 
-export function card() {
-  return tw
-    .p(6)
-    .bg.white
-    .rounded.lg
-    .shadow.md
-    .textColor.gray900
-    .toString()
-}
+const card = tw
+  .p(6)
+  .bg.white
+  .rounded.lg
+  .shadow.md
+  .textColor.gray900
 
 // Usage:
-<div className={card()}>Content</div>
+<div className={card}>Content</div>
 ```
 
 ## Recipes with variants
@@ -76,45 +73,37 @@ export function button(variant: ButtonVariant = 'primary', size: ButtonSize = 'm
 Return an object of class strings for components with multiple styled elements:
 
 ```ts
-export function dialog() {
-  return {
-    overlay: tw
-      .fixed.inset(0)
-      .flex.items.center.justify.center
-      .bg('black/50')
-      .toString(),
-    panel: tw
-      .bg.white
-      .rounded.xl
-      .maxW('32rem').w('full')
-      .shadow.xl
-      .toString(),
-    header: tw
-      .px(6).py(4)
-      .borderB().borderColor.gray200
-      .textColor.gray900
-      .font.semibold
-      .toString(),
-    body: tw
-      .p(6)
-      .textColor.gray700
-      .toString(),
-    footer: tw
-      .px(6).py(4)
-      .borderT().borderColor.gray200
-      .flex.justify.end.gap(2)
-      .toString(),
-  }
+const dialog = {
+  overlay: tw
+    .fixed.inset(0)
+    .flex.items.center.justify.center
+    .bg('black/50'),
+  panel: tw
+    .bg.white
+    .rounded.xl
+    .maxW('32rem').w('full')
+    .shadow.xl,
+  header: tw
+    .px(6).py(4)
+    .borderB().borderColor.gray200
+    .textColor.gray900
+    .font.semibold,
+  body: tw
+    .p(6)
+    .textColor.gray700,
+  footer: tw
+    .px(6).py(4)
+    .borderT().borderColor.gray200
+    .flex.justify.end.gap(2),
 }
 ```
 
 ```tsx
-const d = dialog()
-<div className={d.overlay}>
-  <div className={d.panel}>
-    <div className={d.header}>Title</div>
-    <div className={d.body}>Content</div>
-    <div className={d.footer}>Actions</div>
+<div className={dialog.overlay}>
+  <div className={dialog.panel}>
+    <div className={dialog.header}>Title</div>
+    <div className={dialog.body}>Content</div>
+    <div className={dialog.footer}>Actions</div>
   </div>
 </div>
 ```

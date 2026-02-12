@@ -12,19 +12,19 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 <Tabs syncKey="pkg">
   <TabItem label="pnpm">
     ```bash
-    pnpm add typewritingclass typewritingclass-react
+    pnpm add typewritingclass
     pnpm add -D typewritingclass-compiler
     ```
   </TabItem>
   <TabItem label="bun">
     ```bash
-    bun add typewritingclass typewritingclass-react
-    bun add -d typewritingclass-compiler
+    bun add typewritingclass
+    bun add -D typewritingclass-compiler
     ```
   </TabItem>
   <TabItem label="npm">
     ```bash
-    npm install typewritingclass typewritingclass-react
+    npm install typewritingclass
     npm install -D typewritingclass-compiler
     ```
   </TabItem>
@@ -48,17 +48,19 @@ import 'typewritingclass/preflight.css' // optional CSS reset
 
 ## Static styles
 
-Use `.value` to resolve `tw` chains to a string for `className`:
+The compiler replaces `tw` chains with class name strings at build time:
 
 ```tsx
 import { tw } from 'typewritingclass'
 
 function Card({ children }: { children: React.ReactNode }) {
-  return <div className={tw.p(6).bg.blue500.textColor.white.rounded.lg.hover(tw.bg.blue600).value}>{children}</div>
+  return <div className={tw.p(6).bg.blue500.textColor.white.rounded.lg.hover(tw.bg.blue600)}>{children}</div>
 }
 ```
 
 ## Dynamic values with useStyle()
+
+For runtime values, add `typewritingclass-react` and use `useStyle()`:
 
 ```tsx
 import { useStyle } from 'typewritingclass-react'

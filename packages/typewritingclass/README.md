@@ -11,7 +11,7 @@ pnpm add typewritingclass
 ## Use
 
 ```ts
-import 'typewritingclass/inject'
+import 'typewritingclass/preflight.css'
 import { tw } from 'typewritingclass'
 
 const card = tw.bg.white.rounded.lg.p(6).shadow.md
@@ -73,7 +73,6 @@ const { className, style } = dcx(p(4), bg(dynamic(userColor)))
 | Path | Contents |
 |---|---|
 | `typewritingclass` | Core API (`tw`, `cx`, `when`, all utilities and modifiers) |
-| `typewritingclass/inject` | Runtime style injection (import once in your entry file) |
 | `typewritingclass/preflight.css` | Optional CSS reset |
 | `typewritingclass/theme/colors` | Color scales |
 | `typewritingclass/theme/typography` | Font sizes, weights, line heights |

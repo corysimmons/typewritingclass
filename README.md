@@ -24,14 +24,24 @@ pnpm add typewritingclass
 ## Use
 
 ```ts
-import 'typewritingclass/inject'
+import 'typewritingclass/preflight.css'
 import { tw } from 'typewritingclass'
 
 document.getElementById('app')!.className =
   tw.flex.gap(4).p(8).bg.white.rounded.lg
 ```
 
-That's it. No build plugin, no config, no generated CSS files.
+Add the Vite plugin for static CSS extraction:
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import twcPlugin from 'typewritingclass-compiler'
+
+export default defineConfig({
+  plugins: [twcPlugin()],
+})
+```
 
 ## Features
 

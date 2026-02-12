@@ -80,12 +80,11 @@ tw.dark(
 
 ### Resolution
 
-Resolves to a class string via coercion, `.value`, or `.className`:
+The compiler replaces `tw` chains with class name strings at build time:
 
 ```tsx
-element.className = tw.p(4).bg.blue500       // auto-coerces
-<div className={tw.p(4).bg.blue500.value} /> // React: .value
-tw.p(4).value                                 // explicit string
+<div className={tw.p(4).bg.blue500} />  // React / Next.js
+element.className = tw.p(4).bg.blue500   // Vanilla JS (also auto-coerces)
 ```
 
 ### Immutability

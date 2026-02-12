@@ -20,7 +20,7 @@ import { tw } from 'typewritingclass'
 Chain utilities to build styles. Design tokens are accessed as properties — no strings needed:
 
 ```tsx
-<div className={tw.p(6).bg.white.rounded.lg.shadow.md.value} />
+<div className={tw.p(6).bg.white.rounded.lg.shadow.md} />
 ```
 
 ## Property-access tokens
@@ -104,8 +104,8 @@ const container = tw
 
 function Card() {
   return (
-    <div className={card.value}>
-      <h2 className={title.value}>Hello, typewritingclass</h2>
+    <div className={card}>
+      <h2 className={title}>Hello, typewritingclass</h2>
     </div>
   )
 }

@@ -104,22 +104,18 @@ const card = tw
 
 ## Resolving to class strings
 
-The chain resolves automatically in string contexts (vanilla JS, Solid, etc.):
-
-```ts
-element.className = tw.p(4).bg.blue500
-const classes = `${tw.p(4)} extra-class`
-```
-
-In React, use `.value` since React requires `className` to be a string:
+The compiler replaces `tw` chains with class name strings at build time, so they work directly in any context:
 
 ```tsx
-<div className={tw.p(4).bg.blue500.value} />
-```
+// React
+<div className={tw.p(4).bg.blue500} />
 
-:::note
-In Next.js Server Components, always use `.value` to resolve the chain to a plain string. RSC serialization cannot handle Proxy objects.
-:::
+// Vanilla JS
+element.className = tw.p(4).bg.blue500
+
+// Template literals
+const classes = `${tw.p(4)} extra-class`
+```
 
 ## Immutable chains
 
